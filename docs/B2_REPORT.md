@@ -115,7 +115,7 @@ Route checks also cover installed CLI planning, deterministic output, source imm
 - Current tested implementation checkpoint, including 4.1.56→4.2.43: `b62f01b36`.
 - Development checkpoint `3a075e108b1b064d36ba536b2e7dbeea37a55104` records the tested 3.7.94→3.8.99 route.
 - Direct 3.6.53→3.7.94 migration checkpoint: `57d89f82cdff1ac342fd03e4b2fbf5e7c855b288`.
-- Direct 3.5.51→3.6.53 migration is the current tested change and will receive a development checkpoint after commit.
+- Direct 3.5.51→3.6.53 migration checkpoint: `3f4d23c9e76693e7429367ee9686d95b7c7a649c`.
 - B2 remains open and unfrozen.
 
 ## H. Remaining work
