@@ -251,7 +251,15 @@ def parse_atlas(payload: bytes) -> AtlasInfo:
     if not pages:
         raise ValueError("Atlas contains no page declarations")
     region_names = [name for name, _ in regions]
-    duplicates = tuple(sorted({name for name in region_names if region_names.count(name) > 1}))
+    # Atlas names may repeat when region indices distinguish the entries.
+    indices = [dict(values).get("index") for _, values in regions]
+    duplicate_names = {
+        name
+        for i, name in enumerate(region_names)
+        if name in region_names[:i]
+        and (indices[i] is None or indices[region_names.index(name)] is None)
+    }
+    duplicates = tuple(sorted(duplicate_names))
     page_records = tuple(AtlasPage(name, tuple(values)) for name, values in pages)
     region_records = tuple(AtlasRegion(name, tuple(values)) for name, values in regions)
     return AtlasInfo(

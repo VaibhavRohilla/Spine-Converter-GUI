@@ -4,8 +4,13 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
+import tempfile
+from pathlib import Path
+from typing import Any
 
+from .conversion import AtlasConverter, ConversionPlanner, SkeletonConverter
 from .inspection import InspectionService
 from .versions import VersionRegistry
 
@@ -21,6 +26,15 @@ def main(argv: list[str] | None = None) -> int:
     plan = sub.add_parser("plan", help="Check for a registered migration route")
     plan.add_argument("--from-version", required=True)
     plan.add_argument("--to-version", required=True)
+    convert = sub.add_parser("convert", help="Convert a standalone JSON skeleton or atlas")
+    kinds = convert.add_subparsers(dest="kind", required=True)
+    for kind in ("skeleton", "atlas"):
+        command = kinds.add_parser(kind)
+        command.add_argument("--input", required=True)
+        command.add_argument("--target", required=True)
+        command.add_argument("--source-version")
+        command.add_argument("--output")
+        command.add_argument("--dry-run", action="store_true")
     args = parser.parse_args(argv)
     if args.command == "versions":
         print(json.dumps([v.family for v in VersionRegistry().definitions()], indent=2))
@@ -60,17 +74,83 @@ def main(argv: list[str] | None = None) -> int:
             or (args.strict and any(d.severity.value == "warning" for d in result.diagnostics))
             else 0
         )
-    print(
-        json.dumps(
-            {
-                "ok": False,
-                "error": f"Unsupported migration {args.from_version} -> {args.to_version}; "
-                "no registered implementation",
-            },
-            indent=2,
+    if args.command == "plan":
+        planned = ConversionPlanner(
+            {(f, f) for f in ("3.5", "3.6", "3.7", "3.8", "4.0", "4.1", "4.2", "4.3")}
+            | {("3.8.75", "4.2.43")}
+        ).plan(args.from_version, args.to_version)
+        print(
+            json.dumps(
+                {
+                    "executable": planned.executable,
+                    "route": planned.route,
+                    "diagnostics": planned.diagnostics,
+                },
+                indent=2,
+            )
         )
-    )
-    return 2
+        return 0 if planned.executable else 2
+    if args.kind == "skeleton":
+        outcome = SkeletonConverter().convert(args.input, args.target)
+        report: dict[str, Any] = {
+            "status": outcome.status.value,
+            "source_version": outcome.source_version,
+            "target_version": outcome.target_version,
+            "route": outcome.route,
+            "diagnostics": outcome.diagnostics,
+            "statistics": outcome.statistics,
+            "details": outcome.details,
+            "unsupported_features": outcome.unsupported_features,
+            "runtime_verified": outcome.runtime_verified,
+            "visually_verified": outcome.visually_verified,
+        }
+        if outcome.output is not None and not args.dry_run:
+            if not args.output:
+                parser.error("convert skeleton requires --output unless --dry-run is used")
+            _atomic_write(Path(args.output), outcome.output)
+        print(json.dumps(report, indent=2))
+        return 0 if outcome.output is not None else 2
+    try:
+        atlas_output = AtlasConverter().convert(
+            args.input, args.target, source_version=args.source_version
+        )
+        atlas_model = AtlasConverter().read(atlas_output)
+        report = {
+            "status": "structurally_verified",
+            "source_version": args.source_version,
+            "target_version": args.target,
+            "pages": len(atlas_model.pages),
+            "regions": len(atlas_model.regions),
+            "structural_verification": "passed",
+            "diagnostics": [],
+        }
+        if not args.dry_run:
+            if not args.output:
+                parser.error("convert atlas requires --output unless --dry-run is used")
+            _atomic_write(Path(args.output), atlas_output)
+    except (OSError, ValueError, UnicodeError) as exc:
+        report = {"status": "rejected", "diagnostics": [str(exc)]}
+        print(json.dumps(report, indent=2))
+        return 2
+    print(json.dumps(report, indent=2))
+    return 0
+
+
+def _atomic_write(path: Path, content: bytes) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fd, temporary = tempfile.mkstemp(prefix=f".{path.name}.", dir=path.parent)
+    try:
+        with os.fdopen(fd, "wb") as stream:
+            stream.write(content)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(temporary, path)
+    except BaseException:
+        try:
+            os.unlink(temporary)
+        except FileNotFoundError:
+            pass
+        raise
 
 
 if __name__ == "__main__":

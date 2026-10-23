@@ -39,7 +39,7 @@ print(manifest.to_dict())
 
 Resource limits are configured through `InspectionConfig` and `SourceLimits`. Core interfaces and contracts are documented in [`docs/architecture.md`](docs/architecture.md), [`docs/manifest-schema.md`](docs/manifest-schema.md), and [`docs/version-registry.md`](docs/version-registry.md).
 
-No Spine conversion, runtime rendering, or production fidelity claim is made in B1. See [`docs/B1_REPORT.md`](docs/B1_REPORT.md) for executed verification evidence and remaining limitations.
+The B2 conversion package includes a structural 3.8.75 to 4.2.43 JSON and atlas migration, plus conservative exact-version skeleton JSON round trips. The migration is numerically checked for supported Bézier channels and structurally reinspected; it is not runtime or visual certification. See [`docs/B2_REPORT.md`](docs/B2_REPORT.md) for the qualified route, limitations, and executed verification evidence. B1 inspection details remain in [`docs/B1_REPORT.md`](docs/B1_REPORT.md).
 
 ## Spine licensing
 
