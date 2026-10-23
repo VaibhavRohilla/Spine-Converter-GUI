@@ -44,8 +44,13 @@ class AtlasConverter:
     ) -> bytes:
         model = self.read(source)
         if target_version is not None:
-            if (source_version, target_version) != ("3.8.75", "4.2.43"):
-                raise ValueError("Atlas migration is qualified only for Spine 3.8.75 -> 4.2.43")
+            if (source_version, target_version) not in {
+                ("3.8.75", "4.2.43"),
+                ("3.8.99", "4.2.43"),
+            }:
+                raise ValueError(
+                    "Atlas migration is qualified only for Spine 3.8.75 or 3.8.99 -> 4.2.43"
+                )
         chunks: list[str] = []
         regions_by_page: list[list[AtlasRegion]] = [[] for _ in model.pages]
         for region, page_index in zip(model.regions, model.region_pages, strict=True):

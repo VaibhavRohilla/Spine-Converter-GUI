@@ -650,12 +650,16 @@ def _validate_deform_group(document: dict[str, Any], group: Any, animation: str)
                         )
 
 
-def migrate_38_to_42(source: dict[str, Any]) -> tuple[dict[str, Any], dict[str, int | float]]:
-    """Transform one exact 3.8 schema document into the 4.2.43 schema."""
+def migrate_38_to_42(
+    source: dict[str, Any], source_version: str
+) -> tuple[dict[str, Any], dict[str, int | float]]:
+    """Transform one explicitly supported 3.8 exporter schema into 4.2.43."""
     target = deepcopy(source)
     _validate_top_level(target)
-    if target["skeleton"].get("spine") != "3.8.75":
-        raise MigrationError("This route is qualified only for exact source version 3.8.75")
+    if source_version not in {"3.8.75", "3.8.99"}:
+        raise MigrationError(f"Unsupported exact Spine 3.8 source version {source_version!r}")
+    if target["skeleton"].get("spine") != source_version:
+        raise MigrationError("Source version argument does not match skeleton metadata")
     _walk_attachments(target)
     _validate_constraints(target)
     _migrate_constraint_definitions(target)

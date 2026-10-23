@@ -73,6 +73,7 @@ class SkeletonConverter:
                 ("4.2", "4.2"),
                 ("4.3", "4.3"),
                 ("3.8.75", "4.2.43"),
+                ("3.8.99", "4.2.43"),
             }
         )
         self.versions = VersionRegistry()
@@ -146,9 +147,9 @@ class SkeletonConverter:
                 diagnostic_codes=("SOURCE_EXPORT_KNOWN_BUG",),
                 provenance={"declared_source_version": canonical.version},
             )
-        if canonical.version == "3.8.75" and target_version == "4.2.43":
+        if canonical.version in {"3.8.75", "3.8.99"} and target_version == "4.2.43":
             try:
-                migrated, metrics = migrate_38_to_42(canonical.document)
+                migrated, metrics = migrate_38_to_42(canonical.document, canonical.version)
                 output = (
                     json.dumps(migrated, ensure_ascii=False, separators=(",", ":"), allow_nan=False)
                     + "\n"

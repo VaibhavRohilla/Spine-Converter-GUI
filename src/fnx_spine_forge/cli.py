@@ -90,7 +90,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "plan":
         planned = ConversionPlanner(
             {(f, f) for f in ("3.5", "3.6", "3.7", "3.8", "4.0", "4.1", "4.2", "4.3")}
-            | {("3.8.75", "4.2.43")}
+            | {("3.8.75", "4.2.43"), ("3.8.99", "4.2.43")}
         ).plan(args.from_version, args.to_version)
         print(
             json.dumps(

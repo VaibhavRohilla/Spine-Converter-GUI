@@ -1,4 +1,5 @@
 import json
+from pathlib import Path
 
 import pytest
 
@@ -63,6 +64,7 @@ def test_planner_does_not_infer_route_from_recognition():
 def test_converter_planner_registers_only_the_exact_qualified_patch_pair():
     converter = SkeletonConverter()
     assert converter.planner.plan("3.8.75", "4.2.43").executable
+    assert converter.planner.plan("3.8.99", "4.2.43").executable
     assert not converter.planner.plan("3.8.76", "4.2.43").executable
     assert not converter.planner.plan("4.2.43", "3.8.75").executable
 
@@ -150,6 +152,69 @@ def test_known_3875_export_bug_requires_explicit_risk_policy():
     assert result.output is None
     assert result.diagnostic_codes == ("SOURCE_EXPORT_KNOWN_BUG",)
     assert result.provenance == {"declared_source_version": "3.8.75"}
+
+
+def test_3899_to_4243_uses_schema_migration_and_bundle_dependencies(tmp_path):
+    import shutil
+
+    from fnx_spine_forge.inspection import InspectionService
+
+    document = json.loads(skeleton("3.8.99"))
+    document["slots"] = [{"name": "item", "bone": "root", "attachment": "token"}]
+    document["skins"] = [
+        {
+            "name": "default",
+            "attachments": {
+                "item": {"token": {"type": "region", "path": "token"}}
+            },
+        }
+    ]
+    first = document["animations"]["idle"]["bones"]["root"]["rotate"][0]
+    first["time"] = 0
+    first["angle"] = 0
+    first["curve"] = 0.2
+    first["c2"] = 0.3
+    first["c3"] = 0.7
+    first["c4"] = 0.8
+    document["animations"]["idle"]["bones"]["root"]["rotate"].append(
+        {"time": 1, "angle": 30}
+    )
+    source = json.dumps(document).encode()
+    converted = SkeletonConverter().convert(source, "4.2.43")
+    assert converted.status is ConversionStatus.STRUCTURALLY_VERIFIED, converted.diagnostics
+    assert converted.output is not None
+    assert converted.source_version == "3.8.99"
+    assert "SOURCE_EXPORT_KNOWN_BUG" not in converted.diagnostic_codes
+    target_document = json.loads(converted.output)
+    assert target_document["skeleton"]["spine"] == "4.2.43"
+    assert converted.statistics is not None
+    assert converted.statistics["bezier_segments"] == 1
+    assert converted.statistics["max_numerical_error"] <= 1e-12
+
+    source_dir = tmp_path / "source"
+    target_dir = tmp_path / "target"
+    source_dir.mkdir()
+    target_dir.mkdir()
+    (source_dir / "item.json").write_bytes(source)
+    atlas_bytes = (
+        b"page.png\nsize: 1, 1\nfilter: Linear, Linear\n\n"
+        b"token\n  rotate: false\n  xy: 0, 0\n  size: 1, 1\n"
+    )
+    (source_dir / "item.atlas").write_bytes(atlas_bytes)
+    shutil.copyfile(
+        Path(__file__).parent / "fixtures/spine38/golden_ingot.png", source_dir / "page.png"
+    )
+    (target_dir / "item.json").write_bytes(converted.output)
+    (target_dir / "item.atlas").write_bytes(
+        AtlasConverter().convert(atlas_bytes, "4.2.43", source_version="3.8.99")
+    )
+    shutil.copyfile(source_dir / "page.png", target_dir / "page.png")
+    before = InspectionService().inspect(str(source_dir))
+    after = InspectionService().inspect(str(target_dir))
+    assert before.ok, before.diagnostics
+    assert after.ok, after.diagnostics
+    assert after.bundles[0].atlases == ("item.atlas",)
+    assert after.bundles[0].texture_pages == ("page.png",)
 
 
 def test_real_skeleton_atlas_texture_asset_references_survive_conversion(tmp_path):
