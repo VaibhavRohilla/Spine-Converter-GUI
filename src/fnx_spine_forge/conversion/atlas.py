@@ -68,6 +68,8 @@ class AtlasConverter:
                 ("4.3.13", "4.2.43"),
                 ("4.2.43", "4.1.56"),
                 ("4.1.56", "4.0.31"),
+                ("3.7.94", "3.6.53"),
+                ("3.6.53", "3.5.51"),
             }:
                 raise ValueError(
                     "Atlas migration is qualified only for Spine 3.8.75 or 3.8.99 to "

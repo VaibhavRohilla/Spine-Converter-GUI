@@ -12,7 +12,9 @@ from ..detection import skeleton_version
 from ..parsers import inspect_skeleton
 from ..versions import VersionRegistry
 from .migrate_35_to_36 import migrate_35_to_36
+from .migrate_36_to_35 import migrate_36_to_35
 from .migrate_36_to_37 import migrate_36_to_37
+from .migrate_37_to_36 import migrate_37_to_36
 from .migrate_37_to_38 import migrate_37_to_38
 from .migrate_38_to_4x import MigrationError, migrate_38_to_target
 from .migrate_38_to_legacy import legacy_target_profile, migrate_38_to_legacy
@@ -134,6 +136,8 @@ class SkeletonConverter:
                 ("4.3.13", "4.2.43"),
                 ("4.2.43", "4.1.56"),
                 ("4.1.56", "4.0.31"),
+                ("3.7.94", "3.6.53"),
+                ("3.6.53", "3.5.51"),
             }
         )
         self.versions = VersionRegistry()
@@ -212,6 +216,8 @@ class SkeletonConverter:
             ("4.3.13", "4.2.43"),
             ("4.2.43", "4.1.56"),
             ("4.1.56", "4.0.31"),
+            ("3.7.94", "3.6.53"),
+            ("3.6.53", "3.5.51"),
             ("3.6.53", "3.7.94"),
             ("3.7.94", "3.8.99"),
             ("4.0.31", "4.1.56"),
@@ -219,7 +225,15 @@ class SkeletonConverter:
             ("4.2.43", "4.3.13"),
         }:
             try:
-                if canonical.version == "4.1.56" and target_version == "4.0.31":
+                if canonical.version == "3.7.94" and target_version == "3.6.53":
+                    migrated, metrics = migrate_37_to_36(
+                        canonical.document, canonical.version, target_version
+                    )
+                elif canonical.version == "3.6.53" and target_version == "3.5.51":
+                    migrated, metrics = migrate_36_to_35(
+                        canonical.document, canonical.version, target_version
+                    )
+                elif canonical.version == "4.1.56" and target_version == "4.0.31":
                     migrated, metrics = migrate_41_to_40(
                         canonical.document, canonical.version, target_version
                     )
@@ -303,6 +317,17 @@ class SkeletonConverter:
                         direct_unsupported = ("non_deform_attachment_timelines",)
                     if direct_unsupported:
                         codes = ("UNSUPPORTED_TARGET_FEATURE",)
+                elif canonical.version == "3.7.94" and target_version == "3.6.53":
+                    if "IK constraint options" in message:
+                        direct_unsupported = ("ik_compress_stretch_uniform",)
+                    elif "IK timeline options" in message:
+                        direct_unsupported = ("ik_compress_stretch_timelines",)
+                    elif "event" in message and any(
+                        part in message for part in ("audio", "volume", "balance")
+                    ):
+                        direct_unsupported = ("audio_events",)
+                    if direct_unsupported:
+                        codes = ("UNSUPPORTED_TARGET_FEATURE",)
                 return ConversionResult(
                     canonical.version,
                     target_version,
@@ -371,6 +396,10 @@ class SkeletonConverter:
                         "sequences": "unsupported_blocking",
                     }
                 )
+            elif canonical.version == "3.7.94" and target_version == "3.6.53":
+                compatibility["ik_audio_downgrade"] = "false_defaults_only"
+            elif canonical.version == "3.6.53" and target_version == "3.5.51":
+                compatibility["event_time"] = "3.6_single_precision_preserved_in_3.5_json"
             elif canonical.version == "3.6.53" and target_version == "3.7.94":
                 compatibility.update(
                     {

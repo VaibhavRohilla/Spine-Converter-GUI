@@ -145,6 +145,8 @@ def test_converter_planner_registers_only_the_exact_qualified_patch_pair():
     assert converter.planner.plan("4.3.13", "4.2.43").executable
     assert converter.planner.plan("4.2.43", "4.1.56").executable
     assert converter.planner.plan("4.1.56", "4.0.31").executable
+    assert converter.planner.plan("3.7.94", "3.6.53").executable
+    assert converter.planner.plan("3.6.53", "3.5.51").executable
 
 
 @pytest.mark.parametrize("target_version", ["3.5.51", "3.6.53", "3.7.94"])
@@ -1156,6 +1158,121 @@ def legacy_35_skeleton():
     document["skeleton"]["spine"] = "3.5.51"
     document["animations"]["idle"]["events"][0]["time"] = 0.1
     return document
+
+
+def test_direct_37_to_36_removes_only_disabled_ik_and_audio_defaults():
+    document = legacy_37_skeleton()
+    document["ik"] = [
+        {
+            "name": "aim",
+            "bones": ["root"],
+            "target": "root",
+            "compress": False,
+            "stretch": False,
+            "uniform": False,
+        }
+    ]
+    document["events"] = {"hit": {"int": 2, "float": 0.5, "string": "impact"}}
+    document["events"]["hit"].update(audio=None, volume=1, balance=0)
+    document["animations"]["idle"]["ik"] = {
+        "aim": [{"time": 0, "mix": 1, "compress": False, "stretch": False}]
+    }
+    document["animations"]["idle"]["events"] = [
+        {"time": 0.5, "name": "hit", "volume": 1, "balance": 0}
+    ]
+    source = json.dumps(document).encode()
+    result = SkeletonConverter().convert(source, "3.6.53")
+    assert result.status is ConversionStatus.STRUCTURALLY_VERIFIED, result.diagnostics
+    assert result.output is not None
+    target = json.loads(result.output)
+    assert target["skeleton"]["spine"] == "3.6.53"
+    assert "compress" not in target["ik"][0]
+    assert "uniform" not in target["ik"][0]
+    assert target["events"]["hit"] == {"int": 2, "float": 0.5, "string": "impact"}
+    source_curve = document["animations"]["idle"]["bones"]["root"]["rotate"][0]
+    target_curve = target["animations"]["idle"]["bones"]["root"]["rotate"][0]
+    assert legacy_curve_samples(source_curve) == legacy_curve_samples(target_curve)
+    assert result.statistics["bezier_segments"] == 1
+    assert target["animations"]["idle"]["ik"]["aim"] == [
+        {"time": 0, "mix": 1}
+    ]
+    assert "volume" not in target["animations"]["idle"]["events"][0]
+
+    enabled = json.loads(source)
+    enabled["ik"][0]["stretch"] = True
+    rejected_ik = SkeletonConverter().convert(json.dumps(enabled).encode(), "3.6.53")
+    assert rejected_ik.status is ConversionStatus.REJECTED
+    assert rejected_ik.unsupported_features == ("ik_compress_stretch_uniform",)
+    audio = json.loads(source)
+    audio["events"]["hit"]["audio"] = "hit.wav"
+    rejected_audio = SkeletonConverter().convert(json.dumps(audio).encode(), "3.6.53")
+    assert rejected_audio.status is ConversionStatus.REJECTED
+    assert rejected_audio.unsupported_features == ("audio_events",)
+
+
+def test_direct_36_to_35_preserves_source_event_float32_semantics():
+    document = legacy_36_skeleton()
+    document["animations"]["idle"]["events"][0]["time"] = 0.1
+    source = json.dumps(document).encode()
+    result = SkeletonConverter().convert(source, "3.5.51")
+    assert result.status is ConversionStatus.STRUCTURALLY_VERIFIED, result.diagnostics
+    assert result.output is not None
+    target = json.loads(result.output)
+    target_time = struct.unpack("!f", struct.pack("!f", 0.1))[0]
+    assert target["skeleton"]["spine"] == "3.5.51"
+    assert target["animations"]["idle"]["events"][0]["time"] == target_time
+    assert result.statistics["event_frames_single_precision"] == 1
+    source_curve = document["animations"]["idle"]["bones"]["root"]["rotate"][0]
+    target_curve = target["animations"]["idle"]["bones"]["root"]["rotate"][0]
+    assert legacy_curve_samples(source_curve) == legacy_curve_samples(target_curve)
+    assert result.statistics["bezier_segments"] == 1
+    assert result.output == SkeletonConverter().convert(source, "3.5.51").output
+
+
+@pytest.mark.parametrize(
+    ("source_version", "target_version", "source_document"),
+    [
+        ("3.7.94", "3.6.53", "legacy_37_skeleton"),
+        ("3.6.53", "3.5.51", "legacy_36_skeleton"),
+    ],
+)
+def test_reverse_legacy_routes_preserve_atlas_texture_dependencies(
+    tmp_path, source_version, target_version, source_document
+):
+    import shutil
+
+    from fnx_spine_forge.inspection import InspectionService
+
+    source = tmp_path / f"source-{source_version}"
+    target = tmp_path / f"target-{target_version}"
+    source.mkdir()
+    target.mkdir()
+    payload = globals()[source_document]()
+    attachment = payload["skins"]["default"]["slot"]["wheel"]
+    attachment.update(path="region", width=16, height=16)
+    (source / "skeleton.json").write_text(json.dumps(payload), encoding="utf-8")
+    (source / "atlas.atlas").write_text(
+        "texture.png\nsize: 16, 16\nformat: RGBA8888\nfilter: Linear, Linear\nrepeat: none\n"
+        "region\nrotate: false\nxy: 0, 0\nsize: 16, 16\norig: 16, 16\noffset: 0, 0\nindex: -1\n",
+        encoding="utf-8",
+    )
+    texture = Path(__file__).parent / "fixtures/spine38/golden_ingot.png"
+    shutil.copyfile(texture, source / "texture.png")
+    converted = SkeletonConverter().convert(source / "skeleton.json", target_version)
+    assert converted.output is not None, converted.diagnostics
+    (target / "skeleton.json").write_bytes(converted.output)
+    (target / "atlas.atlas").write_bytes(
+        AtlasConverter().convert(
+            source / "atlas.atlas", target_version, source_version=source_version
+        )
+    )
+    shutil.copyfile(source / "texture.png", target / "texture.png")
+    before = InspectionService().inspect(str(source))
+    after = InspectionService().inspect(str(target))
+    assert before.ok, before.diagnostics
+    assert after.ok, after.diagnostics
+    assert after.bundles[0].texture_pages == ("texture.png",)
+    assert (source / "texture.png").read_bytes() == (target / "texture.png").read_bytes()
 
 
 def test_direct_35_to_36_rounds_event_times_like_target_reader_and_rejects_bad_values():

@@ -11,6 +11,8 @@
 - `conversion/migrate_37_to_38.py` converts exact 3.7.94 object-map skins directly to 3.8.99 named skin records, retaining supported legacy timelines and blocking unknown groups.
 - `conversion/migrate_36_to_37.py` converts exact 3.6.53 to 3.7.94 directly. Both use legacy skin/timeline layouts; the 3.7 writer explicitly adds its new IK constraint and animation flags as `false`, matching the official 3.7 reader defaults. Newer IK fields in a declared 3.6 source block.
 - `conversion/migrate_35_to_36.py` converts exact 3.5.51 to 3.6.53 and rounds event keyframe times to IEEE single precision, matching the target reader's `toSinglePrecision` behavior. It preserves other legacy animation and skin data, validates event times and Bézier controls, and reports event-frame and curve metrics.
+- `conversion/migrate_37_to_36.py` removes only false 3.7 IK flags and default audio event fields. Enabled IK compress/stretch/uniform behavior, audio paths, and non-default audio values block the downgrade.
+- `conversion/migrate_36_to_35.py` preserves the 3.6 loader's single-precision event time by writing its exact float32 value into the 3.5 JSON output.
 - `conversion/migrate_38_to_4x.py` writes target-specific 4.x schemas for 4.0.31, 4.1.56, 4.2.43, and 4.3.13. It validates attachment geometry and references, constraints, deform ranges, target fields, animation groups, and curve controls. The 4.3 writer supports IK and path constraints in the combined ordered constraint list; unsupported transform constraints and legacy uniform IK are blocking.
 - `conversion/migrate_40_to_41.py` independently migrates exact 4.0.31 JSON to 4.1.56. It changes linked-mesh `deform` to `timelines` and moves the 4.0 deform animation group under the 4.1 attachment timeline schema while preserving supported curves.
 - `conversion/migrate_41_to_42.py` independently migrates exact 4.1.56 JSON to 4.2.43. It converts bone `transform` modes to `inherit`, preserves supported 4.1 constraint/timeline curves, validates source fields, and rejects 4.2-only bone state in a declared 4.1 source.
@@ -66,6 +68,8 @@ Independent general routes currently registered:
 | 3.7.94 | 3.8.99 | Legacy object-map skins become named skin records; normalized timelines remain in legacy representation | Synthetic structural and atlas tests plus complete B1 dependency inspection passed; target runtime not executed |
 | 3.6.53 | 3.7.94 | Preserves legacy skin/timeline forms; adds 3.7 false defaults for IK constraint and IK timeline options | Synthetic route tests, deterministic conversion, atlas conversion, and full B1 bundle/texture dependency inspection passed; historical runtime not executed |
 | 3.5.51 | 3.6.53 | Rounds event timeline times to target single precision; retains legacy skin and timeline schemas | Synthetic route tests, 257-sample legacy Bézier equality, deterministic conversion, atlas conversion, and full B1 bundle/texture dependency inspection passed; historical runtime not executed |
+| 3.7.94 | 3.6.53 | Removes false 3.7 IK defaults and default audio fields; enabled 3.7-only behavior blocks | Positive/default and unsupported-feature tests; 257-sample normalized Bézier equality; full B1 atlas/texture dependency inspection passed; historical runtime not executed |
+| 3.6.53 | 3.5.51 | Writes event keyframe times as the source 3.6 runtime's exact single-precision values | Float32 event-time equivalence, 257-sample normalized Bézier equality, deterministic conversion, and full B1 atlas/texture dependency inspection passed; historical runtime not executed |
 | 4.3.13 | 4.2.43 | Ordered supported IK/path constraints return to 4.2 arrays; linked `source` returns to `parent`; unsupported 4.3-only features block | Synthetic constraint/linked-mesh downgrade and negative tests; real golden fixture 4.2→4.3→4.2 bundle reinspection passed; CLI conversion passed; exact 4.2 runtime was not executed for this route |
 | 4.2.43 | 4.1.56 | Bone `inherit` returns to `transform`; atlas bounds/offsets return to `xy`/`size`/`orig`/`offset`; nonrepresentable 4.2 additions block | 257-sample preserved curve test; hidden-slot, physics, inherit-timeline and 180-degree atlas negative cases; real golden bundle 4.1→4.2→4.1 B1 reinspection passed; exact 4.1 runtime not executed for downgrade |
 | 4.1.56 | 4.0.31 | Linked-mesh `timelines` returns to `deform`; attachment-nested deform timelines return to 4.0 deform group | Synthetic linked-mesh/deform curve checks and sequence negative test; real golden bundle 4.0→4.1→4.0 B1 reinspection passed; runtime not executed for downgrade |
@@ -100,7 +104,7 @@ The real 3.8.75 bundle was converted and re-inspected through B1 for the 3.5.51,
 
 ## F. Testing and qualification
 
-After the direct 4.1→4.0 additions, `.venv/bin/python -m pytest -q` passed **91 tests**; Ruff passed; strict mypy passed with no issues in 31 source files; and package build produced sdist and wheel. Focused conversion tests passed 49 tests. Route-specific bundle roundtrips cover 4.3→4.2, 4.2→4.1, and 4.1→4.0; each passed B1 reinspection with PNG bytes preserved. Installed CLI planning/conversion passed for 4.3→4.2, 4.2→4.1, and 4.1→4.0. Exact target runtime parsing/evaluation was not run for the new downgrade routes.
+After the direct 3.7→3.6 and 3.6→3.5 additions, `.venv/bin/python -m pytest -q` passed **95 tests**; Ruff passed; strict mypy passed with no issues in 33 source files; and package build produced sdist and wheel. Focused conversion tests passed 53 tests. Installed CLI conversion and planning passed for 3.7→3.6 and 3.6→3.5. Route-specific bundle roundtrips cover both reverse legacy routes plus 4.3→4.2, 4.2→4.1, and 4.1→4.0; each passed B1 reinspection with PNG bytes preserved. Exact historical runtimes were not executed for the new reverse legacy routes.
 
 Required commands:
 
@@ -125,6 +129,7 @@ Route checks also cover installed CLI planning, deterministic output, source imm
 - Direct 4.3.13→4.2.43 downgrade checkpoint: `431d310cc59004c74323919ad639da7369586091`.
 - Direct 4.2.43→4.1.56 downgrade checkpoint: `53c81229381bf416a38fceacd02ea664583851ab`.
 - Direct 4.1.56→4.0.31 downgrade checkpoint: `5ef31b38ae7448abc7d7164a93697ba9e57304df`.
+- Direct 3.7.94→3.6.53 and 3.6.53→3.5.51 reverse migrations are the current tested changes and will receive a development checkpoint after commit.
 - B2 remains open and unfrozen.
 
 ## H. Remaining work
@@ -132,10 +137,10 @@ Route checks also cover installed CLI planning, deterministic output, source imm
 - Complete a matching historical Spine 3.5.51, 3.6.53, and 3.7.94 runtime load/evaluation harness or record the exact tooling/license blocker; current verification is structural plus B1 dependency resolution.
 - Obtain an authentic 3.8.99 export fixture and run it through all seven target routes.
 - Expand real 3.8 fixture coverage to weighted meshes, linked meshes, clipping, bounding boxes, paths, points, and each supported constraint/timeline family.
-- Implement and test remaining directed routes where semantically possible. The 3.5→3.6, 3.6→3.7, 3.7→3.8, 4.0→4.1, 4.1→4.2, 4.2→4.3, and representable reverse 4.3→4.2, 4.2→4.1, and 4.1→4.0 edges are implemented; unrelated routes are not forced through 3.8. General graph-based composition is not implemented.
+- Implement and test remaining directed routes where semantically possible. Adjacent 3.5↔3.6, 3.6↔3.7, 3.7→3.8 and 4.0↔4.1, 4.1↔4.2, 4.2↔4.3 edges now have tested supported subsets. Cross-family non-adjacent routes remain incomplete; unrelated migrations are not forced through 3.8. General graph-based composition is not implemented.
 - Add graph-based planning only after direct edges exist; qualify every composed route end to end and reject any hop that discards semantics.
 - Expand official target runtime coverage and keep parser, animation-state, and visual verification statuses separate.
 
 ## I. Freeze decision
 
-**B2 OPEN / BLOCKED.** The complete direct 3.8 patch-to-target route set, three adjacent historical 3.x edges, three forward adjacent 4.x edges, and representable reverse 4.3→4.2, 4.2→4.1, and 4.1→4.0 migrations are implemented. Historical target runtime qualification and the broader directed conversion graph remain incomplete. No full matrix or visual equivalence certification is claimed.
+**B2 OPEN / BLOCKED.** The complete direct 3.8 patch-to-target route set, five adjacent directed historical 3.x edges, three forward and three supported reverse adjacent 4.x edges are implemented. Cross-family route composition, remaining direct cross-family migrations, historical target runtime qualification, and the broader directed conversion graph remain incomplete. No full matrix or visual equivalence certification is claimed.
