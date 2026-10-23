@@ -13,6 +13,7 @@ from ..parsers import inspect_skeleton
 from ..versions import VersionRegistry
 from .migrate_38_to_4x import MigrationError, migrate_38_to_target
 from .migrate_38_to_legacy import legacy_target_profile, migrate_38_to_legacy
+from .migrate_41_to_42 import migrate_41_to_42
 from .migrate_42_to_43 import migrate_42_to_43
 from .models import CanonicalSkeleton, ConversionResult, ConversionStatus, SourceRiskPolicy
 from .planner import ConversionPlanner
@@ -89,6 +90,7 @@ class SkeletonConverter:
                 ("3.8.75", "3.5.51"),
                 ("3.8.99", "3.5.51"),
                 ("4.2.43", "4.3.13"),
+                ("4.1.56", "4.2.43"),
             }
         )
         self.versions = VersionRegistry()
@@ -162,11 +164,19 @@ class SkeletonConverter:
                 diagnostic_codes=("SOURCE_EXPORT_KNOWN_BUG",),
                 provenance={"declared_source_version": canonical.version},
             )
-        if canonical.version == "4.2.43" and target_version == "4.3.13":
+        if (canonical.version, target_version) in {
+            ("4.1.56", "4.2.43"),
+            ("4.2.43", "4.3.13"),
+        }:
             try:
-                migrated, metrics = migrate_42_to_43(
-                    canonical.document, canonical.version, target_version
-                )
+                if canonical.version == "4.1.56":
+                    migrated, metrics = migrate_41_to_42(
+                        canonical.document, canonical.version, target_version
+                    )
+                else:
+                    migrated, metrics = migrate_42_to_43(
+                        canonical.document, canonical.version, target_version
+                    )
                 output = (
                     json.dumps(migrated, ensure_ascii=False, separators=(",", ":"), allow_nan=False)
                     + "\n"
@@ -175,7 +185,9 @@ class SkeletonConverter:
                 message = str(exc)
                 direct_unsupported: tuple[str, ...] = ()
                 codes: tuple[str, ...] = ()
-                if "transform constraints" in message or "uniform IK" in message:
+                if target_version == "4.3.13" and (
+                    "transform constraints" in message or "uniform IK" in message
+                ):
                     direct_unsupported = ("transform_constraints",)
                     codes = ("UNSUPPORTED_TARGET_FEATURE",)
                 return ConversionResult(
@@ -208,13 +220,20 @@ class SkeletonConverter:
             timelines, keys = _animation_metrics(migrated)
             compatibility = {
                 "implemented_route_features": "supported_and_structurally_verified",
-                "ik_constraints": "supported_by_target_schema",
-                "path_constraints": "supported_by_target_schema",
-                "transform_constraints": "unsupported_blocking",
-                "animation_curves": "4.2_channel_controls_preserved_exactly",
+                "animation_curves": "target_channel_controls_preserved_exactly",
                 "target_runtime": "not_executed_during_conversion",
                 "visual_equivalence": "not_assessed",
             }
+            if target_version == "4.3.13":
+                compatibility.update(
+                    {
+                        "ik_constraints": "supported_by_target_schema",
+                        "path_constraints": "supported_by_target_schema",
+                        "transform_constraints": "unsupported_blocking",
+                    }
+                )
+            else:
+                compatibility["bone_transform"] = "4.1_transform_to_4.2_inherit_verified"
             stats = {
                 "bones": len(canonical.bones),
                 "slots": len(canonical.slots),

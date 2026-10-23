@@ -136,6 +136,7 @@ def test_converter_planner_registers_only_the_exact_qualified_patch_pair():
     assert not converter.planner.plan("3.8.76", "4.2.43").executable
     assert not converter.planner.plan("4.2.43", "3.8.75").executable
     assert converter.planner.plan("4.2.43", "4.3.13").executable
+    assert converter.planner.plan("4.1.56", "4.2.43").executable
 
 
 @pytest.mark.parametrize("target_version", ["3.5.51", "3.6.53", "3.7.94"])
@@ -751,6 +752,72 @@ def test_direct_42_to_43_preserves_modern_atlas_semantics():
     assert parse_atlas(atlas_43).region_records == parse_atlas(atlas_42).region_records
 
 
+def test_direct_41_to_42_migrates_transform_modes_and_atlas():
+    document = json.loads(skeleton("4.1.56"))
+    document["bones"][0]["transform"] = "NoScale"
+    document["animations"]["idle"]["bones"]["root"]["rotate"] = [
+        {"time": 0, "value": 0, "curve": [0.2, 1, 0.7, 2]},
+        {"time": 1, "value": 45},
+    ]
+    source = json.dumps(document).encode()
+    result = SkeletonConverter().convert(source, "4.2.43")
+    assert result.status is ConversionStatus.STRUCTURALLY_VERIFIED, result.diagnostics
+    assert result.output is not None
+    target = json.loads(result.output)
+    assert target["skeleton"]["spine"] == "4.2.43"
+    assert "transform" not in target["bones"][0]
+    assert target["bones"][0]["inherit"] == "NoScale"
+    assert target["animations"] == document["animations"]
+    assert result.statistics["max_numerical_error"] == 0
+    assert result.output == SkeletonConverter().convert(source, "4.2.43").output
+    source_frames = document["animations"]["idle"]["bones"]["root"]["rotate"]
+    target_frames = target["animations"]["idle"]["bones"]["root"]["rotate"]
+    source_samples = absolute_curve_samples(source_frames[0], source_frames[1], "value")
+    target_samples = absolute_curve_samples(target_frames[0], target_frames[1], "value")
+    assert max(abs(a - b) for a, b in zip(source_samples, target_samples, strict=True)) <= 1e-12
+
+    atlas_41 = Path(__file__).parent / "fixtures/spine38/golden_ingot.atlas"
+    atlas_42 = AtlasConverter().convert(
+        atlas_41, "4.2.43", source_version="4.1.56"
+    )
+    assert {key for key, _ in parse_atlas(atlas_42).region_records[0].attributes} >= {
+        "rotate", "bounds", "offsets"
+    }
+
+    invalid = json.loads(source)
+    invalid["bones"][0]["inherit"] = "Normal"
+    rejected = SkeletonConverter().convert(json.dumps(invalid).encode(), "4.2.43")
+    assert rejected.status is ConversionStatus.REJECTED
+
+
+def test_direct_41_to_42_real_bundle_reinspection(tmp_path):
+    import shutil
+
+    from fnx_spine_forge.inspection import InspectionService
+
+    fixture = Path(__file__).parent / "fixtures/spine38"
+    converter = SkeletonConverter()
+    source = (fixture / "golden_ingot.json").read_bytes()
+    result_41 = converter.convert(
+        source, "4.1.56", source_risk_policy=SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC
+    )
+    assert result_41.output is not None
+    result_42 = converter.convert(result_41.output, "4.2.43")
+    assert result_42.output is not None, result_42.diagnostics
+    atlas_41 = AtlasConverter().convert(
+        (fixture / "golden_ingot.atlas").read_bytes(), "4.1.56", source_version="3.8.75"
+    )
+    atlas_42 = AtlasConverter().convert(atlas_41, "4.2.43", source_version="4.1.56")
+    target = tmp_path / "bundle42"
+    target.mkdir()
+    (target / "golden_ingot.json").write_bytes(result_42.output)
+    (target / "golden_ingot.atlas").write_bytes(atlas_42)
+    shutil.copyfile(fixture / "golden_ingot.png", target / "golden_ingot.png")
+    inspected = InspectionService().inspect(str(target))
+    assert inspected.ok, inspected.diagnostics
+    assert inspected.bundles[0].texture_pages == ("golden_ingot.png",)
+
+
 def test_direct_42_to_43_real_bundle_reinspection_preserves_texture(tmp_path):
     import shutil
 
@@ -1074,6 +1141,31 @@ def test_synthetic_38_fixture_covers_constraint_deform_and_draw_order_migrations
     assert animation["bones"]["child"]["rotate"][0]["value"] == 0
     assert result.statistics is not None
     assert result.statistics["max_numerical_error"] <= 1e-12
+
+    for target_version in ("3.5.51", "3.6.53", "3.7.94"):
+        legacy_source = json.loads(json.dumps(source))
+        for legacy_skin in legacy_source["skins"]:
+            for field in ("ik", "transform", "path"):
+                legacy_skin.pop(field, None)
+        legacy_result = SkeletonConverter().convert(
+            json.dumps(legacy_source).encode(), target_version,
+            source_risk_policy=SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC,
+        )
+        assert legacy_result.status is ConversionStatus.STRUCTURALLY_VERIFIED, (
+            legacy_result.diagnostics
+        )
+        assert legacy_result.output is not None
+        legacy = json.loads(legacy_result.output)
+        assert legacy["skeleton"]["spine"] == target_version
+        assert isinstance(legacy["skins"], dict)
+        assert legacy["skins"]["default"]["slot"]["linked"]["deform"] is False
+        assert legacy["animations"]["move"]["bones"]["child"]["rotate"][0]["angle"] == 0
+        assert legacy["animations"]["move"]["draworder"] == source["animations"]["move"][
+            "draworder"
+        ]
+        assert legacy["animations"]["move"]["deform"] == source["animations"]["move"][
+            "deform"
+        ]
 
 
 def test_target_atlas_conversion_handles_multi_page_and_index_fields():
