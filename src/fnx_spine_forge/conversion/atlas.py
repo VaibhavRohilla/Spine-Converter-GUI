@@ -63,10 +63,11 @@ class AtlasConverter:
                 ("4.1.56", "4.2.43"),
                 ("4.0.31", "4.1.56"),
                 ("3.7.94", "3.8.99"),
+                ("3.6.53", "3.7.94"),
             }:
                 raise ValueError(
                     "Atlas migration is qualified only for Spine 3.8.75 or 3.8.99 to "
-                    "3.5.51, 3.6.53, 3.7.94, 4.0.31, 4.1.56, 4.2.43, or 4.3.13"
+                    "3.5.51, 3.6.53, 3.7.94, 3.8.99, 4.0.31, 4.1.56, 4.2.43, or 4.3.13"
                 )
         chunks: list[str] = []
         direct_42_to_43 = source_version == "4.2.43" and target_version == "4.3.13"

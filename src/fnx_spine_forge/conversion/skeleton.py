@@ -11,6 +11,7 @@ from typing import Any
 from ..detection import skeleton_version
 from ..parsers import inspect_skeleton
 from ..versions import VersionRegistry
+from .migrate_36_to_37 import migrate_36_to_37
 from .migrate_37_to_38 import migrate_37_to_38
 from .migrate_38_to_4x import MigrationError, migrate_38_to_target
 from .migrate_38_to_legacy import legacy_target_profile, migrate_38_to_legacy
@@ -67,6 +68,31 @@ def _animation_metrics(document: dict[str, Any]) -> tuple[dict[str, int], dict[s
     return dict(sorted(timelines.items())), dict(sorted(keyframes.items()))
 
 
+def _attachment_counts(document: dict[str, Any]) -> Counter[str]:
+    counts: Counter[str] = Counter()
+    skins = document.get("skins", {})
+    if isinstance(skins, Mapping):
+        skin_maps: list[Any] = list(skins.values())
+    elif isinstance(skins, list):
+        skin_maps = [
+            skin.get("attachments", {}) for skin in skins if isinstance(skin, Mapping)
+        ]
+    else:
+        return counts
+    for skin_map in skin_maps:
+        if not isinstance(skin_map, Mapping):
+            continue
+        for slot_map in skin_map.values():
+            if not isinstance(slot_map, Mapping):
+                continue
+            for attachment in slot_map.values():
+                if isinstance(attachment, Mapping):
+                    counts[str(attachment.get("type", "region"))] += 1
+                else:
+                    counts["region"] += 1
+    return counts
+
+
 class SkeletonConverter:
     """Read/serialize JSON skeletons without claiming unimplemented migrations."""
 
@@ -99,6 +125,7 @@ class SkeletonConverter:
                 ("4.1.56", "4.2.43"),
                 ("4.0.31", "4.1.56"),
                 ("3.7.94", "3.8.99"),
+                ("3.6.53", "3.7.94"),
             }
         )
         self.versions = VersionRegistry()
@@ -173,13 +200,18 @@ class SkeletonConverter:
                 provenance={"declared_source_version": canonical.version},
             )
         if (canonical.version, target_version) in {
+            ("3.6.53", "3.7.94"),
             ("3.7.94", "3.8.99"),
             ("4.0.31", "4.1.56"),
             ("4.1.56", "4.2.43"),
             ("4.2.43", "4.3.13"),
         }:
             try:
-                if canonical.version == "3.7.94":
+                if canonical.version == "3.6.53":
+                    migrated, metrics = migrate_36_to_37(
+                        canonical.document, canonical.version, target_version
+                    )
+                elif canonical.version == "3.7.94":
                     migrated, metrics = migrate_37_to_38(
                         canonical.document, canonical.version, target_version
                     )
@@ -228,13 +260,7 @@ class SkeletonConverter:
                     ConversionStatus.REJECTED,
                     ("Migrated skeleton failed target structural reinspection",),
                 )
-            attachment_counts = Counter(
-                attachment.get("type", "region")
-                for skin in migrated.get("skins", [])
-                for attachments in skin.get("attachments", {}).values()
-                for attachment in attachments.values()
-                if isinstance(attachment, dict)
-            )
+            attachment_counts = _attachment_counts(migrated)
             timelines, keys = _animation_metrics(migrated)
             compatibility = {
                 "implemented_route_features": "supported_and_structurally_verified",
@@ -254,6 +280,13 @@ class SkeletonConverter:
                 compatibility["bone_transform"] = "4.1_transform_to_4.2_inherit_verified"
             elif target_version == "3.8.99":
                 compatibility["skin_schema"] = "3.7_object_map_to_3.8_named_skin_array"
+            elif canonical.version == "3.6.53" and target_version == "3.7.94":
+                compatibility.update(
+                    {
+                        "skin_schema": "legacy_object_map_preserved",
+                        "ik_options": "3.7_false_defaults_written_explicitly",
+                    }
+                )
             else:
                 compatibility.update(
                     {

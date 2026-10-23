@@ -139,6 +139,7 @@ def test_converter_planner_registers_only_the_exact_qualified_patch_pair():
     assert converter.planner.plan("4.1.56", "4.2.43").executable
     assert converter.planner.plan("4.0.31", "4.1.56").executable
     assert converter.planner.plan("3.7.94", "3.8.99").executable
+    assert converter.planner.plan("3.6.53", "3.7.94").executable
 
 
 @pytest.mark.parametrize("target_version", ["3.5.51", "3.6.53", "3.7.94"])
@@ -939,6 +940,87 @@ def legacy_37_skeleton():
             }
         },
     }
+
+
+def legacy_36_skeleton():
+    document = legacy_37_skeleton()
+    document["skeleton"]["spine"] = "3.6.53"
+    document["bones"] = [
+        {"name": "root"},
+        {"name": "child", "parent": "root", "length": 1},
+    ]
+    document["ik"] = [
+        {"name": "aim", "bones": ["child"], "target": "root", "mix": 0.75}
+    ]
+    document["events"] = {"hit": {"int": 2, "float": 0.5, "string": "impact"}}
+    document["animations"]["idle"]["ik"] = {
+        "aim": [{"time": 0, "mix": 1, "bendPositive": True}]
+    }
+    document["animations"]["idle"]["events"] = [
+        {"time": 0.5, "name": "hit", "int": 2, "float": 0.5, "string": "impact"}
+    ]
+    return document
+
+
+def test_direct_36_to_37_writes_new_ik_defaults_and_rejects_modern_source_fields():
+    source_document = legacy_36_skeleton()
+    source = json.dumps(source_document).encode()
+    result = SkeletonConverter().convert(source, "3.7.94")
+    assert result.status is ConversionStatus.STRUCTURALLY_VERIFIED, result.diagnostics
+    assert result.output is not None
+    target = json.loads(result.output)
+    assert target["skeleton"]["spine"] == "3.7.94"
+    assert target["skins"] == source_document["skins"]
+    assert target["ik"][0]["compress"] is False
+    assert target["ik"][0]["stretch"] is False
+    assert target["ik"][0]["uniform"] is False
+    assert target["animations"]["idle"]["ik"]["aim"][0]["compress"] is False
+    assert target["animations"]["idle"]["ik"]["aim"][0]["stretch"] is False
+    assert target["animations"]["idle"]["events"] == source_document["animations"]["idle"]["events"]
+    assert result.output == SkeletonConverter().convert(source, "3.7.94").output
+
+    invalid = legacy_36_skeleton()
+    invalid["ik"][0]["uniform"] = True
+    rejected = SkeletonConverter().convert(json.dumps(invalid).encode(), "3.7.94")
+    assert rejected.status is ConversionStatus.REJECTED
+    assert any("cannot declare Spine 3.7 IK options" in item for item in rejected.diagnostics)
+
+
+def test_direct_36_to_37_atlas_and_complete_bundle_reinspection(tmp_path):
+    import shutil
+
+    from fnx_spine_forge.inspection import InspectionService
+
+    source = tmp_path / "source36"
+    target = tmp_path / "target37"
+    source.mkdir()
+    target.mkdir()
+    source_document = legacy_36_skeleton()
+    source_document["skins"]["default"]["slot"]["wheel"]["path"] = "region"
+    source_document["skins"]["default"]["slot"]["wheel"]["width"] = 16
+    source_document["skins"]["default"]["slot"]["wheel"]["height"] = 16
+    (source / "skeleton.json").write_text(json.dumps(source_document), encoding="utf-8")
+    (source / "atlas.atlas").write_text(
+        "texture.png\nsize: 16, 16\nformat: RGBA8888\nfilter: Linear, Linear\nrepeat: none\n"
+        "region\nrotate: false\nxy: 0, 0\nsize: 16, 16\norig: 16, 16\noffset: 0, 0\nindex: -1\n",
+        encoding="utf-8",
+    )
+    shutil.copyfile(
+        Path(__file__).parent / "fixtures/spine38/golden_ingot.png", source / "texture.png"
+    )
+    converted = SkeletonConverter().convert(source / "skeleton.json", "3.7.94")
+    assert converted.output is not None, converted.diagnostics
+    (target / "skeleton.json").write_bytes(converted.output)
+    (target / "atlas.atlas").write_bytes(
+        AtlasConverter().convert(source / "atlas.atlas", "3.7.94", source_version="3.6.53")
+    )
+    shutil.copyfile(source / "texture.png", target / "texture.png")
+    assert (source / "texture.png").read_bytes() == (target / "texture.png").read_bytes()
+    before = InspectionService().inspect(str(source))
+    after = InspectionService().inspect(str(target))
+    assert before.ok, before.diagnostics
+    assert after.ok, after.diagnostics
+    assert after.bundles[0].texture_pages == ("texture.png",)
 
 
 def test_direct_37_to_38_converts_skin_map_and_preserves_legacy_curve():
