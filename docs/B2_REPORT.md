@@ -121,7 +121,7 @@ Route checks also cover installed CLI planning, deterministic output, source imm
 - Direct 3.6.53→3.7.94 migration checkpoint: `57d89f82cdff1ac342fd03e4b2fbf5e7c855b288`.
 - Direct 3.5.51→3.6.53 migration checkpoint: `3f4d23c9e76693e7429367ee9686d95b7c7a649c`.
 - Direct 4.3.13→4.2.43 downgrade checkpoint: `431d310cc59004c74323919ad639da7369586091`.
-- Direct 4.2.43→4.1.56 downgrade is the current tested change and will receive a development checkpoint after commit.
+- Direct 4.2.43→4.1.56 downgrade checkpoint: `53c81229381bf416a38fceacd02ea664583851ab`.
 - B2 remains open and unfrozen.
 
 ## H. Remaining work
