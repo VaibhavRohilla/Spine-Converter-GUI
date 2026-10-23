@@ -2,7 +2,12 @@ import json
 
 import pytest
 
-from fnx_spine_forge.conversion import AtlasConverter, ConversionPlanner, SkeletonConverter
+from fnx_spine_forge.conversion import (
+    AtlasConverter,
+    ConversionPlanner,
+    SkeletonConverter,
+    SourceRiskPolicy,
+)
 from fnx_spine_forge.conversion.models import ConversionStatus
 from fnx_spine_forge.parsers import parse_atlas
 
@@ -29,7 +34,9 @@ def skeleton(version="4.2.43"):
 
 def test_skeleton_exact_version_conversion_preserves_semantics():
     source = skeleton()
-    result = SkeletonConverter().convert(source, "4.2.43")
+    result = SkeletonConverter().convert(
+        source, "4.2.43", source_risk_policy=SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC
+    )
     assert result.status is ConversionStatus.STRUCTURALLY_VERIFIED
     assert result.output is not None
     assert json.loads(result.output) == json.loads(source)
@@ -41,7 +48,9 @@ def test_skeleton_cross_family_route_is_rejected():
     from pathlib import Path
 
     source = Path(__file__).parent / "fixtures/spine38/golden_ingot.json"
-    result = SkeletonConverter().convert(source, "4.2.43")
+    result = SkeletonConverter().convert(
+        source, "4.2.43", source_risk_policy=SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC
+    )
     assert result.status is ConversionStatus.STRUCTURALLY_VERIFIED
     assert result.output is not None
 
@@ -83,7 +92,9 @@ def test_real_38_75_to_42_43_migrates_curves_and_schema():
 
     source_path = Path(__file__).parent / "fixtures/spine38/golden_ingot.json"
     source = source_path.read_bytes()
-    result = SkeletonConverter().convert(source, "4.2.43")
+    result = SkeletonConverter().convert(
+        source, "4.2.43", source_risk_policy=SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC
+    )
     assert result.status is ConversionStatus.STRUCTURALLY_VERIFIED
     assert result.output is not None
     converted = json.loads(result.output)
@@ -101,7 +112,16 @@ def test_real_38_75_to_42_43_migrates_curves_and_schema():
     assert result.statistics["bezier_segments"] > 0
     assert result.statistics["max_numerical_error"] <= 1e-12
     assert source_path.read_bytes() == source
-    assert SkeletonConverter().convert(source, "4.2.43").output == result.output
+    assert (
+        SkeletonConverter()
+        .convert(source, "4.2.43", source_risk_policy=SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC)
+        .output
+        == result.output
+    )
+    assert "SOURCE_EXPORT_KNOWN_BUG" in result.diagnostic_codes
+    assert result.provenance is not None
+    assert result.provenance["declared_source_version"] == "3.8.75"
+    assert result.provenance["source_fidelity"] == "unverified_without_trusted_baseline"
 
 
 def test_real_38_atlas_migrates_region_geometry_without_texture_changes():
@@ -121,6 +141,93 @@ def test_real_38_atlas_migrates_region_geometry_without_texture_changes():
     assert (root / "golden_ingot.png").read_bytes() == texture
 
 
+def test_known_3875_export_bug_requires_explicit_risk_policy():
+    from pathlib import Path
+
+    source = Path(__file__).parent / "fixtures/spine38/golden_ingot.json"
+    result = SkeletonConverter().convert(source, "4.2.43")
+    assert result.status is ConversionStatus.REJECTED
+    assert result.output is None
+    assert result.diagnostic_codes == ("SOURCE_EXPORT_KNOWN_BUG",)
+    assert result.provenance == {"declared_source_version": "3.8.75"}
+
+
+def test_real_skeleton_atlas_texture_asset_references_survive_conversion(tmp_path):
+    import shutil
+    from pathlib import Path
+
+    from fnx_spine_forge.inspection import InspectionService
+
+    fixture = Path(__file__).parent / "fixtures/spine38"
+    source_bundle = tmp_path / "source"
+    target_bundle = tmp_path / "target"
+    source_bundle.mkdir()
+    target_bundle.mkdir()
+    for filename in ("golden_ingot.json", "golden_ingot.atlas", "golden_ingot.png"):
+        shutil.copyfile(fixture / filename, source_bundle / filename)
+    original_texture = (source_bundle / "golden_ingot.png").read_bytes()
+
+    skeleton_converter = SkeletonConverter()
+    result = skeleton_converter.convert(
+        source_bundle / "golden_ingot.json",
+        "4.2.43",
+        source_risk_policy=SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC,
+    )
+    assert result.output is not None
+    (target_bundle / "golden_ingot.json").write_bytes(result.output)
+    (target_bundle / "golden_ingot.atlas").write_bytes(
+        AtlasConverter().convert(
+            source_bundle / "golden_ingot.atlas",
+            "4.2.43",
+            source_version="3.8.75",
+        )
+    )
+    shutil.copyfile(source_bundle / "golden_ingot.png", target_bundle / "golden_ingot.png")
+
+    inspect = InspectionService()
+    before = inspect.inspect(str(source_bundle))
+    after = inspect.inspect(str(target_bundle))
+    assert before.ok, before.diagnostics
+    assert after.ok, after.diagnostics
+    blocking_codes = {
+        "MISSING_TEXTURE",
+        "AMBIGUOUS_TEXTURE",
+        "AMBIGUOUS_ATLAS",
+        "ATLAS_REGION_MISSING",
+    }
+    assert not (blocking_codes & {item.code for item in after.diagnostics})
+    source_skeleton = next(item for item in before.assets if item.kind == "skeleton_json")
+    target_skeleton = next(item for item in after.assets if item.kind == "skeleton_json")
+    assert tuple(source_skeleton.metadata["attachment_paths"]) == tuple(
+        target_skeleton.metadata["attachment_paths"]
+    )
+    assert (target_bundle / "golden_ingot.png").read_bytes() == original_texture
+    assert len(after.bundles) == 1
+    assert after.bundles[0].atlases == ("golden_ingot.atlas",)
+    assert after.bundles[0].texture_pages == ("golden_ingot.png",)
+
+
+def test_runtime_smoke_refuses_a_nonmatching_runtime_version(tmp_path):
+    import json
+
+    from fnx_spine_forge.conversion.runtime import run_spine_42_runtime_smoke
+
+    package = tmp_path / "spine-core"
+    package.mkdir()
+    (package / "package.json").write_text(
+        json.dumps(
+            {
+                "name": "@esotericsoftware/spine-core",
+                "version": "4.3.0",
+                "main": "index.js",
+            }
+        ),
+        encoding="utf-8",
+    )
+    result = run_spine_42_runtime_smoke("missing.json", "missing.atlas", package)
+    assert result["status"] == "rejected_runtime_identity"
+
+
 def test_exact_route_registry_does_not_expand_patch_policy():
     planner = ConversionPlanner({("3.8.75", "4.2.43")})
     assert planner.plan("3.8.75", "4.2.43").executable
@@ -132,7 +239,13 @@ def test_38_migration_fails_closed_for_unknown_timeline_and_invalid_curve():
     unknown = json.loads(skeleton("3.8.75"))
     unknown["animations"]["idle"]["bones"] = {"root": {"future": [{"time": 0}]}}
     assert (
-        SkeletonConverter().convert(json.dumps(unknown).encode(), "4.2.43").status
+        SkeletonConverter()
+        .convert(
+            json.dumps(unknown).encode(),
+            "4.2.43",
+            source_risk_policy=SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC,
+        )
+        .status
         is ConversionStatus.REJECTED
     )
 
@@ -140,7 +253,13 @@ def test_38_migration_fails_closed_for_unknown_timeline_and_invalid_curve():
     frame = malformed["animations"]["idle"]["bones"]["root"]["rotate"][0]
     frame["curve"] = 1.4
     assert (
-        SkeletonConverter().convert(json.dumps(malformed).encode(), "4.2.43").status
+        SkeletonConverter()
+        .convert(
+            json.dumps(malformed).encode(),
+            "4.2.43",
+            source_risk_policy=SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC,
+        )
+        .status
         is ConversionStatus.REJECTED
     )
 
@@ -154,14 +273,26 @@ def test_38_migration_rejects_missing_linked_mesh_parent_and_bad_constraint_refe
         }
     ]
     assert (
-        SkeletonConverter().convert(json.dumps(linked).encode(), "4.2.43").status
+        SkeletonConverter()
+        .convert(
+            json.dumps(linked).encode(),
+            "4.2.43",
+            source_risk_policy=SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC,
+        )
+        .status
         is ConversionStatus.REJECTED
     )
 
     invalid_constraint = json.loads(skeleton("3.8.75"))
     invalid_constraint["ik"] = [{"name": "bad", "bones": ["missing"], "target": "root"}]
     assert (
-        SkeletonConverter().convert(json.dumps(invalid_constraint).encode(), "4.2.43").status
+        SkeletonConverter()
+        .convert(
+            json.dumps(invalid_constraint).encode(),
+            "4.2.43",
+            source_risk_policy=SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC,
+        )
+        .status
         is ConversionStatus.REJECTED
     )
 
@@ -175,13 +306,25 @@ def test_38_migration_rejects_invalid_deform_and_missing_schema_fields():
         "default": {"slot": {"mesh": [{"time": 0, "vertices": ["bad"]}]}}
     }
     assert (
-        SkeletonConverter().convert(json.dumps(source).encode(), "4.2.43").status
+        SkeletonConverter()
+        .convert(
+            json.dumps(source).encode(),
+            "4.2.43",
+            source_risk_policy=SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC,
+        )
+        .status
         is ConversionStatus.REJECTED
     )
 
     missing = {"skeleton": {"spine": "3.8.75"}, "bones": []}
     assert (
-        SkeletonConverter().convert(json.dumps(missing).encode(), "4.2.43").status
+        SkeletonConverter()
+        .convert(
+            json.dumps(missing).encode(),
+            "4.2.43",
+            source_risk_policy=SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC,
+        )
+        .status
         is ConversionStatus.REJECTED
     )
     assert (
@@ -198,7 +341,13 @@ def test_38_migration_rejects_empty_attachment_path_and_downgrade():
         }
     ]
     assert (
-        SkeletonConverter().convert(json.dumps(source).encode(), "4.2.43").status
+        SkeletonConverter()
+        .convert(
+            json.dumps(source).encode(),
+            "4.2.43",
+            source_risk_policy=SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC,
+        )
+        .status
         is ConversionStatus.REJECTED
     )
     assert (
@@ -325,7 +474,11 @@ def test_synthetic_38_fixture_covers_constraint_deform_and_draw_order_migrations
             }
         },
     }
-    result = SkeletonConverter().convert(json.dumps(source).encode(), "4.2.43")
+    result = SkeletonConverter().convert(
+        json.dumps(source).encode(),
+        "4.2.43",
+        source_risk_policy=SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC,
+    )
     assert result.status is ConversionStatus.STRUCTURALLY_VERIFIED, result.diagnostics
     assert result.output is not None
     target = json.loads(result.output)

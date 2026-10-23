@@ -10,7 +10,8 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
-from .conversion import AtlasConverter, ConversionPlanner, SkeletonConverter
+from .conversion import AtlasConverter, ConversionPlanner, SkeletonConverter, SourceRiskPolicy
+from .conversion.runtime import run_spine_42_runtime_smoke
 from .inspection import InspectionService
 from .versions import VersionRegistry
 
@@ -26,6 +27,12 @@ def main(argv: list[str] | None = None) -> int:
     plan = sub.add_parser("plan", help="Check for a registered migration route")
     plan.add_argument("--from-version", required=True)
     plan.add_argument("--to-version", required=True)
+    runtime_smoke = sub.add_parser(
+        "runtime-smoke", help="Load and evaluate a converted bundle with official Spine 4.2.43"
+    )
+    runtime_smoke.add_argument("--skeleton", required=True)
+    runtime_smoke.add_argument("--atlas", required=True)
+    runtime_smoke.add_argument("--runtime-package", required=True)
     convert = sub.add_parser("convert", help="Convert a standalone JSON skeleton or atlas")
     kinds = convert.add_subparsers(dest="kind", required=True)
     for kind in ("skeleton", "atlas"):
@@ -35,6 +42,12 @@ def main(argv: list[str] | None = None) -> int:
         command.add_argument("--source-version")
         command.add_argument("--output")
         command.add_argument("--dry-run", action="store_true")
+        if kind == "skeleton":
+            command.add_argument(
+                "--allow-known-source-export-risk",
+                action="store_true",
+                help="Allow Spine 3.8.75 conversion while recording SOURCE_EXPORT_KNOWN_BUG",
+            )
     args = parser.parse_args(argv)
     if args.command == "versions":
         print(json.dumps([v.family for v in VersionRegistry().definitions()], indent=2))
@@ -90,8 +103,22 @@ def main(argv: list[str] | None = None) -> int:
             )
         )
         return 0 if planned.executable else 2
+    if args.command == "runtime-smoke":
+        runtime_report = run_spine_42_runtime_smoke(
+            args.skeleton, args.atlas, args.runtime_package
+        )
+        print(json.dumps(runtime_report, ensure_ascii=False, sort_keys=True, indent=2))
+        return 0 if runtime_report.get("status") == "animation_state_evaluated" else 2
     if args.kind == "skeleton":
-        outcome = SkeletonConverter().convert(args.input, args.target)
+        outcome = SkeletonConverter().convert(
+            args.input,
+            args.target,
+            source_risk_policy=(
+                SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC
+                if args.allow_known_source_export_risk
+                else SourceRiskPolicy.REJECT_KNOWN_ISSUES
+            ),
+        )
         report: dict[str, Any] = {
             "status": outcome.status.value,
             "source_version": outcome.source_version,
@@ -103,6 +130,9 @@ def main(argv: list[str] | None = None) -> int:
             "unsupported_features": outcome.unsupported_features,
             "runtime_verified": outcome.runtime_verified,
             "visually_verified": outcome.visually_verified,
+            "diagnostic_codes": outcome.diagnostic_codes,
+            "provenance": outcome.provenance,
+            "feature_compatibility": outcome.feature_compatibility,
         }
         if outcome.output is not None and not args.dry_run:
             if not args.output:

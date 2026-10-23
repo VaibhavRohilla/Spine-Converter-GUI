@@ -14,6 +14,13 @@ class ConversionStatus(StrEnum):
     REJECTED = "rejected"
 
 
+class SourceRiskPolicy(StrEnum):
+    """Policy for source exports with an official known-defect notice."""
+
+    REJECT_KNOWN_ISSUES = "reject_known_issues"
+    ALLOW_WITH_DIAGNOSTIC = "allow_with_diagnostic"
+
+
 @dataclass(frozen=True)
 class CanonicalSkeleton:
     """Lossless JSON document plus typed indexes used for semantic checks."""
@@ -39,3 +46,6 @@ class ConversionResult:
     unsupported_features: tuple[str, ...] = ()
     runtime_verified: bool = False
     visually_verified: bool = False
+    diagnostic_codes: tuple[str, ...] = ()
+    provenance: dict[str, Any] | None = None
+    feature_compatibility: dict[str, str] | None = None

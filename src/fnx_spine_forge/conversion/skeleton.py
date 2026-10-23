@@ -12,7 +12,7 @@ from ..detection import skeleton_version
 from ..parsers import inspect_skeleton
 from ..versions import VersionRegistry
 from .migrate_38_42 import MigrationError, migrate_38_to_42
-from .models import CanonicalSkeleton, ConversionResult, ConversionStatus
+from .models import CanonicalSkeleton, ConversionResult, ConversionStatus, SourceRiskPolicy
 from .planner import ConversionPlanner
 
 
@@ -107,7 +107,13 @@ class SkeletonConverter:
             version, obj, bones, slots, _skin_names(obj.get("skins", {})), animations
         )
 
-    def convert(self, source: bytes | str | Path, target_version: str) -> ConversionResult:
+    def convert(
+        self,
+        source: bytes | str | Path,
+        target_version: str,
+        *,
+        source_risk_policy: SourceRiskPolicy = SourceRiskPolicy.REJECT_KNOWN_ISSUES,
+    ) -> ConversionResult:
         try:
             canonical = self.read(source)
         except (OSError, ValueError, UnicodeError, json.JSONDecodeError) as exc:
@@ -123,6 +129,22 @@ class SkeletonConverter:
                 None,
                 ConversionStatus.REJECTED,
                 plan.diagnostics,
+            )
+        known_export_issue = canonical.version == "3.8.75"
+        if known_export_issue and source_risk_policy is SourceRiskPolicy.REJECT_KNOWN_ISSUES:
+            return ConversionResult(
+                canonical.version,
+                target_version,
+                plan.route,
+                None,
+                ConversionStatus.REJECTED,
+                (
+                    "Spine 3.8.75 exports are affected by officially acknowledged export issues; "
+                    "re-export from Spine 3.8.99 when the original project is available, or pass "
+                    "an explicit allow-with-diagnostic source risk policy.",
+                ),
+                diagnostic_codes=("SOURCE_EXPORT_KNOWN_BUG",),
+                provenance={"declared_source_version": canonical.version},
             )
         if canonical.version == "3.8.75" and target_version == "4.2.43":
             try:
@@ -199,6 +221,24 @@ class SkeletonConverter:
                 (),
                 stats,
                 details,
+                diagnostic_codes=("SOURCE_EXPORT_KNOWN_BUG",) if known_export_issue else (),
+                provenance=(
+                    {
+                        "declared_source_version": canonical.version,
+                        "known_source_export_risk": True,
+                        "potentially_affected_features": "unspecified by official notice",
+                        "recommended_action": "authentically re-export from Spine 3.8.99",
+                        "source_fidelity": "unverified_without_trusted_baseline",
+                    }
+                    if known_export_issue
+                    else {"declared_source_version": canonical.version}
+                ),
+                feature_compatibility={
+                    "implemented_route_features": "supported_and_structurally_verified",
+                    "source_export_fidelity": "supported_with_limitations",
+                    "runtime_load": "separate_optional_harness_not_executed_during_conversion",
+                    "visual_equivalence": "not_implemented",
+                },
             )
         # Same-family serialization is only accepted for an exact exporter version.
         if canonical.version != target_version:
