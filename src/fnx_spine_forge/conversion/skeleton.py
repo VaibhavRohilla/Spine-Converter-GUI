@@ -11,6 +11,7 @@ from typing import Any
 from ..detection import skeleton_version
 from ..parsers import inspect_skeleton
 from ..versions import VersionRegistry
+from .executor import MigrationExecutor
 from .migrate_35_to_36 import migrate_35_to_36
 from .migrate_36_to_35 import migrate_36_to_35
 from .migrate_36_to_37 import migrate_36_to_37
@@ -86,9 +87,7 @@ def _attachment_counts(document: dict[str, Any]) -> Counter[str]:
     if isinstance(skins, Mapping):
         skin_maps: list[Any] = list(skins.values())
     elif isinstance(skins, list):
-        skin_maps = [
-            skin.get("attachments", {}) for skin in skins if isinstance(skin, Mapping)
-        ]
+        skin_maps = [skin.get("attachments", {}) for skin in skins if isinstance(skin, Mapping)]
     else:
         return counts
     for skin_map in skin_maps:
@@ -136,13 +135,8 @@ def _run_direct_migration(
             return migrate_42_to_43(document, source_version, target_version)
         case MigrationKind.SPINE_43_TO_42:
             return migrate_43_to_42(document, source_version, target_version)
-        case (
-            MigrationKind.SPINE_38_TO_LEGACY
-            | MigrationKind.SPINE_38_TO_MODERN
-        ):
-            raise MigrationError(
-                f"Migration kind {kind.value} uses a specialized conversion path"
-            )
+        case MigrationKind.SPINE_38_TO_LEGACY | MigrationKind.SPINE_38_TO_MODERN:
+            raise MigrationError(f"Migration kind {kind.value} uses a specialized conversion path")
 
 
 class SkeletonConverter:
@@ -196,7 +190,7 @@ class SkeletonConverter:
                 None, target_version, (), None, ConversionStatus.REJECTED, (str(exc),)
             )
         plan = self.planner.plan(canonical.version, target_version)
-        if not plan.executable:
+        if not plan.executable and len(plan.route) <= 2:
             return ConversionResult(
                 canonical.version,
                 target_version,
@@ -221,6 +215,17 @@ class SkeletonConverter:
                 diagnostic_codes=("SOURCE_EXPORT_KNOWN_BUG",),
                 provenance={"declared_source_version": canonical.version},
             )
+        if len(plan.route) > 2:
+            payload = source if isinstance(source, bytes) else Path(source).read_bytes()
+            executor = MigrationExecutor(
+                self.planner,
+                lambda current, next_version: self.convert(
+                    current,
+                    next_version,
+                    source_risk_policy=SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC,
+                ),
+            )
+            return executor.execute(payload, canonical.version, target_version)
         route_spec = ROUTES_BY_PATCH.get((canonical.version, target_version))
         if route_spec is not None and route_spec.kind not in {
             MigrationKind.SPINE_38_TO_LEGACY,
@@ -415,9 +420,7 @@ class SkeletonConverter:
                 "animations": len(canonical.animations),
                 "bezier_segments": metrics["bezier_segments"],
                 "max_numerical_error": metrics["max_curve_error"],
-                "event_frames_single_precision": metrics.get(
-                    "event_frames_single_precision", 0
-                ),
+                "event_frames_single_precision": metrics.get("event_frames_single_precision", 0),
                 "timeline_count": sum(timelines.values()),
                 "keyframes": sum(keys.values()),
                 **{f"attachment_{kind}": count for kind, count in attachment_counts.items()},

@@ -1,0 +1,143 @@
+"""Transactional execution of registered, individually validated migrations."""
+
+from __future__ import annotations
+
+from collections.abc import Callable
+from dataclasses import dataclass
+
+from .models import ConversionResult, ConversionStatus
+from .planner import ConversionPlanner
+
+
+@dataclass(frozen=True, slots=True)
+class MigrationHopEvidence:
+    source_version: str
+    target_version: str
+    status: str
+    diagnostics: tuple[str, ...]
+    diagnostic_codes: tuple[str, ...]
+    structural_verification: str
+    statistics: dict[str, int | float] | None
+
+
+class MigrationExecutor:
+    """Try shortest registered paths and publish output only after every hop passes.
+
+    ``convert_direct`` must execute one registered route and perform its version
+    specific feature checks and structural reinspection. Intermediate outputs are
+    held only in memory and are never published by this class.
+    """
+
+    def __init__(
+        self,
+        planner: ConversionPlanner,
+        convert_direct: Callable[[bytes, str], ConversionResult],
+    ) -> None:
+        self._planner = planner
+        self._convert_direct = convert_direct
+
+    def execute(self, source: bytes, source_version: str, target_version: str) -> ConversionResult:
+        candidates = self._planner.candidate_routes(source_version, target_version)
+        if not candidates:
+            planned = self._planner.plan(source_version, target_version)
+            return ConversionResult(
+                source_version,
+                target_version,
+                planned.route,
+                None,
+                ConversionStatus.REJECTED,
+                planned.diagnostics,
+            )
+
+        failures: list[tuple[str, ...]] = []
+        evidence_by_route: list[tuple[MigrationHopEvidence, ...]] = []
+        for route in candidates:
+            current = source
+            hop_evidence: list[MigrationHopEvidence] = []
+            failed = False
+            for left, right in zip(route, route[1:]):
+                result = self._convert_direct(current, right)
+                hop_evidence.append(
+                    MigrationHopEvidence(
+                        left,
+                        right,
+                        result.status.value,
+                        result.diagnostics,
+                        result.diagnostic_codes,
+                        "passed" if result.output is not None else "failed",
+                        result.statistics,
+                    )
+                )
+                if result.output is None or result.status is ConversionStatus.REJECTED:
+                    failures.append(
+                        result.diagnostics or (f"Migration hop {left} -> {right} failed",)
+                    )
+                    evidence_by_route.append(tuple(hop_evidence))
+                    failed = True
+                    break
+                current = result.output
+            if failed:
+                continue
+            return ConversionResult(
+                source_version,
+                target_version,
+                route,
+                current,
+                ConversionStatus.STRUCTURALLY_VERIFIED,
+                details={
+                    "structural_verification": "every_hop_passed",
+                    "hop_evidence": [
+                        {
+                            "source_version": hop.source_version,
+                            "target_version": hop.target_version,
+                            "status": hop.status,
+                            "diagnostics": hop.diagnostics,
+                            "diagnostic_codes": hop.diagnostic_codes,
+                            "structural_verification": hop.structural_verification,
+                            "statistics": hop.statistics,
+                        }
+                        for hop in hop_evidence
+                    ],
+                    "failed_candidates": len(failures),
+                },
+                diagnostics=tuple(
+                    diagnostic for hop in hop_evidence for diagnostic in hop.diagnostics
+                ),
+            )
+
+        best_evidence = evidence_by_route[0] if evidence_by_route else ()
+        first_failure = (
+            failures[0] if failures else ("No feature-compatible route passed validation",)
+        )
+        return ConversionResult(
+            source_version,
+            target_version,
+            candidates[0],
+            None,
+            ConversionStatus.REJECTED,
+            first_failure,
+            details={
+                "failed_hop": (
+                    {
+                        "source_version": best_evidence[-1].source_version,
+                        "target_version": best_evidence[-1].target_version,
+                        "diagnostics": best_evidence[-1].diagnostics,
+                        "diagnostic_codes": best_evidence[-1].diagnostic_codes,
+                    }
+                    if best_evidence
+                    else None
+                ),
+                "hop_evidence": [
+                    {
+                        "source_version": hop.source_version,
+                        "target_version": hop.target_version,
+                        "status": hop.status,
+                        "diagnostics": hop.diagnostics,
+                        "diagnostic_codes": hop.diagnostic_codes,
+                        "structural_verification": hop.structural_verification,
+                        "statistics": hop.statistics,
+                    }
+                    for hop in best_evidence
+                ],
+            },
+        )

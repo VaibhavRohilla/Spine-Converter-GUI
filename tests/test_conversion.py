@@ -129,6 +129,43 @@ def test_planner_reports_unqualified_composed_route_without_admitting_it():
     assert "end-to-end" in plan.diagnostics[0]
 
 
+def test_executor_runs_registered_multi_hop_routes_transactionally():
+    document = {
+        "skeleton": {"spine": "3.5.51"},
+        "bones": [{"name": "root"}],
+        "slots": [],
+        "skins": {},
+        "animations": {"idle": {"bones": {"root": {"rotate": [
+            {"time": 0, "angle": 0}, {"time": 1, "angle": 5}
+        ]}}}},
+    }
+    source = json.dumps(document).encode()
+    result = SkeletonConverter().convert(source, "4.3.13")
+    assert result.status is ConversionStatus.STRUCTURALLY_VERIFIED, result.diagnostics
+    assert result.route == ("3.5.51", "3.6.53", "3.7.94", "3.8.99", "4.3.13")
+    assert result.output is not None
+    assert json.loads(result.output)["skeleton"]["spine"] == "4.3.13"
+    assert document["skeleton"]["spine"] == "3.5.51"
+    assert len(result.details["hop_evidence"]) == 4
+    assert all(hop["structural_verification"] == "passed" for hop in result.details["hop_evidence"])
+
+
+def test_executor_stops_at_first_incompatible_hop_and_returns_evidence():
+    document = {
+        "skeleton": {"spine": "4.3.13"},
+        "bones": [{"name": "root"}], "slots": [], "skins": {},
+        "animations": {},
+    }
+    source = json.dumps(document).encode()
+    result = SkeletonConverter().convert(source, "3.8.99")
+    assert result.status is ConversionStatus.REJECTED
+    assert result.output is None
+    assert result.details["failed_hop"]["source_version"] == "4.3.13"
+    assert result.details["failed_hop"]["target_version"] == "4.2.43"
+    assert len(result.details["hop_evidence"]) == 1
+    assert json.loads(source) == document
+
+
 def test_40_to_38_converts_supported_skin_and_deform_schema():
     source = {
         "skeleton": {"spine": "4.0.31"},

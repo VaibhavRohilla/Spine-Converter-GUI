@@ -296,3 +296,100 @@ Route checks also cover installed CLI planning, deterministic output, source imm
 ## I. Freeze decision
 
 **B2 OPEN / BLOCKED.** The complete direct 3.8 patch-to-target route set, five adjacent directed historical 3.x edges, three forward and three supported reverse adjacent 4.x edges are implemented. Cross-family route composition, remaining direct cross-family migrations, historical target runtime qualification, and the broader directed conversion graph remain incomplete. No full matrix or visual equivalence certification is claimed.
+
+## B2 executor addendum (2026-10-23)
+
+### A. Conversion architecture update
+
+Added `MigrationExecutor` as a transactional in-memory route runner. It enumerates at most 32 simple paths of depth 12 in deterministic breadth-first order, so direct qualified routes precede longer paths. Each hop is sent through the existing `SkeletonConverter` direct-route implementation, which remains responsible for exact-version feature rejection and target structural reinspection. The executor returns final bytes only after every hop passes, with source/target versions, status, diagnostic codes, and statistics for each hop. Failed attempts return no bytes and include the first failed hop. Original input bytes are not mutated. The existing JSON document remains dynamically represented; broad typed semantic models are not yet implemented.
+
+`ConversionPlanner.plan()` deliberately continues to mark discovered composed paths as not independently qualified. `candidate_routes()` exposes bounded candidates to the executor; graph connectivity alone is not reported as a qualification result. Atlas conversion still does not share an executed route with skeleton conversion, and complete multi-hop asset-set conversion/B1 reinspection is outstanding.
+
+### Multi-hop execution evidence
+
+Focused synthetic execution, with per-hop target structural reinspection:
+
+| Route | Result | Evidence |
+|---|---|---|
+| 3.5.51 → 3.6.53 → 3.7.94 → 3.8.99 → 4.3.13 | Passed | Four recorded successful hops; target version reinspection at each hop; original input remains 3.5.51 |
+| 3.7.94 → 3.8.99 → 4.1.56 | Passed | Two recorded successful hops |
+| 3.7.94 → 3.8.99 → 4.3.13 with a supported basic fixture | Passed | Two recorded successful hops |
+| 4.3.13 → 4.2.43 → … with malformed 4.3 skin schema | Rejected at first hop | No output; failed-hop evidence identifies 4.3.13 → 4.2.43 |
+
+These are synthetic structural checks, not runtime or visual qualification. The requested weighted-mesh/linked-mesh and broader constraint/timeline real-asset coverage remains incomplete.
+
+### Family representative matrix (56 ordered pairs)
+
+The following routes use exact representatives `3.5.51`, `3.6.53`, `3.7.94`, `3.8.99`, `4.0.31`, `4.1.56`, `4.2.43`, and `4.3.13`. `Candidate` means the executor can attempt the shown registered hops and each hop applies its own strict feature checks; it does not imply every input feature subset has been qualified end to end. Structural qualification is limited to the direct routes and explicit synthetic multi-hop rows above. Runtime qualification is only as described in section D; all other composed rows are not runtime-qualified. End-to-end coverage is incomplete for every pair except explicitly tested cases in sections B and this addendum.
+
+| Source | Target | Registered candidate route | Execution / qualification |
+|---|---|---|---|
+| 3.5.51 | 3.6.53 | 3.5.51 → 3.6.53 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 3.5.51 | 3.7.94 | 3.5.51 → 3.6.53 → 3.7.94 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 3.5.51 | 3.8.99 | 3.5.51 → 3.6.53 → 3.7.94 → 3.8.99 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 3.5.51 | 4.0.31 | 3.5.51 → 3.6.53 → 3.7.94 → 3.8.99 → 4.0.31 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 3.5.51 | 4.1.56 | 3.5.51 → 3.6.53 → 3.7.94 → 3.8.99 → 4.1.56 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 3.5.51 | 4.2.43 | 3.5.51 → 3.6.53 → 3.7.94 → 3.8.99 → 4.2.43 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 3.5.51 | 4.3.13 | 3.5.51 → 3.6.53 → 3.7.94 → 3.8.99 → 4.3.13 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 3.6.53 | 3.5.51 | 3.6.53 → 3.5.51 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 3.6.53 | 3.7.94 | 3.6.53 → 3.7.94 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 3.6.53 | 3.8.99 | 3.6.53 → 3.7.94 → 3.8.99 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 3.6.53 | 4.0.31 | 3.6.53 → 3.7.94 → 3.8.99 → 4.0.31 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 3.6.53 | 4.1.56 | 3.6.53 → 3.7.94 → 3.8.99 → 4.1.56 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 3.6.53 | 4.2.43 | 3.6.53 → 3.7.94 → 3.8.99 → 4.2.43 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 3.6.53 | 4.3.13 | 3.6.53 → 3.7.94 → 3.8.99 → 4.3.13 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 3.7.94 | 3.5.51 | 3.7.94 → 3.6.53 → 3.5.51 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 3.7.94 | 3.6.53 | 3.7.94 → 3.6.53 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 3.7.94 | 3.8.99 | 3.7.94 → 3.8.99 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 3.7.94 | 4.0.31 | 3.7.94 → 3.8.99 → 4.0.31 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 3.7.94 | 4.1.56 | 3.7.94 → 3.8.99 → 4.1.56 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 3.7.94 | 4.2.43 | 3.7.94 → 3.8.99 → 4.2.43 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 3.7.94 | 4.3.13 | 3.7.94 → 3.8.99 → 4.3.13 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 3.8.99 | 3.5.51 | 3.8.99 → 3.5.51 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 3.8.99 | 3.6.53 | 3.8.99 → 3.6.53 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 3.8.99 | 3.7.94 | 3.8.99 → 3.7.94 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 3.8.99 | 4.0.31 | 3.8.99 → 4.0.31 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 3.8.99 | 4.1.56 | 3.8.99 → 4.1.56 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 3.8.99 | 4.2.43 | 3.8.99 → 4.2.43 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 3.8.99 | 4.3.13 | 3.8.99 → 4.3.13 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 4.0.31 | 3.5.51 | 4.0.31 → 3.8.99 → 3.5.51 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 4.0.31 | 3.6.53 | 4.0.31 → 3.8.99 → 3.6.53 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 4.0.31 | 3.7.94 | 4.0.31 → 3.8.99 → 3.7.94 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 4.0.31 | 3.8.99 | 4.0.31 → 3.8.99 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 4.0.31 | 4.1.56 | 4.0.31 → 4.1.56 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 4.0.31 | 4.2.43 | 4.0.31 → 3.8.99 → 4.2.43 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 4.0.31 | 4.3.13 | 4.0.31 → 3.8.99 → 4.3.13 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 4.1.56 | 3.5.51 | 4.1.56 → 4.0.31 → 3.8.99 → 3.5.51 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 4.1.56 | 3.6.53 | 4.1.56 → 4.0.31 → 3.8.99 → 3.6.53 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 4.1.56 | 3.7.94 | 4.1.56 → 4.0.31 → 3.8.99 → 3.7.94 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 4.1.56 | 3.8.99 | 4.1.56 → 4.0.31 → 3.8.99 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 4.1.56 | 4.0.31 | 4.1.56 → 4.0.31 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 4.1.56 | 4.2.43 | 4.1.56 → 4.2.43 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 4.1.56 | 4.3.13 | 4.1.56 → 4.2.43 → 4.3.13 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 4.2.43 | 3.5.51 | 4.2.43 → 4.1.56 → 4.0.31 → 3.8.99 → 3.5.51 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 4.2.43 | 3.6.53 | 4.2.43 → 4.1.56 → 4.0.31 → 3.8.99 → 3.6.53 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 4.2.43 | 3.7.94 | 4.2.43 → 4.1.56 → 4.0.31 → 3.8.99 → 3.7.94 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 4.2.43 | 3.8.99 | 4.2.43 → 4.1.56 → 4.0.31 → 3.8.99 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 4.2.43 | 4.0.31 | 4.2.43 → 4.1.56 → 4.0.31 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 4.2.43 | 4.1.56 | 4.2.43 → 4.1.56 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 4.2.43 | 4.3.13 | 4.2.43 → 4.3.13 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 4.3.13 | 3.5.51 | 4.3.13 → 4.2.43 → 4.1.56 → 4.0.31 → 3.8.99 → 3.5.51 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 4.3.13 | 3.6.53 | 4.3.13 → 4.2.43 → 4.1.56 → 4.0.31 → 3.8.99 → 3.6.53 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 4.3.13 | 3.7.94 | 4.3.13 → 4.2.43 → 4.1.56 → 4.0.31 → 3.8.99 → 3.7.94 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 4.3.13 | 3.8.99 | 4.3.13 → 4.2.43 → 4.1.56 → 4.0.31 → 3.8.99 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 4.3.13 | 4.0.31 | 4.3.13 → 4.2.43 → 4.1.56 → 4.0.31 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 4.3.13 | 4.1.56 | 4.3.13 → 4.2.43 → 4.1.56 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+| 4.3.13 | 4.2.43 | 4.3.13 → 4.2.43 | Candidate; feature-gated per hop; end-to-end qualification incomplete |
+
+The Spine 3.8.75 routes are separately registered as source-risk routes and remain blocked by default under `REJECT_KNOWN_ISSUES`. Explicit allow-with-diagnostic is still required; 3.8.75 is not substituted for the 3.8.99 representative above. Spine 3.8.75 remains subject to the established defect policy. No 3.8.75 defect is bypassed by composition.
+
+### Current gates and decision
+
+- `.venv/bin/python -m pytest -q`: **103 passed**.
+- `.venv/bin/ruff check src tests`: **passed**.
+- `.venv/bin/mypy`: **passed, 36 source files**.
+- `.venv/bin/python -m build`: **passed**, sdist and wheel produced.
+- Dedicated regression tests cover a four-hop success, original source immutability, per-hop evidence, and stop-on-first-hop failure with no output.
+- Historical 3.5.51/3.6.53/3.7.94 runtime availability and execution remain unverified in this batch. Authentic 3.8.99 fixture and the requested all-route semantic/runtime/asset qualification are also outstanding.
+
+**B2 OPEN / BLOCKED.** The executor makes registered compositions executable only when every existing direct migration accepts and structurally validates its hop. This batch does not complete the required feature-aware whole-route qualification, typed semantic schemas, integrated skeleton+atlas+PNG asset-set conversion, all 56 end-to-end pair qualifications, historical runtime qualification, or authentic 3.8.99 fixture coverage. Graph candidates are not certification. No B3, B4, or B5 work is included.

@@ -48,9 +48,7 @@ class ConversionPlanner:
             for left, right in self._routes
             if left.count(".") == 2 and right.count(".") == 2
         }
-        queue: deque[tuple[str, tuple[str, ...]]] = deque(
-            [(source_version, (source_version,))]
-        )
+        queue: deque[tuple[str, tuple[str, ...]]] = deque([(source_version, (source_version,))])
         seen = {source_version}
         while queue:
             current, path = queue.popleft()
@@ -78,3 +76,36 @@ class ConversionPlanner:
             False,
             (f"No qualified migration route: {source_family} -> {target_family}",),
         )
+
+    def candidate_routes(
+        self, source_version: str, target_version: str
+    ) -> tuple[tuple[str, ...], ...]:
+        """Return bounded, deterministic simple routes; feature qualification is per hop."""
+        if source_version == target_version:
+            return ((source_version,),)
+        exact_edges = sorted(
+            (left, right)
+            for left, right in self._routes
+            if left.count(".") == 2 and right.count(".") == 2
+        )
+        adjacency: dict[str, list[str]] = {}
+        for left, right in exact_edges:
+            adjacency.setdefault(left, []).append(right)
+        # Breadth-first ordering prefers fewer transformations; cap work to prevent
+        # pathological registries from creating unbounded route enumeration.
+        queue: deque[tuple[str, ...]] = deque([(source_version,)])
+        routes: list[tuple[str, ...]] = []
+        max_routes, max_depth = 32, 12
+        while queue and len(routes) < max_routes:
+            path = queue.popleft()
+            if len(path) > max_depth:
+                continue
+            for neighbor in adjacency.get(path[-1], []):
+                if neighbor in path:
+                    continue
+                candidate = (*path, neighbor)
+                if neighbor == target_version:
+                    routes.append(candidate)
+                    continue
+                queue.append(candidate)
+        return tuple(routes)
