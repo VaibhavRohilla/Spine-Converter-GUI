@@ -393,3 +393,10 @@ The Spine 3.8.75 routes are separately registered as source-risk routes and rema
 - Historical 3.5.51/3.6.53/3.7.94 runtime availability and execution remain unverified in this batch. Authentic 3.8.99 fixture and the requested all-route semantic/runtime/asset qualification are also outstanding.
 
 **B2 OPEN / BLOCKED.** The executor makes registered compositions executable only when every existing direct migration accepts and structurally validates its hop. This batch does not complete the required feature-aware whole-route qualification, typed semantic schemas, integrated skeleton+atlas+PNG asset-set conversion, all 56 end-to-end pair qualifications, historical runtime qualification, or authentic 3.8.99 fixture coverage. Graph candidates are not certification. No B3, B4, or B5 work is included.
+
+### Git checkpoint
+
+- Tested implementation checkpoint: `afc2050f61f59379014ce116b1bd856843f5ef9f` (`Add transactional multi-hop migration executor`).
+- Branch: `codex/b2-conversion-engine`.
+- The checkpoint was created after the required tests, lint, type check, build, installed CLI conversion, and B1 fixture inspection passed. Working tree was clean immediately after that commit.
+- This is a development checkpoint; it does not freeze B2.
