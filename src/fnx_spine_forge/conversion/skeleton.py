@@ -11,6 +11,7 @@ from typing import Any
 from ..detection import skeleton_version
 from ..parsers import inspect_skeleton
 from ..versions import VersionRegistry
+from .migrate_35_to_36 import migrate_35_to_36
 from .migrate_36_to_37 import migrate_36_to_37
 from .migrate_37_to_38 import migrate_37_to_38
 from .migrate_38_to_4x import MigrationError, migrate_38_to_target
@@ -126,6 +127,7 @@ class SkeletonConverter:
                 ("4.0.31", "4.1.56"),
                 ("3.7.94", "3.8.99"),
                 ("3.6.53", "3.7.94"),
+                ("3.5.51", "3.6.53"),
             }
         )
         self.versions = VersionRegistry()
@@ -200,6 +202,7 @@ class SkeletonConverter:
                 provenance={"declared_source_version": canonical.version},
             )
         if (canonical.version, target_version) in {
+            ("3.5.51", "3.6.53"),
             ("3.6.53", "3.7.94"),
             ("3.7.94", "3.8.99"),
             ("4.0.31", "4.1.56"),
@@ -207,7 +210,11 @@ class SkeletonConverter:
             ("4.2.43", "4.3.13"),
         }:
             try:
-                if canonical.version == "3.6.53":
+                if canonical.version == "3.5.51":
+                    migrated, metrics = migrate_35_to_36(
+                        canonical.document, canonical.version, target_version
+                    )
+                elif canonical.version == "3.6.53":
                     migrated, metrics = migrate_36_to_37(
                         canonical.document, canonical.version, target_version
                     )
@@ -280,6 +287,8 @@ class SkeletonConverter:
                 compatibility["bone_transform"] = "4.1_transform_to_4.2_inherit_verified"
             elif target_version == "3.8.99":
                 compatibility["skin_schema"] = "3.7_object_map_to_3.8_named_skin_array"
+            elif canonical.version == "3.5.51" and target_version == "3.6.53":
+                compatibility["event_time"] = "3.6_single_precision_rounding_verified"
             elif canonical.version == "3.6.53" and target_version == "3.7.94":
                 compatibility.update(
                     {
@@ -301,6 +310,9 @@ class SkeletonConverter:
                 "animations": len(canonical.animations),
                 "bezier_segments": metrics["bezier_segments"],
                 "max_numerical_error": metrics["max_curve_error"],
+                "event_frames_single_precision": metrics.get(
+                    "event_frames_single_precision", 0
+                ),
                 "timeline_count": sum(timelines.values()),
                 "keyframes": sum(keys.values()),
                 **{f"attachment_{kind}": count for kind, count in attachment_counts.items()},

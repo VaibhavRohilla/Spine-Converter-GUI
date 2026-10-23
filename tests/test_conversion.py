@@ -1,4 +1,5 @@
 import json
+import struct
 from pathlib import Path
 
 import pytest
@@ -140,6 +141,7 @@ def test_converter_planner_registers_only_the_exact_qualified_patch_pair():
     assert converter.planner.plan("4.0.31", "4.1.56").executable
     assert converter.planner.plan("3.7.94", "3.8.99").executable
     assert converter.planner.plan("3.6.53", "3.7.94").executable
+    assert converter.planner.plan("3.5.51", "3.6.53").executable
 
 
 @pytest.mark.parametrize("target_version", ["3.5.51", "3.6.53", "3.7.94"])
@@ -960,6 +962,73 @@ def legacy_36_skeleton():
         {"time": 0.5, "name": "hit", "int": 2, "float": 0.5, "string": "impact"}
     ]
     return document
+
+
+def legacy_35_skeleton():
+    document = legacy_36_skeleton()
+    document["skeleton"]["spine"] = "3.5.51"
+    document["animations"]["idle"]["events"][0]["time"] = 0.1
+    return document
+
+
+def test_direct_35_to_36_rounds_event_times_like_target_reader_and_rejects_bad_values():
+    source_document = legacy_35_skeleton()
+    source = json.dumps(source_document).encode()
+    result = SkeletonConverter().convert(source, "3.6.53")
+    assert result.status is ConversionStatus.STRUCTURALLY_VERIFIED, result.diagnostics
+    assert result.output is not None
+    target = json.loads(result.output)
+    rounded_time = struct.unpack("!f", struct.pack("!f", 0.1))[0]
+    assert target["skeleton"]["spine"] == "3.6.53"
+    assert target["animations"]["idle"]["events"][0]["time"] == rounded_time
+    assert target["animations"]["idle"]["bones"] == source_document["animations"]["idle"]["bones"]
+    source_rotate = source_document["animations"]["idle"]["bones"]["root"]["rotate"][0]
+    target_rotate = target["animations"]["idle"]["bones"]["root"]["rotate"][0]
+    assert legacy_curve_samples(source_rotate) == legacy_curve_samples(target_rotate)
+    assert result.statistics["bezier_segments"] == 1
+    assert result.statistics["event_frames_single_precision"] == 1
+    assert result.output == SkeletonConverter().convert(source, "3.6.53").output
+
+    malformed = legacy_35_skeleton()
+    malformed["animations"]["idle"]["events"][0]["time"] = "0.1"
+    rejected = SkeletonConverter().convert(json.dumps(malformed).encode(), "3.6.53")
+    assert rejected.status is ConversionStatus.REJECTED
+    assert any("must be a finite number" in item for item in rejected.diagnostics)
+
+
+def test_direct_35_to_36_atlas_and_complete_bundle_reinspection(tmp_path):
+    import shutil
+
+    from fnx_spine_forge.inspection import InspectionService
+
+    source = tmp_path / "source35"
+    target = tmp_path / "target36"
+    source.mkdir()
+    target.mkdir()
+    source_document = legacy_35_skeleton()
+    attachment = source_document["skins"]["default"]["slot"]["wheel"]
+    attachment.update(path="region", width=16, height=16)
+    (source / "skeleton.json").write_text(json.dumps(source_document), encoding="utf-8")
+    (source / "atlas.atlas").write_text(
+        "texture.png\nsize: 16, 16\nformat: RGBA8888\nfilter: Linear, Linear\nrepeat: none\n"
+        "region\nrotate: false\nxy: 0, 0\nsize: 16, 16\norig: 16, 16\noffset: 0, 0\nindex: -1\n",
+        encoding="utf-8",
+    )
+    texture = Path(__file__).parent / "fixtures/spine38/golden_ingot.png"
+    shutil.copyfile(texture, source / "texture.png")
+    converted = SkeletonConverter().convert(source / "skeleton.json", "3.6.53")
+    assert converted.output is not None, converted.diagnostics
+    (target / "skeleton.json").write_bytes(converted.output)
+    (target / "atlas.atlas").write_bytes(
+        AtlasConverter().convert(source / "atlas.atlas", "3.6.53", source_version="3.5.51")
+    )
+    shutil.copyfile(source / "texture.png", target / "texture.png")
+    assert (source / "texture.png").read_bytes() == (target / "texture.png").read_bytes()
+    before = InspectionService().inspect(str(source))
+    after = InspectionService().inspect(str(target))
+    assert before.ok, before.diagnostics
+    assert after.ok, after.diagnostics
+    assert after.bundles[0].texture_pages == ("texture.png",)
 
 
 def test_direct_36_to_37_writes_new_ik_defaults_and_rejects_modern_source_fields():
