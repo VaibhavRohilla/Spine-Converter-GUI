@@ -99,7 +99,9 @@ Route checks also cover installed CLI planning, deterministic output, source imm
 - B2 development checkpoint: `74af8b33b9d7b3303b23762671a50283c417a9a9`.
 - Prior 3.8.75→4.2.43 hardening implementation: `b8cc4ac95a0b7ecea80ed81546f0e7ae61d60a0b`.
 - Prior 3.8.99→4.2.43 route: `50a2dbc7d9a82fff4b09fc0da7551d0ecdec6920`.
-- Current matrix and direct-edge implementation checkpoint is recorded after final checks. This is a development checkpoint, not a freeze.
+- Complete 3.8 route matrix and direct 4.2.43→4.3.13 development checkpoint: `c6f91a8ad`.
+- Current tested implementation checkpoint, including 4.1.56→4.2.43: `b62f01b36`.
+- The report update is committed after this implementation checkpoint. Working tree is clean; B2 remains open and unfrozen.
 
 ## H. Remaining work
 
