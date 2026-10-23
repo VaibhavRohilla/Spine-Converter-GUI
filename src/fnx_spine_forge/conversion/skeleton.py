@@ -13,6 +13,7 @@ from ..parsers import inspect_skeleton
 from ..versions import VersionRegistry
 from .migrate_38_to_4x import MigrationError, migrate_38_to_target
 from .migrate_38_to_legacy import legacy_target_profile, migrate_38_to_legacy
+from .migrate_40_to_41 import migrate_40_to_41
 from .migrate_41_to_42 import migrate_41_to_42
 from .migrate_42_to_43 import migrate_42_to_43
 from .models import CanonicalSkeleton, ConversionResult, ConversionStatus, SourceRiskPolicy
@@ -91,6 +92,7 @@ class SkeletonConverter:
                 ("3.8.99", "3.5.51"),
                 ("4.2.43", "4.3.13"),
                 ("4.1.56", "4.2.43"),
+                ("4.0.31", "4.1.56"),
             }
         )
         self.versions = VersionRegistry()
@@ -165,11 +167,16 @@ class SkeletonConverter:
                 provenance={"declared_source_version": canonical.version},
             )
         if (canonical.version, target_version) in {
+            ("4.0.31", "4.1.56"),
             ("4.1.56", "4.2.43"),
             ("4.2.43", "4.3.13"),
         }:
             try:
-                if canonical.version == "4.1.56":
+                if canonical.version == "4.0.31":
+                    migrated, metrics = migrate_40_to_41(
+                        canonical.document, canonical.version, target_version
+                    )
+                elif canonical.version == "4.1.56":
                     migrated, metrics = migrate_41_to_42(
                         canonical.document, canonical.version, target_version
                     )
@@ -232,8 +239,15 @@ class SkeletonConverter:
                         "transform_constraints": "unsupported_blocking",
                     }
                 )
-            else:
+            elif target_version == "4.2.43":
                 compatibility["bone_transform"] = "4.1_transform_to_4.2_inherit_verified"
+            else:
+                compatibility.update(
+                    {
+                        "linked_mesh": "4.0_deform_flag_to_4.1_timelines_flag",
+                        "deform_animation": "4.0_group_to_4.1_attachment_timeline",
+                    }
+                )
             stats = {
                 "bones": len(canonical.bones),
                 "slots": len(canonical.slots),

@@ -137,6 +137,7 @@ def test_converter_planner_registers_only_the_exact_qualified_patch_pair():
     assert not converter.planner.plan("4.2.43", "3.8.75").executable
     assert converter.planner.plan("4.2.43", "4.3.13").executable
     assert converter.planner.plan("4.1.56", "4.2.43").executable
+    assert converter.planner.plan("4.0.31", "4.1.56").executable
 
 
 @pytest.mark.parametrize("target_version", ["3.5.51", "3.6.53", "3.7.94"])
@@ -812,6 +813,88 @@ def test_direct_41_to_42_real_bundle_reinspection(tmp_path):
     target.mkdir()
     (target / "golden_ingot.json").write_bytes(result_42.output)
     (target / "golden_ingot.atlas").write_bytes(atlas_42)
+    shutil.copyfile(fixture / "golden_ingot.png", target / "golden_ingot.png")
+    inspected = InspectionService().inspect(str(target))
+    assert inspected.ok, inspected.diagnostics
+    assert inspected.bundles[0].texture_pages == ("golden_ingot.png",)
+
+
+def test_direct_40_to_41_migrates_linked_mesh_and_deform_schema():
+    document = json.loads(skeleton("4.0.31"))
+    document["bones"][0]["transform"] = "NoScale"
+    document["slots"] = [{"name": "slot", "bone": "root", "attachment": "mesh"}]
+    document["skins"] = [
+        {
+            "name": "default",
+            "attachments": {
+                "slot": {
+                    "mesh": {
+                        "type": "mesh",
+                        "path": "image/mesh",
+                        "uvs": [0, 0, 1, 0],
+                        "vertices": [0, 0, 1, 0],
+                        "triangles": [0, 1, 0],
+                        "hull": 2,
+                    },
+                    "linked": {
+                        "type": "linkedmesh",
+                        "path": "image/mesh",
+                        "parent": "mesh",
+                        "deform": True,
+                    },
+                }
+            },
+        }
+    ]
+    frames = [
+        {"time": 0, "vertices": [0, 0], "curve": [0.2, 0, 0.7, 1]},
+        {"time": 1, "vertices": [1, 2]},
+    ]
+    document["animations"]["idle"] = {
+        "deform": {"default": {"slot": {"mesh": frames}}}
+    }
+    source = json.dumps(document).encode()
+    result = SkeletonConverter().convert(source, "4.1.56")
+    assert result.status is ConversionStatus.STRUCTURALLY_VERIFIED, result.diagnostics
+    assert result.output is not None
+    target = json.loads(result.output)
+    assert target["bones"][0]["transform"] == "NoScale"
+    assert target["skins"][0]["attachments"]["slot"]["linked"]["timelines"] is True
+    assert "deform" not in target["animations"]["idle"]
+    assert target["animations"]["idle"]["attachments"]["default"]["slot"]["mesh"] == {
+        "deform": frames
+    }
+    assert result.statistics["bezier_segments"] == 1
+    assert result.output == SkeletonConverter().convert(source, "4.1.56").output
+
+    legacy = Path(__file__).parent / "fixtures/spine38/golden_ingot.atlas"
+    atlas40 = AtlasConverter().convert(legacy, "4.0.31", source_version="3.8.75")
+    atlas41 = AtlasConverter().convert(atlas40, "4.1.56", source_version="4.0.31")
+    assert parse_atlas(atlas41).region_records == parse_atlas(atlas40).region_records
+
+
+def test_direct_40_to_41_real_bundle_reinspection(tmp_path):
+    import shutil
+
+    from fnx_spine_forge.inspection import InspectionService
+
+    fixture = Path(__file__).parent / "fixtures/spine38"
+    converter = SkeletonConverter()
+    result_40 = converter.convert(
+        (fixture / "golden_ingot.json").read_bytes(), "4.0.31",
+        source_risk_policy=SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC,
+    )
+    assert result_40.output is not None
+    result_41 = converter.convert(result_40.output, "4.1.56")
+    assert result_41.output is not None, result_41.diagnostics
+    atlas_40 = AtlasConverter().convert(
+        (fixture / "golden_ingot.atlas").read_bytes(), "4.0.31", source_version="3.8.75"
+    )
+    atlas_41 = AtlasConverter().convert(atlas_40, "4.1.56", source_version="4.0.31")
+    target = tmp_path / "bundle41"
+    target.mkdir()
+    (target / "golden_ingot.json").write_bytes(result_41.output)
+    (target / "golden_ingot.atlas").write_bytes(atlas_41)
     shutil.copyfile(fixture / "golden_ingot.png", target / "golden_ingot.png")
     inspected = InspectionService().inspect(str(target))
     assert inspected.ok, inspected.diagnostics

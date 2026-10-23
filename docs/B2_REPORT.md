@@ -2,13 +2,14 @@
 
 ## Decision
 
-**B2 OPEN / BLOCKED.** All requested exact 3.8.75 and 3.8.99 source patches now have executable routes to the seven requested target patches. Two independent general edges, 4.1.56→4.2.43 and 4.2.43→4.3.13, have also passed exact target runtime evaluation. Historical 3.x targets have structural verification only; matching runtime loading was not executed. The broader any-version route graph, authentic 3.8.99 fixture, and remaining migration edges are unfinished. This is not a B2 freeze.
+**B2 OPEN / BLOCKED.** All requested exact 3.8.75 and 3.8.99 source patches now have executable routes to the seven requested target patches. Three independent adjacent 4.x edges, 4.0.31→4.1.56, 4.1.56→4.2.43, and 4.2.43→4.3.13, have passed exact target runtime evaluation. Historical 3.x targets have structural verification only; matching runtime loading was not executed. The broader any-version route graph, authentic 3.8.99 fixture, and remaining migration edges are unfinished. This is not a B2 freeze.
 
 ## A. Architecture
 
 - `conversion/skeleton.py` owns the independent Python converter API, exact source/target route gate, source risk handling, structural reinspection, deterministic JSON output, statistics, and structured diagnostics.
 - `conversion/migrate_38_to_legacy.py` migrates 3.8 skin arrays to 3.5/3.6/3.7 object-map skins. Its exact target profiles are 3.5.51, 3.6.53, and 3.7.94. It validates source structure, references, linked-mesh parents, geometry, constraints, deform ranges, timeline types, and legacy Bézier controls. It rejects skin-scoped bones or constraints and IK softness that the legacy readers cannot represent.
 - `conversion/migrate_38_to_4x.py` writes target-specific 4.x schemas for 4.0.31, 4.1.56, 4.2.43, and 4.3.13. It validates attachment geometry and references, constraints, deform ranges, target fields, animation groups, and curve controls. The 4.3 writer supports IK and path constraints in the combined ordered constraint list; unsupported transform constraints and legacy uniform IK are blocking.
+- `conversion/migrate_40_to_41.py` independently migrates exact 4.0.31 JSON to 4.1.56. It changes linked-mesh `deform` to `timelines` and moves the 4.0 deform animation group under the 4.1 attachment timeline schema while preserving supported curves.
 - `conversion/migrate_41_to_42.py` independently migrates exact 4.1.56 JSON to 4.2.43. It converts bone `transform` modes to `inherit`, preserves supported 4.1 constraint/timeline curves, validates source fields, and rejects 4.2-only bone state in a declared 4.1 source.
 - `conversion/migrate_42_to_43.py` independently migrates exact 4.2.43 JSON to 4.3.13. It preserves 4.2 per-channel Bézier controls, transforms linked-mesh `parent` to 4.3 `source`, and combines supported root IK/path definitions into the ordered 4.3 `constraints` array. Transform constraints and legacy uniform IK reject explicitly.
 - `conversion/atlas.py` independently transforms atlas text and verifies parsed page/region semantics. Legacy targets retain the source 3.8 atlas field encoding; 4.2/4.3 targets use bounds/offsets and degree rotation. Texture bytes are never rewritten.
@@ -51,6 +52,7 @@ Independent general routes currently registered:
 |---|---|---|---|
 | 4.2.43 | 4.3.13 | Root IK/path arrays become ordered typed constraints; linked-mesh `parent` becomes `source`; 4.2 channel curves remain unchanged | Structural, atlas, B1 dependency, and exact 4.3.13 runtime tests passed; 8 animation samples |
 | 4.1.56 | 4.2.43 | Bone `transform` modes become `inherit`; 4.1 atlas `xy`/`size` becomes 4.2 bounds/offsets; animation channel controls stay unchanged | Structural, 257-sample curve equivalence, atlas, B1 dependency, and exact 4.2.43 runtime tests passed; 8 animation samples |
+| 4.0.31 | 4.1.56 | Linked-mesh deform flag becomes timelines flag; deform group becomes attachment-nested deform timeline | Structural synthetic deform/linked-mesh tests, atlas, B1 dependency, and exact 4.1.56 runtime tests passed; 8 animation samples |
 
 ## C. Spine 3.8.75 risk policy
 
@@ -72,17 +74,17 @@ Real input: `tests/fixtures/spine38/golden_ingot.json`, `golden_ingot.atlas`, an
 
 The older targets use the same official legacy normalized curve representation; tests sample each source and target curve at 257 matching normalized times and verify exact equality. 4.x targets decode source controls, emit the target per-channel absolute controls, sample 257 shared times per supported channel, and report maximum deviation. Negative deltas and channel defaults are covered by synthetic tests. The target keyframe totals remain 25; no animation timelines are removed on successful conversion.
 
-For direct 3.8→4.x outputs, exact matching runtime packages parsed the real skeleton and atlas, resolved attachments, instantiated setup pose, and evaluated two animations at four timestamps each: 8 samples per runtime with no runtime exception or non-finite world transform. The synthetic 3.8 IK/path fixture loaded and evaluated 4 samples in runtime 4.3.13. Direct 4.1.56→4.2.43 conversion of the real asset's 4.1 output passed B1 bundle inspection and exact `@esotericsoftware/spine-core@4.2.43` parsing and animation-state evaluation for 8 samples. Direct 4.2.43→4.3.13 conversion of the real asset's 4.2 output passed the same checks in exact runtime 4.3.13. These results do not certify rendered visual equivalence. Historical 3.x target runtimes were not executed.
+For direct 3.8→4.x outputs, exact matching runtime packages parsed the real skeleton and atlas, resolved attachments, instantiated setup pose, and evaluated two animations at four timestamps each: 8 samples per runtime with no runtime exception or non-finite world transform. The synthetic 3.8 IK/path fixture loaded and evaluated 4 samples in runtime 4.3.13. Direct 4.0.31→4.1.56, 4.1.56→4.2.43, and 4.2.43→4.3.13 conversions of real intermediate outputs each passed B1 bundle inspection and exact matching official runtime parsing and animation-state evaluation for 8 samples. These results do not certify rendered visual equivalence. Historical 3.x target runtimes were not executed.
 
 An authentic 3.8.99 fixture remains unavailable. Synthetic 3.8.99 fixtures exercised each of the seven target writers; synthetic 3.8.99 bundles targeting 3.5.51, 3.6.53, and 3.7.94 passed B1 dependency inspection. Separate synthetic 4.x bundle tests exercise target schema and curve behavior.
 
 ## E. Atlas and complete asset integrity
 
-The real 3.8.75 bundle was converted and re-inspected through B1 for the 3.5.51, 3.6.53, and 3.7.94 targets. Skeleton attachment paths, atlas regions, page references, and texture page dependencies resolved; the PNG bytes were unchanged. A synthetic 3.8.99 bundle with a region attachment and atlas page passed the same checks for each legacy target. A synthetic 3.8 fixture covers meshes and weights, linked meshes, clipping, bounding boxes, paths, points, events, constraints, and animation categories through the legacy writers. The 4.1.56→4.2.43 and 4.2.43→4.3.13 real fixture bundles also passed B1 inspection. Exact 4.x runtime smoke tests loaded atlas pages and resolved their supported attachments. Atlas tests cover multi-page atlases, indexed regions, rotation, offsets, dimensions, filtering, wrapping, and deterministic serialization.
+The real 3.8.75 bundle was converted and re-inspected through B1 for the 3.5.51, 3.6.53, and 3.7.94 targets. Skeleton attachment paths, atlas regions, page references, and texture page dependencies resolved; the PNG bytes were unchanged. A synthetic 3.8.99 bundle with a region attachment and atlas page passed the same checks for each legacy target. A synthetic 3.8 fixture covers meshes and weights, linked meshes, clipping, bounding boxes, paths, points, events, constraints, and animation categories through the legacy writers. The 4.0.31→4.1.56, 4.1.56→4.2.43, and 4.2.43→4.3.13 real fixture bundles also passed B1 inspection. Exact 4.x runtime smoke tests loaded atlas pages and resolved their supported attachments. Atlas tests cover multi-page atlases, indexed regions, rotation, offsets, dimensions, filtering, wrapping, and deterministic serialization.
 
 ## F. Testing and qualification
 
-Final qualification run: `.venv/bin/python -m pytest -q` — 82 passed; `.venv/bin/ruff check src tests` — passed; `.venv/bin/mypy` — 24 source files, no issues; `.venv/bin/python -m build` — sdist and wheel passed; `git diff --check` — passed. Installed CLI verification covered 3.8.75→3.5.51 and 4.1.56→4.2.43 skeleton/atlas conversion and planning. Both general edges passed Python API, B1 bundle inspection, and exact runtime harness checks.
+Final qualification run after the direct 4.0→4.1 additions: `.venv/bin/python -m pytest -q` — 84 passed; `.venv/bin/ruff check src tests` — passed; `.venv/bin/mypy` — 25 source files, no issues; `.venv/bin/python -m build` — sdist and wheel passed; `git diff --check` — passed. Installed CLI verification covered 3.8.75→3.5.51 and 4.1.56→4.2.43 skeleton/atlas conversion and planning. All three adjacent 4.x edges passed Python API, B1 bundle inspection, and exact runtime harness checks.
 
 Required commands:
 
@@ -101,17 +103,18 @@ Route checks also cover installed CLI planning, deterministic output, source imm
 - Prior 3.8.99→4.2.43 route: `50a2dbc7d9a82fff4b09fc0da7551d0ecdec6920`.
 - Complete 3.8 route matrix and direct 4.2.43→4.3.13 development checkpoint: `c6f91a8ad`.
 - Current tested implementation checkpoint, including 4.1.56→4.2.43: `b62f01b36`.
-- The report update is committed after this implementation checkpoint. Working tree is clean; B2 remains open and unfrozen.
+- The 4.0.31→4.1.56 route is the current development work and will receive a tested checkpoint after full checks.
+- B2 remains open and unfrozen.
 
 ## H. Remaining work
 
 - Complete a matching historical Spine 3.5.51, 3.6.53, and 3.7.94 runtime load/evaluation harness or record the exact tooling/license blocker; current verification is structural plus B1 dependency resolution.
 - Obtain an authentic 3.8.99 export fixture and run it through all seven target routes.
 - Expand real 3.8 fixture coverage to weighted meshes, linked meshes, clipping, bounding boxes, paths, points, and each supported constraint/timeline family.
-- Implement and test direct migrations between other version families: 4.0→4.1, 3.7→3.8, 3.6→3.7, and 3.5→3.6 remain unregistered. The 4.1→4.2 and 4.2→4.3 edges are implemented; unrelated routes are not forced through 3.8.
+- Implement and test direct migrations between other version families: 3.7→3.8, 3.6→3.7, and 3.5→3.6 remain unregistered. The 4.0→4.1, 4.1→4.2, and 4.2→4.3 edges are implemented; unrelated routes are not forced through 3.8.
 - Add graph-based planning only after direct edges exist; qualify every composed route end to end and reject any hop that discards semantics.
 - Expand official target runtime coverage and keep parser, animation-state, and visual verification statuses separate.
 
 ## I. Freeze decision
 
-**B2 OPEN / BLOCKED.** The complete direct 3.8 patch-to-target route set and two adjacent 4.x edges are implemented, but historical target runtime qualification and the broader version-to-version migration graph remain incomplete. No full matrix or visual equivalence certification is claimed.
+**B2 OPEN / BLOCKED.** The complete direct 3.8 patch-to-target route set and three adjacent 4.x edges are implemented, but historical target runtime qualification and the broader version-to-version migration graph remain incomplete. No full matrix or visual equivalence certification is claimed.

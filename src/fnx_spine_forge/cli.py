@@ -108,6 +108,7 @@ def main(argv: list[str] | None = None) -> int:
                 ("3.8.99", "3.5.51"),
                 ("4.2.43", "4.3.13"),
                 ("4.1.56", "4.2.43"),
+                ("4.0.31", "4.1.56"),
             }
         ).plan(args.from_version, args.to_version)
         print(
