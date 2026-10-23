@@ -364,3 +364,46 @@ def test_configurable_folder_and_json_limits(tmp_path):
         str(root)
     )
     assert "JSON_TOO_LARGE" in {item.code for item in json_limited.diagnostics}
+
+
+def test_ambiguous_atlas_candidates_are_preserved(tmp_path):
+    root = tmp_path / "ambiguous"
+    root.mkdir()
+    (root / "hero.json").write_text(json.dumps(SKELETON_38), encoding="utf-8")
+    (root / "page.png").write_bytes(b"texture")
+    for atlas_name in ("atlas-a", "atlas-b"):
+        (root / f"{atlas_name}.atlas").write_bytes(b"page.png\nsize: 1,1\n\nhero\n  xy: 0,0\n")
+    result = InspectionService().inspect(str(root))
+    assert any(item.code == "AMBIGUOUS_ATLAS" for item in result.diagnostics)
+    assert not any(
+        dep.kind == "atlas" and dep.owner == "hero.json" and dep.resolved
+        for dep in result.dependencies
+    )
+
+
+def test_modern_indented_atlas_page_and_region_attributes():
+    atlas = parse_atlas(
+        b"page.webp\n  size: 64,64\n  filter: Linear,Linear\n\n"
+        b"region name\n  bounds: 1,2,3,4\n  rotate: false\n"
+    )
+    assert atlas.page_records[0].attributes == (
+        ("size", "64,64"),
+        ("filter", "Linear,Linear"),
+    )
+    assert atlas.region_records[0].attributes == (
+        ("bounds", "1,2,3,4"),
+        ("rotate", "false"),
+    )
+
+
+def test_cli_missing_source_returns_failure(tmp_path):
+    executable = Path(__file__).resolve().parents[1] / ".venv" / "bin" / "spine-forge"
+    if not executable.exists():
+        pytest.skip("Installed console script is not available in this environment")
+    result = subprocess.run(
+        [str(executable), "inspect", str(tmp_path / "does-not-exist")],
+        capture_output=True,
+        check=False,
+        text=True,
+    )
+    assert result.returncode == 2
