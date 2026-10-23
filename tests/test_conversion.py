@@ -142,6 +142,7 @@ def test_converter_planner_registers_only_the_exact_qualified_patch_pair():
     assert converter.planner.plan("3.7.94", "3.8.99").executable
     assert converter.planner.plan("3.6.53", "3.7.94").executable
     assert converter.planner.plan("3.5.51", "3.6.53").executable
+    assert converter.planner.plan("4.3.13", "4.2.43").executable
 
 
 @pytest.mark.parametrize("target_version", ["3.5.51", "3.6.53", "3.7.94"])
@@ -464,6 +465,7 @@ def test_38_to_4313_combines_constraint_definitions_and_blocks_transform_constra
         {"name": "target", "parent": "root"},
     ]
     document["slots"] = [{"name": "pathSlot", "bone": "root"}]
+    document["skins"] = [{"name": "default", "attachments": {}}]
     rotate = document["animations"]["idle"]["bones"]["root"]["rotate"]
     rotate[0].pop("curve")
     rotate.append({"time": 1, "angle": 10})
@@ -755,6 +757,100 @@ def test_direct_42_to_43_preserves_modern_atlas_semantics():
     )
     assert parse_atlas(atlas_43).page_records == parse_atlas(atlas_42).page_records
     assert parse_atlas(atlas_43).region_records == parse_atlas(atlas_42).region_records
+
+
+def test_direct_43_to_42_restores_ordered_ik_path_and_linked_mesh_fields():
+    document = json.loads(skeleton("4.2.43"))
+    document["animations"]["idle"]["bones"]["root"]["rotate"] = [
+        {"time": 0, "value": 10, "curve": [0.2, 0.3, 0.7, 0.8]},
+        {"time": 1, "value": 20},
+    ]
+    document["bones"] = [
+        {"name": "root"},
+        {"name": "effector", "parent": "root"},
+        {"name": "target", "parent": "root"},
+    ]
+    document["slots"] = [{"name": "pathSlot", "bone": "root"}]
+    document["skins"] = [{"name": "default", "attachments": {}}]
+    document["ik"] = [
+        {
+            "name": "aim",
+            "order": 1,
+            "bones": ["effector"],
+            "target": "target",
+            "mix": 0.75,
+            "bendPositive": True,
+            "uniform": False,
+        }
+    ]
+    document["path"] = [
+        {
+            "name": "follow",
+            "order": 0,
+            "bones": ["effector"],
+            "slot": "pathSlot",
+            "positionMode": "Percent",
+            "spacingMode": "Length",
+            "rotateMode": "Tangent",
+            "rotateMix": 0.5,
+            "translateMix": 0.75,
+        }
+    ]
+    source_42 = json.dumps(document).encode()
+    upgraded = SkeletonConverter().convert(source_42, "4.3.13")
+    assert upgraded.output is not None, upgraded.diagnostics
+    source_43 = json.loads(upgraded.output)
+    source_43["skins"][0]["attachments"] = {
+        "pathSlot": {
+            "linked": {"type": "linkedmesh", "path": "mesh", "source": "base"}
+        }
+    }
+    source_43["skins"][0]["attachments"]["pathSlot"]["base"] = {
+        "type": "mesh",
+        "uvs": [0, 0, 1, 0, 1, 1],
+        "triangles": [0, 1, 2],
+        "vertices": [0, 0, 1, 0, 1, 1],
+        "hull": 3,
+    }
+    downgraded = SkeletonConverter().convert(json.dumps(source_43).encode(), "4.2.43")
+    assert downgraded.status is ConversionStatus.STRUCTURALLY_VERIFIED, downgraded.diagnostics
+    assert downgraded.output is not None
+    target = json.loads(downgraded.output)
+    assert target["skeleton"]["spine"] == "4.2.43"
+    assert [item["name"] for item in target["path"]] == ["follow"]
+    assert target["path"][0]["order"] == 0
+    assert target["path"][0]["rotateMix"] == 0.5
+    assert target["path"][0]["translateMix"] == 0.75
+    assert target["ik"][0]["order"] == 1
+    assert target["animations"]["idle"]["bones"]["root"]["rotate"] == (
+        document["animations"]["idle"]["bones"]["root"]["rotate"]
+    )
+    assert downgraded.statistics["bezier_segments"] == 1
+    assert downgraded.statistics["max_numerical_error"] == 0.0
+    assert target["skins"][0]["attachments"]["pathSlot"]["linked"]["parent"] == "base"
+    assert "source" not in target["skins"][0]["attachments"]["pathSlot"]["linked"]
+
+    unsupported = json.loads(upgraded.output)
+    unsupported["constraints"][0]["type"] = "physics"
+    rejected = SkeletonConverter().convert(json.dumps(unsupported).encode(), "4.2.43")
+    assert rejected.status is ConversionStatus.REJECTED
+    assert any(
+        "does not support Spine 4.3 constraint type" in item
+        for item in rejected.diagnostics
+    )
+
+    sequenced = json.loads(upgraded.output)
+    sequenced["skins"][0]["attachments"] = {
+        "pathSlot": {"sequence": {"type": "region", "sequence": {"count": 2}}}
+    }
+    rejected_sequence = SkeletonConverter().convert(
+        json.dumps(sequenced).encode(), "4.2.43"
+    )
+    assert rejected_sequence.status is ConversionStatus.REJECTED
+    assert any("cannot represent Spine 4.3 attachment sequences" in item
+               for item in rejected_sequence.diagnostics)
+    assert rejected_sequence.unsupported_features == ("attachment_sequences",)
+    assert rejected_sequence.diagnostic_codes == ("UNSUPPORTED_TARGET_FEATURE",)
 
 
 def test_direct_41_to_42_migrates_transform_modes_and_atlas():
@@ -1170,6 +1266,23 @@ def test_direct_42_to_43_real_bundle_reinspection_preserves_texture(tmp_path):
     assert inspected.ok, inspected.diagnostics
     assert inspected.bundles[0].texture_pages == ("golden_ingot.png",)
     assert (target / "golden_ingot.png").read_bytes() == (fixture / "golden_ingot.png").read_bytes()
+
+    result_42_roundtrip = converter.convert(result_43.output, "4.2.43")
+    assert result_42_roundtrip.output is not None, result_42_roundtrip.diagnostics
+    atlas_42_roundtrip = AtlasConverter().convert(
+        atlas_43, "4.2.43", source_version="4.3.13"
+    )
+    target_42 = tmp_path / "bundle42-roundtrip"
+    target_42.mkdir()
+    (target_42 / "golden_ingot.json").write_bytes(result_42_roundtrip.output)
+    (target_42 / "golden_ingot.atlas").write_bytes(atlas_42_roundtrip)
+    shutil.copyfile(fixture / "golden_ingot.png", target_42 / "golden_ingot.png")
+    inspected_42 = InspectionService().inspect(str(target_42))
+    assert inspected_42.ok, inspected_42.diagnostics
+    assert inspected_42.bundles[0].texture_pages == ("golden_ingot.png",)
+    assert (target_42 / "golden_ingot.png").read_bytes() == (
+        fixture / "golden_ingot.png"
+    ).read_bytes()
 
 
 def test_runtime_smoke_refuses_a_nonmatching_runtime_version(tmp_path):

@@ -65,6 +65,7 @@ class AtlasConverter:
                 ("3.7.94", "3.8.99"),
                 ("3.6.53", "3.7.94"),
                 ("3.5.51", "3.6.53"),
+                ("4.3.13", "4.2.43"),
             }:
                 raise ValueError(
                     "Atlas migration is qualified only for Spine 3.8.75 or 3.8.99 to "
@@ -72,6 +73,7 @@ class AtlasConverter:
                 )
         chunks: list[str] = []
         direct_42_to_43 = source_version == "4.2.43" and target_version == "4.3.13"
+        direct_43_to_42 = source_version == "4.3.13" and target_version == "4.2.43"
         regions_by_page: list[list[AtlasRegion]] = [[] for _ in model.pages]
         for region, page_index in zip(model.regions, model.region_pages, strict=True):
             regions_by_page[page_index].append(region)
@@ -81,7 +83,7 @@ class AtlasConverter:
             for region in regions_by_page[index]:
                 chunks.append(region.name)
                 attributes = region.attributes
-                if direct_42_to_43:
+                if direct_42_to_43 or direct_43_to_42:
                     values = dict(attributes)
                     if not {"rotate", "bounds", "offsets"} <= values.keys():
                         raise ValueError(
@@ -104,6 +106,10 @@ class AtlasConverter:
                     if len(values) != len(attributes):
                         raise ValueError(f"Duplicate atlas properties on region {region.name!r}")
                     if "bounds" in values or "offsets" in values:
+                        if direct_43_to_42:
+                            raise ValueError(
+                                f"Region {region.name!r} does not use the Spine 4.3 atlas schema"
+                            )
                         raise ValueError(
                             f"Region {region.name!r} does not use the declared 3.8 atlas syntax"
                         )
@@ -162,6 +168,9 @@ class AtlasConverter:
         if direct_42_to_43:
             if reparsed.page_records != model.pages or reparsed.region_records != model.regions:
                 raise ValueError("Spine 4.3 atlas serialization changed Spine 4.2 semantics")
+        elif direct_43_to_42:
+            if reparsed.page_records != model.pages or reparsed.region_records != model.regions:
+                raise ValueError("Spine 4.2 atlas serialization changed Spine 4.3 semantics")
         elif target_version in {"4.2.43", "4.3.13"}:
             for before, region in zip(model.regions, reparsed.region_records, strict=True):
                 attrs = dict(region.attributes)

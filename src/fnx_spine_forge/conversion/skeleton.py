@@ -19,6 +19,7 @@ from .migrate_38_to_legacy import legacy_target_profile, migrate_38_to_legacy
 from .migrate_40_to_41 import migrate_40_to_41
 from .migrate_41_to_42 import migrate_41_to_42
 from .migrate_42_to_43 import migrate_42_to_43
+from .migrate_43_to_42 import migrate_43_to_42
 from .models import CanonicalSkeleton, ConversionResult, ConversionStatus, SourceRiskPolicy
 from .planner import ConversionPlanner
 
@@ -128,6 +129,7 @@ class SkeletonConverter:
                 ("3.7.94", "3.8.99"),
                 ("3.6.53", "3.7.94"),
                 ("3.5.51", "3.6.53"),
+                ("4.3.13", "4.2.43"),
             }
         )
         self.versions = VersionRegistry()
@@ -203,6 +205,7 @@ class SkeletonConverter:
             )
         if (canonical.version, target_version) in {
             ("3.5.51", "3.6.53"),
+            ("4.3.13", "4.2.43"),
             ("3.6.53", "3.7.94"),
             ("3.7.94", "3.8.99"),
             ("4.0.31", "4.1.56"),
@@ -210,7 +213,11 @@ class SkeletonConverter:
             ("4.2.43", "4.3.13"),
         }:
             try:
-                if canonical.version == "3.5.51":
+                if canonical.version == "4.3.13":
+                    migrated, metrics = migrate_43_to_42(
+                        canonical.document, canonical.version, target_version
+                    )
+                elif canonical.version == "3.5.51":
                     migrated, metrics = migrate_35_to_36(
                         canonical.document, canonical.version, target_version
                     )
@@ -247,6 +254,21 @@ class SkeletonConverter:
                 ):
                     direct_unsupported = ("transform_constraints",)
                     codes = ("UNSUPPORTED_TARGET_FEATURE",)
+                elif canonical.version == "4.3.13" and target_version == "4.2.43":
+                    if "sequences" in message:
+                        direct_unsupported = ("attachment_sequences",)
+                    elif "bone icon" in message:
+                        direct_unsupported = ("bone_icons",)
+                    elif "slot visibility" in message:
+                        direct_unsupported = ("slot_visibility",)
+                    elif "constraint type" in message or "constraint references" in message:
+                        direct_unsupported = ("unsupported_4.3_constraint_type",)
+                    elif "timelines" in message:
+                        direct_unsupported = ("unsupported_4.3_animation_timeline",)
+                    elif "IK scaleY" in message:
+                        direct_unsupported = ("ik_scale_y_mode",)
+                    if direct_unsupported:
+                        codes = ("UNSUPPORTED_TARGET_FEATURE",)
                 return ConversionResult(
                     canonical.version,
                     target_version,
@@ -289,6 +311,15 @@ class SkeletonConverter:
                 compatibility["skin_schema"] = "3.7_object_map_to_3.8_named_skin_array"
             elif canonical.version == "3.5.51" and target_version == "3.6.53":
                 compatibility["event_time"] = "3.6_single_precision_rounding_verified"
+            elif canonical.version == "4.3.13" and target_version == "4.2.43":
+                compatibility.update(
+                    {
+                        "constraints": "ordered_ik_path_restored_to_4.2_collections",
+                        "linked_mesh": "source_to_parent",
+                        "sequences": "unsupported_blocking",
+                        "transform_constraints": "unsupported_blocking",
+                    }
+                )
             elif canonical.version == "3.6.53" and target_version == "3.7.94":
                 compatibility.update(
                     {
