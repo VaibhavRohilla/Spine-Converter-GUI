@@ -144,6 +144,7 @@ def test_converter_planner_registers_only_the_exact_qualified_patch_pair():
     assert converter.planner.plan("3.5.51", "3.6.53").executable
     assert converter.planner.plan("4.3.13", "4.2.43").executable
     assert converter.planner.plan("4.2.43", "4.1.56").executable
+    assert converter.planner.plan("4.1.56", "4.0.31").executable
 
 
 @pytest.mark.parametrize("target_version", ["3.5.51", "3.6.53", "3.7.94"])
@@ -1024,10 +1025,29 @@ def test_direct_40_to_41_migrates_linked_mesh_and_deform_schema():
     assert result.statistics["bezier_segments"] == 1
     assert result.output == SkeletonConverter().convert(source, "4.1.56").output
 
+    downgraded = SkeletonConverter().convert(result.output, "4.0.31")
+    assert downgraded.status is ConversionStatus.STRUCTURALLY_VERIFIED, downgraded.diagnostics
+    assert downgraded.output is not None
+    downgraded_document = json.loads(downgraded.output)
+    assert downgraded_document["skins"][0]["attachments"]["slot"]["linked"]["deform"] is True
+    assert "timelines" not in downgraded_document["skins"][0]["attachments"]["slot"]["linked"]
+    assert downgraded_document["animations"]["idle"]["deform"]["default"]["slot"]["mesh"] == frames
+    assert downgraded.statistics["bezier_segments"] == 1
+
+    sequenced = json.loads(result.output)
+    sequenced["skins"][0]["attachments"]["slot"]["mesh"]["sequence"] = {"count": 2}
+    rejected_sequence = SkeletonConverter().convert(json.dumps(sequenced).encode(), "4.0.31")
+    assert rejected_sequence.status is ConversionStatus.REJECTED
+    assert rejected_sequence.unsupported_features == ("attachment_sequences",)
+
     legacy = Path(__file__).parent / "fixtures/spine38/golden_ingot.atlas"
     atlas40 = AtlasConverter().convert(legacy, "4.0.31", source_version="3.8.75")
     atlas41 = AtlasConverter().convert(atlas40, "4.1.56", source_version="4.0.31")
     assert parse_atlas(atlas41).region_records == parse_atlas(atlas40).region_records
+    atlas40_roundtrip = AtlasConverter().convert(
+        atlas41, "4.0.31", source_version="4.1.56"
+    )
+    assert parse_atlas(atlas40_roundtrip).region_records == parse_atlas(atlas40).region_records
 
 
 def test_direct_40_to_41_real_bundle_reinspection(tmp_path):
@@ -1056,6 +1076,20 @@ def test_direct_40_to_41_real_bundle_reinspection(tmp_path):
     inspected = InspectionService().inspect(str(target))
     assert inspected.ok, inspected.diagnostics
     assert inspected.bundles[0].texture_pages == ("golden_ingot.png",)
+
+    result_40_roundtrip = converter.convert(result_41.output, "4.0.31")
+    assert result_40_roundtrip.output is not None, result_40_roundtrip.diagnostics
+    atlas_40_roundtrip = AtlasConverter().convert(
+        atlas_41, "4.0.31", source_version="4.1.56"
+    )
+    target_40 = tmp_path / "bundle40-roundtrip"
+    target_40.mkdir()
+    (target_40 / "golden_ingot.json").write_bytes(result_40_roundtrip.output)
+    (target_40 / "golden_ingot.atlas").write_bytes(atlas_40_roundtrip)
+    shutil.copyfile(fixture / "golden_ingot.png", target_40 / "golden_ingot.png")
+    inspected_40 = InspectionService().inspect(str(target_40))
+    assert inspected_40.ok, inspected_40.diagnostics
+    assert inspected_40.bundles[0].texture_pages == ("golden_ingot.png",)
 
 
 def legacy_37_skeleton():

@@ -17,6 +17,7 @@ from .migrate_37_to_38 import migrate_37_to_38
 from .migrate_38_to_4x import MigrationError, migrate_38_to_target
 from .migrate_38_to_legacy import legacy_target_profile, migrate_38_to_legacy
 from .migrate_40_to_41 import migrate_40_to_41
+from .migrate_41_to_40 import migrate_41_to_40
 from .migrate_41_to_42 import migrate_41_to_42
 from .migrate_42_to_41 import migrate_42_to_41
 from .migrate_42_to_43 import migrate_42_to_43
@@ -132,6 +133,7 @@ class SkeletonConverter:
                 ("3.5.51", "3.6.53"),
                 ("4.3.13", "4.2.43"),
                 ("4.2.43", "4.1.56"),
+                ("4.1.56", "4.0.31"),
             }
         )
         self.versions = VersionRegistry()
@@ -209,6 +211,7 @@ class SkeletonConverter:
             ("3.5.51", "3.6.53"),
             ("4.3.13", "4.2.43"),
             ("4.2.43", "4.1.56"),
+            ("4.1.56", "4.0.31"),
             ("3.6.53", "3.7.94"),
             ("3.7.94", "3.8.99"),
             ("4.0.31", "4.1.56"),
@@ -216,7 +219,11 @@ class SkeletonConverter:
             ("4.2.43", "4.3.13"),
         }:
             try:
-                if canonical.version == "4.2.43" and target_version == "4.1.56":
+                if canonical.version == "4.1.56" and target_version == "4.0.31":
+                    migrated, metrics = migrate_41_to_40(
+                        canonical.document, canonical.version, target_version
+                    )
+                elif canonical.version == "4.2.43" and target_version == "4.1.56":
                     migrated, metrics = migrate_42_to_41(
                         canonical.document, canonical.version, target_version
                     )
@@ -289,6 +296,13 @@ class SkeletonConverter:
                         direct_unsupported = ("non_default_reference_scale",)
                     if direct_unsupported:
                         codes = ("UNSUPPORTED_TARGET_FEATURE",)
+                elif canonical.version == "4.1.56" and target_version == "4.0.31":
+                    if "sequence" in message:
+                        direct_unsupported = ("attachment_sequences",)
+                    elif "attachment timeline" in message:
+                        direct_unsupported = ("non_deform_attachment_timelines",)
+                    if direct_unsupported:
+                        codes = ("UNSUPPORTED_TARGET_FEATURE",)
                 return ConversionResult(
                     canonical.version,
                     target_version,
@@ -347,6 +361,14 @@ class SkeletonConverter:
                         "slot_visibility": "only_default_visible_true_supported",
                         "physics_constraints": "unsupported_blocking",
                         "inherit_timelines": "unsupported_blocking",
+                    }
+                )
+            elif canonical.version == "4.1.56" and target_version == "4.0.31":
+                compatibility.update(
+                    {
+                        "linked_mesh": "timelines_flag_to_deform_flag",
+                        "deform_animation": "attachment_deform_to_4.0_deform_group",
+                        "sequences": "unsupported_blocking",
                     }
                 )
             elif canonical.version == "3.6.53" and target_version == "3.7.94":

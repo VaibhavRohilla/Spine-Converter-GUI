@@ -17,6 +17,7 @@
 - `conversion/migrate_42_to_43.py` independently migrates exact 4.2.43 JSON to 4.3.13. It preserves 4.2 per-channel Bézier controls, transforms linked-mesh `parent` to 4.3 `source`, and combines supported root IK/path definitions into the ordered 4.3 `constraints` array. Transform constraints and legacy uniform IK reject explicitly.
 - `conversion/migrate_43_to_42.py` directly downgrades representable 4.3.13 data: ordered IK/path constraints return to 4.2 collections, linked-mesh `source` becomes `parent`, and supported curve and atlas data retain their schema. It blocks 4.3 sequences, bone icons, slot visibility, transform/physics/slider constraints, unsupported IK scale modes, and 4.3-only timelines.
 - `conversion/migrate_42_to_41.py` directly downgrades representable 4.2.43 data by restoring bone `inherit` to `transform`. It removes only default `referenceScale`, visible slot flags, and false skin flags; non-default reference scale, hidden slots, physics, skin-scoped constraints/bones, and inherit timelines block.
+- `conversion/migrate_41_to_40.py` reverses the linked-mesh and deform timeline schema for 4.1.56→4.0.31: `timelines` becomes `deform`, and attachment-nested deform frames return to the 4.0 `deform` group. Attachment sequences and non-deform attachment timelines block.
 - `conversion/atlas.py` independently transforms atlas text and verifies parsed page/region semantics. Legacy targets retain the source 3.8 atlas field encoding; 4.2/4.3 targets use bounds/offsets and degree rotation. Texture bytes are never rewritten.
 - `conversion/planner.py` and `cli.py` expose only exact registered routes. Other recognized families do not imply conversion support. Atomic writes and B1 inspection contracts are retained.
 - `conversion/runtime.py`, `runtime_smoke.mjs`, and `runtime_extension_loader.mjs` load and evaluate converted bundles only with exact caller-supplied official 4.x runtime packages. Runtime parsing, animation evaluation, and visual equivalence remain separate statuses.
@@ -67,6 +68,7 @@ Independent general routes currently registered:
 | 3.5.51 | 3.6.53 | Rounds event timeline times to target single precision; retains legacy skin and timeline schemas | Synthetic route tests, 257-sample legacy Bézier equality, deterministic conversion, atlas conversion, and full B1 bundle/texture dependency inspection passed; historical runtime not executed |
 | 4.3.13 | 4.2.43 | Ordered supported IK/path constraints return to 4.2 arrays; linked `source` returns to `parent`; unsupported 4.3-only features block | Synthetic constraint/linked-mesh downgrade and negative tests; real golden fixture 4.2→4.3→4.2 bundle reinspection passed; CLI conversion passed; exact 4.2 runtime was not executed for this route |
 | 4.2.43 | 4.1.56 | Bone `inherit` returns to `transform`; atlas bounds/offsets return to `xy`/`size`/`orig`/`offset`; nonrepresentable 4.2 additions block | 257-sample preserved curve test; hidden-slot, physics, inherit-timeline and 180-degree atlas negative cases; real golden bundle 4.1→4.2→4.1 B1 reinspection passed; exact 4.1 runtime not executed for downgrade |
+| 4.1.56 | 4.0.31 | Linked-mesh `timelines` returns to `deform`; attachment-nested deform timelines return to 4.0 deform group | Synthetic linked-mesh/deform curve checks and sequence negative test; real golden bundle 4.0→4.1→4.0 B1 reinspection passed; runtime not executed for downgrade |
 
 ## C. Spine 3.8.75 risk policy
 
@@ -98,7 +100,7 @@ The real 3.8.75 bundle was converted and re-inspected through B1 for the 3.5.51,
 
 ## F. Testing and qualification
 
-After the direct 4.2→4.1 additions, `.venv/bin/python -m pytest -q` passed **91 tests**; Ruff passed; strict mypy passed with no issues in 30 source files; and package build produced sdist and wheel. Focused conversion tests passed 49 tests. Route-specific bundle roundtrips cover 4.3→4.2 and 4.2→4.1; both passed B1 reinspection with PNG bytes preserved. CLI planning/conversion was executed for 4.3→4.2; earlier CLI checks cover 3.5→3.6, 3.6→3.7, 3.8.75→3.5, and 4.1→4.2. Exact 4.1 runtime parsing/evaluation was not run for this downgrade.
+After the direct 4.1→4.0 additions, `.venv/bin/python -m pytest -q` passed **91 tests**; Ruff passed; strict mypy passed with no issues in 31 source files; and package build produced sdist and wheel. Focused conversion tests passed 49 tests. Route-specific bundle roundtrips cover 4.3→4.2, 4.2→4.1, and 4.1→4.0; each passed B1 reinspection with PNG bytes preserved. Installed CLI planning/conversion passed for 4.3→4.2, 4.2→4.1, and 4.1→4.0. Exact target runtime parsing/evaluation was not run for the new downgrade routes.
 
 Required commands:
 
@@ -122,6 +124,7 @@ Route checks also cover installed CLI planning, deterministic output, source imm
 - Direct 3.5.51→3.6.53 migration checkpoint: `3f4d23c9e76693e7429367ee9686d95b7c7a649c`.
 - Direct 4.3.13→4.2.43 downgrade checkpoint: `431d310cc59004c74323919ad639da7369586091`.
 - Direct 4.2.43→4.1.56 downgrade checkpoint: `53c81229381bf416a38fceacd02ea664583851ab`.
+- Direct 4.1.56→4.0.31 downgrade is the current tested change and will receive a development checkpoint after commit.
 - B2 remains open and unfrozen.
 
 ## H. Remaining work
@@ -129,10 +132,10 @@ Route checks also cover installed CLI planning, deterministic output, source imm
 - Complete a matching historical Spine 3.5.51, 3.6.53, and 3.7.94 runtime load/evaluation harness or record the exact tooling/license blocker; current verification is structural plus B1 dependency resolution.
 - Obtain an authentic 3.8.99 export fixture and run it through all seven target routes.
 - Expand real 3.8 fixture coverage to weighted meshes, linked meshes, clipping, bounding boxes, paths, points, and each supported constraint/timeline family.
-- Implement and test remaining directed routes where semantically possible. The 3.5→3.6, 3.6→3.7, 3.7→3.8, 4.0→4.1, 4.1→4.2, 4.2→4.3, and representable 4.3→4.2 and 4.2→4.1 edges are implemented; unrelated routes are not forced through 3.8. General graph-based composition is not implemented.
+- Implement and test remaining directed routes where semantically possible. The 3.5→3.6, 3.6→3.7, 3.7→3.8, 4.0→4.1, 4.1→4.2, 4.2→4.3, and representable reverse 4.3→4.2, 4.2→4.1, and 4.1→4.0 edges are implemented; unrelated routes are not forced through 3.8. General graph-based composition is not implemented.
 - Add graph-based planning only after direct edges exist; qualify every composed route end to end and reject any hop that discards semantics.
 - Expand official target runtime coverage and keep parser, animation-state, and visual verification statuses separate.
 
 ## I. Freeze decision
 
-**B2 OPEN / BLOCKED.** The complete direct 3.8 patch-to-target route set, three adjacent historical 3.x edges, three forward adjacent 4.x edges, and representable 4.3→4.2 and 4.2→4.1 downgrades are implemented. Historical target runtime qualification and the broader directed conversion graph remain incomplete. No full matrix or visual equivalence certification is claimed.
+**B2 OPEN / BLOCKED.** The complete direct 3.8 patch-to-target route set, three adjacent historical 3.x edges, three forward adjacent 4.x edges, and representable reverse 4.3→4.2, 4.2→4.1, and 4.1→4.0 migrations are implemented. Historical target runtime qualification and the broader directed conversion graph remain incomplete. No full matrix or visual equivalence certification is claimed.
