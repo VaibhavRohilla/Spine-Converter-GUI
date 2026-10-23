@@ -118,8 +118,11 @@ or universal lossless downgrade capability is claimed.
 
 - Starting branch: `codex/b2-conversion-engine`.
 - Starting HEAD: `505f800a99890a32da690d8e24d82d8fe624a12f`.
-- Starting worktree: clean. Final commit and worktree state are recorded in
-  the final Git section below.
+- Starting worktree: clean.
+- Implementation checkpoint: `685c0b2176516615deb80cc9387cf9aa03e7218d`.
+- Branch after checkpoint: `codex/b2-conversion-engine`.
+- Worktree after checkpoint: clean. The report records the implementation
+  checkpoint; its documentation-only follow-up commit is the final HEAD.
 
 ## Decision
 
