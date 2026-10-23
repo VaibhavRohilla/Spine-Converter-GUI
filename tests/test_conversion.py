@@ -138,6 +138,7 @@ def test_converter_planner_registers_only_the_exact_qualified_patch_pair():
     assert converter.planner.plan("4.2.43", "4.3.13").executable
     assert converter.planner.plan("4.1.56", "4.2.43").executable
     assert converter.planner.plan("4.0.31", "4.1.56").executable
+    assert converter.planner.plan("3.7.94", "3.8.99").executable
 
 
 @pytest.mark.parametrize("target_version", ["3.5.51", "3.6.53", "3.7.94"])
@@ -899,6 +900,96 @@ def test_direct_40_to_41_real_bundle_reinspection(tmp_path):
     inspected = InspectionService().inspect(str(target))
     assert inspected.ok, inspected.diagnostics
     assert inspected.bundles[0].texture_pages == ("golden_ingot.png",)
+
+
+def legacy_37_skeleton():
+    return {
+        "skeleton": {"spine": "3.7.94"},
+        "bones": [{"name": "root", "transform": "noscale"}],
+        "slots": [{"name": "slot", "bone": "root", "attachment": "wheel"}],
+        "skins": {
+            "default": {
+                "slot": {
+                    "wheel": {
+                        "type": "region",
+                        "path": "Wheel",
+                        "width": 1,
+                        "height": 1,
+                    }
+                }
+            }
+        },
+        "animations": {
+            "idle": {
+                "bones": {
+                    "root": {
+                        "rotate": [
+                            {
+                                "time": 0,
+                                "angle": 0,
+                                "curve": 0.25,
+                                "c2": 0.2,
+                                "c3": 0.75,
+                                "c4": 0.8,
+                            },
+                            {"time": 1, "angle": 90},
+                        ]
+                    }
+                }
+            }
+        },
+    }
+
+
+def test_direct_37_to_38_converts_skin_map_and_preserves_legacy_curve():
+    document = legacy_37_skeleton()
+    source = json.dumps(document).encode()
+    result = SkeletonConverter().convert(source, "3.8.99")
+    assert result.status is ConversionStatus.STRUCTURALLY_VERIFIED, result.diagnostics
+    assert result.output is not None
+    target = json.loads(result.output)
+    assert target["skeleton"]["spine"] == "3.8.99"
+    assert target["skins"] == [
+        {"name": "default", "attachments": document["skins"]["default"]}
+    ]
+    assert target["bones"][0]["transform"] == "NoScale"
+    assert target["animations"] == document["animations"]
+    assert result.statistics["bezier_segments"] == 1
+    assert result.output == SkeletonConverter().convert(source, "3.8.99").output
+
+    malformed = legacy_37_skeleton()
+    malformed["animations"]["idle"]["future"] = []
+    rejected = SkeletonConverter().convert(json.dumps(malformed).encode(), "3.8.99")
+    assert rejected.status is ConversionStatus.REJECTED
+
+
+def test_direct_37_to_38_atlas_and_bundle_reinspection(tmp_path):
+    import shutil
+
+    from fnx_spine_forge.inspection import InspectionService
+
+    fixture = Path(__file__).parent / "fixtures/spine38"
+    source = tmp_path / "source37"
+    target = tmp_path / "target38"
+    source.mkdir()
+    target.mkdir()
+    (source / "skeleton.json").write_text(json.dumps(legacy_37_skeleton()), encoding="utf-8")
+    shutil.copyfile(fixture / "golden_ingot.atlas", source / "golden_ingot.atlas")
+    shutil.copyfile(fixture / "golden_ingot.png", source / "golden_ingot.png")
+    converted = SkeletonConverter().convert(source / "skeleton.json", "3.8.99")
+    assert converted.output is not None, converted.diagnostics
+    (target / "skeleton.json").write_bytes(converted.output)
+    (target / "golden_ingot.atlas").write_bytes(
+        AtlasConverter().convert(
+            source / "golden_ingot.atlas", "3.8.99", source_version="3.7.94"
+        )
+    )
+    shutil.copyfile(source / "golden_ingot.png", target / "golden_ingot.png")
+    before = InspectionService().inspect(str(source))
+    after = InspectionService().inspect(str(target))
+    assert before.ok, before.diagnostics
+    assert after.ok, after.diagnostics
+    assert after.bundles[0].texture_pages == ("golden_ingot.png",)
 
 
 def test_direct_42_to_43_real_bundle_reinspection_preserves_texture(tmp_path):

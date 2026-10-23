@@ -11,6 +11,7 @@ from typing import Any
 from ..detection import skeleton_version
 from ..parsers import inspect_skeleton
 from ..versions import VersionRegistry
+from .migrate_37_to_38 import migrate_37_to_38
 from .migrate_38_to_4x import MigrationError, migrate_38_to_target
 from .migrate_38_to_legacy import legacy_target_profile, migrate_38_to_legacy
 from .migrate_40_to_41 import migrate_40_to_41
@@ -52,12 +53,16 @@ def _animation_metrics(document: dict[str, Any]) -> tuple[dict[str, int], dict[s
         for groups in animation.get("path", {}).values():
             for name, frames in groups.items():
                 record(f"path.{name}", frames)
-        for skin in animation.get("attachments", {}).values():
+        attachment_timelines = animation.get("attachments", animation.get("deform", {}))
+        for skin in attachment_timelines.values():
             for slot in skin.values():
                 for attachment in slot.values():
-                    for name, frames in attachment.items():
-                        record(f"attachment.{name}", frames)
-        record("drawOrder", animation.get("drawOrder"))
+                    if isinstance(attachment, list):
+                        record("attachment.deform", attachment)
+                    elif isinstance(attachment, Mapping):
+                        for name, frames in attachment.items():
+                            record(f"attachment.{name}", frames)
+        record("drawOrder", animation.get("drawOrder", animation.get("draworder")))
         record("event", animation.get("events"))
     return dict(sorted(timelines.items())), dict(sorted(keyframes.items()))
 
@@ -93,6 +98,7 @@ class SkeletonConverter:
                 ("4.2.43", "4.3.13"),
                 ("4.1.56", "4.2.43"),
                 ("4.0.31", "4.1.56"),
+                ("3.7.94", "3.8.99"),
             }
         )
         self.versions = VersionRegistry()
@@ -167,12 +173,17 @@ class SkeletonConverter:
                 provenance={"declared_source_version": canonical.version},
             )
         if (canonical.version, target_version) in {
+            ("3.7.94", "3.8.99"),
             ("4.0.31", "4.1.56"),
             ("4.1.56", "4.2.43"),
             ("4.2.43", "4.3.13"),
         }:
             try:
-                if canonical.version == "4.0.31":
+                if canonical.version == "3.7.94":
+                    migrated, metrics = migrate_37_to_38(
+                        canonical.document, canonical.version, target_version
+                    )
+                elif canonical.version == "4.0.31":
                     migrated, metrics = migrate_40_to_41(
                         canonical.document, canonical.version, target_version
                     )
@@ -241,6 +252,8 @@ class SkeletonConverter:
                 )
             elif target_version == "4.2.43":
                 compatibility["bone_transform"] = "4.1_transform_to_4.2_inherit_verified"
+            elif target_version == "3.8.99":
+                compatibility["skin_schema"] = "3.7_object_map_to_3.8_named_skin_array"
             else:
                 compatibility.update(
                     {
