@@ -16,7 +16,11 @@ from .migrate_36_to_35 import migrate_36_to_35
 from .migrate_36_to_37 import migrate_36_to_37
 from .migrate_37_to_36 import migrate_37_to_36
 from .migrate_37_to_38 import migrate_37_to_38
-from .migrate_38_to_4x import MigrationError, migrate_38_to_target
+from .migrate_38_to_4x import (
+    MigrationError,
+    UnsupportedMigrationFeature,
+    migrate_38_to_target,
+)
 from .migrate_38_to_legacy import legacy_target_profile, migrate_38_to_legacy
 from .migrate_40_to_38 import migrate_40_to_38
 from .migrate_40_to_41 import migrate_40_to_41
@@ -27,6 +31,7 @@ from .migrate_42_to_43 import migrate_42_to_43
 from .migrate_43_to_42 import migrate_43_to_42
 from .models import CanonicalSkeleton, ConversionResult, ConversionStatus, SourceRiskPolicy
 from .planner import ConversionPlanner
+from .registry import ROUTES_BY_PATCH, MigrationKind
 
 
 def _records(value: Any) -> list[Mapping[str, Any]]:
@@ -100,48 +105,51 @@ def _attachment_counts(document: dict[str, Any]) -> Counter[str]:
     return counts
 
 
+def _run_direct_migration(
+    kind: MigrationKind,
+    document: dict[str, Any],
+    source_version: str,
+    target_version: str,
+) -> tuple[dict[str, Any], dict[str, int | float]]:
+    match kind:
+        case MigrationKind.SPINE_40_TO_38:
+            return migrate_40_to_38(document, source_version, target_version)
+        case MigrationKind.SPINE_35_TO_36:
+            return migrate_35_to_36(document, source_version, target_version)
+        case MigrationKind.SPINE_36_TO_35:
+            return migrate_36_to_35(document, source_version, target_version)
+        case MigrationKind.SPINE_36_TO_37:
+            return migrate_36_to_37(document, source_version, target_version)
+        case MigrationKind.SPINE_37_TO_36:
+            return migrate_37_to_36(document, source_version, target_version)
+        case MigrationKind.SPINE_37_TO_38:
+            return migrate_37_to_38(document, source_version, target_version)
+        case MigrationKind.SPINE_40_TO_41:
+            return migrate_40_to_41(document, source_version, target_version)
+        case MigrationKind.SPINE_41_TO_40:
+            return migrate_41_to_40(document, source_version, target_version)
+        case MigrationKind.SPINE_41_TO_42:
+            return migrate_41_to_42(document, source_version, target_version)
+        case MigrationKind.SPINE_42_TO_41:
+            return migrate_42_to_41(document, source_version, target_version)
+        case MigrationKind.SPINE_42_TO_43:
+            return migrate_42_to_43(document, source_version, target_version)
+        case MigrationKind.SPINE_43_TO_42:
+            return migrate_43_to_42(document, source_version, target_version)
+        case (
+            MigrationKind.SPINE_38_TO_LEGACY
+            | MigrationKind.SPINE_38_TO_MODERN
+        ):
+            raise MigrationError(
+                f"Migration kind {kind.value} uses a specialized conversion path"
+            )
+
+
 class SkeletonConverter:
     """Read/serialize JSON skeletons without claiming unimplemented migrations."""
 
     def __init__(self, planner: ConversionPlanner | None = None) -> None:
-        self.planner = planner or ConversionPlanner(
-            {
-                ("3.5", "3.5"),
-                ("3.6", "3.6"),
-                ("3.7", "3.7"),
-                ("3.8", "3.8"),
-                ("4.0", "4.0"),
-                ("4.1", "4.1"),
-                ("4.2", "4.2"),
-                ("4.3", "4.3"),
-                ("3.8.75", "4.2.43"),
-                ("3.8.99", "4.2.43"),
-                ("3.8.75", "4.1.56"),
-                ("3.8.99", "4.1.56"),
-                ("3.8.75", "4.0.31"),
-                ("3.8.99", "4.0.31"),
-                ("3.8.75", "4.3.13"),
-                ("3.8.99", "4.3.13"),
-                ("3.8.75", "3.7.94"),
-                ("3.8.99", "3.7.94"),
-                ("3.8.75", "3.6.53"),
-                ("3.8.99", "3.6.53"),
-                ("3.8.75", "3.5.51"),
-                ("3.8.99", "3.5.51"),
-                ("4.2.43", "4.3.13"),
-                ("4.1.56", "4.2.43"),
-                ("4.0.31", "4.1.56"),
-                ("3.7.94", "3.8.99"),
-                ("3.6.53", "3.7.94"),
-                ("3.5.51", "3.6.53"),
-                ("4.3.13", "4.2.43"),
-                ("4.2.43", "4.1.56"),
-                ("4.1.56", "4.0.31"),
-                ("4.0.31", "3.8.99"),
-                ("3.7.94", "3.6.53"),
-                ("3.6.53", "3.5.51"),
-            }
-        )
+        self.planner = planner if planner is not None else ConversionPlanner()
         self.versions = VersionRegistry()
 
     def read(self, source: bytes | str | Path) -> CanonicalSkeleton:
@@ -213,73 +221,33 @@ class SkeletonConverter:
                 diagnostic_codes=("SOURCE_EXPORT_KNOWN_BUG",),
                 provenance={"declared_source_version": canonical.version},
             )
-        if (canonical.version, target_version) in {
-            ("3.5.51", "3.6.53"),
-            ("4.3.13", "4.2.43"),
-            ("4.2.43", "4.1.56"),
-            ("4.1.56", "4.0.31"),
-            ("4.0.31", "3.8.99"),
-            ("3.7.94", "3.6.53"),
-            ("3.6.53", "3.5.51"),
-            ("3.6.53", "3.7.94"),
-            ("3.7.94", "3.8.99"),
-            ("4.0.31", "4.1.56"),
-            ("4.1.56", "4.2.43"),
-            ("4.2.43", "4.3.13"),
+        route_spec = ROUTES_BY_PATCH.get((canonical.version, target_version))
+        if route_spec is not None and route_spec.kind not in {
+            MigrationKind.SPINE_38_TO_LEGACY,
+            MigrationKind.SPINE_38_TO_MODERN,
         }:
             try:
-                if canonical.version == "4.0.31" and target_version == "3.8.99":
-                    migrated, metrics = migrate_40_to_38(
-                        canonical.document, canonical.version, target_version
-                    )
-                elif canonical.version == "3.7.94" and target_version == "3.6.53":
-                    migrated, metrics = migrate_37_to_36(
-                        canonical.document, canonical.version, target_version
-                    )
-                elif canonical.version == "3.6.53" and target_version == "3.5.51":
-                    migrated, metrics = migrate_36_to_35(
-                        canonical.document, canonical.version, target_version
-                    )
-                elif canonical.version == "4.1.56" and target_version == "4.0.31":
-                    migrated, metrics = migrate_41_to_40(
-                        canonical.document, canonical.version, target_version
-                    )
-                elif canonical.version == "4.2.43" and target_version == "4.1.56":
-                    migrated, metrics = migrate_42_to_41(
-                        canonical.document, canonical.version, target_version
-                    )
-                elif canonical.version == "4.3.13":
-                    migrated, metrics = migrate_43_to_42(
-                        canonical.document, canonical.version, target_version
-                    )
-                elif canonical.version == "3.5.51":
-                    migrated, metrics = migrate_35_to_36(
-                        canonical.document, canonical.version, target_version
-                    )
-                elif canonical.version == "3.6.53":
-                    migrated, metrics = migrate_36_to_37(
-                        canonical.document, canonical.version, target_version
-                    )
-                elif canonical.version == "3.7.94":
-                    migrated, metrics = migrate_37_to_38(
-                        canonical.document, canonical.version, target_version
-                    )
-                elif canonical.version == "4.0.31":
-                    migrated, metrics = migrate_40_to_41(
-                        canonical.document, canonical.version, target_version
-                    )
-                elif canonical.version == "4.1.56":
-                    migrated, metrics = migrate_41_to_42(
-                        canonical.document, canonical.version, target_version
-                    )
-                else:
-                    migrated, metrics = migrate_42_to_43(
-                        canonical.document, canonical.version, target_version
-                    )
+                migrated, metrics = _run_direct_migration(
+                    route_spec.kind,
+                    canonical.document,
+                    canonical.version,
+                    target_version,
+                )
                 output = (
                     json.dumps(migrated, ensure_ascii=False, separators=(",", ":"), allow_nan=False)
                     + "\n"
                 ).encode()
+            except UnsupportedMigrationFeature as exc:
+                return ConversionResult(
+                    canonical.version,
+                    target_version,
+                    plan.route,
+                    None,
+                    ConversionStatus.REJECTED,
+                    (str(exc),),
+                    unsupported_features=(exc.feature,),
+                    diagnostic_codes=("UNSUPPORTED_TARGET_FEATURE",),
+                )
             except (MigrationError, TypeError, ValueError) as exc:
                 message = str(exc)
                 direct_unsupported: tuple[str, ...] = ()
@@ -471,11 +439,7 @@ class SkeletonConverter:
                 },
                 feature_compatibility=compatibility,
             )
-        if canonical.version in {"3.8.75", "3.8.99"} and target_version in {
-            "3.5.51",
-            "3.6.53",
-            "3.7.94",
-        }:
+        if route_spec is not None and route_spec.kind is MigrationKind.SPINE_38_TO_LEGACY:
             try:
                 migrated, metrics = migrate_38_to_legacy(
                     canonical.document, canonical.version, target_version
@@ -576,12 +540,7 @@ class SkeletonConverter:
                 },
                 feature_compatibility=feature_compatibility,
             )
-        if canonical.version in {"3.8.75", "3.8.99"} and target_version in {
-            "4.1.56",
-            "4.2.43",
-            "4.0.31",
-            "4.3.13",
-        }:
+        if route_spec is not None and route_spec.kind is MigrationKind.SPINE_38_TO_MODERN:
             try:
                 migrated, metrics = migrate_38_to_target(
                     canonical.document, canonical.version, target_version

@@ -42,21 +42,3 @@ class VersionRegistry:
 
     def definitions(self) -> tuple[VersionDefinition, ...]:
         return tuple(self._definitions[k] for k in sorted(self._definitions))
-
-
-class CompatibilityRegistry:
-    """Feature assertions remain unknown until backed by version-specific evidence."""
-
-    features = (
-        "weighted_meshes",
-        "deform_timelines",
-        "linked_meshes",
-        "constraints",
-        "bezier_curves",
-        "physics_constraints",
-    )
-
-    def state(self, feature: str, version: str) -> CapabilityState:
-        if feature not in self.features:
-            raise KeyError(feature)
-        return CapabilityState.NOT_IMPLEMENTED

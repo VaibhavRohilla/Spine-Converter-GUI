@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from ..parsers import AtlasInfo, AtlasPage, AtlasRegion, parse_atlas
+from .registry import EXACT_ROUTE_PAIRS
 
 
 @dataclass(frozen=True)
@@ -44,34 +45,7 @@ class AtlasConverter:
     ) -> bytes:
         model = self.read(source)
         if target_version is not None:
-            if (source_version, target_version) not in {
-                ("3.8.75", "4.2.43"),
-                ("3.8.99", "4.2.43"),
-                ("3.8.75", "4.1.56"),
-                ("3.8.99", "4.1.56"),
-                ("3.8.75", "4.0.31"),
-                ("3.8.99", "4.0.31"),
-                ("3.8.75", "4.3.13"),
-                ("3.8.99", "4.3.13"),
-                ("3.8.75", "3.7.94"),
-                ("3.8.99", "3.7.94"),
-                ("3.8.75", "3.6.53"),
-                ("3.8.99", "3.6.53"),
-                ("3.8.75", "3.5.51"),
-                ("3.8.99", "3.5.51"),
-                ("4.2.43", "4.3.13"),
-                ("4.1.56", "4.2.43"),
-                ("4.0.31", "4.1.56"),
-                ("3.7.94", "3.8.99"),
-                ("3.6.53", "3.7.94"),
-                ("3.5.51", "3.6.53"),
-                ("4.3.13", "4.2.43"),
-                ("4.2.43", "4.1.56"),
-                ("4.1.56", "4.0.31"),
-                ("4.0.31", "3.8.99"),
-                ("3.7.94", "3.6.53"),
-                ("3.6.53", "3.5.51"),
-            }:
+            if (source_version, target_version) not in EXACT_ROUTE_PAIRS:
                 raise ValueError(
                     "Atlas migration is qualified only for Spine 3.8.75 or 3.8.99 to "
                     "3.5.51, 3.6.53, 3.7.94, 3.8.99, 4.0.31, 4.1.56, 4.2.43, or 4.3.13"

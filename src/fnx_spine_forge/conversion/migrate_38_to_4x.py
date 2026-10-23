@@ -16,6 +16,14 @@ class MigrationError(ValueError):
     """A source feature cannot be represented safely in the requested schema."""
 
 
+class UnsupportedMigrationFeature(MigrationError):
+    """A valid source construct lacks a semantics-preserving target mapping."""
+
+    def __init__(self, feature: str, message: str) -> None:
+        super().__init__(message)
+        self.feature = feature
+
+
 def _map(value: Any, context: str) -> dict[str, Any]:
     if not isinstance(value, dict):
         raise MigrationError(f"{context} must be an object")

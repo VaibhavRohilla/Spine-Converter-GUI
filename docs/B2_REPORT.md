@@ -6,6 +6,34 @@ This status update records work performed against the live branch and supersedes
 older completion claims wherever they conflict. Prior route evidence remains
 scoped to the specific assets and tests cited below.
 
+## Production hardening follow-up
+
+- Centralized exact patch registrations and typed migration kinds in
+  `conversion/registry.py`; the planner, skeleton service, atlas service, and
+  CLI now consume this catalog instead of maintaining duplicate route sets.
+- Expanded the 4.0.31→3.8.99 writer to reverse representable rotation, `rgba` /
+  `rgba2`, transform-mix, path-mix, linked-mesh, and deform timeline mappings.
+  It rejects unequal transform/path channels and non-deform attachment
+  timelines. Unsupported constructs from this route carry a typed feature code
+  instead of relying on parsing exception text.
+- Planning uses exact route entries only. It returns a multi-hop candidate for
+  visibility but keeps it non-executable until end-to-end qualification exists.
+  Exact same-version serialization is handled explicitly.
+- Removed the unused `inspect_assets` compatibility function and updated tests
+  to call `InspectionService` directly. Removed the unused `CompatibilityRegistry`
+  placeholder that returned `NOT_IMPLEMENTED` for every query.
+- Static verification remains strict mypy; the schema-transform code still
+  contains dynamic JSON dictionaries (`Any`) because the supported Spine JSON
+  schemas have not yet been modeled as version-specific `TypedDict` contracts.
+  This follow-up does not claim the entire converter is weak-type-free. Replacing
+  those dictionaries safely requires schema models and validator migration per
+  version family; a mechanical annotation swap would not provide real safety.
+- **B2 remains OPEN / BLOCKED.** This route-catalog hardening does not add
+  composed execution or complete cross-version qualification.
+- Follow-up gates: **101 tests passed**, Ruff passed, mypy passed across 35
+  source files, and package build passed. Installed CLI reports 4.0.31→3.8.99
+  as a direct route and 3.5.51→4.3.13 as a non-executable composed candidate.
+
 ### A. Architecture
 
 - Added a direct exact-patch 4.0.31→3.8.99 writer. It retains setup hierarchy,
@@ -84,9 +112,9 @@ real export.
 
 ### F. Testing
 
-- `.venv/bin/python -m pytest -q` — **99 passed**.
+- `.venv/bin/python -m pytest -q` — **101 passed**.
 - `.venv/bin/ruff check src tests` — **passed**.
-- `.venv/bin/mypy` — **passed**, 34 source files.
+- `.venv/bin/mypy` — **passed**, 35 source files.
 - `.venv/bin/python -m build` — **passed**, sdist and wheel.
 - Installed CLI planning and B1 real fixture folder inspection — **passed**.
 - Installed CLI conversion of the 3.8.75 real fixture — **correctly rejected**

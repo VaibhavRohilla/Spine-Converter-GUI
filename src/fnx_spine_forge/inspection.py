@@ -342,8 +342,3 @@ class InspectionService:
                 1,
                 {"assets": 0, "skeletons": 0, "atlases": 0, "textures": 0},
             )
-
-
-def inspect_assets(origin: str) -> AssetManifest:
-    """Backwards-compatible function adapter; services should use InspectionService."""
-    return InspectionService().inspect(origin)

@@ -6,6 +6,7 @@ from collections import deque
 from dataclasses import dataclass
 
 from ..versions import VersionRegistry
+from .registry import EXACT_ROUTE_PAIRS
 
 
 @dataclass(frozen=True)
@@ -21,7 +22,7 @@ class ConversionPlanner:
     """Plans only routes backed by a registered, qualified implementation."""
 
     def __init__(self, routes: set[tuple[str, str]] | None = None) -> None:
-        self._routes = routes or set()
+        self._routes = EXACT_ROUTE_PAIRS if routes is None else frozenset(routes)
         self._versions = VersionRegistry()
 
     def plan(self, source_version: str, target_version: str) -> ConversionPlan:
@@ -36,16 +37,10 @@ class ConversionPlanner:
                 ("Unrecognized source or target version family",),
             )
         exact_route = (source_version, target_version)
-        if (
-            exact_route in self._routes
-            and source_version.count(".") == 2
-            and target_version.count(".") == 2
-        ):
+        if source_version == target_version:
             return ConversionPlan(source_version, target_version, exact_route, True, ())
-        if (source_family, target_family) in self._routes:
-            return ConversionPlan(
-                source_version, target_version, (source_family, target_family), True, ()
-            )
+        if exact_route in self._routes:
+            return ConversionPlan(source_version, target_version, exact_route, True, ())
         # Search only exact patch edges. Family recognition and family self-edges
         # are not migration implementations and must never create a route.
         exact_edges = {

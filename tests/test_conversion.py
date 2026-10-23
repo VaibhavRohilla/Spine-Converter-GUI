@@ -115,8 +115,10 @@ def test_skeleton_cross_family_route_is_rejected():
 
 
 def test_planner_does_not_infer_route_from_recognition():
-    plan = ConversionPlanner().plan("3.8.75", "4.2.43")
+    plan = ConversionPlanner(set()).plan("3.8.75", "4.2.43")
     assert not plan.executable
+    family_only = ConversionPlanner({("3.8", "4.2")}).plan("3.8.75", "4.2.43")
+    assert not family_only.executable
 
 
 def test_planner_reports_unqualified_composed_route_without_admitting_it():
@@ -131,9 +133,14 @@ def test_40_to_38_converts_supported_skin_and_deform_schema():
     source = {
         "skeleton": {"spine": "4.0.31"},
         "bones": [{"name": "root"}],
-        "slots": [],
+        "slots": [{"name": "slot", "bone": "root"}],
         "skins": [{"name": "default", "attachments": {}}],
-        "animations": {"idle": {"bones": {"root": {"rotate": [{"time": 0, "angle": 5}]}}}},
+        "animations": {
+            "idle": {
+                "bones": {"root": {"rotate": [{"time": 0, "value": 5}]}},
+                "slots": {"slot": {"rgba": [{"time": 0, "color": "ffffffff"}]}},
+            }
+        },
     }
     payload = json.dumps(source).encode()
     result = SkeletonConverter().convert(payload, "3.8.99")
@@ -142,6 +149,10 @@ def test_40_to_38_converts_supported_skin_and_deform_schema():
     converted = json.loads(result.output)
     assert converted["skeleton"]["spine"] == "3.8.99"
     assert converted["skins"] == [{"name": "default", "attachments": {}}]
+    assert converted["animations"]["idle"]["bones"]["root"]["rotate"][0]["angle"] == 5
+    assert "value" not in converted["animations"]["idle"]["bones"]["root"]["rotate"][0]
+    assert "color" in converted["animations"]["idle"]["slots"]["slot"]
+    assert "rgba" not in converted["animations"]["idle"]["slots"]["slot"]
     assert SkeletonConverter().convert(payload, "3.8.99").output == result.output
     assert json.loads(payload) == source
     assert source["skeleton"]["spine"] == "4.0.31"
@@ -172,7 +183,68 @@ def test_40_to_38_rejects_per_channel_bezier_with_specific_feature_diagnostic():
     result = SkeletonConverter().convert(json.dumps(source).encode(), "3.8.99")
     assert result.status is ConversionStatus.REJECTED
     assert result.unsupported_features == ("incompatible_per_channel_bezier_curves",)
+    assert result.diagnostic_codes == ("UNSUPPORTED_TARGET_FEATURE",)
     assert "per-channel Bézier" in result.diagnostics[0]
+
+
+def test_40_to_38_transform_constraint_timeline_uses_legacy_fields():
+    source = {
+        "skeleton": {"spine": "4.0.31"},
+        "bones": [{"name": "root"}],
+        "slots": [],
+        "skins": [{"name": "default", "attachments": {}}],
+        "transform": [{
+            "name": "transform",
+            "bones": ["root"],
+            "target": "root",
+            "rotateMix": 1,
+            "translateMix": 1,
+            "scaleMix": 1,
+            "shearMix": 1,
+        }],
+        "animations": {"idle": {"transform": {"transform": [{
+            "time": 0,
+            "mixRotate": 0.5,
+            "mixX": 0.25,
+            "mixY": 0.25,
+            "mixScaleX": 0.75,
+            "mixScaleY": 0.75,
+            "mixShearY": 0.9,
+        }]}}},
+    }
+    result = SkeletonConverter().convert(json.dumps(source).encode(), "3.8.99")
+    assert result.status is ConversionStatus.STRUCTURALLY_VERIFIED, result.diagnostics
+    frame = json.loads(result.output)["animations"]["idle"]["transform"]["transform"][0]
+    assert frame["rotateMix"] == 0.5
+    assert frame["translateMix"] == 0.25
+    assert frame["scaleMix"] == 0.75
+    assert frame["shearMix"] == 0.9
+    assert not {"mixRotate", "mixX", "mixY", "mixScaleX", "mixScaleY", "mixShearY"} & frame.keys()
+
+
+def test_40_to_38_rejects_unequal_transform_channels_with_typed_diagnostic():
+    source = {
+        "skeleton": {"spine": "4.0.31"},
+        "bones": [{"name": "root"}],
+        "slots": [],
+        "skins": [{"name": "default", "attachments": {}}],
+        "transform": [{
+            "name": "transform",
+            "bones": ["root"],
+            "target": "root",
+            "rotateMix": 1,
+            "translateMix": 1,
+            "scaleMix": 1,
+            "shearMix": 1,
+        }],
+        "animations": {"idle": {"transform": {"transform": [{
+            "time": 0, "mixX": 0.25, "mixY": 0.75
+        }]}}},
+    }
+    result = SkeletonConverter().convert(json.dumps(source).encode(), "3.8.99")
+    assert result.status is ConversionStatus.REJECTED
+    assert result.unsupported_features == ("unequal_transform_mix_channels",)
+    assert result.diagnostic_codes == ("UNSUPPORTED_TARGET_FEATURE",)
 
 
 def test_converter_planner_registers_only_the_exact_qualified_patch_pair():
