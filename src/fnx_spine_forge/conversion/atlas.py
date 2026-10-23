@@ -66,6 +66,7 @@ class AtlasConverter:
                 ("3.6.53", "3.7.94"),
                 ("3.5.51", "3.6.53"),
                 ("4.3.13", "4.2.43"),
+                ("4.2.43", "4.1.56"),
             }:
                 raise ValueError(
                     "Atlas migration is qualified only for Spine 3.8.75 or 3.8.99 to "
@@ -74,6 +75,7 @@ class AtlasConverter:
         chunks: list[str] = []
         direct_42_to_43 = source_version == "4.2.43" and target_version == "4.3.13"
         direct_43_to_42 = source_version == "4.3.13" and target_version == "4.2.43"
+        direct_42_to_41 = source_version == "4.2.43" and target_version == "4.1.56"
         regions_by_page: list[list[AtlasRegion]] = [[] for _ in model.pages]
         for region, page_index in zip(model.regions, model.region_pages, strict=True):
             regions_by_page[page_index].append(region)
@@ -101,6 +103,36 @@ class AtlasConverter:
                         raise ValueError(
                             f"Invalid Spine 4.2 atlas region geometry for {region.name!r}"
                         )
+                elif direct_42_to_41:
+                    values = dict(attributes)
+                    if not {"rotate", "bounds", "offsets"} <= values.keys():
+                        raise ValueError(
+                            f"Region {region.name!r} does not use the Spine 4.2 atlas schema"
+                        )
+                    try:
+                        bounds = tuple(int(part.strip()) for part in values["bounds"].split(","))
+                        offsets = tuple(int(part.strip()) for part in values["offsets"].split(","))
+                        rotation = int(values["rotate"])
+                    except ValueError as exc:
+                        raise ValueError(f"Malformed Spine 4.2 region {region.name!r}") from exc
+                    if len(bounds) != 4 or len(offsets) != 4:
+                        raise ValueError(f"Invalid Spine 4.2 region geometry for {region.name!r}")
+                    if rotation not in {0, 90}:
+                        raise ValueError(
+                            f"Spine 4.1 cannot represent {rotation}-degree rotation"
+                        )
+                    retained = [
+                        (key, value)
+                        for key, value in attributes
+                        if key not in {"rotate", "bounds", "offsets"}
+                    ]
+                    attributes = (
+                        ("rotate", "true" if rotation == 90 else "false"),
+                        ("xy", f"{bounds[0]}, {bounds[1]}"),
+                        ("size", f"{bounds[2]}, {bounds[3]}"),
+                        ("orig", f"{offsets[2]}, {offsets[3]}"),
+                        ("offset", f"{offsets[0]}, {offsets[1]}"),
+                    ) + tuple(retained)
                 elif target_version in {"4.2.43", "4.3.13"}:
                     values = dict(attributes)
                     if len(values) != len(attributes):
@@ -171,6 +203,23 @@ class AtlasConverter:
         elif direct_43_to_42:
             if reparsed.page_records != model.pages or reparsed.region_records != model.regions:
                 raise ValueError("Spine 4.2 atlas serialization changed Spine 4.3 semantics")
+        elif direct_42_to_41:
+            for before, after in zip(model.regions, reparsed.region_records, strict=True):
+                before_attrs = dict(before.attributes)
+                after_attrs = dict(after.attributes)
+                bounds = tuple(int(part.strip()) for part in before_attrs["bounds"].split(","))
+                offsets = tuple(int(part.strip()) for part in before_attrs["offsets"].split(","))
+                xy = tuple(int(part.strip()) for part in after_attrs["xy"].split(","))
+                size = tuple(int(part.strip()) for part in after_attrs["size"].split(","))
+                original = tuple(int(part.strip()) for part in after_attrs["orig"].split(","))
+                offset = tuple(int(part.strip()) for part in after_attrs["offset"].split(","))
+                rotation = 90 if after_attrs["rotate"].lower() == "true" else 0
+                if (xy + size, offset + original, rotation) != (
+                    bounds,
+                    offsets,
+                    int(before_attrs["rotate"]),
+                ):
+                    raise ValueError(f"Atlas semantic equivalence failed for {before.name!r}")
         elif target_version in {"4.2.43", "4.3.13"}:
             for before, region in zip(model.regions, reparsed.region_records, strict=True):
                 attrs = dict(region.attributes)

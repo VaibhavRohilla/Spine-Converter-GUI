@@ -18,6 +18,7 @@ from .migrate_38_to_4x import MigrationError, migrate_38_to_target
 from .migrate_38_to_legacy import legacy_target_profile, migrate_38_to_legacy
 from .migrate_40_to_41 import migrate_40_to_41
 from .migrate_41_to_42 import migrate_41_to_42
+from .migrate_42_to_41 import migrate_42_to_41
 from .migrate_42_to_43 import migrate_42_to_43
 from .migrate_43_to_42 import migrate_43_to_42
 from .models import CanonicalSkeleton, ConversionResult, ConversionStatus, SourceRiskPolicy
@@ -130,6 +131,7 @@ class SkeletonConverter:
                 ("3.6.53", "3.7.94"),
                 ("3.5.51", "3.6.53"),
                 ("4.3.13", "4.2.43"),
+                ("4.2.43", "4.1.56"),
             }
         )
         self.versions = VersionRegistry()
@@ -206,6 +208,7 @@ class SkeletonConverter:
         if (canonical.version, target_version) in {
             ("3.5.51", "3.6.53"),
             ("4.3.13", "4.2.43"),
+            ("4.2.43", "4.1.56"),
             ("3.6.53", "3.7.94"),
             ("3.7.94", "3.8.99"),
             ("4.0.31", "4.1.56"),
@@ -213,7 +216,11 @@ class SkeletonConverter:
             ("4.2.43", "4.3.13"),
         }:
             try:
-                if canonical.version == "4.3.13":
+                if canonical.version == "4.2.43" and target_version == "4.1.56":
+                    migrated, metrics = migrate_42_to_41(
+                        canonical.document, canonical.version, target_version
+                    )
+                elif canonical.version == "4.3.13":
                     migrated, metrics = migrate_43_to_42(
                         canonical.document, canonical.version, target_version
                     )
@@ -269,6 +276,19 @@ class SkeletonConverter:
                         direct_unsupported = ("ik_scale_y_mode",)
                     if direct_unsupported:
                         codes = ("UNSUPPORTED_TARGET_FEATURE",)
+                elif canonical.version == "4.2.43" and target_version == "4.1.56":
+                    if "physics" in message:
+                        direct_unsupported = ("physics_constraints_or_timelines",)
+                    elif "inherit timeline" in message:
+                        direct_unsupported = ("inherit_timelines",)
+                    elif "skin-scoped" in message or "skin-required" in message:
+                        direct_unsupported = ("skin_scoped_bones_or_constraints",)
+                    elif "hidden setup slots" in message:
+                        direct_unsupported = ("hidden_setup_slots",)
+                    elif "referenceScale" in message:
+                        direct_unsupported = ("non_default_reference_scale",)
+                    if direct_unsupported:
+                        codes = ("UNSUPPORTED_TARGET_FEATURE",)
                 return ConversionResult(
                     canonical.version,
                     target_version,
@@ -318,6 +338,15 @@ class SkeletonConverter:
                         "linked_mesh": "source_to_parent",
                         "sequences": "unsupported_blocking",
                         "transform_constraints": "unsupported_blocking",
+                    }
+                )
+            elif canonical.version == "4.2.43" and target_version == "4.1.56":
+                compatibility.update(
+                    {
+                        "bone_transform": "4.2_inherit_to_4.1_transform",
+                        "slot_visibility": "only_default_visible_true_supported",
+                        "physics_constraints": "unsupported_blocking",
+                        "inherit_timelines": "unsupported_blocking",
                     }
                 )
             elif canonical.version == "3.6.53" and target_version == "3.7.94":

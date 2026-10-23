@@ -143,6 +143,7 @@ def test_converter_planner_registers_only_the_exact_qualified_patch_pair():
     assert converter.planner.plan("3.6.53", "3.7.94").executable
     assert converter.planner.plan("3.5.51", "3.6.53").executable
     assert converter.planner.plan("4.3.13", "4.2.43").executable
+    assert converter.planner.plan("4.2.43", "4.1.56").executable
 
 
 @pytest.mark.parametrize("target_version", ["3.5.51", "3.6.53", "3.7.94"])
@@ -856,6 +857,7 @@ def test_direct_43_to_42_restores_ordered_ik_path_and_linked_mesh_fields():
 def test_direct_41_to_42_migrates_transform_modes_and_atlas():
     document = json.loads(skeleton("4.1.56"))
     document["bones"][0]["transform"] = "NoScale"
+    document["slots"] = [{"name": "slot", "bone": "root"}]
     document["animations"]["idle"]["bones"]["root"]["rotate"] = [
         {"time": 0, "value": 0, "curve": [0.2, 1, 0.7, 2]},
         {"time": 1, "value": 45},
@@ -877,6 +879,36 @@ def test_direct_41_to_42_migrates_transform_modes_and_atlas():
     target_samples = absolute_curve_samples(target_frames[0], target_frames[1], "value")
     assert max(abs(a - b) for a, b in zip(source_samples, target_samples, strict=True)) <= 1e-12
 
+    downgraded = SkeletonConverter().convert(result.output, "4.1.56")
+    assert downgraded.status is ConversionStatus.STRUCTURALLY_VERIFIED, downgraded.diagnostics
+    assert downgraded.output is not None
+    downgraded_document = json.loads(downgraded.output)
+    assert downgraded_document["bones"][0]["transform"] == "NoScale"
+    assert "inherit" not in downgraded_document["bones"][0]
+    assert downgraded_document["animations"] == document["animations"]
+
+    hidden = json.loads(result.output)
+    hidden["slots"][0]["visible"] = False
+    rejected_hidden = SkeletonConverter().convert(json.dumps(hidden).encode(), "4.1.56")
+    assert rejected_hidden.status is ConversionStatus.REJECTED
+    assert rejected_hidden.unsupported_features == ("hidden_setup_slots",)
+
+    physics = json.loads(result.output)
+    physics["physics"] = [{"name": "wind", "bone": "root"}]
+    rejected_physics = SkeletonConverter().convert(json.dumps(physics).encode(), "4.1.56")
+    assert rejected_physics.status is ConversionStatus.REJECTED
+    assert rejected_physics.unsupported_features == ("physics_constraints_or_timelines",)
+
+    inherit_timeline = json.loads(result.output)
+    inherit_timeline["animations"]["idle"]["bones"]["root"]["inherit"] = [
+        {"time": 0, "inherit": "NoScale"}
+    ]
+    rejected_timeline = SkeletonConverter().convert(
+        json.dumps(inherit_timeline).encode(), "4.1.56"
+    )
+    assert rejected_timeline.status is ConversionStatus.REJECTED
+    assert rejected_timeline.unsupported_features == ("inherit_timelines",)
+
     atlas_41 = Path(__file__).parent / "fixtures/spine38/golden_ingot.atlas"
     atlas_42 = AtlasConverter().convert(
         atlas_41, "4.2.43", source_version="4.1.56"
@@ -884,6 +916,17 @@ def test_direct_41_to_42_migrates_transform_modes_and_atlas():
     assert {key for key, _ in parse_atlas(atlas_42).region_records[0].attributes} >= {
         "rotate", "bounds", "offsets"
     }
+    atlas_41_roundtrip = AtlasConverter().convert(
+        atlas_42, "4.1.56", source_version="4.2.43"
+    )
+    assert {key for key, _ in parse_atlas(atlas_41_roundtrip).region_records[0].attributes} >= {
+        "rotate", "xy", "size", "orig", "offset"
+    }
+    unsupported_rotation = atlas_42.replace(b"rotate: 90", b"rotate: 180", 1)
+    with pytest.raises(ValueError, match="cannot represent 180-degree rotation"):
+        AtlasConverter().convert(
+            unsupported_rotation, "4.1.56", source_version="4.2.43"
+        )
 
     invalid = json.loads(source)
     invalid["bones"][0]["inherit"] = "Normal"
@@ -917,6 +960,20 @@ def test_direct_41_to_42_real_bundle_reinspection(tmp_path):
     inspected = InspectionService().inspect(str(target))
     assert inspected.ok, inspected.diagnostics
     assert inspected.bundles[0].texture_pages == ("golden_ingot.png",)
+
+    result_41_roundtrip = converter.convert(result_42.output, "4.1.56")
+    assert result_41_roundtrip.output is not None, result_41_roundtrip.diagnostics
+    atlas_41_roundtrip = AtlasConverter().convert(
+        atlas_42, "4.1.56", source_version="4.2.43"
+    )
+    target_41 = tmp_path / "bundle41-roundtrip"
+    target_41.mkdir()
+    (target_41 / "golden_ingot.json").write_bytes(result_41_roundtrip.output)
+    (target_41 / "golden_ingot.atlas").write_bytes(atlas_41_roundtrip)
+    shutil.copyfile(fixture / "golden_ingot.png", target_41 / "golden_ingot.png")
+    inspected_41 = InspectionService().inspect(str(target_41))
+    assert inspected_41.ok, inspected_41.diagnostics
+    assert inspected_41.bundles[0].texture_pages == ("golden_ingot.png",)
 
 
 def test_direct_40_to_41_migrates_linked_mesh_and_deform_schema():
