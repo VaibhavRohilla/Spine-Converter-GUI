@@ -33,6 +33,7 @@ from .migrate_43_to_42 import migrate_43_to_42
 from .models import CanonicalSkeleton, ConversionResult, ConversionStatus, SourceRiskPolicy
 from .planner import ConversionPlanner
 from .registry import ROUTES_BY_PATCH, MigrationKind
+from .semantic import SemanticSkeleton, decode_semantic_skeleton
 
 
 def _records(value: Any) -> list[Mapping[str, Any]]:
@@ -172,8 +173,11 @@ class SkeletonConverter:
             if isinstance(obj.get("animations", {}), dict)
             else ()
         )
+        semantic: SemanticSkeleton | None = None
+        if isinstance(obj.get("skins", []), list):
+            semantic = decode_semantic_skeleton(obj, version)
         return CanonicalSkeleton(
-            version, obj, bones, slots, _skin_names(obj.get("skins", {})), animations
+            version, obj, bones, slots, _skin_names(obj.get("skins", {})), animations, semantic
         )
 
     def convert(

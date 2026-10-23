@@ -5,13 +5,294 @@ from pathlib import Path
 import pytest
 
 from fnx_spine_forge.conversion import (
+    AssetSetConverter,
     AtlasConverter,
     ConversionPlanner,
     SkeletonConverter,
     SourceRiskPolicy,
 )
-from fnx_spine_forge.conversion.models import ConversionStatus
+from fnx_spine_forge.conversion.models import ConversionResult, ConversionStatus
+from fnx_spine_forge.inspection import InspectionService
 from fnx_spine_forge.parsers import parse_atlas
+
+
+def _copy_bundle(root: Path) -> tuple[Path, bytes]:
+    import shutil
+
+    fixture = Path(__file__).parent / "fixtures/spine38"
+    root.mkdir()
+    for name in ("golden_ingot.json", "golden_ingot.atlas", "golden_ingot.png"):
+        shutil.copyfile(fixture / name, root / name)
+    return root, (root / "golden_ingot.png").read_bytes()
+
+
+def _make_40_bundle(root: Path) -> Path:
+    source, _ = _copy_bundle(root)
+    result = SkeletonConverter().convert(
+        (source / "golden_ingot.json").read_bytes(),
+        "4.0.31",
+        source_risk_policy=SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC,
+    )
+    assert result.output is not None
+    (source / "golden_ingot.json").write_bytes(result.output)
+    atlas = AtlasConverter().convert(
+        (source / "golden_ingot.atlas").read_bytes(), "4.0.31", source_version="3.8.75"
+    )
+    (source / "golden_ingot.atlas").write_bytes(atlas)
+    return source
+
+
+def test_asset_set_conversion_reinspects_output_and_preserves_texture(tmp_path):
+    from hashlib import sha256
+
+    source, texture = _copy_bundle(tmp_path / "source")
+    before = {p.name: p.read_bytes() for p in source.iterdir()}
+    result = AssetSetConverter().convert(
+        source,
+        "golden_ingot.json",
+        "4.2.43",
+        source_risk_policy=SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC,
+    )
+    assert result.status is ConversionStatus.STRUCTURALLY_VERIFIED
+    assert result.route == ("3.8.75", "4.2.43")
+    assert set(result.outputs or {}) == set(before)
+    assert result.outputs["golden_ingot.png"] == texture
+    assert result.details["texture_sha256"]["golden_ingot.png"] == sha256(texture).hexdigest()
+    assert result.details["textures_unchanged"] is True
+    assert result.outputs["golden_ingot.json"] != before["golden_ingot.json"]
+    assert InspectionService().inspect(str(source)).ok
+    assert {p.name: p.read_bytes() for p in source.iterdir()} == before
+
+
+def test_asset_set_composed_conversion_reinspects_each_hop(tmp_path):
+    from tempfile import TemporaryDirectory
+
+    source = _make_40_bundle(tmp_path / "source")
+    planner = ConversionPlanner({("4.0.31", "4.1.56"), ("4.1.56", "4.2.43")})
+    result = AssetSetConverter(planner=planner).convert(source, "golden_ingot.json", "4.2.43")
+    assert result.status is ConversionStatus.STRUCTURALLY_VERIFIED
+    assert result.route == ("4.0.31", "4.1.56", "4.2.43")
+    assert [hop["target"] for hop in result.details["per_hop"]] == ["4.1.56", "4.2.43"]
+    assert all(hop["statistics"]["bezier_segments"] > 0 for hop in result.details["per_hop"])
+    assert all(
+        hop["statistics"]["max_numerical_error"] <= 1e-12 for hop in result.details["per_hop"]
+    )
+    first = SkeletonConverter().convert((source / "golden_ingot.json").read_bytes(), "4.1.56")
+    second = SkeletonConverter().convert(first.output, "4.2.43")
+    assert result.outputs["golden_ingot.json"] == second.output
+    with TemporaryDirectory() as directory:
+        root = Path(directory)
+        for name, payload in result.outputs.items():
+            (root / name).write_bytes(payload)
+        report = InspectionService().inspect(str(root))
+    assert report.ok, report.diagnostics
+    assert report.bundles[0].validation_state == "valid"
+
+
+def test_asset_set_risk_policy_rejects_default_and_allows_explicit_override(tmp_path):
+    source, _ = _copy_bundle(tmp_path / "source")
+    converter = AssetSetConverter()
+    rejected = converter.convert(source, "golden_ingot.json", "4.2.43")
+    assert rejected.status is ConversionStatus.REJECTED
+    assert rejected.outputs is None
+    assert "SOURCE_EXPORT_KNOWN_BUG" in rejected.details["diagnostic_codes"]
+    allowed = converter.convert(
+        source,
+        "golden_ingot.json",
+        "4.2.43",
+        source_risk_policy=SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC,
+    )
+    assert allowed.status is ConversionStatus.STRUCTURALLY_VERIFIED
+    assert allowed.details["source_risk_warnings"] == ("SOURCE_EXPORT_KNOWN_BUG",)
+
+
+def test_asset_set_conversion_is_deterministic_and_keeps_multiple_pages(tmp_path):
+    from hashlib import sha256
+
+    source, _ = _copy_bundle(tmp_path / "source")
+    atlas = (source / "golden_ingot.atlas").read_text()
+    (source / "second.png").write_bytes(b"texture-page-two\x00")
+    atlas = atlas.replace("golden_ingot.png\n", "golden_ingot.png\n", 1)
+    # Add a second valid page with one region, preserving all original regions.
+    atlas += (
+        "\nsecond.png\nsize: 32,32\nformat: RGBA8888\nfilter: Linear,Linear\nrepeat: none\n"
+        "second_region\n  rotate: false\n  xy: 0, 0\n  size: 8, 8\n  orig: 8, 8\n"
+        "  offset: 0, 0\n  index: -1\n"
+    )
+    (source / "golden_ingot.atlas").write_text(atlas)
+    first = AssetSetConverter().convert(
+        source,
+        "golden_ingot.json",
+        "4.2.43",
+        source_risk_policy=SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC,
+    )
+    second = AssetSetConverter().convert(
+        source,
+        "golden_ingot.json",
+        "4.2.43",
+        source_risk_policy=SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC,
+    )
+    assert first.outputs == second.outputs
+    assert first.outputs["second.png"] == b"texture-page-two\x00"
+    assert (
+        first.details["texture_sha256"]["second.png"] == sha256(b"texture-page-two\x00").hexdigest()
+    )
+    assert InspectionService().inspect(str(source)).ok
+
+
+@pytest.mark.parametrize("damage", ["missing_region", "missing_texture", "ambiguous_atlas"])
+def test_asset_set_rejects_unresolved_dependencies_without_outputs(tmp_path, damage):
+    source, _ = _copy_bundle(tmp_path / "source")
+    if damage == "missing_region":
+        document = json.loads((source / "golden_ingot.json").read_bytes())
+        document["skins"][0]["attachments"]["fx_00000"]["missing"] = {
+            "type": "linkedmesh",
+            "path": "not-a-region",
+            "parent": "absent",
+        }
+        (source / "golden_ingot.json").write_text(json.dumps(document))
+    elif damage == "missing_texture":
+        (source / "golden_ingot.png").unlink()
+    else:
+        (source / "copy").mkdir()
+        (source / "copy/golden_ingot.atlas").write_bytes(
+            (source / "golden_ingot.atlas").read_bytes()
+        )
+    result = AssetSetConverter().convert(
+        source,
+        "golden_ingot.json",
+        "4.2.43",
+        source_risk_policy=SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC,
+    )
+    assert result.status is ConversionStatus.REJECTED
+    assert result.outputs is None
+
+
+def test_asset_set_rolls_back_malformed_intermediate_and_reports_hop(tmp_path, monkeypatch):
+    source = _make_40_bundle(tmp_path / "source")
+    planner = ConversionPlanner({("4.0.31", "4.1.56"), ("4.1.56", "4.2.43")})
+    converter = AssetSetConverter(planner=planner)
+
+    def malformed(*args, **kwargs):
+        if args[2] != "4.1.56":
+            return original(*args, **kwargs)
+        return ConversionResult(
+            "4.0.31",
+            "4.1.56",
+            ("4.0.31", "4.1.56"),
+            b"{not json",
+            ConversionStatus.STRUCTURALLY_VERIFIED,
+        )
+
+    original = converter._convert_hop
+    monkeypatch.setattr(converter, "_convert_hop", malformed)
+    result = converter.convert(
+        source,
+        "golden_ingot.json",
+        "4.2.43",
+    )
+    assert result.status is ConversionStatus.REJECTED
+    assert result.outputs is None
+    assert result.details["failed_hop"]["source"] == "4.0.31"
+    assert result.details["failed_hop"]["target"] == "4.1.56"
+    assert result.details["failed_hop"]["asset"] == "golden_ingot.json"
+    assert result.details["failed_hop"]["feature"] == "skeleton_semantics"
+
+
+def test_asset_set_rolls_back_atlas_failure_without_partial_outputs(tmp_path, monkeypatch):
+    source = _make_40_bundle(tmp_path / "source")
+    planner = ConversionPlanner({("4.0.31", "4.1.56"), ("4.1.56", "4.2.43")})
+    converter = AssetSetConverter(planner=planner)
+    monkeypatch.setattr(
+        converter.atlases,
+        "convert",
+        lambda *a, **k: (_ for _ in ()).throw(ValueError("bad intermediate atlas")),
+    )
+    result = converter.convert(
+        source,
+        "golden_ingot.json",
+        "4.2.43",
+    )
+    assert result.status is ConversionStatus.REJECTED
+    assert result.outputs is None
+    assert "bad intermediate atlas" in result.diagnostics[0]
+
+
+def test_typed_semantic_boundary_decodes_transforms_meshes_constraints_and_curves():
+    from fnx_spine_forge.conversion.semantic import decode_semantic_skeleton
+
+    document = {
+        "skeleton": {"spine": "4.2.43"},
+        "bones": [{"name": "root", "x": 3, "rotation": 20, "inherit": "normal"}],
+        "slots": [{"name": "slot", "bone": "root", "attachment": "base"}],
+        "skins": [
+            {
+                "name": "default",
+                "attachments": {
+                    "slot": {
+                        "base": {
+                            "type": "mesh",
+                            "uvs": [0, 0, 1, 0],
+                            "vertices": [0, 0, 1, 0],
+                            "triangles": [0, 1],
+                            "hull": 2,
+                        },
+                        "weighted": {
+                            "type": "mesh",
+                            "uvs": [0, 0],
+                            "vertices": [1, 0, 0, 0, 1],
+                            "triangles": [],
+                            "hull": 1,
+                        },
+                        "linked": {"type": "linkedmesh", "parent": "base", "path": "base"},
+                    }
+                },
+            }
+        ],
+        "ik": [{"name": "aim", "target": "root", "bones": ["root"]}],
+        "animations": {
+            "idle": {
+                "bones": {
+                    "root": {
+                        "rotate": [
+                            {"time": 0, "value": 0, "curve": [0.1, 0.2, 0.8, 0.9]},
+                        ]
+                    }
+                }
+            }
+        },
+    }
+    semantic = decode_semantic_skeleton(document, "4.2.43")
+    assert semantic.bones[0].transform.x == 3
+    assert semantic.slots[0].attachment == "base"
+    assert {item.kind for item in semantic.attachments} == {"mesh", "linkedmesh"}
+    assert next(item for item in semantic.attachments if item.name == "weighted").weighted
+    assert semantic.constraints[0].kind == "ik"
+    assert semantic.timelines[0].curves == ((0.1, 0.2, 0.8, 0.9),)
+
+
+def test_typed_semantic_boundary_blocks_unknown_fields_and_dangling_linked_mesh():
+    from fnx_spine_forge.conversion.semantic import decode_semantic_skeleton
+
+    base = {
+        "skeleton": {"spine": "4.2.43"},
+        "bones": [{"name": "root"}],
+        "slots": [{"name": "slot", "bone": "root"}],
+        "skins": [
+            {
+                "name": "default",
+                "attachments": {"slot": {"child": {"type": "linkedmesh", "parent": "missing"}}},
+            }
+        ],
+        "animations": {},
+    }
+    with pytest.raises(ValueError, match="missing parent"):
+        decode_semantic_skeleton(base, "4.2.43")
+    unknown = {**base, "bones": [{"name": "root", "futureSemantic": True}]}
+    with pytest.raises(ValueError, match="Unknown semantic bone fields"):
+        decode_semantic_skeleton(unknown, "4.2.43")
+    with pytest.raises(ValueError, match="exact Spine version"):
+        decode_semantic_skeleton(base, "4.2.44")
 
 
 def skeleton(version="4.2.43"):

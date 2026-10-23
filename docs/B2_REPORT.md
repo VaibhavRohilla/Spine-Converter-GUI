@@ -1,5 +1,203 @@
 # FNX Spine Forge B2 conversion report
 
+## B2 integration and fidelity closure pass — 2026-10-23
+
+Starting HEAD was `22b65b1a82277740b5bccd8630830559ca5d93df`. The earlier
+uncommitted asset-set service was retained and hardened; no migration
+implementation was rewritten.
+
+### Implemented and verified in this pass
+
+- Asset-set staging now rejects B1 errors affecting the selected bundle,
+  validates the source and every intermediate/final skeleton-atlas-texture set
+  through B1, tries deterministic candidate routes after a feature rejection,
+  and publishes no output mapping until one complete route passes.
+- Added 12 asset-set tests for single-hop output artifacts, two-page atlases,
+  linked-mesh semantics, missing regions/textures, ambiguous atlas selection,
+  malformed skeleton and atlas intermediates, rollback/no partial output,
+  texture SHA-256 identity, repeat determinism, source immutability, and the
+  3.8.75 risk policy. A successful composed 4.0.31→4.1.56→4.2.43 test
+  re-inspects the returned bundle and compares its skeleton bytes to the same
+  direct-edge sequence.
+- Added `conversion/semantic.py` typed semantic views consumed by
+  `SkeletonConverter.read` for named-skin schemas: exact-patch admission,
+  bone transforms/hierarchy, slots, skins, attachment discriminators and
+  linked-mesh parents, weighted mesh influence arrays, constraint indexes,
+  timeline categories, and per-channel Bézier control groups. Unknown bone,
+  slot, and attachment fields block strict admission. Raw JSON remains the
+  migration serialization boundary. Legacy object-map skin bodies continue to
+  be validated by their existing migration readers.
+- Atlas conversion now decodes source-version region geometry into typed
+  page/region geometry records and rejects schema/geometry mismatches before
+  serialization. The converter continues to preserve raw metadata through its
+  validated atlas serialization path.
+- Asset-set hop evidence includes migration statistics, numerical curve error,
+  rejected candidate routes, unsupported features, and source-risk warnings.
+
+### Pair and composed-route qualification
+
+Status legend: `E-R` = exact route is executable with tested restrictions;
+`E-I` = composed execution demonstrated but qualification incomplete; `C` =
+candidate path only; `N` = not implemented; `I` = same-version identity. These
+statuses describe the representative fixture evidence, not universal feature
+support. For 3.8, the 3.8.75 row is separate and risk gated; it must not be
+merged with 3.8.99 provenance.
+
+| Source \\ Target | 3.5.51 | 3.6.53 | 3.7.94 | 3.8.99 | 4.0.31 | 4.1.56 | 4.2.43 | 4.3.13 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| 3.5.51 | I | E-R | C | C | C | C | C | C |
+| 3.6.53 | E-R | I | E-R | C | C | C | C | C |
+| 3.7.94 | C | E-R | I | E-R | C | C | C | C |
+| 3.8.75 (risk gated) | E-R | E-R | E-R | I | E-R | E-R | E-R | E-R |
+| 3.8.99 | E-R | E-R | E-R | I | E-R | E-R | E-R | E-R |
+| 4.0.31 | C | C | C | E-R | I | E-R | E-I | C |
+| 4.1.56 | C | C | C | C | E-R | I | E-R | C |
+| 4.2.43 | C | C | C | C | C | E-R | I | E-R |
+| 4.3.13 | C | C | C | C | C | C | E-R | I |
+
+The six priority longer family routes remain **candidate-only**, except the
+tested asset-set/CLI 4.0.31→4.2.43 route, which remains `E-I` because its
+composed feature matrix is incomplete. No end-to-end semantic campaign was run
+for the six requested long paths. Existing direct-route tests include numeric
+curve sampling and route-specific semantic assertions; the composed test
+records nonzero Bézier coverage and per-hop `max_numerical_error <= 1e-12` on
+the representative authentic-derived 3.8.75 bundle transformed to 4.0.31.
+This evidence does not qualify all animation, weighted mesh, deform, constraint,
+event, draw-order, skin, or curve combinations for a composed route. Unsafe
+4.0.31→3.8.99 per-channel curves remain rejected without approximation.
+
+### Runtime and authentic-source evidence
+
+No historical 3.5.51, 3.6.53, 3.7.94, or exact 3.8.99 runtime package is
+installed in this workspace. The runtime harness targets official
+`@esotericsoftware/spine-core` package identities for 4.x only, so the
+historical smoke returns `not_run` because the exact package metadata path is
+absent. The official runtime source is available by version branches, but
+runtime use is subject to Spine licensing; this environment contains no
+provided licensed historical runtime build. The official versioning guide
+defines runtime lines by major/minor branches rather than the editor patch
+number; no patch string was altered to bypass that distinction. See the
+[official versioning guide](https://esotericsoftware.com/spine-versioning) and
+[runtime licensing information](https://esotericsoftware.com/spine-runtime-architecture).
+
+The fixture corpus still contains only the authentic exported 3.8.75
+`golden_ingot` JSON/atlas/PNG. No authentic 3.8.99 export was available, and no
+metadata rewrite was used. The fixture includes real region attachments and
+animation curves, but not the full requested set of weighted meshes, deform,
+constraint, event, draw-order, multiple-skin, and linked-mesh cases together.
+No runtime pose or visual-frame equivalence is claimed.
+
+### Commands and results
+
+- `.venv/bin/python -m pytest -q` — **114 passed**.
+- `.venv/bin/ruff check src tests` — **passed**.
+- `.venv/bin/mypy` — **passed**, 38 source files.
+- `.venv/bin/python -m build` — **passed**, wheel and sdist.
+- `.venv/bin/python -m pip install -e '.[dev]'` and
+  `.venv/bin/spine-forge --help` — **passed**.
+- Installed CLI composed conversion 4.0.31→4.1.56→4.2.43 — **passed**;
+  returned output declared 4.2.43 and per-hop metrics reported 42 Bézier
+  segments with zero measured numerical error.
+- Installed CLI direct conversion 4.2.43→4.3.13 — **passed**; reported 42
+  Bézier segments and zero measured numerical error.
+- Installed CLI malformed source — **rejected**, exit code 2.
+- Asset-set B1 output reinspection, missing-dependency rejection, source
+  immutability, texture hash identity, deterministic repeat, and rollback tests
+  — **passed**.
+- Historical runtime smoke — **UNVERIFIED / not_run**: exact package metadata
+  was unavailable. No visual check was run.
+
+**B2 OPEN / BLOCKED.** The asset-set service, typed semantic admission subset,
+CLI integration, and focused composed-path evidence are implemented. Freeze
+gates remain unmet: all six priority long paths need end-to-end feature and
+numerical comparison, the 56-pair matrix needs route/feature qualification,
+historical runtime builds and authentic 3.8.99 source evidence are missing, and
+the typed boundary does not yet model every version-specific legacy skin,
+deform, constraint, and animation schema field.
+
+## B2 final hardening pass — 2026-10-23
+
+Starting state was branch `codex/b2-conversion-engine`, clean at
+`22b65b1a82277740b5bccd8630830559ca5d93df` (the stated implementation
+checkpoint `afc2050f61f59379014ce116b1bd856843f5ef9` is an ancestor).
+
+### Asset-set service
+
+Added internal `AssetSetConverter` using `InspectionService` B1 bundle
+resolution. It reads one skeleton bundle, stages skeleton/atlas/PNG bytes in
+memory, chooses the existing exact-patch route, converts the skeleton and each
+atlas on every hop, then re-runs B1 dependency resolution against a controlled
+temporary directory before advancing. The caller receives the output mapping
+only after all hops pass; texture bytes are retained unchanged and SHA-256
+digests are returned. Failures identify the hop, relevant asset, feature, and
+reason. No ZIP or folder export workflow was added.
+
+Smoke evidence: the authentic available `golden_ingot` bundle converted from
+3.8.75 to 4.2.43 when the explicit `ALLOW_WITH_DIAGNOSTIC` policy was supplied;
+the output contained JSON, atlas, and PNG. Default conversion still rejects
+3.8.75 under the source-risk policy. This one real asset result is structural
+and dependency verification only, not runtime or visual certification.
+
+### Qualification and remaining boundary
+
+The current registry and tests continue to define direct-route subsets. The
+executor is transactional for skeleton bytes, but its registered candidates
+are not a 56-pair feature-aware semantic qualification matrix. The new
+asset-set wrapper applies the selected planner route and validates each
+intermediate asset set; it does not establish general route eligibility for
+every feature combination. Typed semantic schemas for the listed high-risk
+constructs have not been comprehensively introduced. Per-channel Bézier
+representability remains guarded by existing route checks; no new numerical
+curve equivalence campaign was run here.
+
+The planner's exact-patch matrix is classified below. `D` means an exact
+direct route is registered and executable subject to its converter's feature
+checks; `C` means a graph candidate exists but its composed path is not
+end-to-end qualified; `N` means no candidate path. These labels do not imply
+full feature, runtime, or visual qualification.
+
+| Source \\ Target | 3.5.51 | 3.6.53 | 3.7.94 | 3.8.99 | 4.0.31 | 4.1.56 | 4.2.43 | 4.3.13 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| 3.5.51 | I | D | C | C | C | C | C | C |
+| 3.6.53 | D | I | D | C | C | C | C | C |
+| 3.7.94 | C | D | I | D | C | C | C | C |
+| 3.8.75 (risk gated) | D | D | D | D | D | D | D | D |
+| 3.8.99 | D | D | D | I | D | D | D | D |
+| 4.0.31 | C | C | C | D | I | D | C | C |
+| 4.1.56 | C | C | C | C | D | I | D | C |
+| 4.2.43 | C | C | C | C | C | D | I | D |
+| 4.3.13 | C | C | C | C | C | C | D | I |
+
+`I` is same-version identity serialization. The requested six long routes
+(3.5→4.3, 3.6→4.2, 3.7→4.1, 4.3→3.8, 4.2→3.6, and 4.1→3.5) are candidates
+only. There is no end-to-end conversion or numerical semantic equivalence
+result for them in this pass.
+
+Only 3.8.75 authentic export assets are present in `tests/fixtures`; no
+authentic 3.8.99 or historical 3.5/3.6/3.7 runtime package was found in the
+workspace. Historical runtime status remains **UNVERIFIED**. The current
+runtime harness accepts official 4.x package identities only. No version
+string rewriting was used. Structural, runtime, and visual verification remain
+separate; no visual verification is claimed.
+
+### Commands and status
+
+- `.venv/bin/python -m pytest -q` — **103 passed** (existing suite).
+- `.venv/bin/ruff check src tests` — first run caught formatting/import issues
+  in the new service; those were corrected. Final result recorded below.
+- `.venv/bin/mypy` — **passed**, 37 source files.
+- `.venv/bin/python -m build` — **passed**, sdist and wheel.
+- Direct asset-set smoke on the authentic 3.8.75 bundle — **passed** with
+  explicit risk allowance; output bytes held until full set passed.
+- Installed CLI smoke, 56 end-to-end pair tests, historical runtime loads,
+  numerical cross-route animation comparison, and transaction fault-injection
+  tests were not completed in this pass.
+
+**B2 OPEN / BLOCKED.** Asset-set transaction and per-hop B1 reinspection are
+implemented. Acceptance remains open because the complete feature-aware matrix,
+typed semantic contracts, authentic 3.8.99 fixture, numerical composed-path
+equivalence, and historical runtime evidence are not established.
+
 ## Final implementation pass — 2026-10-23
 
 This status update records work performed against the live branch and supersedes

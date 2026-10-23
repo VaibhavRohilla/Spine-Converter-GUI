@@ -6,6 +6,8 @@ from dataclasses import dataclass
 from enum import StrEnum
 from typing import Any
 
+from .semantic import SemanticSkeleton
+
 
 class ConversionStatus(StrEnum):
     PLANNED = "planned"
@@ -31,6 +33,7 @@ class CanonicalSkeleton:
     slots: tuple[str, ...]
     skins: tuple[str, ...]
     animations: tuple[str, ...]
+    semantic: SemanticSkeleton | None = None
 
 
 @dataclass(frozen=True)

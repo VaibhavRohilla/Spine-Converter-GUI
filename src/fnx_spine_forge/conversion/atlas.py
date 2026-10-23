@@ -7,6 +7,7 @@ from pathlib import Path
 
 from ..parsers import AtlasInfo, AtlasPage, AtlasRegion, parse_atlas
 from .registry import EXACT_ROUTE_PAIRS
+from .semantic import AtlasRegionGeometry, decode_atlas_geometry
 
 
 @dataclass(frozen=True)
@@ -14,6 +15,9 @@ class CanonicalAtlas:
     pages: tuple[AtlasPage, ...]
     regions: tuple[AtlasRegion, ...]
     region_pages: tuple[int, ...]
+
+    def geometry(self, source_version: str) -> tuple[AtlasRegionGeometry, ...]:
+        return decode_atlas_geometry(self, source_version)
 
 
 class AtlasConverter:
@@ -50,6 +54,8 @@ class AtlasConverter:
                     "Atlas migration is qualified only for Spine 3.8.75 or 3.8.99 to "
                     "3.5.51, 3.6.53, 3.7.94, 3.8.99, 4.0.31, 4.1.56, 4.2.43, or 4.3.13"
                 )
+            if source_version is not None:
+                model.geometry(source_version)
         chunks: list[str] = []
         direct_42_to_43 = source_version == "4.2.43" and target_version == "4.3.13"
         direct_43_to_42 = source_version == "4.3.13" and target_version == "4.2.43"
