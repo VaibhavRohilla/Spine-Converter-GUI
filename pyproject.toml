@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fnx-spine-forge"
+version = "0.1.0"
+description = "FNX Spine Forge read-only asset inspection foundation"
+requires-python = ">=3.11"
+license = "LicenseRef-Proprietary-FNX-Studio"
+
+[project.scripts]
+fnx-spine-forge = "fnx_spine_forge.cli:main"
+spine-forge = "fnx_spine_forge.cli:main"
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.8", "mypy>=1.13", "build>=1.2"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+
+[tool.mypy]
+python_version = "3.11"
+files = ["src/fnx_spine_forge"]
+ignore_missing_imports = true
+strict = true
