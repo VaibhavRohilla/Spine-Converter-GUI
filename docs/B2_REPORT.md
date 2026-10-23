@@ -107,6 +107,15 @@ No runtime pose or visual-frame equivalence is claimed.
 - Historical runtime smoke — **UNVERIFIED / not_run**: exact package metadata
   was unavailable. No visual check was run.
 
+### Git checkpoint
+
+- Branch: `codex/b2-conversion-engine`.
+- Verified implementation checkpoint: `726320ccca1387d80fc9abd73c748d268e6dd105`.
+- Post-commit verification: 114 tests, Ruff, strict mypy, and sdist/wheel build
+  all passed; working tree was clean after the verification run.
+- This report-only update is committed separately after the implementation
+  checkpoint above.
+
 **B2 OPEN / BLOCKED.** The asset-set service, typed semantic admission subset,
 CLI integration, and focused composed-path evidence are implemented. Freeze
 gates remain unmet: all six priority long paths need end-to-end feature and
