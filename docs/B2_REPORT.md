@@ -2,7 +2,7 @@
 
 ## Decision
 
-**B2 OPEN / BLOCKED.** All requested exact 3.8.75 and 3.8.99 source patches now have executable routes to the seven requested target patches. The direct 3.7.94→3.8.99 edge and three adjacent 4.x edges are implemented. The 4.x edges passed exact target runtime evaluation; the 3.x edge has structural and B1 bundle verification only. The broader any-version route graph, authentic 3.8.99 fixture, and remaining migration edges are unfinished. This is not a B2 freeze.
+**B2 OPEN / BLOCKED.** Exact 3.8.75 and 3.8.99 sources have executable routes to all seven requested target patches. Five adjacent directed historical 3.x edges and six adjacent 4.x edges have tested supported subsets, but cross-family composition and other non-adjacent routes remain incomplete. Exact 4.x runtimes passed the previously recorded forward routes; newly added downgrade edges have structural/B1 verification without runtime qualification. The authentic 3.8.99 fixture is unavailable. No full any-version matrix or freeze is claimed.
 
 ## A. Architecture
 
