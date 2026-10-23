@@ -119,6 +119,62 @@ def test_planner_does_not_infer_route_from_recognition():
     assert not plan.executable
 
 
+def test_planner_reports_unqualified_composed_route_without_admitting_it():
+    planner = ConversionPlanner({("3.5.51", "3.6.53"), ("3.6.53", "3.7.94")})
+    plan = planner.plan("3.5.51", "3.7.94")
+    assert plan.route == ("3.5.51", "3.6.53", "3.7.94")
+    assert not plan.executable
+    assert "end-to-end" in plan.diagnostics[0]
+
+
+def test_40_to_38_converts_supported_skin_and_deform_schema():
+    source = {
+        "skeleton": {"spine": "4.0.31"},
+        "bones": [{"name": "root"}],
+        "slots": [],
+        "skins": [{"name": "default", "attachments": {}}],
+        "animations": {"idle": {"bones": {"root": {"rotate": [{"time": 0, "angle": 5}]}}}},
+    }
+    payload = json.dumps(source).encode()
+    result = SkeletonConverter().convert(payload, "3.8.99")
+    assert result.status is ConversionStatus.STRUCTURALLY_VERIFIED, result.diagnostics
+    assert result.route == ("4.0.31", "3.8.99")
+    converted = json.loads(result.output)
+    assert converted["skeleton"]["spine"] == "3.8.99"
+    assert converted["skins"] == [{"name": "default", "attachments": {}}]
+    assert SkeletonConverter().convert(payload, "3.8.99").output == result.output
+    assert json.loads(payload) == source
+    assert source["skeleton"]["spine"] == "4.0.31"
+
+
+def test_40_to_38_atlas_keeps_shared_atlas_semantics():
+    atlas_path = Path(__file__).parent / "fixtures/spine38/golden_ingot.atlas"
+    source = atlas_path.read_bytes()
+    converted = AtlasConverter().convert(
+        source, "3.8.99", source_version="4.0.31"
+    )
+    assert parse_atlas(converted).page_records == parse_atlas(source).page_records
+    assert parse_atlas(converted).region_records == parse_atlas(source).region_records
+    assert atlas_path.read_bytes() == source
+
+
+def test_40_to_38_rejects_per_channel_bezier_with_specific_feature_diagnostic():
+    source = {
+        "skeleton": {"spine": "4.0.31"},
+        "bones": [{"name": "root"}],
+        "slots": [],
+        "skins": [{"name": "default", "attachments": {}}],
+        "animations": {"idle": {"bones": {"root": {"rotate": [
+            {"time": 0, "angle": 0, "curve": [0.2, 1, 0.8, 2]},
+            {"time": 1, "angle": 5},
+        ]}}}},
+    }
+    result = SkeletonConverter().convert(json.dumps(source).encode(), "3.8.99")
+    assert result.status is ConversionStatus.REJECTED
+    assert result.unsupported_features == ("incompatible_per_channel_bezier_curves",)
+    assert "per-channel Bézier" in result.diagnostics[0]
+
+
 def test_converter_planner_registers_only_the_exact_qualified_patch_pair():
     converter = SkeletonConverter()
     assert converter.planner.plan("3.8.75", "4.2.43").executable

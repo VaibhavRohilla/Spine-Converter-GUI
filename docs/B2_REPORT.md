@@ -1,5 +1,126 @@
 # FNX Spine Forge B2 conversion report
 
+## Final implementation pass — 2026-10-23
+
+This status update records work performed against the live branch and supersedes
+older completion claims wherever they conflict. Prior route evidence remains
+scoped to the specific assets and tests cited below.
+
+### A. Architecture
+
+- Added a direct exact-patch 4.0.31→3.8.99 writer. It retains setup hierarchy,
+  named skin records, and compatible attachments; converts linked-mesh
+  `timelines` to `deform`; and converts attachment-nested deform timelines to
+  the older deform group.
+- The writer rejects attachment sequences, skin-scoped bones/constraints,
+  non-deform attachment timelines, malformed source structures, and 4.0
+  per-channel Bézier arrays. Spine 3.8's shared normalized curve can represent
+  those only if every channel has mathematically identical normalized easing.
+  The current writer does not have typed per-timeline endpoints to establish
+  this; it emits `incompatible_per_channel_bezier_curves` rather than guessing.
+  No curve segments were converted on this route, so it has no numerical curve
+  equivalence samples to report.
+- `ConversionPlanner` searches deterministic paths over registered exact-patch
+  edges and exposes candidate intermediate versions. It marks multi-hop paths
+  non-executable until end-to-end semantic qualification exists. Actual
+  multi-hop conversion, per-hop validation, feature-capability admission,
+  diagnostics aggregation, and transactional composition remain unimplemented.
+- Atlas conversion accepts 4.0.31→3.8.99 and reparses its serialized output.
+  Existing direct 3.8 routes remain in place.
+
+### B. Compatibility matrix
+
+Legend: **D** direct route registered for a documented subset; **R** direct
+route with explicit blocking restrictions; **I** exact-version identity only;
+**N** no direct route. A registered route is not a composed conversion claim.
+
+| Source \\ Target | 3.5 | 3.6 | 3.7 | 3.8 | 4.0 | 4.1 | 4.2 | 4.3 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| 3.5.51 | I | D | N | N | N | N | N | N |
+| 3.6.53 | D | I | D | N | N | N | N | N |
+| 3.7.94 | N | D | I | D | N | N | N | N |
+| 3.8.75 / 3.8.99 | D | D | D | I | D | D | D | D |
+| 4.0.31 | N | N | N | R | I | D | N | N |
+| 4.1.56 | N | N | N | N | D | I | D | N |
+| 4.2.43 | N | N | N | N | N | D | I | D |
+| 4.3.13 | N | N | N | N | N | N | D | I |
+
+This classifies all 56 ordered distinct family pairs by direct registration;
+it does not qualify every pair end to end. 3.8.75 and 3.8.99 retain separate
+exact source policies. No other 3.8 patch inherits their routes. The new
+4.0.31→3.8.99 route is restricted to timelines without per-channel Bézier
+curves and other unsupported 4.0-only features. All non-direct pairs remain
+not implemented as composed conversions, even if edges form a graph path.
+
+### C. Route execution
+
+- Added tests for a representable no-curve 4.0.31→3.8.99 skeleton, a
+  per-channel Bézier rejection with feature diagnostics, and display of an
+  unqualified composed path as non-executable.
+- Existing direct 3.8 routes were not replaced. The requested composed
+  examples (3.5→4.3, 3.6→4.2, 3.7→4.1, 4.3→3.8, 4.2→3.6, and 4.1→3.5) were
+  not run as conversions; any planner candidate is non-executable.
+- Installed CLI plan for 4.0.31→3.8.99 returned its direct route.
+- Installed CLI conversion of the real 3.8.75 fixture to 4.2.43 correctly
+  refused by default with `SOURCE_EXPORT_KNOWN_BUG`, retaining the declared
+  source patch.
+
+### D. Runtime evidence
+
+No runtime was run in this final pass. The earlier recorded exact 4.0.31,
+4.1.56, 4.2.43, and 4.3.13 runtime smoke evidence remains limited to those
+specific routes/assets and checks. Historical 3.5.51, 3.6.53, and 3.7.94
+runtimes were not qualified. Runtime parsing, animation-state evaluation, and
+visual equivalence remain separate claims.
+
+### E. Asset fidelity
+
+`spine-forge inspect tests/fixtures/spine38 --json` passed B1 inspection: one
+3.8.75 skeleton, one atlas, one texture, with skeleton-to-atlas and
+atlas-to-PNG references resolved. The authentic 3.8.99 fixture remains
+unavailable; no metadata relabeling was used. No visual-frame comparison was
+performed. The new route regression uses a minimal synthetic skeleton, not a
+real export.
+
+### F. Testing
+
+- `.venv/bin/python -m pytest -q` — **99 passed**.
+- `.venv/bin/ruff check src tests` — **passed**.
+- `.venv/bin/mypy` — **passed**, 34 source files.
+- `.venv/bin/python -m build` — **passed**, sdist and wheel.
+- Installed CLI planning and B1 real fixture folder inspection — **passed**.
+- Installed CLI conversion of the 3.8.75 real fixture — **correctly rejected**
+  by source-risk policy.
+- The new route converted zero Bézier segments; no numerical error or sample
+  count is claimed for it. Existing numerical evidence remains limited to the
+  previously documented routes.
+
+### G. Remaining work and freeze decision
+
+- Implement actual multi-hop conversion with semantic capability checks,
+  per-hop revalidation, aggregated diagnostics, and transactional output.
+- Qualify advertised subsets across every ordered family pair; current matrix
+  records direct registration and non-implementation only.
+- Support 4.0 per-channel to 3.8 shared curves only after proving normalized
+  channel equivalence and adding numerical sample checks.
+- Add composed-route positive/negative fixtures, archive conversion and
+  reinspection, and determinism/source-immutability evidence for composition.
+- Obtain authentic 3.8.99 and expanded 3.8 fixtures; qualify exact historical
+  3.x runtimes if tooling and license permit.
+- Runtime-qualify the new 4.0.31→3.8.99 supported subset.
+
+**B2 OPEN / BLOCKED.** Existing direct routes remain intact and the restricted
+4.0.31→3.8.99 route is implemented. Graph route discovery is present, but
+composed execution and cross-version qualification are not complete. No freeze
+or universal lossless downgrade capability is claimed.
+
+### H. Git for this pass
+
+- Starting branch: `codex/b2-conversion-engine`.
+- Starting HEAD: `505f800a99890a32da690d8e24d82d8fe624a12f`.
+- Starting worktree: clean. Final commit and worktree state are recorded in
+  the final Git section below.
+
 ## Decision
 
 **B2 OPEN / BLOCKED.** Exact 3.8.75 and 3.8.99 sources have executable routes to all seven requested target patches. Five adjacent directed historical 3.x edges and six adjacent 4.x edges have tested supported subsets, but cross-family composition and other non-adjacent routes remain incomplete. Exact 4.x runtimes passed the previously recorded forward routes; newly added downgrade edges have structural/B1 verification without runtime qualification. The authentic 3.8.99 fixture is unavailable. No full any-version matrix or freeze is claimed.

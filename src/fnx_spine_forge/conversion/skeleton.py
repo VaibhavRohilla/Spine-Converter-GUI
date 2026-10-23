@@ -18,6 +18,7 @@ from .migrate_37_to_36 import migrate_37_to_36
 from .migrate_37_to_38 import migrate_37_to_38
 from .migrate_38_to_4x import MigrationError, migrate_38_to_target
 from .migrate_38_to_legacy import legacy_target_profile, migrate_38_to_legacy
+from .migrate_40_to_38 import migrate_40_to_38
 from .migrate_40_to_41 import migrate_40_to_41
 from .migrate_41_to_40 import migrate_41_to_40
 from .migrate_41_to_42 import migrate_41_to_42
@@ -136,6 +137,7 @@ class SkeletonConverter:
                 ("4.3.13", "4.2.43"),
                 ("4.2.43", "4.1.56"),
                 ("4.1.56", "4.0.31"),
+                ("4.0.31", "3.8.99"),
                 ("3.7.94", "3.6.53"),
                 ("3.6.53", "3.5.51"),
             }
@@ -216,6 +218,7 @@ class SkeletonConverter:
             ("4.3.13", "4.2.43"),
             ("4.2.43", "4.1.56"),
             ("4.1.56", "4.0.31"),
+            ("4.0.31", "3.8.99"),
             ("3.7.94", "3.6.53"),
             ("3.6.53", "3.5.51"),
             ("3.6.53", "3.7.94"),
@@ -225,7 +228,11 @@ class SkeletonConverter:
             ("4.2.43", "4.3.13"),
         }:
             try:
-                if canonical.version == "3.7.94" and target_version == "3.6.53":
+                if canonical.version == "4.0.31" and target_version == "3.8.99":
+                    migrated, metrics = migrate_40_to_38(
+                        canonical.document, canonical.version, target_version
+                    )
+                elif canonical.version == "3.7.94" and target_version == "3.6.53":
                     migrated, metrics = migrate_37_to_36(
                         canonical.document, canonical.version, target_version
                     )
@@ -296,6 +303,16 @@ class SkeletonConverter:
                     elif "IK scaleY" in message:
                         direct_unsupported = ("ik_scale_y_mode",)
                     if direct_unsupported:
+                        codes = ("UNSUPPORTED_TARGET_FEATURE",)
+                elif canonical.version == "4.0.31" and target_version == "3.8.99":
+                    if "per-channel Bézier" in message:
+                        direct_unsupported = ("incompatible_per_channel_bezier_curves",)
+                        codes = ("UNSUPPORTED_TARGET_FEATURE",)
+                    elif "skin-specific" in message:
+                        direct_unsupported = ("skin_specific_constraints_or_bones",)
+                        codes = ("UNSUPPORTED_TARGET_FEATURE",)
+                    elif "attachment timeline" in message:
+                        direct_unsupported = ("non_deform_attachment_timelines",)
                         codes = ("UNSUPPORTED_TARGET_FEATURE",)
                 elif canonical.version == "4.2.43" and target_version == "4.1.56":
                     if "physics" in message:
@@ -394,6 +411,15 @@ class SkeletonConverter:
                         "linked_mesh": "timelines_flag_to_deform_flag",
                         "deform_animation": "attachment_deform_to_4.0_deform_group",
                         "sequences": "unsupported_blocking",
+                    }
+                )
+            elif canonical.version == "4.0.31" and target_version == "3.8.99":
+                compatibility.update(
+                    {
+                        "skin_schema": "named_skin_array_preserved",
+                        "linked_mesh": "timelines_flag_to_deform_flag",
+                        "deform_animation": "attachment_deform_to_4.0_deform_group",
+                        "per_channel_bezier": "unsupported_unless_shared_curve_proven",
                     }
                 )
             elif canonical.version == "3.7.94" and target_version == "3.6.53":

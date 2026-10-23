@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections import deque
 from dataclasses import dataclass
 
 from ..versions import VersionRegistry
@@ -45,6 +46,36 @@ class ConversionPlanner:
             return ConversionPlan(
                 source_version, target_version, (source_family, target_family), True, ()
             )
+        # Search only exact patch edges. Family recognition and family self-edges
+        # are not migration implementations and must never create a route.
+        exact_edges = {
+            (left, right)
+            for left, right in self._routes
+            if left.count(".") == 2 and right.count(".") == 2
+        }
+        queue: deque[tuple[str, tuple[str, ...]]] = deque(
+            [(source_version, (source_version,))]
+        )
+        seen = {source_version}
+        while queue:
+            current, path = queue.popleft()
+            for left, right in sorted(exact_edges):
+                if left != current or right in seen:
+                    continue
+                next_path = (*path, right)
+                if right == target_version:
+                    return ConversionPlan(
+                        source_version,
+                        target_version,
+                        next_path,
+                        False,
+                        (
+                            "A registered multi-hop path exists, but end-to-end feature "
+                            "compatibility is not qualified",
+                        ),
+                    )
+                seen.add(right)
+                queue.append((right, next_path))
         return ConversionPlan(
             source_version,
             target_version,
