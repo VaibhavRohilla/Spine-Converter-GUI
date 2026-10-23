@@ -14,7 +14,70 @@ def run_spine_42_runtime_smoke(
     atlas_path: str | Path,
     runtime_package: str | Path,
 ) -> dict[str, Any]:
-    """Load and sample a target export using the caller's licensed 4.2.43 runtime."""
+    """Load and sample a target export using the exact official 4.2.43 runtime."""
+    return _run_spine_runtime_smoke(skeleton_path, atlas_path, runtime_package, "4.2.43")
+
+
+def run_spine_41_runtime_smoke(
+    skeleton_path: str | Path,
+    atlas_path: str | Path,
+    runtime_package: str | Path,
+) -> dict[str, Any]:
+    """Load and sample a target export using the exact official 4.1.56 runtime."""
+    return _run_spine_runtime_smoke(skeleton_path, atlas_path, runtime_package, "4.1.56")
+
+
+def run_spine_40_runtime_smoke(
+    skeleton_path: str | Path,
+    atlas_path: str | Path,
+    runtime_package: str | Path,
+) -> dict[str, Any]:
+    """Load and sample a target export using the exact official 4.0.31 runtime."""
+    return _run_spine_runtime_smoke(skeleton_path, atlas_path, runtime_package, "4.0.31")
+
+
+def run_spine_43_runtime_smoke(
+    skeleton_path: str | Path,
+    atlas_path: str | Path,
+    runtime_package: str | Path,
+) -> dict[str, Any]:
+    """Load and sample a target export using the exact official 4.3.13 runtime."""
+    return _run_spine_runtime_smoke(skeleton_path, atlas_path, runtime_package, "4.3.13")
+
+
+def run_spine_runtime_smoke(
+    skeleton_path: str | Path,
+    atlas_path: str | Path,
+    runtime_package: str | Path,
+) -> dict[str, Any]:
+    """Select the exact supported runtime matching the skeleton's target version."""
+    package_root = Path(runtime_package)
+    try:
+        package = json.loads((package_root / "package.json").read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        return {"status": "not_run", "reason": f"Runtime package metadata unavailable: {exc}"}
+    if package.get("name") != "@esotericsoftware/spine-core" or package.get("version") not in {
+        "4.0.31",
+        "4.1.56",
+        "4.2.43",
+        "4.3.13",
+    } or not isinstance(package.get("main"), str):
+        return {
+            "status": "rejected_runtime_identity",
+            "reason": "Runtime must be an explicitly supported official Spine runtime package",
+            "runtime": f"{package.get('name')}@{package.get('version')}",
+        }
+    return _run_spine_runtime_smoke(
+        skeleton_path, atlas_path, runtime_package, str(package["version"])
+    )
+
+
+def _run_spine_runtime_smoke(
+    skeleton_path: str | Path,
+    atlas_path: str | Path,
+    runtime_package: str | Path,
+    target_version: str,
+) -> dict[str, Any]:
     package_root = Path(runtime_package)
     try:
         package = json.loads((package_root / "package.json").read_text(encoding="utf-8"))
@@ -22,27 +85,37 @@ def run_spine_42_runtime_smoke(
         return {"status": "not_run", "reason": f"Runtime package metadata unavailable: {exc}"}
     if (
         package.get("name") != "@esotericsoftware/spine-core"
-        or package.get("version") != "4.2.43"
+        or package.get("version") != target_version
         or not isinstance(package.get("main"), str)
     ):
         return {
             "status": "rejected_runtime_identity",
-            "reason": "Runtime must be the official @esotericsoftware/spine-core 4.2.43 package",
+            "reason": (
+                "Runtime must be the official @esotericsoftware/spine-core "
+                f"{target_version} package"
+            ),
             "runtime": f"{package.get('name')}@{package.get('version')}",
         }
     node = shutil.which("node")
     if node is None:
         return {"status": "not_run", "reason": "Node.js is unavailable"}
     script = Path(__file__).with_name("runtime_smoke.mjs")
+    command = [node]
+    if target_version == "4.0.31":
+        command.extend(
+            ["--experimental-loader", str(Path(__file__).with_name("runtime_extension_loader.mjs"))]
+        )
+    command.extend(
+        [
+            str(script),
+            str(package_root.resolve()),
+            str(Path(skeleton_path).resolve()),
+            str(Path(atlas_path).resolve()),
+        ]
+    )
     try:
         process = subprocess.run(
-            [
-                node,
-                str(script),
-                str(package_root.resolve()),
-                str(Path(skeleton_path).resolve()),
-                str(Path(atlas_path).resolve()),
-            ],
+            command,
             check=False,
             capture_output=True,
             text=True,

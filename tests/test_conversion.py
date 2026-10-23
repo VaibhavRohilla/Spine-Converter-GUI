@@ -33,6 +33,63 @@ def skeleton(version="4.2.43"):
     ).encode()
 
 
+def legacy_curve_samples(frame):
+    curve = frame.get("curve")
+    if not isinstance(curve, (int, float)) or isinstance(curve, bool):
+        return None
+    controls = (curve, frame.get("c2", 0), frame.get("c3", 1), frame.get("c4", 1))
+
+    def cubic(p1, p2, t):
+        inverse = 1 - t
+        return 3 * inverse * inverse * t * p1 + 3 * inverse * t * t * p2 + t**3
+
+    values = []
+    for sample in range(257):
+        x = sample / 256
+        low, high = 0.0, 1.0
+        for _ in range(48):
+            middle = (low + high) / 2
+            if cubic(controls[0], controls[2], middle) < x:
+                low = middle
+            else:
+                high = middle
+        values.append(cubic(controls[1], controls[3], (low + high) / 2))
+    return values
+
+
+def absolute_curve_samples(frame, next_frame, value_field):
+    curve = frame["curve"]
+    start_time = frame.get("time", 0)
+    duration = next_frame["time"] - start_time
+    start_value = frame[value_field]
+    end_value = next_frame[value_field]
+    x1, y1, x2, y2 = curve
+
+    def cubic(p0, p1, p2, p3, t):
+        inverse = 1 - t
+        return (
+            inverse**3 * p0
+            + 3 * inverse**2 * t * p1
+            + 3 * inverse * t**2 * p2
+            + t**3 * p3
+        )
+
+    normalized_x1 = (x1 - start_time) / duration
+    normalized_x2 = (x2 - start_time) / duration
+    values = []
+    for sample in range(257):
+        x = sample / 256
+        low, high = 0.0, 1.0
+        for _ in range(48):
+            middle = (low + high) / 2
+            if cubic(0, normalized_x1, normalized_x2, 1, middle) < x:
+                low = middle
+            else:
+                high = middle
+        values.append(cubic(start_value, y1, y2, end_value, (low + high) / 2))
+    return values
+
+
 def test_skeleton_exact_version_conversion_preserves_semantics():
     source = skeleton()
     result = SkeletonConverter().convert(
@@ -65,8 +122,99 @@ def test_converter_planner_registers_only_the_exact_qualified_patch_pair():
     converter = SkeletonConverter()
     assert converter.planner.plan("3.8.75", "4.2.43").executable
     assert converter.planner.plan("3.8.99", "4.2.43").executable
+    assert converter.planner.plan("3.8.75", "4.1.56").executable
+    assert converter.planner.plan("3.8.99", "4.1.56").executable
+    assert converter.planner.plan("3.8.75", "4.0.31").executable
+    assert converter.planner.plan("3.8.99", "4.0.31").executable
+    assert converter.planner.plan("3.8.75", "4.3.13").executable
+    assert converter.planner.plan("3.8.99", "4.3.13").executable
+    assert converter.planner.plan("3.8.75", "3.7.94").executable
+    assert converter.planner.plan("3.8.99", "3.7.94").executable
+    for target in ("3.5.51", "3.6.53"):
+        assert converter.planner.plan("3.8.75", target).executable
+        assert converter.planner.plan("3.8.99", target).executable
     assert not converter.planner.plan("3.8.76", "4.2.43").executable
     assert not converter.planner.plan("4.2.43", "3.8.75").executable
+    assert converter.planner.plan("4.2.43", "4.3.13").executable
+
+
+@pytest.mark.parametrize("target_version", ["3.5.51", "3.6.53", "3.7.94"])
+def test_38_to_legacy_uses_skin_map_schema_and_keeps_runtime_timelines(target_version):
+    source_path = Path(__file__).parent / "fixtures/spine38/golden_ingot.json"
+    source = source_path.read_bytes()
+    result = SkeletonConverter().convert(
+        source, target_version, source_risk_policy=SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC
+    )
+    assert result.status is ConversionStatus.STRUCTURALLY_VERIFIED, result.diagnostics
+    assert result.output is not None
+    target = json.loads(result.output)
+    original = json.loads(source)
+    assert target["skeleton"]["spine"] == target_version
+    assert isinstance(target["skins"], dict)
+    assert "default" in target["skins"]
+    timeline = target["animations"]["idle"]["bones"]["main"]["rotate"][0]
+    assert "angle" in timeline
+    assert "curve" in timeline
+    assert target["animations"] == original["animations"]
+    def curve_frames(value):
+        frames = []
+        stack = [value]
+        while stack:
+            item = stack.pop()
+            if isinstance(item, dict):
+                if "curve" in item:
+                    frames.append(item)
+                stack.extend(item.values())
+            elif isinstance(item, list):
+                stack.extend(item)
+        return frames
+
+    source_curves = curve_frames(original["animations"])
+    target_curves = curve_frames(target["animations"])
+    assert len(source_curves) == len(target_curves) == result.statistics["bezier_segments"]
+    for source_frame, target_frame in zip(source_curves, target_curves, strict=True):
+        assert legacy_curve_samples(source_frame) == legacy_curve_samples(target_frame)
+    assert result.details["verification_level"] == "structural_only"
+    assert result.feature_compatibility["target_runtime"] == "not_executed"
+    assert result.provenance["declared_source_version"] == "3.8.75"
+    assert result.provenance["source_fidelity"] == "unverified_without_trusted_baseline"
+    assert source_path.read_bytes() == source
+
+
+def test_38_to_37_rejects_unrepresentable_skin_constraints_and_ik_softness():
+    source = json.loads(skeleton("3.8.99"))
+    source["skins"] = [{"name": "default", "attachments": {}, "ik": ["aim"]}]
+    rejected_skin = SkeletonConverter().convert(json.dumps(source).encode(), "3.7.94")
+    assert rejected_skin.status is ConversionStatus.REJECTED
+    assert any("skin-specific bones or constraints" in item for item in rejected_skin.diagnostics)
+
+    source["skins"][0].pop("ik")
+    source["ik"] = [{"name": "aim", "bones": ["root"], "target": "root", "softness": 2}]
+    rejected_softness = SkeletonConverter().convert(json.dumps(source).encode(), "3.7.94")
+    assert rejected_softness.status is ConversionStatus.REJECTED
+    assert any("cannot represent IK softness" in item for item in rejected_softness.diagnostics)
+
+
+@pytest.mark.parametrize("target_version", ["3.5.51", "3.6.53", "3.7.94"])
+def test_38_99_to_legacy_uses_target_writer_and_legacy_atlas(target_version):
+    document = json.loads(skeleton("3.8.99"))
+    document["animations"] = {"idle": {"bones": {"root": {"rotate": [
+        {"time": 0, "angle": 0, "curve": 0.25, "c2": 0.2, "c3": 0.75, "c4": 0.8},
+        {"time": 1, "angle": 45},
+    ]}}}}
+    result = SkeletonConverter().convert(json.dumps(document).encode(), target_version)
+    assert result.status is ConversionStatus.STRUCTURALLY_VERIFIED, result.diagnostics
+    assert result.statistics["bezier_segments"] == 1
+    target = json.loads(result.output)
+    assert target["skins"] == {}
+    assert target["animations"]["idle"]["bones"]["root"]["rotate"][0]["curve"] == 0.25
+
+    atlas = (
+        b"page.png\nsize: 16, 16\n\nregion\n  rotate: false\n  xy: 1, 2\n"
+        b"  size: 3, 4\n  orig: 3, 4\n  offset: 0, 0\n"
+    )
+    converted = AtlasConverter().convert(atlas, target_version, source_version="3.8.99")
+    assert parse_atlas(converted).region_records == parse_atlas(atlas).region_records
 
 
 def test_atlas_multi_page_round_trip_and_indexed_duplicate_names():
@@ -217,6 +365,175 @@ def test_3899_to_4243_uses_schema_migration_and_bundle_dependencies(tmp_path):
     assert after.bundles[0].texture_pages == ("page.png",)
 
 
+def test_38_to_4156_uses_version_specific_bone_and_atlas_schema():
+    document = json.loads(skeleton("3.8.99"))
+    document["bones"][0]["transform"] = "NoScale"
+    frame = document["animations"]["idle"]["bones"]["root"]["rotate"][0]
+    frame.pop("curve")
+    source = json.dumps(document).encode()
+    result = SkeletonConverter().convert(source, "4.1.56")
+    assert result.status is ConversionStatus.STRUCTURALLY_VERIFIED, result.diagnostics
+    assert result.output is not None
+    target = json.loads(result.output)
+    assert target["skeleton"]["spine"] == "4.1.56"
+    assert target["bones"][0]["transform"] == "NoScale"
+    assert "inherit" not in target["bones"][0]
+
+    legacy_atlas = (
+        b"page.png\nsize: 8, 8\nfilter: Linear, Linear\n\n"
+        b"sprite\n  rotate: true\n  xy: 1, 2\n  size: 3, 4\n  orig: 5, 6\n  offset: 1, 1\n"
+    )
+    converted_atlas = AtlasConverter().convert(
+        legacy_atlas, "4.1.56", source_version="3.8.99"
+    )
+    reparsed = parse_atlas(converted_atlas)
+    assert reparsed.pages == ("page.png",)
+    assert dict(reparsed.region_records[0].attributes)["rotate"] == "true"
+    assert "xy" in dict(reparsed.region_records[0].attributes)
+    assert "bounds" not in dict(reparsed.region_records[0].attributes)
+
+
+def test_38_to_4031_preserves_legacy_deform_and_linked_mesh_schema():
+    document = json.loads(skeleton("3.8.99"))
+    document["bones"][0]["transform"] = "NoScale"
+    document["slots"] = [{"name": "item", "bone": "root", "attachment": "child"}]
+    document["skins"] = [
+        {
+            "name": "default",
+            "attachments": {
+                "item": {
+                    "parent": {
+                        "type": "mesh",
+                        "path": "parent",
+                        "uvs": [0, 0, 1, 0, 1, 1],
+                        "vertices": [0, 0, 1, 0, 1, 1],
+                        "triangles": [0, 1, 2],
+                        "hull": 3,
+                        "width": 1,
+                        "height": 1,
+                    },
+                    "child": {
+                        "type": "linkedmesh",
+                        "path": "parent",
+                        "parent": "parent",
+                        "deform": True,
+                    },
+                }
+            },
+        }
+    ]
+    document["animations"] = {
+        "idle": {
+            "deform": {
+                "default": {
+                    "item": {
+                        "child": [
+                            {"time": 0, "vertices": [0, 0, 0, 0, 0, 0]},
+                            {"time": 1, "vertices": [1, 0, 0, 0, 0, 0]},
+                        ]
+                    }
+                }
+            }
+        }
+    }
+    result = SkeletonConverter().convert(json.dumps(document).encode(), "4.0.31")
+    assert result.status is ConversionStatus.STRUCTURALLY_VERIFIED, result.diagnostics
+    assert result.output is not None
+    target = json.loads(result.output)
+    assert target["skeleton"]["spine"] == "4.0.31"
+    assert target["bones"][0]["transform"] == "NoScale"
+    assert "inherit" not in target["bones"][0]
+    assert target["skins"][0]["attachments"]["item"]["child"]["deform"] is True
+    assert "timelines" not in target["skins"][0]["attachments"]["item"]["child"]
+    deform_frames = target["animations"]["idle"]["deform"]["default"]["item"]["child"]
+    assert isinstance(deform_frames, list)
+    assert len(deform_frames) == 2
+
+
+def test_38_to_4313_combines_constraint_definitions_and_blocks_transform_constraints():
+    document = json.loads(skeleton("3.8.99"))
+    document["bones"] = [
+        {"name": "root"},
+        {"name": "effector", "parent": "root"},
+        {"name": "target", "parent": "root"},
+    ]
+    document["slots"] = [{"name": "pathSlot", "bone": "root"}]
+    rotate = document["animations"]["idle"]["bones"]["root"]["rotate"]
+    rotate[0].pop("curve")
+    rotate.append({"time": 1, "angle": 10})
+    document["ik"] = [
+        {
+            "name": "aim",
+            "order": 2,
+            "bones": ["effector"],
+            "target": "target",
+            "mix": 0.75,
+            "bendPositive": True,
+        }
+    ]
+    document["path"] = [
+        {
+            "name": "follow",
+            "order": 1,
+            "bones": ["effector"],
+            "slot": "pathSlot",
+            "positionMode": "Percent",
+            "spacingMode": "Length",
+            "rotateMode": "Tangent",
+            "position": 0,
+            "spacing": 10,
+            "rotateMix": 0.5,
+            "translateMix": 0.75,
+        }
+    ]
+    document["animations"]["idle"]["ik"] = {
+        "aim": [{"time": 0, "mix": 1}, {"time": 1, "mix": 0.5}]
+    }
+    output = SkeletonConverter().convert(json.dumps(document).encode(), "4.3.13")
+    assert output.status is ConversionStatus.STRUCTURALLY_VERIFIED, output.diagnostics
+    assert output.output is not None
+    target = json.loads(output.output)
+    assert target["skeleton"]["spine"] == "4.3.13"
+    assert "ik" not in target
+    assert target["constraints"] == [
+        {
+            "name": "follow",
+            "bones": ["effector"],
+            "slot": "pathSlot",
+            "positionMode": "Percent",
+            "spacingMode": "Length",
+            "rotateMode": "Tangent",
+            "position": 0,
+            "spacing": 10,
+            "mixRotate": 0.5,
+            "mixX": 0.75,
+            "mixY": 0.75,
+            "type": "path",
+        },
+        {
+            "name": "aim",
+            "bones": ["effector"],
+            "target": "target",
+            "mix": 0.75,
+            "bendPositive": True,
+            "type": "ik",
+        }
+    ]
+    assert target["animations"]["idle"]["ik"]["aim"][1]["mix"] == 0.5
+
+    unsupported = json.loads(skeleton("3.8.99"))
+    unsupported["transform"] = [
+        {"name": "tc", "bones": ["root"], "target": "root"}
+    ]
+    rejected = SkeletonConverter().convert(json.dumps(unsupported).encode(), "4.3.13")
+    assert rejected.status is ConversionStatus.REJECTED
+    assert any(
+        "transform constraints use property mappings" in item for item in rejected.diagnostics
+    )
+    assert rejected.diagnostic_codes == ("UNSUPPORTED_TARGET_FEATURE",)
+    assert rejected.unsupported_features == ("transform_constraints",)
+
+
 def test_real_skeleton_atlas_texture_asset_references_survive_conversion(tmp_path):
     import shutil
     from pathlib import Path
@@ -270,6 +587,197 @@ def test_real_skeleton_atlas_texture_asset_references_survive_conversion(tmp_pat
     assert len(after.bundles) == 1
     assert after.bundles[0].atlases == ("golden_ingot.atlas",)
     assert after.bundles[0].texture_pages == ("golden_ingot.png",)
+
+
+@pytest.mark.parametrize("target_version", ["3.5.51", "3.6.53", "3.7.94"])
+def test_38_to_legacy_complete_asset_set_resolves_all_dependencies(tmp_path, target_version):
+    import shutil
+
+    from fnx_spine_forge.inspection import InspectionService
+
+    fixture = Path(__file__).parent / "fixtures/spine38"
+    source = tmp_path / "source37"
+    target = tmp_path / f"target_{target_version.replace('.', '_')}"
+    source.mkdir()
+    target.mkdir()
+    for name in ("golden_ingot.json", "golden_ingot.atlas", "golden_ingot.png"):
+        shutil.copyfile(fixture / name, source / name)
+    converted = SkeletonConverter().convert(
+        source / "golden_ingot.json",
+        target_version,
+        source_risk_policy=SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC,
+    )
+    assert converted.output is not None
+    (target / "golden_ingot.json").write_bytes(converted.output)
+    (target / "golden_ingot.atlas").write_bytes(
+        AtlasConverter().convert(
+            source / "golden_ingot.atlas", target_version, source_version="3.8.75"
+        )
+    )
+    shutil.copyfile(source / "golden_ingot.png", target / "golden_ingot.png")
+    before = InspectionService().inspect(str(source))
+    after = InspectionService().inspect(str(target))
+    assert before.ok, before.diagnostics
+    assert after.ok, after.diagnostics
+    assert after.bundles[0].atlases == ("golden_ingot.atlas",)
+    assert after.bundles[0].texture_pages == ("golden_ingot.png",)
+    source_skeleton = next(item for item in before.assets if item.kind == "skeleton_json")
+    target_skeleton = next(item for item in after.assets if item.kind == "skeleton_json")
+    assert source_skeleton.metadata["attachment_paths"] == target_skeleton.metadata[
+        "attachment_paths"
+    ]
+    assert (target / "golden_ingot.png").read_bytes() == (source / "golden_ingot.png").read_bytes()
+
+
+@pytest.mark.parametrize("target_version", ["3.5.51", "3.6.53", "3.7.94"])
+def test_synthetic_38_99_legacy_bundle_preserves_region_and_texture_dependencies(
+    tmp_path, target_version
+):
+    import shutil
+
+    from fnx_spine_forge.inspection import InspectionService
+
+    source = tmp_path / "source"
+    target = tmp_path / "target"
+    source.mkdir()
+    target.mkdir()
+    document = {
+        "skeleton": {"spine": "3.8.99", "images": ""},
+        "bones": [{"name": "root"}],
+        "slots": [{"name": "slot", "bone": "root", "attachment": "wheel"}],
+        "skins": [{
+            "name": "default",
+            "attachments": {
+                "slot": {"wheel": {"type": "region", "path": "Wheel", "width": 1, "height": 1}}
+            },
+        }],
+        "animations": {},
+    }
+    (source / "synthetic.json").write_text(json.dumps(document), encoding="utf-8")
+    fixture = Path(__file__).parent / "fixtures/spine38"
+    shutil.copyfile(fixture / "golden_ingot.atlas", source / "golden_ingot.atlas")
+    shutil.copyfile(fixture / "golden_ingot.png", source / "golden_ingot.png")
+    result = SkeletonConverter().convert(source / "synthetic.json", target_version)
+    assert result.output is not None, result.diagnostics
+    (target / "synthetic.json").write_bytes(result.output)
+    (target / "golden_ingot.atlas").write_bytes(
+        AtlasConverter().convert(
+            source / "golden_ingot.atlas", target_version, source_version="3.8.99"
+        )
+    )
+    shutil.copyfile(source / "golden_ingot.png", target / "golden_ingot.png")
+    before = InspectionService().inspect(str(source))
+    after = InspectionService().inspect(str(target))
+    assert before.ok, before.diagnostics
+    assert after.ok, after.diagnostics
+    assert after.bundles[0].texture_pages == ("golden_ingot.png",)
+    assert (target / "golden_ingot.png").read_bytes() == (source / "golden_ingot.png").read_bytes()
+
+
+def test_direct_42_to_43_converts_constraints_and_preserves_channel_curves():
+    document = json.loads(skeleton("4.2.43"))
+    document["animations"]["idle"]["bones"]["root"]["rotate"] = [
+        {"time": 0, "value": 0, "curve": [0.2, 1, 0.7, 2]},
+        {"time": 1, "value": 45},
+    ]
+    document["ik"] = [
+        {
+            "name": "aim",
+            "order": 2,
+            "bones": ["root"],
+            "target": "root",
+            "mix": 0.75,
+            "bendPositive": True,
+        }
+    ]
+    document["animations"]["idle"]["ik"] = {
+        "aim": [
+            {"time": 0, "mix": 1, "curve": [0.2, 0.1, 0.8, 0.9]},
+            {"time": 1, "mix": 0.5},
+        ]
+    }
+    source = json.dumps(document).encode()
+    result = SkeletonConverter().convert(source, "4.3.13")
+    assert result.status is ConversionStatus.STRUCTURALLY_VERIFIED, result.diagnostics
+    assert result.output is not None
+    target = json.loads(result.output)
+    assert target["skeleton"]["spine"] == "4.3.13"
+    assert target["constraints"][0]["type"] == "ik"
+    assert "ik" not in target
+    assert target["animations"]["idle"]["bones"]["root"]["rotate"][0]["curve"] == [
+        0.2, 1, 0.7, 2
+    ]
+    assert result.statistics["bezier_segments"] == 2
+    source_rotation = document["animations"]["idle"]["bones"]["root"]["rotate"]
+    target_rotation = target["animations"]["idle"]["bones"]["root"]["rotate"]
+    source_ik = document["animations"]["idle"]["ik"]["aim"]
+    target_ik = target["animations"]["idle"]["ik"]["aim"]
+    rotation_error = max(
+        abs(a - b)
+        for a, b in zip(
+            absolute_curve_samples(source_rotation[0], source_rotation[1], "value"),
+            absolute_curve_samples(target_rotation[0], target_rotation[1], "value"),
+            strict=True,
+        )
+    )
+    ik_error = max(
+        abs(a - b)
+        for a, b in zip(
+            absolute_curve_samples(source_ik[0], source_ik[1], "mix"),
+            absolute_curve_samples(target_ik[0], target_ik[1], "mix"),
+            strict=True,
+        )
+    )
+    assert max(rotation_error, ik_error) <= 1e-12
+    assert source == json.dumps(document).encode()
+    repeated = SkeletonConverter().convert(source, "4.3.13")
+    assert repeated.output == result.output
+
+    document["transform"] = [{"name": "copy", "bones": ["root"], "target": "root"}]
+    rejected = SkeletonConverter().convert(json.dumps(document).encode(), "4.3.13")
+    assert rejected.status is ConversionStatus.REJECTED
+    assert rejected.unsupported_features == ("transform_constraints",)
+
+
+def test_direct_42_to_43_preserves_modern_atlas_semantics():
+    legacy = Path(__file__).parent / "fixtures/spine38/golden_ingot.atlas"
+    atlas_42 = AtlasConverter().convert(
+        legacy, "4.2.43", source_version="3.8.75"
+    )
+    atlas_43 = AtlasConverter().convert(
+        atlas_42, "4.3.13", source_version="4.2.43"
+    )
+    assert parse_atlas(atlas_43).page_records == parse_atlas(atlas_42).page_records
+    assert parse_atlas(atlas_43).region_records == parse_atlas(atlas_42).region_records
+
+
+def test_direct_42_to_43_real_bundle_reinspection_preserves_texture(tmp_path):
+    import shutil
+
+    from fnx_spine_forge.inspection import InspectionService
+
+    fixture = Path(__file__).parent / "fixtures/spine38"
+    source_38 = (fixture / "golden_ingot.json").read_bytes()
+    converter = SkeletonConverter()
+    result_42 = converter.convert(
+        source_38, "4.2.43", source_risk_policy=SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC
+    )
+    assert result_42.output is not None
+    result_43 = converter.convert(result_42.output, "4.3.13")
+    assert result_43.output is not None, result_43.diagnostics
+    atlas_42 = AtlasConverter().convert(
+        (fixture / "golden_ingot.atlas").read_bytes(), "4.2.43", source_version="3.8.75"
+    )
+    atlas_43 = AtlasConverter().convert(atlas_42, "4.3.13", source_version="4.2.43")
+    target = tmp_path / "bundle43"
+    target.mkdir()
+    (target / "golden_ingot.json").write_bytes(result_43.output)
+    (target / "golden_ingot.atlas").write_bytes(atlas_43)
+    shutil.copyfile(fixture / "golden_ingot.png", target / "golden_ingot.png")
+    inspected = InspectionService().inspect(str(target))
+    assert inspected.ok, inspected.diagnostics
+    assert inspected.bundles[0].texture_pages == ("golden_ingot.png",)
+    assert (target / "golden_ingot.png").read_bytes() == (fixture / "golden_ingot.png").read_bytes()
 
 
 def test_runtime_smoke_refuses_a_nonmatching_runtime_version(tmp_path):

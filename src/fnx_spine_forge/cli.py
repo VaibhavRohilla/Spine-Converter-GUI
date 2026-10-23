@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Any
 
 from .conversion import AtlasConverter, ConversionPlanner, SkeletonConverter, SourceRiskPolicy
-from .conversion.runtime import run_spine_42_runtime_smoke
+from .conversion.runtime import run_spine_runtime_smoke
 from .inspection import InspectionService
 from .versions import VersionRegistry
 
@@ -28,7 +28,8 @@ def main(argv: list[str] | None = None) -> int:
     plan.add_argument("--from-version", required=True)
     plan.add_argument("--to-version", required=True)
     runtime_smoke = sub.add_parser(
-        "runtime-smoke", help="Load and evaluate a converted bundle with official Spine 4.2.43"
+        "runtime-smoke",
+        help="Load and evaluate a converted bundle with an exact official Spine runtime",
     )
     runtime_smoke.add_argument("--skeleton", required=True)
     runtime_smoke.add_argument("--atlas", required=True)
@@ -90,7 +91,23 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "plan":
         planned = ConversionPlanner(
             {(f, f) for f in ("3.5", "3.6", "3.7", "3.8", "4.0", "4.1", "4.2", "4.3")}
-            | {("3.8.75", "4.2.43"), ("3.8.99", "4.2.43")}
+            | {
+                ("3.8.75", "4.2.43"),
+                ("3.8.99", "4.2.43"),
+                ("3.8.75", "4.1.56"),
+                ("3.8.99", "4.1.56"),
+                ("3.8.75", "4.0.31"),
+                ("3.8.99", "4.0.31"),
+                ("3.8.75", "4.3.13"),
+                ("3.8.99", "4.3.13"),
+                ("3.8.75", "3.7.94"),
+                ("3.8.99", "3.7.94"),
+                ("3.8.75", "3.6.53"),
+                ("3.8.99", "3.6.53"),
+                ("3.8.75", "3.5.51"),
+                ("3.8.99", "3.5.51"),
+                ("4.2.43", "4.3.13"),
+            }
         ).plan(args.from_version, args.to_version)
         print(
             json.dumps(
@@ -104,7 +121,7 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 0 if planned.executable else 2
     if args.command == "runtime-smoke":
-        runtime_report = run_spine_42_runtime_smoke(
+        runtime_report = run_spine_runtime_smoke(
             args.skeleton, args.atlas, args.runtime_package
         )
         print(json.dumps(runtime_report, ensure_ascii=False, sort_keys=True, indent=2))

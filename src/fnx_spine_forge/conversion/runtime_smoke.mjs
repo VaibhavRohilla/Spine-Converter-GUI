@@ -4,25 +4,38 @@ import { pathToFileURL } from "node:url";
 
 const [packageRoot, skeletonPath, atlasPath] = process.argv.slice(2);
 const pkg = JSON.parse(await readFile(resolve(packageRoot, "package.json"), "utf8"));
-if (pkg.name !== "@esotericsoftware/spine-core" || pkg.version !== "4.2.43") {
-  throw new Error(`Expected official @esotericsoftware/spine-core 4.2.43, got ${pkg.name}@${pkg.version}`);
+if (
+  pkg.name !== "@esotericsoftware/spine-core"
+  || !["4.0.31", "4.1.56", "4.2.43", "4.3.13"].includes(pkg.version)
+) {
+  throw new Error(`Unsupported official Spine runtime package ${pkg.name}@${pkg.version}`);
 }
 const spine = await import(pathToFileURL(resolve(packageRoot, pkg.main)).href);
 const skeletonDocument = JSON.parse(await readFile(skeletonPath, "utf8"));
-if (skeletonDocument.skeleton?.spine !== "4.2.43") {
-  throw new Error(`Expected Spine 4.2.43 skeleton data, got ${skeletonDocument.skeleton?.spine}`);
+if (skeletonDocument.skeleton?.spine !== pkg.version) {
+  throw new Error(`Runtime ${pkg.version} does not match skeleton ${skeletonDocument.skeleton?.spine}`);
 }
 const atlasText = await readFile(atlasPath, "utf8");
 const atlas = new spine.TextureAtlas(atlasText);
 for (const page of atlas.pages) {
   const texturePath = resolve(dirname(atlasPath), page.name);
   await readFile(texturePath);
+  if (spine.FakeTexture && typeof page.setTexture === "function") {
+    page.setTexture(new spine.FakeTexture({ width: page.width, height: page.height }));
+  }
 }
 const attachmentLoader = new spine.AtlasAttachmentLoader(atlas);
 const skeletonData = new spine.SkeletonJson(attachmentLoader).readSkeletonData(skeletonDocument);
 const skeleton = new spine.Skeleton(skeletonData);
-skeleton.setToSetupPose();
-skeleton.updateWorldTransform(spine.Physics.update);
+if (pkg.version === "4.3.13") skeleton.setupPose();
+else skeleton.setToSetupPose();
+const updateWorld = () => {
+  if (["4.2.43", "4.3.13"].includes(pkg.version)) {
+    skeleton.updateWorldTransform(spine.Physics.update);
+  }
+  else skeleton.updateWorldTransform();
+};
+updateWorld();
 const state = new spine.AnimationState(new spine.AnimationStateData(skeletonData));
 let evaluatedSamples = 0;
 for (const animation of skeletonData.animations) {
@@ -33,9 +46,10 @@ for (const animation of skeletonData.animations) {
   for (const time of samples) {
     state.update(time - prior);
     state.apply(skeleton);
-    skeleton.updateWorldTransform(spine.Physics.update);
+    updateWorld();
     for (const bone of skeleton.bones) {
-      for (const value of [bone.worldX, bone.worldY, bone.a, bone.b, bone.c, bone.d]) {
+      const pose = bone.appliedPose ?? bone;
+      for (const value of [pose.worldX, pose.worldY, pose.a, pose.b, pose.c, pose.d]) {
         if (!Number.isFinite(value)) throw new Error(`Non-finite world transform in ${animation.name}`);
       }
     }

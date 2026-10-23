@@ -2,94 +2,100 @@
 
 ## Decision
 
-**B2 OPEN / BLOCKED.** Exact Spine 3.8.75 and 3.8.99 to 4.2.43 skeleton and atlas paths are implemented. The 3.8.75 real fixture is structurally verified, numerically checked, dependency checked, and loaded by the exact official Spine 4.2.43 TypeScript runtime. The 3.8.99 synthetic route fixture passes structural, numerical, and bundle dependency checks. Other required targets and broader real-asset qualification remain incomplete. No freeze is claimed.
+**B2 OPEN / BLOCKED.** All requested exact 3.8.75 and 3.8.99 source patches now have executable routes to the seven requested target patches. The first independent general edge, 4.2.43→4.3.13, is also implemented and passed exact 4.3 runtime evaluation. Historical 3.x targets have structural verification only; matching runtime loading was not executed. The broader any-version route graph, additional source-runtime certification, authentic 3.8.99 fixture, and remaining migration edges are unfinished. This is not a B2 freeze.
 
-## A. Implemented conversion architecture
+## A. Architecture
 
-- `conversion/skeleton.py` provides the independent Python `SkeletonConverter`, source-version detection, route selection, semantic transformation, target reinspection, conversion metrics, and structured diagnostics/provenance.
-- `conversion/migrate_38_42.py` performs the explicitly versioned 3.8.75 or 3.8.99 to 4.2.43 JSON migration. It converts bone transform modes, slot color timelines, rotation values, constraint mix fields/channels, draw-order naming, deform ownership/timeline nesting, linked-mesh deform inheritance, and normalized to absolute Bézier controls. It validates references, attachment geometry, constraints, deform ranges, and target schema. Unknown top-level and timeline groups reject conversion.
-- `conversion/atlas.py` exposes the standalone atlas API and converts the exact 3.8.75 and 3.8.99 to 4.2.43 atlas encoding. It reparses and compares pages, region ordering/indexing, rotation, packed bounds, trim offsets, and original dimensions. It does not alter texture data.
-- `conversion/planner.py` registers executable exact-version routes only. The registered cross-version routes are `3.8.75 -> 4.2.43` and `3.8.99 -> 4.2.43`.
-- `conversion/runtime.py` and packaged `runtime_smoke.mjs` run the headless exact-version official TypeScript runtime smoke when the caller supplies `@esotericsoftware/spine-core` 4.2.43. Runtime parsing, animation-state evaluation, and visual equivalence are reported separately.
-- `cli.py` retains standalone skeleton and atlas conversion and adds `runtime-smoke`. Spine 3.8.75 conversion requires explicit `--allow-known-source-export-risk`. Writes use the existing atomic writer.
+- `conversion/skeleton.py` owns the independent Python converter API, exact source/target route gate, source risk handling, structural reinspection, deterministic JSON output, statistics, and structured diagnostics.
+- `conversion/migrate_38_to_legacy.py` migrates 3.8 skin arrays to 3.5/3.6/3.7 object-map skins. Its exact target profiles are 3.5.51, 3.6.53, and 3.7.94. It validates source structure, references, linked-mesh parents, geometry, constraints, deform ranges, timeline types, and legacy Bézier controls. It rejects skin-scoped bones or constraints and IK softness that the legacy readers cannot represent.
+- `conversion/migrate_38_to_4x.py` writes target-specific 4.x schemas for 4.0.31, 4.1.56, 4.2.43, and 4.3.13. It validates attachment geometry and references, constraints, deform ranges, target fields, animation groups, and curve controls. The 4.3 writer supports IK and path constraints in the combined ordered constraint list; unsupported transform constraints and legacy uniform IK are blocking.
+- `conversion/migrate_42_to_43.py` independently migrates exact 4.2.43 JSON to 4.3.13. It preserves 4.2 per-channel Bézier controls, transforms linked-mesh `parent` to 4.3 `source`, and combines supported root IK/path definitions into the ordered 4.3 `constraints` array. Transform constraints and legacy uniform IK reject explicitly.
+- `conversion/atlas.py` independently transforms atlas text and verifies parsed page/region semantics. Legacy targets retain the source 3.8 atlas field encoding; 4.2/4.3 targets use bounds/offsets and degree rotation. Texture bytes are never rewritten.
+- `conversion/planner.py` and `cli.py` expose only exact registered routes. Other recognized families do not imply conversion support. Atomic writes and B1 inspection contracts are retained.
+- `conversion/runtime.py`, `runtime_smoke.mjs`, and `runtime_extension_loader.mjs` load and evaluate converted bundles only with exact caller-supplied official 4.x runtime packages. Runtime parsing, animation evaluation, and visual equivalence remain separate statuses.
 
-The schema mappings were checked against the official [Spine JSON export format](https://esotericsoftware.com/spine-json-format) and the official Spine 3.8 and 4.2 TypeScript readers cited in the previous report. 4.2 curve values are channel-specific absolute control points; migration maps normalized source controls using the adjacent keyframes and verifies curve values numerically.
+The legacy mappings were checked against the official [Spine 3.5](https://github.com/EsotericSoftware/spine-runtimes/blob/3.5/spine-ts/core/src/SkeletonJson.ts), [3.6](https://github.com/EsotericSoftware/spine-runtimes/blob/3.6/spine-ts/core/src/SkeletonJson.ts), and [3.7](https://github.com/EsotericSoftware/spine-runtimes/blob/3.7/spine-ts/core/src/SkeletonJson.ts) readers; the 4.x mappings were checked against their corresponding official readers. Official release listings identify the exact older patch targets [3.5.51, 3.6.53, and 3.7.94](https://us.esotericsoftware.com/spine-skeleton-viewer). The historical loaders share the object-map skin and normalized curve encoding; the writer records the exact target patch and does not advertise a runtime result without execution.
 
-## B. Supported conversion routes
+## B. Exact 3.8 route matrix
 
-| Exact source | Exact target | Qualification |
+Each row applies separately to source `3.8.75` and `3.8.99`. No other 3.8 patch inherits route qualification.
+
+| Target | Schema transformation | Verification status |
 |---|---|---|
-| Spine 3.8.75 JSON | Spine 4.2.43 JSON | Executable with explicit known-risk policy; structural validation, sampled Bézier equivalence, real-fixture runtime load and animation-state evaluation |
-| Spine 3.8.75 atlas | Spine 4.2.43 atlas | Executable with caller-supplied exact source version; semantic atlas reparse and real bundle dependency check |
-| Spine 3.8.99 JSON | Spine 4.2.43 JSON | Executable; synthetic route fixture, structural validation and sampled Bézier equivalence; authentic exporter fixture unavailable |
-| Spine 3.8.99 atlas | Spine 4.2.43 atlas | Executable with caller-supplied exact source version; synthetic bundle dependency and target syntax checks |
+| 3.5.51 | Skin array to legacy object-map; legacy timeline encoding retained | Structural, route-specific tests, atlas dependency tests; runtime not executed |
+| 3.6.53 | Skin array to legacy object-map; legacy timeline encoding retained | Structural, route-specific tests, atlas dependency tests; runtime not executed |
+| 3.7.94 | Skin array to legacy object-map; legacy timeline encoding retained | Structural, route-specific tests, atlas dependency tests; runtime not executed |
+| 4.0.31 | Target-specific transform, linked-mesh, deform, constraints, and curve schema | Structural tests; exact 4.0.31 runtime parsed and evaluated the real 3.8.75 asset |
+| 4.1.56 | Target-specific transform, linked-mesh and deform schema | Structural tests; exact 4.1.56 runtime parsed and evaluated the real 3.8.75 asset |
+| 4.2.43 | `inherit`, linked-mesh timelines, nested deform, absolute per-channel Bézier controls, atlas bounds/offsets | Structural and sampled numerical tests; exact 4.2.43 runtime parsed and evaluated the real 3.8.75 asset |
+| 4.3.13 | Combined ordered constraints, linked-mesh `source`, target atlas encoding; transform constraints and uniform legacy IK blocked | Structural tests; exact 4.3.13 runtime parsed and evaluated the real 3.8.75 asset; synthetic IK/path runtime evaluation passed |
 
-The implemented route covers skeleton metadata, hierarchy, bones and slots, array-form skins, setup attachment references, events, draw order, region/mesh/weighted/linked-mesh/clipping/bounding-box/path/point attachments, supported constraints, and the implemented rotation, translation, scale, shear, attachment, color/two-color, deform, draw-order, event, IK, transform-constraint, and path-constraint timelines. Unsupported or malformed features reject without output. Synthetic fixtures exercise feature families not present in the reference asset.
+All routes are registered independently for source patches `3.8.75` and `3.8.99` (14 exact skeleton routes). Historical targets are limited to constructs verified by their loaders. Unknown or malformed schemas reject. Lossy mode is not implemented.
 
-There are no registered migrations from either 3.8.75 or 3.8.99 to 3.5, 3.6, 3.7, 4.0, 4.1, or 4.3. Other patch versions do not inherit qualification. Recognizing a version family or same-version serialization does not constitute cross-version migration support. No composed route is registered.
+Independent general route currently registered:
 
-The official 4.3 reader has a materially different setup-pose representation and reads additional physics and slider constraint types ([official 4.3 SkeletonJson reader](https://github.com/EsotericSoftware/spine-runtimes/blob/4.3/spine-ts/spine-core/src/SkeletonJson.ts)). This confirms that a 4.2 to 4.3 route requires semantic transformations and feature policy; no metadata-only edge is registered.
+| Exact source | Exact target | Schema changes | Verification |
+|---|---|---|---|
+| 4.2.43 | 4.3.13 | Root IK/path arrays become ordered typed constraints; linked-mesh `parent` becomes `source`; 4.2 channel curves remain unchanged | Structural, atlas, B1 dependency, and exact 4.3.13 runtime tests passed; 8 animation samples |
 
-## C. Spine 3.8.75 source export risk
+## C. Spine 3.8.75 risk policy
 
-The official maintainers state that Spine 3.8.75 exports contain known issues, that official 3.8 runtimes reject that version, and recommend exporting from 3.8.99 when possible ([issue 2428](https://github.com/EsotericSoftware/spine-runtimes/issues/2428)). The notice does not identify specific affected construct categories, so the converter records those as unspecified rather than guessing.
+Spine maintainers acknowledge defective 3.8.75 exports and state that official 3.8 runtimes reject that exact version ([issue 2428](https://github.com/EsotericSoftware/spine-runtimes/issues/2428)). The cited evidence does not enumerate affected constructs; the converter therefore records affected feature categories as unknown instead of guessing. Default conversion blocks with `SOURCE_EXPORT_KNOWN_BUG`. Explicit `SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC` or `--allow-known-source-export-risk` permits a controlled attempt and preserves `declared_source_version` and unverified source-fidelity provenance. It never changes source metadata before reading. An authentic re-export from 3.8.99 is recommended when the Spine project is available. No authentic 3.8.99 export fixture is present.
 
-The converter detects exact source version `3.8.75`. Default policy rejects with `SOURCE_EXPORT_KNOWN_BUG`. An explicit `SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC` or CLI `--allow-known-source-export-risk` permits a controlled migration attempt and adds provenance containing the unchanged declared source version, recommendation to re-export from 3.8.99, and `source_fidelity: unverified_without_trusted_baseline`. It does not relabel source metadata to bypass a runtime restriction. No authentic 3.8.99 fixture is currently available.
+## D. Real asset results
 
-## D. Real asset and runtime results
+Real input: `tests/fixtures/spine38/golden_ingot.json`, `golden_ingot.atlas`, and `golden_ingot.png`; exact source version `3.8.75`. The same source file was converted independently to every target in the matrix.
 
-Available real fixture: `tests/fixtures/spine38/golden_ingot.json`, `.atlas`, and `.png`.
+| Output | Bones | Slots | Skins | Attachments | Animations | Timelines / keys | Bézier segments / max error |
+|---|---:|---:|---:|---|---|---|---|
+| 3.5.51 | 5 | 8 | 1 | 8 region | idle, winning | 5 / 25 | 20 / 0 (legacy representation retained) |
+| 3.6.53 | 5 | 8 | 1 | 8 region | idle, winning | 5 / 25 | 20 / 0 (legacy representation retained) |
+| 3.7.94 | 5 | 8 | 1 | 8 region | idle, winning | 5 / 25 | 20 / 0 (legacy representation retained) |
+| 4.0.31 | 5 | 8 | 1 | 8 region | idle, winning | 5 / 25 | 42 / 2.731148640577885e-14 |
+| 4.1.56 | 5 | 8 | 1 | 8 region | idle, winning | 5 / 25 | 42 / 2.731148640577885e-14 |
+| 4.2.43 | 5 | 8 | 1 | 8 region | idle, winning | 5 / 25 | 42 / 2.731148640577885e-14 |
+| 4.3.13 | 5 | 8 | 1 | 8 region | idle, winning | 5 / 25 | 42 / 2.731148640577885e-14 |
 
-- Exact real input `3.8.75`; output `4.2.43`.
-- Skeleton: 5 bones, 8 slots, 1 skin, 8 region attachments, 2 animations.
-- Timeline/keyframe totals: 5 timeline instances and 25 keyframes. Animations: `idle`, `winning`.
-- Curves: 42 Bézier channel segments evaluated at 257 shared positions each; maximum absolute deviation `2.731148640577885e-14`.
-- Atlas: 1 page, 6 regions. Reparse retained region geometry, offsets, rotation, indices, and page declarations.
-- Complete source and converted folders were reinspected through B1. Both manifests were `ok`; skeleton attachment paths matched; output atlas and page resolved; no missing or ambiguous texture, atlas, or region dependency was reported. The texture PNG bytes were preserved unchanged.
-- Repeated conversion was deterministic and source JSON remained unchanged.
-- Exact synthetic input `3.8.99`; output `4.2.43`. The fixture exercised a two-keyframe rotation Bézier segment (maximum numerical error at most `1e-12`) and a region attachment. The source and target asset directories both passed B1 inspection, the region and atlas page resolved, and no 3.8.75 warning was emitted. This is synthetic schema evidence; an authentic 3.8.99 export was not available.
+The older targets use the same official legacy normalized curve representation; tests sample each source and target curve at 257 matching normalized times and verify exact equality. 4.x targets decode source controls, emit the target per-channel absolute controls, sample 257 shared times per supported channel, and report maximum deviation. Negative deltas and channel defaults are covered by synthetic tests. The target keyframe totals remain 25; no animation timelines are removed on successful conversion.
 
-Official target runtime smoke executed with `@esotericsoftware/spine-core@4.2.43` from the official Esoteric Software package. It parsed the converted skeleton and atlas, read the referenced page texture, resolved all atlas-backed attachments while loading, instantiated the skeleton, applied setup pose, and evaluated both animations at 4 representative timestamps each. Result: parsing passed, animation-state evaluation passed, 8 samples, no runtime exception or non-finite world transform. This is runtime load/evaluation evidence for this fixture only. The headless core does not render texture pixels; visual equivalence is **not assessed**. The runtime package is an optional caller-supplied dependency and remains subject to the Spine runtime license.
+For direct 3.8→4.x outputs, exact matching runtime packages parsed the real skeleton and atlas, resolved attachments, instantiated setup pose, and evaluated two animations at four timestamps each: 8 samples per runtime with no runtime exception or non-finite world transform. The synthetic 3.8 IK/path fixture loaded and evaluated 4 samples in runtime 4.3.13. Separately, direct 4.2.43→4.3.13 conversion of the real asset's 4.2 output passed B1 bundle inspection and official `@esotericsoftware/spine-core@4.3.13` parsing and animation-state evaluation for 8 samples. These results do not certify rendered visual equivalence. Historical 3.x target runtimes were not executed.
 
-`merged_multi.json` is a separate 4.2.43 asset, not an animation-equivalence counterpart to `golden_ingot.json`; it was not used as a paired comparison. No 4.3 or other historical fixture is available in the repository.
+An authentic 3.8.99 fixture remains unavailable. Synthetic 3.8.99 fixtures exercised each of the seven target writers; synthetic 3.8.99 bundles targeting 3.5.51, 3.6.53, and 3.7.94 passed B1 dependency inspection. Separate synthetic 4.x bundle tests exercise target schema and curve behavior.
 
-## E. Animation and atlas integrity
+## E. Atlas and complete asset integrity
 
-Bézier conversion decodes the source controls, emits target channel-specific controls, evaluates both representations at 257 identical normalized time positions per segment, and reports the maximum deviation. Real-fixture maximum error is `2.731148640577885e-14`; synthetic tests cover negative value deltas, channel defaults, and deform curves. Timeline categories and keyframe counts are reported. Unknown timeline groups block conversion.
+The real 3.8.75 bundle was converted and re-inspected through B1 for the 3.5.51, 3.6.53, and 3.7.94 targets. Skeleton attachment paths, atlas regions, page references, and texture page dependencies resolved; the PNG bytes were unchanged. A synthetic 3.8.99 bundle with a region attachment and atlas page passed the same checks for each legacy target. The 4.2.43→4.3.13 bundle also passed B1 inspection. Exact 4.x runtime smoke tests loaded atlas pages and resolved their supported attachments. Atlas tests cover multi-page atlases, indexed regions, rotation, offsets, dimensions, filtering, wrapping, and deterministic serialization.
 
-The atlas migration handles page declarations and multi-page layout, legacy region `xy`/`size`/`orig`/`offset` fields, rotation, filter/wrap attributes, trimming/original dimensions, and indexed regions. Target output is reparsed. Texture bytes are not transformed. Full attachment-to-atlas and page-to-texture dependency verification has passed for the available combined real fixture; broader fixture coverage remains open.
+## F. Testing and qualification
 
-## F. Testing and executed checks
+Final qualification run: `.venv/bin/python -m pytest -q` — 80 passed; `.venv/bin/ruff check src tests` — passed; `.venv/bin/mypy` — 23 source files, no issues; `.venv/bin/python -m build` — sdist and wheel passed; `git diff --check` — passed. Installed CLI verification covered 3.8.75→3.5.51 skeleton/atlas conversion and planning; direct 4.2.43→4.3.13 was verified through the Python API, B1 bundle inspection, and exact runtime harness.
 
-- `.venv/bin/python -m pytest -q` — 59 passed.
-- `.venv/bin/ruff check src tests` — passed.
-- `.venv/bin/mypy` — strict typing, 21 source files, passed.
-- `.venv/bin/python -m build` — sdist and wheel passed; runtime `.mjs` harness is included in the package.
-- Installed `.venv/bin/spine-forge convert skeleton` with explicit known-risk policy — real fixture converted and reported its risk provenance and structural metrics.
-- Installed `.venv/bin/spine-forge convert atlas` — 1 page and 6 regions converted.
-- Installed `.venv/bin/spine-forge runtime-smoke` with official 4.2.43 package — animation-state evaluation passed as detailed above.
-- B1 inspection of complete source and target directories — both passed with matching skeleton attachment paths, one resolved atlas, and one resolved page texture.
-- Synthetic 3.8.99 to 4.2.43 route test — curve conversion and both source/target complete bundle inspections passed.
-- Tests cover deterministic output, source immutability, Bézier numerical equivalence, malformed curves, unknown timelines, missing linked-mesh parents, invalid constraint references, missing schema fields, invalid target requests, atlas semantics, and rejection of nonmatching runtime package identity.
+Required commands:
 
-## G. Git state
+- `.venv/bin/python -m pytest -q`
+- `.venv/bin/ruff check src tests`
+- `.venv/bin/mypy`
+- `.venv/bin/python -m build`
+
+Route checks also cover installed CLI planning, deterministic output, source immutability, invalid target requests, unknown timeline types, missing linked-mesh parents, invalid constraints/deform data, malformed curves, missing schema fields, known 3.8.75 risk policy, atlas reparse, and dependency resolution. Runtime smoke uses only exact Spine 4.0.31, 4.1.56, 4.2.43, and 4.3.13 packages. No runtime or visual certification is claimed for a target whose runtime did not execute.
+
+## G. Git
 
 - Development branch: `codex/b2-conversion-engine`.
-- Tested pre-hardening checkpoint: `74af8b33b9d7b3303b23762671a50283c417a9a9` (`Checkpoint B2 Spine 3.8 to 4.2 conversion`).
-- Final implementation and qualification commit: `b8cc4ac95a0b7ecea80ed81546f0e7ae61d60a0b` (`Harden B2 3.8 to 4.2 conversion qualification`).
-- The report revision is committed immediately after the implementation commit; the final report-only commit SHA is available as repository `HEAD`.
-- Working-tree status after the report revision: clean.
+- B2 development checkpoint: `74af8b33b9d7b3303b23762671a50283c417a9a9`.
+- Prior 3.8.75→4.2.43 hardening implementation: `b8cc4ac95a0b7ecea80ed81546f0e7ae61d60a0b`.
+- Prior 3.8.99→4.2.43 route: `50a2dbc7d9a82fff4b09fc0da7551d0ecdec6920`.
+- Current matrix and direct-edge implementation checkpoint is recorded after final checks. This is a development checkpoint, not a freeze.
 
 ## H. Remaining work
 
-- Implement and qualify the mandatory 3.8.75 and 3.8.99 conversions to 3.5, 3.6, 3.7, 4.0, 4.1, and 4.3 with target-specific transformations, feature matrices, route tests, and atlas dependency checks.
-- Obtain an authentic Spine 3.8.99 fixture and run the source regression route against it.
-- Implement the planned 4.2->4.3, 4.1->4.2, 4.0->4.1, 3.8->4.0, 3.7->3.8, 3.6->3.7, and 3.5->3.6 migrations only as independently implemented and tested direct semantic edges. The current planner does not yet compose routes.
-- Add a route graph and end-to-end tests for composed routes after the direct migrations exist; do not infer compatibility transitively.
-- Add valid fixtures and negative cases for each new route. No route should be inferred from family recognition.
-- Broaden 3.8 qualification with real assets for weighted and linked meshes, every supported constraint/timeline class, and companion atlases. Add an authentic 3.8.99 regression fixture when available.
-- Keep runtime parsing/evaluation evidence distinct from rendered visual comparison; visual equivalence is not certified here.
+- Complete a matching historical Spine 3.5.51, 3.6.53, and 3.7.94 runtime load/evaluation harness or record the exact tooling/license blocker; current verification is structural plus B1 dependency resolution.
+- Obtain an authentic 3.8.99 export fixture and run it through all seven target routes.
+- Expand real 3.8 fixture coverage to weighted meshes, linked meshes, clipping, bounding boxes, paths, points, and each supported constraint/timeline family.
+- Implement and test direct migrations between other version families: 4.1→4.2, 4.0→4.1, 3.7→3.8, 3.6→3.7, and 3.5→3.6 remain unregistered. The 4.2→4.3 edge is implemented; unrelated routes are not forced through 3.8.
+- Add graph-based planning only after direct edges exist; qualify every composed route end to end and reject any hop that discards semantics.
+- Expand official target runtime coverage and keep parser, animation-state, and visual verification statuses separate.
 
 ## I. Freeze decision
 
-**B2 OPEN / BLOCKED.** Two exact 3.8 source patch versions now migrate to 4.2.43, but the required 3.8 source-to-target matrix and general version graph are unfinished. No full-matrix conversion support, runtime certification beyond the tested real asset, or visual equivalence is claimed.
+**B2 OPEN / BLOCKED.** The complete direct 3.8 patch-to-target route set and one independent 4.2→4.3 edge are implemented, but historical target runtime qualification and the broader version-to-version migration graph remain incomplete. No full matrix or visual equivalence certification is claimed.

@@ -1,7 +1,8 @@
-"""Schema transformations for the qualified 3.8.75 to 4.2.43 JSON edge.
+"""Schema transformations from supported Spine 3.8 exporters to qualified 4.x targets.
 
-Field names and timeline layouts are based on the official Spine 3.8 and 4.2
-TypeScript SkeletonJson readers. This is structural migration, not runtime proof.
+Field names and timeline layouts are based on the official Spine 3.8, 4.0, 4.1,
+and 4.2 TypeScript SkeletonJson readers. Target-specific writers remain exact-version
+gated, and migration is structural unless the matching runtime smoke is executed.
 """
 
 from __future__ import annotations
@@ -319,7 +320,7 @@ def _validate_top_level(document: dict[str, Any]) -> None:
         raise MigrationError("animations must be an object keyed by animation name")
 
 
-def _walk_attachments(document: dict[str, Any]) -> None:
+def _walk_attachments(document: dict[str, Any], target_version: str) -> None:
     slot_names = {slot.get("name") for slot in document["slots"] if isinstance(slot, dict)}
     bone_names = {bone.get("name") for bone in document["bones"] if isinstance(bone, dict)}
     skin_names: set[str] = set()
@@ -384,9 +385,10 @@ def _walk_attachments(document: dict[str, Any]) -> None:
                             f"{skin_name}/{slot_name}/{attachment_name}"
                         )
                     linked_meshes.append((skin_name, slot_name, attachment_name, item))
-                _rename_exclusive(
-                    item, "deform", "timelines", f"linked mesh {attachment_name}"
-                ) if kind == "linkedmesh" else None
+                if kind == "linkedmesh" and target_version != "4.0.31":
+                    _rename_exclusive(
+                        item, "deform", "timelines", f"linked mesh {attachment_name}"
+                    )
     skins_by_name = {skin["name"]: skin for skin in document["skins"]}
     for owner_skin, slot_name, attachment_name, item in linked_meshes:
         parent_skin = item.get("skin", owner_skin)
@@ -394,14 +396,18 @@ def _walk_attachments(document: dict[str, Any]) -> None:
             raise MigrationError(
                 f"linked mesh {attachment_name!r} references missing skin {parent_skin!r}"
             )
+        parent_name = item["parent"]
         parent_attachments = skins_by_name[parent_skin].get("attachments", {})
         if (
             slot_name not in parent_attachments
-            or item["parent"] not in parent_attachments[slot_name]
+            or parent_name not in parent_attachments[slot_name]
         ):
             raise MigrationError(
-                f"linked mesh {attachment_name!r} has missing parent {item['parent']!r}"
+                f"linked mesh {attachment_name!r} has missing parent {parent_name!r}"
             )
+        if target_version == "4.3.13":
+            item.pop("parent")
+            item["source"] = parent_name
     # Validate bone parents and slot bone references.
     for bone in document["bones"]:
         _map(bone, "bone")
@@ -411,7 +417,7 @@ def _walk_attachments(document: dict[str, Any]) -> None:
             raise MigrationError(
                 f"bone {bone['name']!r} references missing parent {bone['parent']!r}"
             )
-        transform = bone.pop("transform", None)
+        transform = bone.get("transform")
         if transform is not None:
             mode = str(transform).lower()
             modes = {
@@ -423,7 +429,11 @@ def _walk_attachments(document: dict[str, Any]) -> None:
             }
             if mode not in modes:
                 raise MigrationError(f"unsupported bone transform mode {transform!r}")
-            bone["inherit"] = modes[mode]
+            if target_version == "4.2.43":
+                bone.pop("transform")
+                bone["inherit"] = modes[mode]
+            else:
+                bone["transform"] = modes[mode]
     for slot in document["slots"]:
         _map(slot, "slot")
         if slot.get("bone") not in bone_names:
@@ -480,33 +490,98 @@ def _migrate_constraint_definitions(document: dict[str, Any]) -> None:
             constraint.setdefault("mixY", constraint["mixX"])
 
 
-def _validate_42_target(document: dict[str, Any]) -> None:
-    if document.get("skeleton", {}).get("spine") != "4.2.43":
+def _migrate_constraints_to_43(document: dict[str, Any]) -> None:
+    """Combine supported IK and path constraints into Spine 4.3's ordered list."""
+    if document.get("transform"):
+        raise MigrationError(
+            "Spine 4.3 transform constraints use property mappings; this route does not "
+            "currently represent them faithfully"
+        )
+    for skin in document["skins"]:
+        if skin.get("transform"):
+            raise MigrationError("Spine 4.3 transform constraints in skins are unsupported")
+    for animation_name, animation in document.get("animations", {}).items():
+        if animation.get("transform"):
+            raise MigrationError(
+                f"Spine 4.3 transform constraint timelines are unsupported in {animation_name!r}"
+            )
+
+    ordered: list[tuple[int, int, dict[str, Any]]] = []
+    stable_index = 0
+    for constraint_type in ("ik", "path"):
+        values = document.get(constraint_type, [])
+        if not isinstance(values, list):
+            raise MigrationError(f"{constraint_type} constraints must be an array")
+        for value in values:
+            constraint = _map(value, f"{constraint_type} constraint")
+            order = constraint.get("order", 0)
+            if not isinstance(order, int) or isinstance(order, bool):
+                raise MigrationError(f"{constraint_type} constraint order must be an integer")
+            if constraint_type == "ik" and constraint.get("uniform", False):
+                raise MigrationError(
+                    "Spine 4.3 IK scaleY mode cannot be inferred losslessly from legacy uniform IK"
+                )
+            migrated = deepcopy(constraint)
+            migrated.pop("order", None)
+            migrated.pop("uniform", None)
+            migrated["type"] = constraint_type
+            ordered.append((order, stable_index, migrated))
+            stable_index += 1
+    ordered.sort(key=lambda entry: (entry[0], entry[1]))
+    document["constraints"] = [entry[2] for entry in ordered]
+def _validate_target(document: dict[str, Any], target_version: str) -> None:
+    if document.get("skeleton", {}).get("spine") != target_version:
         raise MigrationError("Target skeleton version metadata is invalid")
-    inherit_modes = {
+    valid_modes = {
         "Normal",
         "OnlyTranslation",
         "NoRotationOrReflection",
         "NoScale",
         "NoScaleOrReflection",
     }
+    mode_key = "inherit" if target_version in {"4.2.43", "4.3.13"} else "transform"
+    other_key = "transform" if mode_key == "inherit" else "inherit"
     for bone in document["bones"]:
-        if "transform" in bone or bone.get("inherit", "Normal") not in inherit_modes:
+        if other_key in bone or bone.get(mode_key, "Normal") not in valid_modes:
             raise MigrationError(
-                f"Invalid Spine 4.2 bone transform schema for {bone.get('name')!r}"
+                f"Invalid Spine {target_version} bone transform schema for {bone.get('name')!r}"
             )
     for skin in document["skins"]:
         for slot_name, values in skin.get("attachments", {}).items():
             for attachment_name, attachment in values.items():
                 if attachment.get("type") == "linkedmesh":
-                    if "deform" in attachment or not isinstance(
-                        attachment.get("timelines", True), bool
-                    ):
-                        raise MigrationError(
-                            f"Invalid Spine 4.2 linked mesh schema at {slot_name}/{attachment_name}"
+                    if target_version == "4.0.31":
+                        invalid_link = "timelines" in attachment or not isinstance(
+                            attachment.get("deform", True), bool
                         )
+                    elif target_version == "4.3.13":
+                        invalid_link = (
+                            "parent" in attachment
+                            or not isinstance(attachment.get("source"), str)
+                            or "deform" in attachment
+                            or not isinstance(attachment.get("timelines", True), bool)
+                        )
+                    else:
+                        invalid_link = "deform" in attachment or not isinstance(
+                            attachment.get("timelines", True), bool
+                        )
+                    if invalid_link:
+                        raise MigrationError(
+                            f"Invalid Spine {target_version} linked mesh schema at "
+                            f"{slot_name}/{attachment_name}"
+                        )
+    if target_version == "4.3.13":
+        if any(category in document for category in ("ik", "transform", "path")):
+            raise MigrationError("Spine 4.3 requires combined constraints serialization")
+        constraints = document.get("constraints")
+        if not isinstance(constraints, list) or any(
+            item.get("type") not in {"ik", "path"} for item in constraints
+        ):
+            raise MigrationError("Invalid Spine 4.3 combined constraint list")
     for animation_name, animation in document.get("animations", {}).items():
-        if "draworder" in animation or "deform" in animation:
+        if "draworder" in animation or (
+            target_version != "4.0.31" and "deform" in animation
+        ):
             raise MigrationError(f"Legacy animation group remained in {animation_name!r}")
         for slot_name, timeline_set in animation.get("slots", {}).items():
             if "color" in timeline_set or "twoColor" in timeline_set:
@@ -533,7 +608,8 @@ def _validate_42_target(document: dict[str, Any]) -> None:
                         )
                     ):
                         raise MigrationError(
-                            f"Invalid Spine 4.2 per-channel curve in {animation_name}/{bone_name}"
+                            f"Invalid Spine {target_version} per-channel curve in "
+                            f"{animation_name}/{bone_name}"
                         )
 
 
@@ -650,19 +726,23 @@ def _validate_deform_group(document: dict[str, Any], group: Any, animation: str)
                         )
 
 
-def migrate_38_to_42(
-    source: dict[str, Any], source_version: str
+def migrate_38_to_target(
+    source: dict[str, Any], source_version: str, target_version: str
 ) -> tuple[dict[str, Any], dict[str, int | float]]:
-    """Transform one explicitly supported 3.8 exporter schema into 4.2.43."""
+    """Transform supported exact 3.8 exports into a qualified later schema."""
     target = deepcopy(source)
     _validate_top_level(target)
     if source_version not in {"3.8.75", "3.8.99"}:
         raise MigrationError(f"Unsupported exact Spine 3.8 source version {source_version!r}")
+    if target_version not in {"4.0.31", "4.1.56", "4.2.43", "4.3.13"}:
+        raise MigrationError(f"Unsupported exact Spine target version {target_version!r}")
     if target["skeleton"].get("spine") != source_version:
         raise MigrationError("Source version argument does not match skeleton metadata")
-    _walk_attachments(target)
+    _walk_attachments(target, target_version)
     _validate_constraints(target)
     _migrate_constraint_definitions(target)
+    if target_version == "4.3.13":
+        _migrate_constraints_to_43(target)
     animations = target.get("animations", {})
     stats = {"bezier_segments": 0, "timeline_count": 0, "keyframes": 0, "max_curve_error": 0.0}
 
@@ -689,9 +769,12 @@ def migrate_38_to_42(
                 f"{', '.join(sorted(unknown))}"
             )
         _rename_exclusive(animation, "draworder", "drawOrder", f"animation {animation_name}")
-        _rename_exclusive(animation, "deform", "attachments", f"animation {animation_name}")
-        if "attachments" in animation:
-            _validate_deform_group(target, animation["attachments"], animation_name)
+        if target_version != "4.0.31":
+            _rename_exclusive(animation, "deform", "attachments", f"animation {animation_name}")
+        deform_group = "deform" if target_version == "4.0.31" else "attachments"
+        if deform_group in animation:
+            _validate_deform_group(target, animation[deform_group], animation_name)
+        if target_version != "4.0.31" and "attachments" in animation:
             attachments_group = _map(
                 animation["attachments"], f"animation {animation_name}.attachments"
             )
@@ -878,10 +961,11 @@ def migrate_38_to_42(
                     if category == "path"
                     else len(_frames(values, f"{category} timeline"))
                 )
-        for group_name in ("attachments", "drawOrder", "events"):
+        deform_group_name = "deform" if target_version == "4.0.31" else "attachments"
+        for group_name in (deform_group_name, "drawOrder", "events"):
             if group_name in animation:
                 group = animation[group_name]
-                if group_name == "attachments":
+                if group_name == deform_group_name:
                     _map(group, f"animation {animation_name}.attachments")
                     for skin_name, skin_value in group.items():
                         if skin_name not in {skin["name"] for skin in target["skins"]}:
@@ -893,11 +977,16 @@ def migrate_38_to_42(
                     raise MigrationError(
                         f"animation {animation_name}.{group_name} must be an array"
                     )
-                if group_name == "attachments":
+                if group_name == deform_group_name:
                     for skin_values in group.values():
                         for slot_values in skin_values.values():
-                            for timeline_values in slot_values.values():
-                                for frames in timeline_values.values():
+                            for attachment_frames in slot_values.values():
+                                frame_sets = (
+                                    (attachment_frames,)
+                                    if target_version == "4.0.31"
+                                    else tuple(attachment_frames.values())
+                                )
+                                for frames in frame_sets:
                                     deform_frames = _frames(frames, "deform timeline")
                                     stats["timeline_count"] += 1
                                     stats["keyframes"] += len(deform_frames)
@@ -936,6 +1025,10 @@ def migrate_38_to_42(
                 if group_name in {"drawOrder", "events"}:
                     stats["timeline_count"] += 1
                     stats["keyframes"] += len(group)
-    target["skeleton"]["spine"] = "4.2.43"
-    _validate_42_target(target)
+    if target_version == "4.3.13":
+        target.pop("ik", None)
+        target.pop("path", None)
+        target.pop("transform", None)
+    target["skeleton"]["spine"] = target_version
+    _validate_target(target, target_version)
     return target, stats

@@ -115,6 +115,20 @@ def inspect_skeleton(payload: bytes) -> SkeletonInfo | None:
     constraints: list[str] = []
     for key in ("ik", "transform", "path", "physics"):
         constraints.extend(_names(obj.get(key, [])))
+    if "constraints" in obj:
+        combined_constraints = obj["constraints"]
+        if not isinstance(combined_constraints, list) or any(
+            not isinstance(item, dict) or not isinstance(item.get("name"), str)
+            for item in combined_constraints
+        ):
+            diagnostics.append(
+                (
+                    "UNSUPPORTED_CONSTRAINTS_SHAPE",
+                    "Combined Spine 4.3 constraints must be an array of named objects",
+                )
+            )
+        else:
+            constraints.extend(item["name"] for item in combined_constraints)
     recognized = {
         "skeleton",
         "bones",
@@ -126,6 +140,7 @@ def inspect_skeleton(payload: bytes) -> SkeletonInfo | None:
         "transform",
         "path",
         "physics",
+        "constraints",
         "drawOrder",
         "deform",
         "animations",

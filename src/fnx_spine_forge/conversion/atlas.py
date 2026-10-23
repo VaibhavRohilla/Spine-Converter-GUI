@@ -47,11 +47,26 @@ class AtlasConverter:
             if (source_version, target_version) not in {
                 ("3.8.75", "4.2.43"),
                 ("3.8.99", "4.2.43"),
+                ("3.8.75", "4.1.56"),
+                ("3.8.99", "4.1.56"),
+                ("3.8.75", "4.0.31"),
+                ("3.8.99", "4.0.31"),
+                ("3.8.75", "4.3.13"),
+                ("3.8.99", "4.3.13"),
+                ("3.8.75", "3.7.94"),
+                ("3.8.99", "3.7.94"),
+                ("3.8.75", "3.6.53"),
+                ("3.8.99", "3.6.53"),
+                ("3.8.75", "3.5.51"),
+                ("3.8.99", "3.5.51"),
+                ("4.2.43", "4.3.13"),
             }:
                 raise ValueError(
-                    "Atlas migration is qualified only for Spine 3.8.75 or 3.8.99 -> 4.2.43"
+                    "Atlas migration is qualified only for Spine 3.8.75 or 3.8.99 to "
+                    "3.5.51, 3.6.53, 3.7.94, 4.0.31, 4.1.56, 4.2.43, or 4.3.13"
                 )
         chunks: list[str] = []
+        direct_42_to_43 = source_version == "4.2.43" and target_version == "4.3.13"
         regions_by_page: list[list[AtlasRegion]] = [[] for _ in model.pages]
         for region, page_index in zip(model.regions, model.region_pages, strict=True):
             regions_by_page[page_index].append(region)
@@ -61,7 +76,25 @@ class AtlasConverter:
             for region in regions_by_page[index]:
                 chunks.append(region.name)
                 attributes = region.attributes
-                if target_version == "4.2.43":
+                if direct_42_to_43:
+                    values = dict(attributes)
+                    if not {"rotate", "bounds", "offsets"} <= values.keys():
+                        raise ValueError(
+                            f"Region {region.name!r} does not use the Spine 4.2 atlas schema"
+                        )
+                    try:
+                        bounds = tuple(int(part.strip()) for part in values["bounds"].split(","))
+                        offsets = tuple(int(part.strip()) for part in values["offsets"].split(","))
+                        rotation = int(values["rotate"])
+                    except ValueError as exc:
+                        raise ValueError(
+                            f"Malformed Spine 4.2 atlas region {region.name!r}"
+                        ) from exc
+                    if len(bounds) != 4 or len(offsets) != 4 or rotation not in {0, 90, 180, 270}:
+                        raise ValueError(
+                            f"Invalid Spine 4.2 atlas region geometry for {region.name!r}"
+                        )
+                elif target_version in {"4.2.43", "4.3.13"}:
                     values = dict(attributes)
                     if len(values) != len(attributes):
                         raise ValueError(f"Duplicate atlas properties on region {region.name!r}")
@@ -103,13 +136,28 @@ class AtlasConverter:
                         ("bounds", ", ".join(map(str, bounds))),
                         ("offsets", ", ".join(map(str, offsets))),
                     ) + tuple(retained)
+                elif target_version in {"4.0.31", "4.1.56"}:
+                    values = dict(attributes)
+                    if len(values) != len(attributes):
+                        raise ValueError(f"Duplicate atlas properties on region {region.name!r}")
+                    if not {"xy", "size"} <= values.keys() or "bounds" in values:
+                        raise ValueError(
+                            f"Region {region.name!r} does not use the declared 3.8 atlas syntax"
+                        )
+                    if values.get("rotate", "false").lower() not in {"true", "false"}:
+                        raise ValueError(
+                            f"Unsupported atlas rotation {values['rotate']!r} on {region.name!r}"
+                        )
                 chunks.extend(f"  {key}: {value}" for key, value in attributes)
             chunks.append("")
         output = ("\n".join(chunks).rstrip() + "\n").encode("utf-8")
         reparsed = parse_atlas(output)
         if len(reparsed.pages) != len(model.pages) or len(reparsed.regions) != len(model.regions):
             raise ValueError("Serialized atlas failed structural equivalence check")
-        if target_version == "4.2.43":
+        if direct_42_to_43:
+            if reparsed.page_records != model.pages or reparsed.region_records != model.regions:
+                raise ValueError("Spine 4.3 atlas serialization changed Spine 4.2 semantics")
+        elif target_version in {"4.2.43", "4.3.13"}:
             for before, region in zip(model.regions, reparsed.region_records, strict=True):
                 attrs = dict(region.attributes)
                 if not {"rotate", "bounds", "offsets"} <= attrs.keys():
@@ -136,6 +184,11 @@ class AtlasConverter:
                     raise ValueError(
                         f"Atlas semantic equivalence failed for region {region.name!r}"
                     )
+        elif target_version in {
+            "3.5.51", "3.6.53", "3.7.94", "4.0.31", "4.1.56"
+        }:
+            if reparsed.page_records != model.pages or reparsed.region_records != model.regions:
+                raise ValueError("Spine 4.1 atlas serialization changed source atlas semantics")
         return output
 
 

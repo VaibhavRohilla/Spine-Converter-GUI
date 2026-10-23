@@ -28,6 +28,39 @@ def test_skeleton_historical_skin_shape_and_image_path():
     assert result.counts["bones"] == 1
 
 
+def test_skeleton_parser_accepts_spine_43_combined_constraints():
+    payload = json.dumps(
+        {
+            "skeleton": {"spine": "4.3.13"},
+            "bones": [{"name": "root"}],
+            "slots": [],
+            "skins": [],
+            "constraints": [{"name": "aim", "type": "ik", "bones": ["root"]}],
+            "animations": {},
+        }
+    ).encode()
+    result = inspect_skeleton(payload)
+    assert result is not None
+    assert result.names["constraints"] == ("aim",)
+    assert not result.diagnostics
+
+
+def test_skeleton_parser_rejects_malformed_spine_43_constraint_shape():
+    payload = json.dumps(
+        {
+            "skeleton": {"spine": "4.3.13"},
+            "bones": [{"name": "root"}],
+            "slots": [],
+            "skins": [],
+            "constraints": {"aim": {"type": "ik"}},
+            "animations": {},
+        }
+    ).encode()
+    result = inspect_skeleton(payload)
+    assert result is not None
+    assert any(code == "UNSUPPORTED_CONSTRAINTS_SHAPE" for code, _ in result.diagnostics)
+
+
 def test_atlas_multi_page_and_unknown_fields():
     raw = (
         b"page one.png\nsize: 32,32\n"

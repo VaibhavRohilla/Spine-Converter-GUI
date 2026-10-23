@@ -11,7 +11,9 @@ from typing import Any
 from ..detection import skeleton_version
 from ..parsers import inspect_skeleton
 from ..versions import VersionRegistry
-from .migrate_38_42 import MigrationError, migrate_38_to_42
+from .migrate_38_to_4x import MigrationError, migrate_38_to_target
+from .migrate_38_to_legacy import legacy_target_profile, migrate_38_to_legacy
+from .migrate_42_to_43 import migrate_42_to_43
 from .models import CanonicalSkeleton, ConversionResult, ConversionStatus, SourceRiskPolicy
 from .planner import ConversionPlanner
 
@@ -74,6 +76,19 @@ class SkeletonConverter:
                 ("4.3", "4.3"),
                 ("3.8.75", "4.2.43"),
                 ("3.8.99", "4.2.43"),
+                ("3.8.75", "4.1.56"),
+                ("3.8.99", "4.1.56"),
+                ("3.8.75", "4.0.31"),
+                ("3.8.99", "4.0.31"),
+                ("3.8.75", "4.3.13"),
+                ("3.8.99", "4.3.13"),
+                ("3.8.75", "3.7.94"),
+                ("3.8.99", "3.7.94"),
+                ("3.8.75", "3.6.53"),
+                ("3.8.99", "3.6.53"),
+                ("3.8.75", "3.5.51"),
+                ("3.8.99", "3.5.51"),
+                ("4.2.43", "4.3.13"),
             }
         )
         self.versions = VersionRegistry()
@@ -147,21 +162,228 @@ class SkeletonConverter:
                 diagnostic_codes=("SOURCE_EXPORT_KNOWN_BUG",),
                 provenance={"declared_source_version": canonical.version},
             )
-        if canonical.version in {"3.8.75", "3.8.99"} and target_version == "4.2.43":
+        if canonical.version == "4.2.43" and target_version == "4.3.13":
             try:
-                migrated, metrics = migrate_38_to_42(canonical.document, canonical.version)
+                migrated, metrics = migrate_42_to_43(
+                    canonical.document, canonical.version, target_version
+                )
                 output = (
                     json.dumps(migrated, ensure_ascii=False, separators=(",", ":"), allow_nan=False)
                     + "\n"
                 ).encode()
             except (MigrationError, TypeError, ValueError) as exc:
+                message = str(exc)
+                direct_unsupported: tuple[str, ...] = ()
+                codes: tuple[str, ...] = ()
+                if "transform constraints" in message or "uniform IK" in message:
+                    direct_unsupported = ("transform_constraints",)
+                    codes = ("UNSUPPORTED_TARGET_FEATURE",)
                 return ConversionResult(
                     canonical.version,
                     target_version,
                     plan.route,
                     None,
                     ConversionStatus.REJECTED,
-                    (str(exc),),
+                    (message,),
+                    unsupported_features=direct_unsupported,
+                    diagnostic_codes=codes,
+                )
+            info = inspect_skeleton(output)
+            if info is None or info.version != target_version:
+                return ConversionResult(
+                    canonical.version,
+                    target_version,
+                    plan.route,
+                    None,
+                    ConversionStatus.REJECTED,
+                    ("Migrated skeleton failed target structural reinspection",),
+                )
+            attachment_counts = Counter(
+                attachment.get("type", "region")
+                for skin in migrated.get("skins", [])
+                for attachments in skin.get("attachments", {}).values()
+                for attachment in attachments.values()
+                if isinstance(attachment, dict)
+            )
+            timelines, keys = _animation_metrics(migrated)
+            compatibility = {
+                "implemented_route_features": "supported_and_structurally_verified",
+                "ik_constraints": "supported_by_target_schema",
+                "path_constraints": "supported_by_target_schema",
+                "transform_constraints": "unsupported_blocking",
+                "animation_curves": "4.2_channel_controls_preserved_exactly",
+                "target_runtime": "not_executed_during_conversion",
+                "visual_equivalence": "not_assessed",
+            }
+            stats = {
+                "bones": len(canonical.bones),
+                "slots": len(canonical.slots),
+                "skins": len(canonical.skins),
+                "animations": len(canonical.animations),
+                "bezier_segments": metrics["bezier_segments"],
+                "max_numerical_error": metrics["max_curve_error"],
+                "timeline_count": sum(timelines.values()),
+                "keyframes": sum(keys.values()),
+                **{f"attachment_{kind}": count for kind, count in attachment_counts.items()},
+            }
+            return ConversionResult(
+                canonical.version,
+                target_version,
+                plan.route,
+                output,
+                ConversionStatus.STRUCTURALLY_VERIFIED,
+                statistics=stats,
+                details={
+                    "animation_names": list(canonical.animations),
+                    "timeline_counts_by_type": timelines,
+                    "keyframe_counts_by_type": keys,
+                    "unsupported_features": [],
+                    "structural_verification": "passed",
+                    "feature_compatibility": compatibility.copy(),
+                },
+                feature_compatibility=compatibility,
+            )
+        if canonical.version in {"3.8.75", "3.8.99"} and target_version in {
+            "3.5.51",
+            "3.6.53",
+            "3.7.94",
+        }:
+            try:
+                migrated, metrics = migrate_38_to_legacy(
+                    canonical.document, canonical.version, target_version
+                )
+                output = (
+                    json.dumps(migrated, ensure_ascii=False, separators=(",", ":"), allow_nan=False)
+                    + "\n"
+                ).encode()
+            except (MigrationError, TypeError, ValueError) as exc:
+                message = str(exc)
+                legacy_unsupported: tuple[str, ...] = ()
+                diagnostic_code = "SOURCE_SCHEMA_INVALID"
+                if "skin-specific bones or constraints" in message:
+                    legacy_unsupported = ("skin_specific_constraints_or_bones",)
+                    diagnostic_code = "UNSUPPORTED_TARGET_FEATURE"
+                elif "IK softness" in message:
+                    legacy_unsupported = ("ik_softness",)
+                    diagnostic_code = "UNSUPPORTED_TARGET_FEATURE"
+                elif "unsupported timeline" in message:
+                    legacy_unsupported = ("unsupported_timeline_type",)
+                    diagnostic_code = "UNSUPPORTED_TARGET_FEATURE"
+                return ConversionResult(
+                    canonical.version,
+                    target_version,
+                    plan.route,
+                    None,
+                    ConversionStatus.REJECTED,
+                    (message,),
+                    unsupported_features=legacy_unsupported,
+                    diagnostic_codes=(diagnostic_code,),
+                )
+            info = inspect_skeleton(output)
+            if info is None or info.version != target_version:
+                return ConversionResult(
+                    canonical.version,
+                    target_version,
+                    plan.route,
+                    None,
+                    ConversionStatus.REJECTED,
+                    ("Migrated skeleton failed target structural reinspection",),
+                )
+            attachment_counts = Counter(
+                attachment.get("type", "region")
+                for skin in migrated["skins"].values()
+                for slot in skin.values()
+                for attachment in slot.values()
+                if isinstance(attachment, dict)
+            )
+            timeline_counts, keyframe_counts = _animation_metrics(migrated)
+            stats = {
+                "bones": len(canonical.bones),
+                "slots": len(canonical.slots),
+                "skins": len(canonical.skins),
+                "animations": len(canonical.animations),
+                "bezier_segments": metrics["bezier_segments"],
+                "max_numerical_error": metrics["max_curve_error"],
+                "timeline_count": sum(timeline_counts.values()),
+                "keyframes": sum(keyframe_counts.values()),
+                **{f"attachment_{kind}": count for kind, count in attachment_counts.items()},
+            }
+            feature_compatibility = {
+                "implemented_route_features": "supported_and_structurally_verified",
+                "source_export_fidelity": "known_export_risk_unverified"
+                if known_export_issue
+                else "not_independently_proven",
+                "target_runtime": "not_executed",
+                "visual_equivalence": "not_assessed",
+            }
+            return ConversionResult(
+                canonical.version,
+                target_version,
+                plan.route,
+                output,
+                ConversionStatus.STRUCTURALLY_VERIFIED,
+                (),
+                statistics=stats,
+                details={
+                    "animation_names": list(canonical.animations),
+                    "timeline_counts_by_type": timeline_counts,
+                    "keyframe_counts_by_type": keyframe_counts,
+                    "unsupported_features": [],
+                    "structural_verification": "passed",
+                    "target_schema": legacy_target_profile(target_version),
+                    "verification_level": "structural_only",
+                    "feature_compatibility": feature_compatibility.copy(),
+                },
+                diagnostic_codes=("SOURCE_EXPORT_KNOWN_BUG",) if known_export_issue else (),
+                provenance={
+                    "declared_source_version": canonical.version,
+                    "source_export_known_issue": known_export_issue,
+                    "potentially_affected_features": "unspecified by official notice"
+                    if known_export_issue
+                    else "not applicable",
+                    "recommended_action": "authentically re-export from Spine 3.8.99"
+                    if known_export_issue
+                    else "none",
+                    "source_fidelity": "unverified_without_trusted_baseline",
+                },
+                feature_compatibility=feature_compatibility,
+            )
+        if canonical.version in {"3.8.75", "3.8.99"} and target_version in {
+            "4.1.56",
+            "4.2.43",
+            "4.0.31",
+            "4.3.13",
+        }:
+            try:
+                migrated, metrics = migrate_38_to_target(
+                    canonical.document, canonical.version, target_version
+                )
+                output = (
+                    json.dumps(migrated, ensure_ascii=False, separators=(",", ":"), allow_nan=False)
+                    + "\n"
+                ).encode()
+            except (MigrationError, TypeError, ValueError) as exc:
+                message = str(exc)
+                route_unsupported: tuple[str, ...] = ()
+                diagnostic_codes: tuple[str, ...] = ()
+                if target_version == "4.3.13" and (
+                    "transform constraints" in message or "uniform IK" in message
+                ):
+                    route_unsupported = (
+                        ("transform_constraints",)
+                        if "transform constraints" in message
+                        else ("uniform_ik_constraint_mode",)
+                    )
+                    diagnostic_codes = ("UNSUPPORTED_TARGET_FEATURE",)
+                return ConversionResult(
+                    canonical.version,
+                    target_version,
+                    plan.route,
+                    None,
+                    ConversionStatus.REJECTED,
+                    (message,),
+                    unsupported_features=route_unsupported,
+                    diagnostic_codes=diagnostic_codes,
                 )
             info = inspect_skeleton(output)
             if info is None or info.version != target_version:
@@ -213,6 +435,24 @@ class SkeletonConverter:
                 "unsupported_features": [],
                 "structural_verification": "passed",
             }
+            feature_compatibility = {
+                "implemented_route_features": "supported_and_structurally_verified",
+                "source_export_fidelity": "supported_with_limitations"
+                if known_export_issue
+                else "not_independently_proven",
+                "runtime_load": "separate_optional_harness_not_executed_during_conversion",
+                "visual_equivalence": "not_implemented",
+            }
+            if target_version == "4.3.13":
+                feature_compatibility.update(
+                    {
+                        "ik_constraints": "supported_and_verified",
+                        "path_constraints": "supported_and_verified",
+                        "transform_constraints": "unsupported_blocking",
+                        "legacy_uniform_ik_mode": "unsupported_blocking",
+                    }
+                )
+                details["feature_compatibility"] = feature_compatibility.copy()
             return ConversionResult(
                 canonical.version,
                 target_version,
@@ -234,12 +474,7 @@ class SkeletonConverter:
                     if known_export_issue
                     else {"declared_source_version": canonical.version}
                 ),
-                feature_compatibility={
-                    "implemented_route_features": "supported_and_structurally_verified",
-                    "source_export_fidelity": "supported_with_limitations",
-                    "runtime_load": "separate_optional_harness_not_executed_during_conversion",
-                    "visual_equivalence": "not_implemented",
-                },
+                feature_compatibility=feature_compatibility,
             )
         # Same-family serialization is only accepted for an exact exporter version.
         if canonical.version != target_version:
