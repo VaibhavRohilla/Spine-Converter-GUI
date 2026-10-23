@@ -26,6 +26,8 @@ The implemented route covers skeleton metadata, hierarchy, bones and slots, arra
 
 There are no registered migration routes for 3.5, 3.6, 3.7, 4.0, 4.1, or 4.3. Other patch versions do not inherit qualification. Recognizing a version family or same-version serialization does not constitute cross-version migration support. No composed route is registered.
 
+The official 4.3 reader has a materially different setup-pose representation and reads additional physics and slider constraint types ([official 4.3 SkeletonJson reader](https://github.com/EsotericSoftware/spine-runtimes/blob/4.3/spine-ts/spine-core/src/SkeletonJson.ts)). This confirms that a 4.2 to 4.3 route requires semantic transformations and feature policy; no metadata-only edge is registered.
+
 ## C. Spine 3.8.75 source export risk
 
 The official maintainers state that Spine 3.8.75 exports contain known issues, that official 3.8 runtimes reject that version, and recommend exporting from 3.8.99 when possible ([issue 2428](https://github.com/EsotericSoftware/spine-runtimes/issues/2428)). The notice does not identify specific affected construct categories, so the converter records those as unspecified rather than guessing.
@@ -70,8 +72,9 @@ The atlas migration handles page declarations and multi-page layout, legacy regi
 
 - Development branch: `codex/b2-conversion-engine`.
 - Tested pre-hardening checkpoint: `74af8b33b9d7b3303b23762671a50283c417a9a9` (`Checkpoint B2 Spine 3.8 to 4.2 conversion`).
-- Final implementation commit: recorded after this report and the qualification changes are committed.
-- Working-tree status: recorded with the final commit.
+- Final implementation and qualification commit: `b8cc4ac95a0b7ecea80ed81546f0e7ae61d60a0b` (`Harden B2 3.8 to 4.2 conversion qualification`).
+- The report revision is committed immediately after the implementation commit; the final report-only commit SHA is available as repository `HEAD`.
+- Working-tree status after the report revision: clean.
 
 ## H. Remaining work
 
