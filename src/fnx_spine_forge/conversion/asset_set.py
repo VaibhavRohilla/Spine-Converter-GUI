@@ -10,6 +10,7 @@ from pathlib import Path
 from ..inspection import InspectionService
 from ..source import AssetSource
 from .atlas import AtlasConverter
+from .json_types import JSONObject
 from .models import ConversionResult, ConversionStatus, SourceRiskPolicy
 from .planner import ConversionPlanner
 from .skeleton import SkeletonConverter
@@ -27,7 +28,7 @@ class AssetSetResult:
     outputs: Mapping[str, bytes] | None
     status: ConversionStatus
     diagnostics: tuple[str, ...] = ()
-    details: Mapping[str, object] | None = None
+    details: JSONObject | None = None
 
 
 class AssetSetValidationError(ValueError):
@@ -36,6 +37,33 @@ class AssetSetValidationError(ValueError):
         self.asset = asset
         self.feature = feature
         self.codes = codes
+
+
+@dataclass(frozen=True, slots=True)
+class RouteFailure:
+    source: str
+    target: str
+    asset: str
+    feature: str
+    reason: tuple[str, ...]
+    diagnostic_codes: tuple[str, ...] = ()
+
+    def to_json(self) -> JSONObject:
+        return {
+            "source": self.source,
+            "target": self.target,
+            "asset": self.asset,
+            "feature": self.feature,
+            "reason": self.reason,
+            "diagnostic_codes": self.diagnostic_codes,
+        }
+
+
+@dataclass(frozen=True, slots=True)
+class RouteSuccess:
+    skeleton: bytes
+    atlases: dict[str, bytes]
+    hops: tuple[JSONObject, ...]
 
 
 class AssetSetConverter:
@@ -171,15 +199,17 @@ class AssetSetConverter:
                 {"diagnostic_codes": rejected.diagnostic_codes, "provenance": rejected.provenance},
             )
 
-        failures: list[dict[str, object]] = []
+        failures: list[RouteFailure] = []
         for candidate in self.planner.candidate_routes(source_version, target_version):
             attempted = self._execute_route(
                 skeleton, atlas_data, texture_data, skeleton_path, candidate, source_risk_policy
             )
-            if isinstance(attempted, dict):
+            if isinstance(attempted, RouteFailure):
                 failures.append(attempted)
                 continue
-            current_skeleton, current_atlases, hop_results = attempted
+            current_skeleton, current_atlases, hop_results = (
+                attempted.skeleton, attempted.atlases, attempted.hops
+            )
             outputs = {skeleton_path: current_skeleton, **current_atlases, **texture_data}
             return AssetSetResult(
                 source_version,
@@ -191,7 +221,7 @@ class AssetSetConverter:
                 ConversionStatus.STRUCTURALLY_VERIFIED,
                 details={
                     "per_hop": tuple(hop_results),
-                    "rejected_routes": tuple(failures),
+                    "rejected_routes": tuple(failure.to_json() for failure in failures),
                     "source_risk_warnings": (
                         ("SOURCE_EXPORT_KNOWN_BUG",)
                         if source_version == "3.8.75"
@@ -205,10 +235,8 @@ class AssetSetConverter:
                     "structural_verification": "every_hop_and_asset_set",
                 },
             )
-        failed = (
-            failures[0]
-            if failures
-            else {"reason": plan.diagnostics, "feature": "route", "asset": skeleton_path}
+        failed = failures[0] if failures else RouteFailure(
+            source_version, target_version, skeleton_path, "route", plan.diagnostics
         )
         return AssetSetResult(
             source_version,
@@ -218,8 +246,8 @@ class AssetSetConverter:
             bundle.atlases,
             None,
             ConversionStatus.REJECTED,
-            (str(failed["reason"]),),
-            {"failed_hop": failed},
+            failed.reason,
+            {"failed_hop": failed.to_json()},
         )
 
     def _execute_route(
@@ -230,19 +258,20 @@ class AssetSetConverter:
         skeleton_path: str,
         route: tuple[str, ...],
         source_risk_policy: SourceRiskPolicy,
-    ) -> tuple[bytes, dict[str, bytes], list[dict[str, object]]] | dict[str, object]:
+    ) -> RouteSuccess | RouteFailure:
         current_skeleton, current_atlases = skeleton, atlases
-        hop_results: list[dict[str, object]] = []
+        hop_results: list[JSONObject] = []
         for left, right in zip(route, route[1:]):
             result = self._convert_hop(current_skeleton, left, right, source_risk_policy)
             if result.output is None or result.status is ConversionStatus.REJECTED:
-                return {
-                    "source": left,
-                    "target": right,
-                    "asset": skeleton_path,
-                    "feature": result.unsupported_features or "skeleton_migration",
-                    "reason": result.diagnostics,
-                }
+                return RouteFailure(
+                    left, right, skeleton_path,
+                    result.unsupported_features[0]
+                    if result.unsupported_features
+                    else "skeleton_migration",
+                    result.diagnostics,
+                    result.diagnostic_codes,
+                )
             try:
                 next_atlases = {
                     name: self.atlases.convert(data, right, source_version=left)
@@ -259,19 +288,10 @@ class AssetSetConverter:
                     exc.feature if isinstance(exc, AssetSetValidationError)
                     else "atlas_or_cross_file_reference"
                 )
-                return {
-                    "source": left,
-                    "target": right,
-                    "asset": asset,
-                    "feature": feature,
-                    "diagnostic_codes": (
-                        exc.codes if isinstance(exc, AssetSetValidationError) else ()
-                    ),
-                    "reason": str(exc),
-                }
+                codes = exc.codes if isinstance(exc, AssetSetValidationError) else ()
+                return RouteFailure(left, right, asset, feature, (str(exc),), codes)
             current_skeleton, current_atlases = result.output, next_atlases
-            hop_results.append(
-                {
+            hop_evidence: JSONObject = {
                     "source": left,
                     "target": right,
                     "skeleton": "validated",
@@ -280,8 +300,8 @@ class AssetSetConverter:
                     "statistics": result.statistics,
                     "unsupported_features": result.unsupported_features,
                 }
-            )
-        return current_skeleton, current_atlases, hop_results
+            hop_results.append(hop_evidence)
+        return RouteSuccess(current_skeleton, current_atlases, tuple(hop_results))
 
     def _convert_hop(
         self,

@@ -7,9 +7,11 @@ without treating arbitrary dictionaries as validated semantics.
 
 from __future__ import annotations
 
-from collections.abc import Mapping
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
-from typing import Literal, cast
+from typing import Literal, Protocol, cast
+
+from .registry import ROUTES_BY_PATCH, SUPPORTED_PATCH_VERSIONS, MigrationKind
 
 
 @dataclass(frozen=True, slots=True)
@@ -51,10 +53,12 @@ class AttachmentDefinition:
 
 @dataclass(frozen=True, slots=True)
 class ConstraintDefinition:
-    kind: Literal["ik", "path", "transform", "physics"]
+    kind: ConstraintKind
     name: str
     target: str | None
     bones: tuple[str, ...]
+    order: int | None
+    setup: tuple[tuple[str, str | int | float | bool | None], ...]
 
 
 @dataclass(frozen=True, slots=True)
@@ -93,28 +97,40 @@ class AtlasRegionGeometry:
     rotation_degrees: int
 
 
-def decode_atlas_geometry(atlas: object, version: str) -> tuple[AtlasRegionGeometry, ...]:
+class AtlasPageView(Protocol):
+    @property
+    def name(self) -> str: ...
+
+
+class AtlasRegionView(Protocol):
+    @property
+    def name(self) -> str: ...
+
+    @property
+    def attributes(self) -> Sequence[tuple[str, str]]: ...
+
+
+class AtlasView(Protocol):
+    @property
+    def pages(self) -> Sequence[AtlasPageView]: ...
+
+    @property
+    def regions(self) -> Sequence[AtlasRegionView]: ...
+
+    @property
+    def region_pages(self) -> Sequence[int]: ...
+
+
+def decode_atlas_geometry(atlas: AtlasView, version: str) -> tuple[AtlasRegionGeometry, ...]:
     """Decode region geometry using the exact atlas vocabulary for a Spine patch."""
-    if version not in {
-        "3.5.51",
-        "3.6.53",
-        "3.7.94",
-        "3.8.75",
-        "3.8.99",
-        "4.0.31",
-        "4.1.56",
-        "4.2.43",
-        "4.3.13",
-    }:
+    if version not in SUPPORTED_PATCH_VERSIONS:
         raise ValueError(f"No atlas geometry schema is defined for {version!r}")
-    pages = getattr(atlas, "pages", ())
-    regions = getattr(atlas, "regions", ())
-    page_records = getattr(atlas, "page_records", pages)
-    region_pages = getattr(atlas, "region_pages", ())
     decoded: list[AtlasRegionGeometry] = []
-    for region, page_index in zip(regions, region_pages, strict=True):
+    for region, page_index in zip(atlas.regions, atlas.region_pages, strict=True):
         attrs = dict(region.attributes)
-        page = page_records[page_index].name
+        if not 0 <= page_index < len(atlas.pages):
+            raise ValueError(f"Atlas region {region.name!r} has invalid page index")
+        page = atlas.pages[page_index].name
         if version.startswith(("4.2.", "4.3.")):
             if not {"bounds", "offsets", "rotate"} <= attrs.keys():
                 raise ValueError(f"Atlas region {region.name!r} does not match {version} geometry")
@@ -141,7 +157,7 @@ def decode_atlas_geometry(atlas: object, version: str) -> tuple[AtlasRegionGeome
             or min(width, height, original_width, original_height) < 0
         ):
             raise ValueError(f"Invalid atlas region geometry for {region.name!r}")
-        if not page or page_index >= len(pages):
+        if not page:
             raise ValueError(f"Atlas region {region.name!r} has no valid page")
         decoded.append(
             AtlasRegionGeometry(
@@ -231,6 +247,24 @@ _ATTACHMENT_KEYS = {
 }
 _ATTACHMENT_KEYS.update({"source", "color2", "sequence", "vertices", "bones"})
 
+_CONSTRAINT_COMMON_FIELDS = {
+    "name", "order", "bones", "target", "skin", "skinRequired", "icon", "color"
+}
+_CONSTRAINT_FIELDS: dict[str, set[str]] = {
+    "ik": {"mix", "softness", "bendPositive", "bendDirection", "compress", "stretch",
+           "uniform", "scaleX", "scaleY", "mixRotate"},
+    "path": {"slot", "positionMode", "spacingMode", "rotateMode", "rotation",
+             "offsetRotation", "position", "spacing", "rotateMix", "translateMix",
+             "mixRotate", "mixX", "mixY"},
+    "transform": {"rotation", "scaleX", "scaleY", "shearY", "x", "y", "rotateMix",
+                  "translateMix", "scaleMix", "shearMix", "mixRotate", "mixX", "mixY",
+                  "mixScaleX", "mixScaleY", "mixShearY"},
+    "physics": {"bone", "x", "y", "rotate", "scale", "shear", "limit", "step",
+                "inertia", "strength", "damping", "mass", "wind", "gravity", "mix"},
+}
+_CONSTRAINT_TYPES = frozenset(_CONSTRAINT_FIELDS)
+ConstraintKind = Literal["ik", "path", "transform", "physics"]
+
 
 def _mapping(value: object, where: str) -> Mapping[str, object]:
     if not isinstance(value, Mapping) or any(not isinstance(key, str) for key in value):
@@ -246,20 +280,11 @@ def _number(value: object, where: str, default: float = 0.0) -> float:
     return float(value)
 
 
-def decode_semantic_skeleton(document: Mapping[str, object], version: str) -> SemanticSkeleton:
+def decode_semantic_skeleton(
+    document: Mapping[str, object], version: str, *, migration_target: str | None = None
+) -> SemanticSkeleton:
     """Decode supported high-risk records for one exact recognized patch version."""
-    supported_versions = {
-        "3.5.51",
-        "3.6.53",
-        "3.7.94",
-        "3.8.75",
-        "3.8.99",
-        "4.0.31",
-        "4.1.56",
-        "4.2.43",
-        "4.3.13",
-    }
-    if version not in supported_versions:
+    if version not in SUPPORTED_PATCH_VERSIONS:
         raise ValueError(f"No semantic schema is defined for exact Spine version {version!r}")
     metadata = _mapping(document.get("skeleton"), "skeleton")
     if metadata.get("spine") != version:
@@ -426,22 +451,91 @@ def decode_semantic_skeleton(document: Mapping[str, object], version: str) -> Se
             )
 
     constraints: list[ConstraintDefinition] = []
+    constraint_records: list[tuple[ConstraintKind, Mapping[str, object], str]] = []
     for category in ("ik", "path", "transform", "physics"):
         values = document.get(category, [])
-        if not isinstance(values, list):
+        if values is None:
             continue
+        if not isinstance(values, list):
+            raise ValueError(f"{category} constraints must be an array")
         for index, raw in enumerate(values):
-            row = _mapping(raw, f"{category}[{index}]")
-            name = row.get("name")
-            target = row.get("target")
-            bone_list = row.get("bones", [])
-            if not isinstance(name, str) or (target is not None and not isinstance(target, str)):
-                raise ValueError(f"{category}[{index}] has invalid identity fields")
-            if not isinstance(bone_list, list) or any(
-                not isinstance(item, str) for item in bone_list
-            ):
-                raise ValueError(f"{category}[{index}].bones must be an array of names")
-            constraints.append(ConstraintDefinition(category, name, target, tuple(bone_list)))
+            constraint_records.append(
+                (
+                    category,
+                    _mapping(raw, f"{category}[{index}]"),
+                    f"{category}[{index}]",
+                )
+            )
+    if "constraints" in document:
+        combined = document["constraints"]
+        if version != "4.3.13":
+            raise ValueError(f"Combined constraint schema is unsupported for {version}")
+        if not isinstance(combined, list):
+            raise ValueError("constraints must be an ordered array")
+        if constraint_records:
+            raise ValueError(
+                "4.3 combined constraints cannot coexist with legacy constraint groups"
+            )
+        for index, raw in enumerate(combined):
+            row = _mapping(raw, f"constraints[{index}]")
+            kind = row.get("type")
+            if kind not in _CONSTRAINT_TYPES:
+                raise ValueError(f"Unsupported constraint discriminator {kind!r}")
+            constraint_kind = cast(ConstraintKind, kind)
+            constraint_records.append((constraint_kind, row, f"constraints[{index}]"))
+
+    for kind, row, context in constraint_records:
+        allowed = _CONSTRAINT_COMMON_FIELDS | _CONSTRAINT_FIELDS[kind]
+        route = ROUTES_BY_PATCH.get((version, migration_target or ""))
+        if route is not None and route.kind is MigrationKind.SPINE_43_TO_42 and kind == "physics":
+            # Admit known typed fields so the exact downgrade writer can return
+            # its route-specific unsupported-feature diagnostic.
+            allowed |= set().union(*_CONSTRAINT_FIELDS.values())
+        if kind in {"ik", "transform", "physics"} and version.startswith("3."):
+            allowed |= {"order"}
+        if "type" in row and version == "4.3.13":
+            allowed.add("type")
+        unknown = set(row) - allowed
+        if unknown:
+            raise ValueError(
+                f"Unknown semantic {kind} constraint fields for {version}: "
+                f"{', '.join(sorted(unknown))}"
+            )
+        name = row.get("name")
+        order = row.get("order")
+        bone_list = row.get("bones", [row["bone"]] if kind == "physics" and "bone" in row else [])
+        if not isinstance(name, str) or not name:
+            raise ValueError(f"{context}.name must be non-empty")
+        if order is not None and (
+            not isinstance(order, int) or isinstance(order, bool) or order < 0
+        ):
+            raise ValueError(f"{context}.order must be a non-negative integer")
+        if not isinstance(bone_list, list) or any(
+            not isinstance(item, str) or item not in bone_names for item in bone_list
+        ):
+            raise ValueError(f"{context}.bones contains an invalid bone reference")
+        if kind in {"ik", "transform"} and not bone_list:
+            raise ValueError(f"{context}.bones cannot be empty")
+        target = row.get("slot", row.get("target")) if kind == "path" else row.get("target")
+        if target is not None and not isinstance(target, str):
+            raise ValueError(f"{context}.target must be a string")
+        valid_targets = {slot.name for slot in slots} if kind == "path" else bone_names
+        if target is not None and target not in valid_targets:
+            raise ValueError(f"{context} references missing target {target!r}")
+        skin_ref = row.get("skin")
+        if skin_ref is not None and (not isinstance(skin_ref, str) or skin_ref not in skins):
+            raise ValueError(f"{context} references missing skin {skin_ref!r}")
+        setup: list[tuple[str, str | int | float | bool | None]] = []
+        identity_fields = _CONSTRAINT_COMMON_FIELDS | {"type", "slot"}
+        for field_name, value in row.items():
+            if field_name in identity_fields:
+                continue
+            if value is not None and not isinstance(value, (str, int, float, bool)):
+                raise ValueError(f"{context}.{field_name} must be a scalar setup value")
+            setup.append((field_name, value))
+        constraints.append(
+            ConstraintDefinition(kind, name, target, tuple(bone_list), order, tuple(setup))
+        )
 
     timelines: list[TimelineDefinition] = []
     animations = _mapping(document.get("animations", {}), "animations")

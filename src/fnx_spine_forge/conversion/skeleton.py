@@ -6,12 +6,12 @@ import json
 from collections import Counter
 from collections.abc import Mapping
 from pathlib import Path
-from typing import Any
 
 from ..detection import skeleton_version
 from ..parsers import inspect_skeleton
 from ..versions import VersionRegistry
 from .executor import MigrationExecutor
+from .json_types import JSONDocument, JSONValue, require_json_object
 from .migrate_35_to_36 import migrate_35_to_36
 from .migrate_36_to_35 import migrate_36_to_35
 from .migrate_36_to_37 import migrate_36_to_37
@@ -36,57 +36,64 @@ from .registry import ROUTES_BY_PATCH, MigrationKind
 from .semantic import SemanticSkeleton, decode_semantic_skeleton
 
 
-def _records(value: Any) -> list[Mapping[str, Any]]:
+def _as_mapping(value: object) -> Mapping[str, JSONValue]:
+    return value if isinstance(value, Mapping) else {}
+
+
+def _records(value: object) -> list[Mapping[str, JSONValue]]:
     return [item for item in value if isinstance(item, Mapping)] if isinstance(value, list) else []
 
 
-def _skin_names(skins: Any) -> tuple[str, ...]:
+def _skin_names(skins: object) -> tuple[str, ...]:
     if isinstance(skins, Mapping):
         return tuple(str(name) for name in skins)
     return tuple(str(item["name"]) for item in _records(skins) if isinstance(item.get("name"), str))
 
 
-def _animation_metrics(document: dict[str, Any]) -> tuple[dict[str, int], dict[str, int]]:
+def _animation_metrics(document: JSONDocument) -> tuple[dict[str, int], dict[str, int]]:
     timelines: Counter[str] = Counter()
     keyframes: Counter[str] = Counter()
 
-    def record(kind: str, frames: Any) -> None:
+    def record(kind: str, frames: object) -> None:
         if isinstance(frames, list):
             timelines[kind] += 1
             keyframes[kind] += len(frames)
 
-    for animation in document.get("animations", {}).values():
-        for groups in animation.get("bones", {}).values():
-            for name, frames in groups.items():
+    for animation in _as_mapping(document.get("animations", {})).values():
+        animation_map = _as_mapping(animation)
+        for groups in _as_mapping(animation_map.get("bones", {})).values():
+            for name, frames in _as_mapping(groups).items():
                 record(f"bone.{name}", frames)
-        for groups in animation.get("slots", {}).values():
-            for name, frames in groups.items():
+        for groups in _as_mapping(animation_map.get("slots", {})).values():
+            for name, frames in _as_mapping(groups).items():
                 record(f"slot.{name}", frames)
         for category in ("ik", "transform"):
-            for frames in animation.get(category, {}).values():
+            for frames in _as_mapping(animation_map.get(category, {})).values():
                 record(f"{category}.mix", frames)
-        for groups in animation.get("path", {}).values():
-            for name, frames in groups.items():
+        for groups in _as_mapping(animation_map.get("path", {})).values():
+            for name, frames in _as_mapping(groups).items():
                 record(f"path.{name}", frames)
-        attachment_timelines = animation.get("attachments", animation.get("deform", {}))
+        attachment_timelines = _as_mapping(
+            animation_map.get("attachments", animation_map.get("deform", {}))
+        )
         for skin in attachment_timelines.values():
-            for slot in skin.values():
-                for attachment in slot.values():
+            for slot in _as_mapping(skin).values():
+                for attachment in _as_mapping(slot).values():
                     if isinstance(attachment, list):
                         record("attachment.deform", attachment)
                     elif isinstance(attachment, Mapping):
-                        for name, frames in attachment.items():
+                        for name, frames in _as_mapping(attachment).items():
                             record(f"attachment.{name}", frames)
-        record("drawOrder", animation.get("drawOrder", animation.get("draworder")))
-        record("event", animation.get("events"))
+        record("drawOrder", animation_map.get("drawOrder", animation_map.get("draworder")))
+        record("event", animation_map.get("events"))
     return dict(sorted(timelines.items())), dict(sorted(keyframes.items()))
 
 
-def _attachment_counts(document: dict[str, Any]) -> Counter[str]:
+def _attachment_counts(document: JSONDocument) -> Counter[str]:
     counts: Counter[str] = Counter()
     skins = document.get("skins", {})
     if isinstance(skins, Mapping):
-        skin_maps: list[Any] = list(skins.values())
+        skin_maps: list[object] = list(skins.values())
     elif isinstance(skins, list):
         skin_maps = [skin.get("attachments", {}) for skin in skins if isinstance(skin, Mapping)]
     else:
@@ -107,10 +114,10 @@ def _attachment_counts(document: dict[str, Any]) -> Counter[str]:
 
 def _run_direct_migration(
     kind: MigrationKind,
-    document: dict[str, Any],
+    document: JSONDocument,
     source_version: str,
     target_version: str,
-) -> tuple[dict[str, Any], dict[str, int | float]]:
+) -> tuple[JSONDocument, dict[str, int | float]]:
     match kind:
         case MigrationKind.SPINE_40_TO_38:
             return migrate_40_to_38(document, source_version, target_version)
@@ -147,14 +154,14 @@ class SkeletonConverter:
         self.planner = planner if planner is not None else ConversionPlanner()
         self.versions = VersionRegistry()
 
-    def read(self, source: bytes | str | Path) -> CanonicalSkeleton:
+    def read(
+        self, source: bytes | str | Path, *, migration_target: str | None = None
+    ) -> CanonicalSkeleton:
         payload = source if isinstance(source, bytes) else Path(source).read_bytes()
         valid, version, error = skeleton_version(payload)
         if not valid or version is None or error:
             raise ValueError(error or "Input is not a versioned Spine JSON skeleton")
-        obj = json.loads(payload.decode("utf-8-sig"))
-        if not isinstance(obj, dict):
-            raise ValueError("Skeleton root must be an object")
+        obj = require_json_object(json.loads(payload.decode("utf-8-sig")), "Skeleton root")
         family = self.versions.family_for(version)
         if family is None:
             raise ValueError(f"Unsupported Spine version family: {version}")
@@ -168,14 +175,13 @@ class SkeletonConverter:
             for row in _records(obj.get("slots"))
             if isinstance(row.get("name"), str)
         )
-        animations = (
-            tuple(obj.get("animations", {}).keys())
-            if isinstance(obj.get("animations", {}), dict)
-            else ()
-        )
+        raw_animations = obj.get("animations", {})
+        animations = tuple(raw_animations) if isinstance(raw_animations, dict) else ()
         semantic: SemanticSkeleton | None = None
         if isinstance(obj.get("skins", []), list):
-            semantic = decode_semantic_skeleton(obj, version)
+            semantic = decode_semantic_skeleton(
+                obj, version, migration_target=migration_target
+            )
         return CanonicalSkeleton(
             version, obj, bones, slots, _skin_names(obj.get("skins", {})), animations, semantic
         )
@@ -188,7 +194,7 @@ class SkeletonConverter:
         source_risk_policy: SourceRiskPolicy = SourceRiskPolicy.REJECT_KNOWN_ISSUES,
     ) -> ConversionResult:
         try:
-            canonical = self.read(source)
+            canonical = self.read(source, migration_target=target_version)
         except (OSError, ValueError, UnicodeError, json.JSONDecodeError) as exc:
             return ConversionResult(
                 None, target_version, (), None, ConversionStatus.REJECTED, (str(exc),)
@@ -488,13 +494,14 @@ class SkeletonConverter:
                     ConversionStatus.REJECTED,
                     ("Migrated skeleton failed target structural reinspection",),
                 )
-            attachment_counts = Counter(
-                attachment.get("type", "region")
-                for skin in migrated["skins"].values()
-                for slot in skin.values()
-                for attachment in slot.values()
-                if isinstance(attachment, dict)
-            )
+            attachment_counts = Counter()
+            for skin in _as_mapping(migrated.get("skins", {})).values():
+                for slot in _as_mapping(skin).values():
+                    for attachment in _as_mapping(slot).values():
+                        if isinstance(attachment, Mapping):
+                            attachment_counts[str(attachment.get("type", "region"))] += 1
+                        else:
+                            attachment_counts["region"] += 1
             timeline_counts, keyframe_counts = _animation_metrics(migrated)
             stats = {
                 "bones": len(canonical.bones),
@@ -598,11 +605,12 @@ class SkeletonConverter:
                 "point": 0,
                 "clipping": 0,
             }
-            for skin in migrated.get("skins", []):
-                for attachments in skin.get("attachments", {}).values():
-                    for name, attachment in attachments.items():
-                        kind = attachment.get("type", "region")
-                        if kind in counts:
+            for skin in _records(migrated.get("skins", [])):
+                attachments = _as_mapping(skin.get("attachments", {}))
+                for slot_attachments in attachments.values():
+                    for attachment in _as_mapping(slot_attachments).values():
+                        kind = _as_mapping(attachment).get("type", "region")
+                        if isinstance(kind, str) and kind in counts:
                             counts[kind] += 1
             stats = {
                 "bones": len(canonical.bones),
@@ -622,7 +630,7 @@ class SkeletonConverter:
                 "attachment_clipping": counts["clipping"],
             }
             timeline_counts, keyframe_counts = _animation_metrics(migrated)
-            details: dict[str, Any] = {
+            details: dict[str, JSONValue] = {
                 "animation_names": list(canonical.animations),
                 "timeline_counts_by_type": timeline_counts,
                 "keyframe_counts_by_type": keyframe_counts,

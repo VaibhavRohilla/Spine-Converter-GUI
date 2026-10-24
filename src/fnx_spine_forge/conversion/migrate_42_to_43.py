@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from collections.abc import Mapping
 from copy import deepcopy
-from typing import Any
 
+from .json_types import JSONDocument, JSONValue, require_json_object
 from .migrate_38_to_4x import (
     MigrationError,
     _map,
@@ -18,10 +18,10 @@ from .migrate_38_to_4x import (
 )
 
 
-def _curve_statistics(document: dict[str, Any]) -> tuple[int, int]:
+def _curve_statistics(document: JSONDocument) -> tuple[int, int]:
     segments = 0
     frames = 0
-    stack: list[Any] = [document.get("animations", {})]
+    stack: list[JSONValue] = [document.get("animations", {})]
     while stack:
         value = stack.pop()
         if isinstance(value, Mapping):
@@ -41,17 +41,16 @@ def _curve_statistics(document: dict[str, Any]) -> tuple[int, int]:
 
 
 def migrate_42_to_43(
-    source: dict[str, Any], source_version: str, target_version: str
-) -> tuple[dict[str, Any], dict[str, int | float]]:
+    source: JSONDocument, source_version: str, target_version: str
+) -> tuple[JSONDocument, dict[str, int | float]]:
     """Transform exact 4.2.43 JSON directly into the 4.3.13 schema."""
     if source_version != "4.2.43" or target_version != "4.3.13":
         raise MigrationError("Only exact Spine 4.2.43 to 4.3.13 is implemented")
     target = deepcopy(source)
-    if (
-        not isinstance(target.get("skeleton"), dict)
-        or target["skeleton"].get("spine") != source_version
-    ):
+    skeleton = require_json_object(target.get("skeleton"), "skeleton")
+    if skeleton.get("spine") != source_version:
         raise MigrationError("Source version does not match Spine 4.2.43 metadata")
+    target["skeleton"] = skeleton
     _validate_top_level(target)
 
     # Spine 4.2 and 4.3 share the array skin and per-channel curve schema. The
@@ -64,7 +63,8 @@ def migrate_42_to_43(
         target.pop(category, None)
     segments, curve_frames = _curve_statistics(target)
 
-    for animation_name, animation_value in target.get("animations", {}).items():
+    animations = require_json_object(target.get("animations", {}), "animations")
+    for animation_name, animation_value in animations.items():
         animation = _map(animation_value, f"animation {animation_name}")
         unsupported = set(animation) - {
             "bones", "slots", "ik", "transform", "path", "attachments", "drawOrder", "events"
@@ -79,7 +79,7 @@ def migrate_42_to_43(
             for owner, timeline_group in group.items():
                 _map(timeline_group, f"animation {animation_name}.{group_name}.{owner}")
 
-    target["skeleton"]["spine"] = target_version
+    skeleton["spine"] = target_version
     _validate_target(target, target_version)
     return target, {
         "bezier_segments": segments,

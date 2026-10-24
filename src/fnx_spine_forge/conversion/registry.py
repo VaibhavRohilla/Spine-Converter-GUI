@@ -65,3 +65,6 @@ ROUTES_BY_PATCH: dict[tuple[str, str], MigrationRoute] = {
     (route.source, route.target): route for route in MIGRATION_ROUTES
 }
 EXACT_ROUTE_PAIRS: frozenset[tuple[str, str]] = frozenset(ROUTES_BY_PATCH)
+SUPPORTED_PATCH_VERSIONS: frozenset[str] = frozenset(
+    version for route in MIGRATION_ROUTES for version in (route.source, route.target)
+)

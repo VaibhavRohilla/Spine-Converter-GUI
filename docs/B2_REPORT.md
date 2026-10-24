@@ -607,3 +607,39 @@ The Spine 3.8.75 routes are separately registered as source-risk routes and rema
 - Branch: `codex/b2-conversion-engine`.
 - The checkpoint was created after the required tests, lint, type check, build, installed CLI conversion, and B1 fixture inspection passed. Working tree was clean immediately after that commit.
 - This is a development checkpoint; it does not freeze B2.
+
+## Typed conversion hardening update — 2026-10-24
+
+This update records the latest local changes after the sections above; older
+checkpoint command counts and scope statements describe their own commits and
+are not current-state claims.
+
+- Added recursive JSON value/document aliases and a validating decoder boundary.
+  Parsed roots and runtime responses are narrowed only after checking string
+  keys, JSON-compatible value types, and finite numbers.
+- Replaced `Any` with JSON boundary types in the canonical skeleton service,
+  migration result models, the 4.2→4.3 migration, asset-set result details, and
+  runtime subprocess responses. Exact supported patch versions are now derived
+  from the centralized route registry rather than repeated in semantic code.
+- Expanded typed semantic admission for transforms, slots, skins, attachment
+  kinds, linked/weighted meshes, constraints, animation categories, and
+  per-channel Bézier groups. Unknown fields in these admitted constructs fail
+  closed. Added regression coverage for unknown constraint fields, non-JSON
+  values, and non-finite numbers.
+- The registered migration modules still contain `Any` annotations, especially
+  the broad 3.8 family writer and historical schema translators. Strict mypy
+  passing does not mean those implementations are fully strongly typed; a
+  version-specific typed migration contract and field-by-field migration remain
+  outstanding. Do not remove those routes as “legacy bloat”: they are active
+  exact-version product migrations, not compatibility shims.
+- Verification on this tree: `.venv/bin/python -m pytest -q` — **116 passed**;
+  `.venv/bin/ruff check src tests` — **passed**; `.venv/bin/mypy` — **passed**;
+  `.venv/bin/python -m build` — **passed**. These checks establish local
+  structural/type/build quality only, not universal route fidelity or runtime
+  certification.
+
+**B2 OPEN / BLOCKED.** Remaining gates include removing weak typing from the
+registered migration implementations through typed per-version contracts,
+finishing composed route semantic/numerical qualification, obtaining authentic
+3.8.99 evidence, and running available exact historical runtimes. No B2 freeze
+or universal lossless-conversion claim is made.

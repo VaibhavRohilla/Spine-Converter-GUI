@@ -295,6 +295,29 @@ def test_typed_semantic_boundary_blocks_unknown_fields_and_dangling_linked_mesh(
         decode_semantic_skeleton(base, "4.2.44")
 
 
+def test_typed_semantic_boundary_blocks_unknown_constraint_fields():
+    from fnx_spine_forge.conversion.semantic import decode_semantic_skeleton
+
+    document = {
+        "skeleton": {"spine": "4.2.43"},
+        "bones": [{"name": "root"}],
+        "slots": [],
+        "skins": [],
+        "ik": [{"name": "aim", "bones": ["root"], "target": "root", "futureMode": 1}],
+    }
+    with pytest.raises(ValueError, match="Unknown semantic ik constraint fields"):
+        decode_semantic_skeleton(document, "4.2.43")
+
+
+def test_json_boundary_rejects_non_json_and_non_finite_values():
+    from fnx_spine_forge.conversion.json_types import require_json_object
+
+    with pytest.raises(ValueError, match="non-finite"):
+        require_json_object({"value": float("nan")}, "fixture")
+    with pytest.raises(ValueError, match="unsupported value type"):
+        require_json_object({"value": object()}, "fixture")
+
+
 def skeleton(version="4.2.43"):
     return json.dumps(
         {

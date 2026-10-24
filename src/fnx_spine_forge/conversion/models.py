@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import StrEnum
-from typing import Any
 
+from .json_types import JSONDocument, JSONObject
 from .semantic import SemanticSkeleton
 
 
@@ -28,7 +28,7 @@ class CanonicalSkeleton:
     """Lossless JSON document plus typed indexes used for semantic checks."""
 
     version: str
-    document: dict[str, Any]
+    document: JSONDocument
     bones: tuple[str, ...]
     slots: tuple[str, ...]
     skins: tuple[str, ...]
@@ -45,10 +45,10 @@ class ConversionResult:
     status: ConversionStatus
     diagnostics: tuple[str, ...] = ()
     statistics: dict[str, int | float] | None = None
-    details: dict[str, Any] | None = None
+    details: JSONObject | None = None
     unsupported_features: tuple[str, ...] = ()
     runtime_verified: bool = False
     visually_verified: bool = False
     diagnostic_codes: tuple[str, ...] = ()
-    provenance: dict[str, Any] | None = None
+    provenance: JSONObject | None = None
     feature_compatibility: dict[str, str] | None = None
