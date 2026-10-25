@@ -9,20 +9,17 @@ from dataclasses import replace
 from pathlib import Path
 
 from ..detection import skeleton_version
+from ..json_types import JSONDocument, JSONValue, decode_json_object, is_document
 from ..parsers import inspect_skeleton
 from ..versions import VersionRegistry
+from .errors import MigrationError, UnsupportedMigrationFeature
 from .executor import MigrationExecutor
-from .json_types import JSONDocument, JSONValue, require_json_object
 from .migrate_35_to_36 import migrate_35_to_36
 from .migrate_36_to_35 import migrate_36_to_35
 from .migrate_36_to_37 import migrate_36_to_37
 from .migrate_37_to_36 import migrate_37_to_36
 from .migrate_37_to_38 import migrate_37_to_38
-from .migrate_38_to_4x import (
-    MigrationError,
-    UnsupportedMigrationFeature,
-    migrate_38_to_target,
-)
+from .migrate_38_to_4x import migrate_38_to_target
 from .migrate_38_to_legacy import legacy_target_profile, migrate_38_to_legacy
 from .migrate_40_to_38 import migrate_40_to_38
 from .migrate_40_to_41 import migrate_40_to_41
@@ -35,7 +32,6 @@ from .models import (
     CanonicalSkeleton,
     ConversionResult,
     ConversionStatus,
-    SemanticQualification,
     SourceRiskPolicy,
 )
 from .planner import ConversionPlanner
@@ -172,7 +168,7 @@ class SkeletonConverter:
         valid, version, error = skeleton_version(payload)
         if not valid or version is None or error:
             raise ValueError(error or "Input is not a versioned Spine JSON skeleton")
-        obj = require_json_object(json.loads(payload.decode("utf-8-sig")), "Skeleton root")
+        obj = decode_json_object(payload.decode("utf-8-sig"), "Skeleton root")
         family = self.versions.family_for(version)
         if family is None:
             raise ValueError(f"Unsupported Spine version family: {version}")
@@ -187,7 +183,7 @@ class SkeletonConverter:
             if isinstance(row.get("name"), str)
         )
         raw_animations = obj.get("animations", {})
-        animations = tuple(raw_animations) if isinstance(raw_animations, dict) else ()
+        animations = tuple(raw_animations) if is_document(raw_animations) else ()
         semantic: SemanticSkeleton = decode_semantic_skeleton(
             obj, version, migration_target=migration_target
         )
@@ -202,9 +198,15 @@ class SkeletonConverter:
         *,
         source_risk_policy: SourceRiskPolicy = SourceRiskPolicy.REJECT_KNOWN_ISSUES,
     ) -> ConversionResult:
+        try:
+            payload = source if isinstance(source, bytes) else Path(source).read_bytes()
+        except OSError as exc:
+            return ConversionResult(
+                None, target_version, (), None, ConversionStatus.REJECTED, (str(exc),)
+            )
         if not self.experimental_structural:
             try:
-                canonical = self.read(source, migration_target=target_version)
+                canonical = self.read(payload, migration_target=target_version)
             except (OSError, ValueError, UnicodeError):
                 canonical = None
             if canonical is not None and not (
@@ -226,15 +228,16 @@ class SkeletonConverter:
                         None,
                         ConversionStatus.REJECTED,
                         q.missing_evidence,
-                        details={"qualification": q.to_json(), "experimental_structural": False},
+                        details={"experimental_structural": False},
+                        qualification=q,
                         diagnostic_codes=tuple(q.diagnostic_codes),
                     )
         result = self._convert_structural(
-            source, target_version, source_risk_policy=source_risk_policy
+            payload, target_version, source_risk_policy=source_risk_policy
         )
         if result.output is None:
             return result
-        canonical = self.read(source, migration_target=target_version)
+        canonical = self.read(payload, migration_target=target_version)
         qualification = QualificationService().evaluate(
             canonical.version,
             target_version,
@@ -243,7 +246,6 @@ class SkeletonConverter:
             experimental_structural=self.experimental_structural,
         )
         details = dict(result.details or {})
-        details["qualification"] = qualification.to_json()
         details["experimental_structural"] = self.experimental_structural
         if not qualification.qualified and not self.experimental_structural:
             return replace(
@@ -253,20 +255,12 @@ class SkeletonConverter:
                 diagnostics=qualification.missing_evidence,
                 diagnostic_codes=tuple(qualification.diagnostic_codes),
                 details=details,
-                semantic_qualification=SemanticQualification.REJECTED,
+                qualification=qualification,
             )
         return replace(
             result,
             details=details,
-            semantic_qualification=(
-                SemanticQualification.RESTRICTED_CHECKS_PASSED
-                if qualification.qualified
-                else (
-                    SemanticQualification.IDENTITY_ONLY
-                    if canonical.version == target_version
-                    else SemanticQualification.NOT_END_TO_END_QUALIFIED
-                )
-            ),
+            qualification=qualification,
         )
 
     def _convert_structural(
@@ -434,79 +428,6 @@ class SkeletonConverter:
                 )
             attachment_counts = _attachment_counts(migrated)
             timelines, keys = _animation_metrics(migrated)
-            compatibility = {
-                "implemented_route_features": "supported_and_structurally_verified",
-                "animation_curves": "target_channel_controls_preserved_exactly",
-                "target_runtime": "not_executed_during_conversion",
-                "visual_equivalence": "not_assessed",
-            }
-            if target_version == "4.3.13":
-                compatibility.update(
-                    {
-                        "ik_constraints": "supported_by_target_schema",
-                        "path_constraints": "supported_by_target_schema",
-                        "transform_constraints": "unsupported_blocking",
-                    }
-                )
-            elif target_version == "4.2.43":
-                compatibility["bone_transform"] = "4.1_transform_to_4.2_inherit_verified"
-            elif target_version == "3.8.99":
-                compatibility["skin_schema"] = "3.7_object_map_to_3.8_named_skin_array"
-            elif canonical.version == "3.5.51" and target_version == "3.6.53":
-                compatibility["event_time"] = "3.6_single_precision_rounding_verified"
-            elif canonical.version == "4.3.13" and target_version == "4.2.43":
-                compatibility.update(
-                    {
-                        "constraints": "ordered_ik_path_restored_to_4.2_collections",
-                        "linked_mesh": "source_to_parent",
-                        "sequences": "unsupported_blocking",
-                        "transform_constraints": "unsupported_blocking",
-                    }
-                )
-            elif canonical.version == "4.2.43" and target_version == "4.1.56":
-                compatibility.update(
-                    {
-                        "bone_transform": "4.2_inherit_to_4.1_transform",
-                        "slot_visibility": "only_default_visible_true_supported",
-                        "physics_constraints": "unsupported_blocking",
-                        "inherit_timelines": "unsupported_blocking",
-                    }
-                )
-            elif canonical.version == "4.1.56" and target_version == "4.0.31":
-                compatibility.update(
-                    {
-                        "linked_mesh": "timelines_flag_to_deform_flag",
-                        "deform_animation": "attachment_deform_to_4.0_deform_group",
-                        "sequences": "unsupported_blocking",
-                    }
-                )
-            elif canonical.version == "4.0.31" and target_version == "3.8.99":
-                compatibility.update(
-                    {
-                        "skin_schema": "named_skin_array_preserved",
-                        "linked_mesh": "timelines_flag_to_deform_flag",
-                        "deform_animation": "attachment_deform_to_4.0_deform_group",
-                        "per_channel_bezier": "unsupported_unless_shared_curve_proven",
-                    }
-                )
-            elif canonical.version == "3.7.94" and target_version == "3.6.53":
-                compatibility["ik_audio_downgrade"] = "false_defaults_only"
-            elif canonical.version == "3.6.53" and target_version == "3.5.51":
-                compatibility["event_time"] = "3.6_single_precision_preserved_in_3.5_json"
-            elif canonical.version == "3.6.53" and target_version == "3.7.94":
-                compatibility.update(
-                    {
-                        "skin_schema": "legacy_object_map_preserved",
-                        "ik_options": "3.7_false_defaults_written_explicitly",
-                    }
-                )
-            else:
-                compatibility.update(
-                    {
-                        "linked_mesh": "4.0_deform_flag_to_4.1_timelines_flag",
-                        "deform_animation": "4.0_group_to_4.1_attachment_timeline",
-                    }
-                )
             stats = {
                 "bones": len(canonical.bones),
                 "slots": len(canonical.slots),
@@ -532,10 +453,7 @@ class SkeletonConverter:
                     "keyframe_counts_by_type": keys,
                     "unsupported_features": [],
                     "structural_verification": "passed",
-                    "feature_compatibility": compatibility.copy(),
                 },
-                feature_compatibility=compatibility,
-                semantic_qualification=SemanticQualification.RESTRICTED_CHECKS_PASSED,
             )
         if route_spec is not None and route_spec.kind is MigrationKind.SPINE_38_TO_LEGACY:
             try:
@@ -599,14 +517,6 @@ class SkeletonConverter:
                 "keyframes": sum(keyframe_counts.values()),
                 **{f"attachment_{kind}": count for kind, count in attachment_counts.items()},
             }
-            feature_compatibility = {
-                "implemented_route_features": "supported_and_structurally_verified",
-                "source_export_fidelity": "known_export_risk_unverified"
-                if known_export_issue
-                else "not_independently_proven",
-                "target_runtime": "not_executed",
-                "visual_equivalence": "not_assessed",
-            }
             return ConversionResult(
                 canonical.version,
                 target_version,
@@ -623,7 +533,6 @@ class SkeletonConverter:
                     "structural_verification": "passed",
                     "target_schema": legacy_target_profile(target_version),
                     "verification_level": "structural_only",
-                    "feature_compatibility": feature_compatibility.copy(),
                 },
                 diagnostic_codes=("SOURCE_EXPORT_KNOWN_BUG",) if known_export_issue else (),
                 provenance={
@@ -637,8 +546,6 @@ class SkeletonConverter:
                     else "none",
                     "source_fidelity": "unverified_without_trusted_baseline",
                 },
-                feature_compatibility=feature_compatibility,
-                semantic_qualification=SemanticQualification.RESTRICTED_CHECKS_PASSED,
             )
         if route_spec is not None and route_spec.kind is MigrationKind.SPINE_38_TO_MODERN:
             try:
@@ -723,24 +630,6 @@ class SkeletonConverter:
                 "unsupported_features": [],
                 "structural_verification": "passed",
             }
-            feature_compatibility = {
-                "implemented_route_features": "supported_and_structurally_verified",
-                "source_export_fidelity": "supported_with_limitations"
-                if known_export_issue
-                else "not_independently_proven",
-                "runtime_load": "separate_optional_harness_not_executed_during_conversion",
-                "visual_equivalence": "not_implemented",
-            }
-            if target_version == "4.3.13":
-                feature_compatibility.update(
-                    {
-                        "ik_constraints": "supported_and_verified",
-                        "path_constraints": "supported_and_verified",
-                        "transform_constraints": "unsupported_blocking",
-                        "legacy_uniform_ik_mode": "unsupported_blocking",
-                    }
-                )
-                details["feature_compatibility"] = feature_compatibility.copy()
             return ConversionResult(
                 canonical.version,
                 target_version,
@@ -762,8 +651,6 @@ class SkeletonConverter:
                     if known_export_issue
                     else {"declared_source_version": canonical.version}
                 ),
-                feature_compatibility=feature_compatibility,
-                semantic_qualification=SemanticQualification.RESTRICTED_CHECKS_PASSED,
             )
         # Same-family serialization is only accepted for an exact exporter version.
         if canonical.version != target_version:
@@ -802,5 +689,4 @@ class SkeletonConverter:
             ConversionStatus.STRUCTURALLY_VERIFIED,
             (),
             stats,
-            semantic_qualification=SemanticQualification.IDENTITY_ONLY,
         )

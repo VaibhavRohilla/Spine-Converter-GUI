@@ -18,10 +18,31 @@ from .conversion import (
     SkeletonConverter,
     SourceRiskPolicy,
 )
-from .conversion.json_types import JSONValue
 from .conversion.runtime import run_spine_runtime_smoke
 from .inspection import InspectionService
+from .json_types import JSONDocument, JSONValue
 from .versions import VersionRegistry
+
+
+class CLIArguments(argparse.Namespace):
+    command: str = ""
+    kind: str = ""
+    source: str = ""
+    input: str = ""
+    target: str = ""
+    skeleton: str = ""
+    atlas: str = ""
+    runtime_package: str = ""
+    from_version: str = ""
+    to_version: str = ""
+    output: str | None = None
+    output_dir: str = ""
+    source_version: str | None = None
+    json_output: bool = False
+    strict: bool = False
+    dry_run: bool = False
+    experimental_structural: bool = False
+    allow_known_source_export_risk: bool = False
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -53,8 +74,10 @@ def main(argv: list[str] | None = None) -> int:
     asset_convert.add_argument("--allow-known-source-export-risk", action="store_true")
     convert = sub.add_parser("convert", help="Convert a standalone JSON skeleton or atlas")
     kinds = convert.add_subparsers(dest="kind", required=True)
+    conversion_parsers: list[argparse.ArgumentParser] = []
     for kind in ("skeleton", "atlas"):
         command = kinds.add_parser(kind)
+        conversion_parsers.append(command)
         command.add_argument("--input", required=True)
         command.add_argument("--target", required=True)
         command.add_argument("--source-version")
@@ -67,11 +90,13 @@ def main(argv: list[str] | None = None) -> int:
                 help="Allow Spine 3.8.75 conversion while recording SOURCE_EXPORT_KNOWN_BUG",
             )
     asset_convert.add_argument("--experimental-structural", action="store_true")
-    for command_parser in kinds.choices.values():
+    for command_parser in conversion_parsers:
         command_parser.add_argument("--experimental-structural", action="store_true")
-    args = parser.parse_args(argv)
+    args = CLIArguments()
+    parser.parse_args(argv, namespace=args)
     if args.command == "versions":
-        print(json.dumps([v.family for v in VersionRegistry().definitions()], indent=2))
+        families: list[str] = [v.family for v in VersionRegistry().definitions()]
+        print(json.dumps(families, indent=2))
         return 0
     if args.command == "inspect":
         result = InspectionService().inspect(args.source)
@@ -110,19 +135,13 @@ def main(argv: list[str] | None = None) -> int:
         )
     if args.command == "plan":
         planned = ConversionPlanner().plan(args.from_version, args.to_version)
-        print(
-            json.dumps(
-                {
-                    "executable": planned.executable,
-                    "route": planned.route,
-                    "diagnostics": planned.diagnostics,
-                    "qualification": planned.qualification.to_json()
-                    if planned.qualification
-                    else None,
-                },
-                indent=2,
-            )
-        )
+        plan_report: JSONDocument = {
+            "executable": planned.executable,
+            "route": planned.route,
+            "diagnostics": planned.diagnostics,
+            "qualification": planned.qualification.to_json() if planned.qualification else None,
+        }
+        print(json.dumps(plan_report, indent=2))
         return 0 if planned.executable else 2
     if args.command == "runtime-smoke":
         runtime_report = run_spine_runtime_smoke(args.skeleton, args.atlas, args.runtime_package)
@@ -141,23 +160,18 @@ def main(argv: list[str] | None = None) -> int:
         )
         if outcome.outputs is not None:
             _publish_asset_set(Path(args.output_dir), outcome.outputs)
-        print(
-            json.dumps(
-                {
-                    "status": outcome.status.value,
-                    "semantic_qualification": outcome.semantic_qualification.value,
-                    "source_version": outcome.source_version,
-                    "target_version": outcome.target_version,
-                    "route": outcome.route,
-                    "diagnostics": outcome.diagnostics,
-                    "details": outcome.details,
-                    "outputs": sorted(outcome.outputs) if outcome.outputs is not None else None,
-                },
-                ensure_ascii=False,
-                sort_keys=True,
-                indent=2,
-            )
-        )
+        output_names: list[str] = sorted(outcome.outputs) if outcome.outputs is not None else []
+        asset_report: JSONDocument = {
+            "status": outcome.status.value,
+            "qualification": outcome.qualification.to_json() if outcome.qualification else None,
+            "source_version": outcome.source_version,
+            "target_version": outcome.target_version,
+            "route": outcome.route,
+            "diagnostics": outcome.diagnostics,
+            "details": outcome.details,
+            "outputs": tuple(output_names) if outcome.outputs is not None else None,
+        }
+        print(json.dumps(asset_report, ensure_ascii=False, sort_keys=True, indent=2))
         return 0 if outcome.outputs is not None else 2
     if args.kind == "skeleton":
         skeleton_outcome = SkeletonConverter(
@@ -173,7 +187,9 @@ def main(argv: list[str] | None = None) -> int:
         )
         report: dict[str, JSONValue] = {
             "status": skeleton_outcome.status.value,
-            "semantic_qualification": skeleton_outcome.semantic_qualification.value,
+            "qualification": skeleton_outcome.qualification.to_json()
+            if skeleton_outcome.qualification
+            else None,
             "source_version": skeleton_outcome.source_version,
             "target_version": skeleton_outcome.target_version,
             "route": skeleton_outcome.route,
@@ -181,11 +197,8 @@ def main(argv: list[str] | None = None) -> int:
             "statistics": skeleton_outcome.statistics,
             "details": skeleton_outcome.details,
             "unsupported_features": skeleton_outcome.unsupported_features,
-            "runtime_verified": skeleton_outcome.runtime_verified,
-            "visually_verified": skeleton_outcome.visually_verified,
             "diagnostic_codes": skeleton_outcome.diagnostic_codes,
             "provenance": skeleton_outcome.provenance,
-            "feature_compatibility": skeleton_outcome.feature_compatibility,
         }
         if skeleton_outcome.output is not None and not args.dry_run:
             if not args.output:

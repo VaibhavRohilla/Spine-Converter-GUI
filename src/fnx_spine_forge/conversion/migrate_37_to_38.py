@@ -4,11 +4,13 @@ from __future__ import annotations
 
 from collections import Counter
 from copy import deepcopy
-from typing import Any
 
-from .migrate_38_to_4x import (
-    MigrationError,
-    _curve_controls,
+from ..json_types import JSONDocument, JSONValue, is_document
+from .curves import _curve_controls
+from .document import require_object, require_records
+from .errors import MigrationError
+from .registry import MigrationKind, require_route
+from .schema import (
     _validate_constraints,
     _validate_deform_group,
     _validate_top_level,
@@ -17,32 +19,43 @@ from .migrate_38_to_4x import (
 
 
 def migrate_37_to_38(
-    source: dict[str, Any], source_version: str, target_version: str
-) -> tuple[dict[str, Any], dict[str, int | float]]:
+    source: JSONDocument, source_version: str, target_version: str
+) -> tuple[JSONDocument, dict[str, int | float]]:
     """Convert exact 3.7.94 object-map skins to the 3.8.99 skin array."""
-    if source_version != "3.7.94" or target_version != "3.8.99":
-        raise MigrationError("Only exact Spine 3.7.94 to 3.8.99 is implemented")
+    require_route(MigrationKind.SPINE_37_TO_38, source_version, target_version)
     target = deepcopy(source)
     skeleton = target.get("skeleton")
-    if not isinstance(skeleton, dict) or skeleton.get("spine") != source_version:
+    if not is_document(skeleton) or skeleton.get("spine") != source_version:
         raise MigrationError("Source version does not match Spine 3.7.94 metadata")
-    if any(key not in {
-        "skeleton", "bones", "slots", "skins", "events", "ik", "transform", "path", "animations"
-    } for key in target):
+    if any(
+        key
+        not in {
+            "skeleton",
+            "bones",
+            "slots",
+            "skins",
+            "events",
+            "ik",
+            "transform",
+            "path",
+            "animations",
+        }
+        for key in target
+    ):
         raise MigrationError("Unsupported Spine 3.7 top-level field")
     for field in ("bones", "slots"):
         if not isinstance(target.get(field), list):
             raise MigrationError(f"Spine 3.7 skeleton requires {field} array")
     source_skins = target.get("skins")
-    if not isinstance(source_skins, dict):
+    if not is_document(source_skins):
         raise MigrationError("Spine 3.7 skins must use the legacy object-map representation")
 
-    skins: list[dict[str, Any]] = []
+    skins: list[JSONDocument] = []
     for name, attachments in source_skins.items():
-        if not isinstance(name, str) or not isinstance(attachments, dict):
+        if not isinstance(name, str) or not is_document(attachments):
             raise MigrationError("Spine 3.7 skin map must contain named attachment objects")
         skins.append({"name": name, "attachments": attachments})
-    target["skins"] = skins
+    target["skins"] = [skin for skin in skins]
 
     valid_modes = {
         "normal": "Normal",
@@ -51,8 +64,8 @@ def migrate_37_to_38(
         "noscale": "NoScale",
         "noscaleorreflection": "NoScaleOrReflection",
     }
-    for bone in target["bones"]:
-        if not isinstance(bone, dict):
+    for bone in require_records(target["bones"], "migrate_37_to_38 JSON field"):
+        if not is_document(bone):
             raise MigrationError("Bone entries must be objects")
         if "inherit" in bone or "skin" in bone:
             raise MigrationError("Spine 3.7 bone cannot contain 3.8 inherit or skin fields")
@@ -63,12 +76,12 @@ def migrate_37_to_38(
                 raise MigrationError(f"Unsupported Spine 3.7 bone transform mode {mode!r}")
             bone["transform"] = normalized
 
-    animations = target.get("animations", {})
-    if not isinstance(animations, dict):
+    animations = require_object(target.get("animations", {}), "migrate_37_to_38 JSON field")
+    if not is_document(animations):
         raise MigrationError("Spine 3.7 animations must be an object")
     bezier_segments = 0
     for animation_name, animation in animations.items():
-        if not isinstance(animation, dict):
+        if not is_document(animation):
             raise MigrationError(f"Animation {animation_name!r} must be an object")
         allowed = {
             "bones",
@@ -90,13 +103,11 @@ def migrate_37_to_38(
             ("bones", {"rotate", "translate", "scale", "shear"}),
             ("slots", {"attachment", "color", "twoColor"}),
         ):
-            owners = animation.get(owner_type, {})
-            if not isinstance(owners, dict):
-                raise MigrationError(
-                    f"Animation {animation_name!r} {owner_type} must be an object"
-                )
+            owners = require_object(animation.get(owner_type, {}), "migrate_37_to_38 JSON field")
+            if not is_document(owners):
+                raise MigrationError(f"Animation {animation_name!r} {owner_type} must be an object")
             for owner_name, timeline_map in owners.items():
-                if not isinstance(timeline_map, dict):
+                if not is_document(timeline_map):
                     raise MigrationError(
                         f"Animation {animation_name!r} timeline owner "
                         f"{owner_name!r} must be an object"
@@ -107,10 +118,10 @@ def migrate_37_to_38(
                         f"Unsupported Spine 3.7 timeline type(s): "
                         f"{', '.join(sorted(unknown_timelines))}"
                     )
-        stack: list[Any] = [animation]
+        stack: list[JSONValue] = [animation]
         while stack:
             item = stack.pop()
-            if isinstance(item, dict):
+            if is_document(item):
                 if "curve" in item:
                     controls = _curve_controls(item, f"animation {animation_name} curve")
                     if controls is not None:
@@ -123,16 +134,18 @@ def migrate_37_to_38(
     validation_document = deepcopy(target)
     _walk_attachments(validation_document, "4.0.31")
     _validate_constraints(validation_document)
-    for animation_name, animation in validation_document.get("animations", {}).items():
-        if isinstance(animation, dict) and "deform" in animation:
+    for animation_name, animation in require_object(
+        validation_document.get("animations", {}), "migrate_37_to_38 JSON field"
+    ).items():
+        if is_document(animation) and "deform" in animation:
             _validate_deform_group(validation_document, animation["deform"], animation_name)
 
-    target["skeleton"]["spine"] = target_version
+    require_object(target["skeleton"], "migrate_37_to_38 JSON field")["spine"] = target_version
     attachment_types: Counter[str] = Counter()
-    for skin in target["skins"]:
-        for slot_attachments in skin["attachments"].values():
-            for attachment in slot_attachments.values():
-                if isinstance(attachment, dict):
+    for skin in require_records(target["skins"], "migrate_37_to_38 JSON field"):
+        for slot_attachments in require_object(skin["attachments"], "semantic object").values():
+            for attachment in require_object(slot_attachments, "semantic object").values():
+                if is_document(attachment):
                     attachment_types[str(attachment.get("type", "region"))] += 1
     return target, {
         "bezier_segments": bezier_segments,

@@ -20,7 +20,7 @@ dev = ["pytest>=8", "ruff>=0.8", "mypy>=1.13", "build>=1.2"]
 where = ["src"]
 
 [tool.setuptools.package-data]
-fnx_spine_forge = ["conversion/*.mjs"]
+fnx_spine_forge = ["conversion/*.mjs", "conversion/*.json"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -35,6 +35,12 @@ select = ["E", "F", "I", "UP"]
 
 [tool.mypy]
 python_version = "3.11"
-files = ["src/fnx_spine_forge"]
+files = ["src/fnx_spine_forge", "tests/b2_semantics.py"]
 ignore_missing_imports = true
 strict = true
+
+# No implicit or explicit Any may cross a production boundary.
+disallow_any_expr = true
+disallow_any_explicit = true
+disallow_any_unimported = true
+warn_unreachable = true

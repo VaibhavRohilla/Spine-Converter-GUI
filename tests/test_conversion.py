@@ -14,7 +14,6 @@ from fnx_spine_forge.conversion import (
 from fnx_spine_forge.conversion.models import (
     ConversionResult,
     ConversionStatus,
-    SemanticQualification,
 )
 from fnx_spine_forge.inspection import InspectionService
 from fnx_spine_forge.parsers import parse_atlas
@@ -58,8 +57,8 @@ def test_asset_set_conversion_reinspects_output_and_preserves_texture(tmp_path):
         source_risk_policy=SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC,
     )
     assert result.status is ConversionStatus.STRUCTURALLY_VERIFIED
-    assert result.semantic_qualification is SemanticQualification.NOT_END_TO_END_QUALIFIED
-    assert result.details["semantic_qualification"] == "not_end_to_end_qualified"
+    assert result.qualification is not None and not result.qualification.qualified
+    assert "QUALIFICATION_EXPERIMENTAL_OUTPUT" in result.qualification.diagnostic_codes
     assert result.route == ("3.8.75", "4.2.43")
     assert set(result.outputs or {}) == set(before)
     assert result.outputs["golden_ingot.png"] == texture
@@ -78,8 +77,8 @@ def test_asset_set_composed_conversion_reinspects_each_hop(tmp_path):
     result = AssetSetConverter(planner=planner, experimental_structural=True).convert(
         source, "golden_ingot.json", "4.2.43")
     assert result.status is ConversionStatus.STRUCTURALLY_VERIFIED
-    assert result.semantic_qualification is SemanticQualification.NOT_END_TO_END_QUALIFIED
-    assert result.details["semantic_qualification"] == "not_end_to_end_qualified"
+    assert result.qualification is not None and not result.qualification.qualified
+    assert "QUALIFICATION_EXPERIMENTAL_OUTPUT" in result.qualification.diagnostic_codes
     assert result.route == ("4.0.31", "4.1.56", "4.2.43")
     assert [hop["target"] for hop in result.details["per_hop"]] == ["4.1.56", "4.2.43"]
     assert all(hop["statistics"]["bezier_segments"] > 0 for hop in result.details["per_hop"])
@@ -106,7 +105,7 @@ def test_skeleton_conversion_reports_restricted_semantic_scope():
         "4.2.43",
         source_risk_policy=SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC,
     )
-    assert result.semantic_qualification is SemanticQualification.NOT_END_TO_END_QUALIFIED
+    assert result.qualification is not None and not result.qualification.qualified
     assert result.status is ConversionStatus.STRUCTURALLY_VERIFIED
 
 
@@ -260,7 +259,7 @@ def test_asset_set_rolls_back_atlas_failure_without_partial_outputs(tmp_path, mo
     planner = ConversionPlanner({("4.0.31", "4.1.56"), ("4.1.56", "4.2.43")})
     converter = AssetSetConverter(planner=planner, experimental_structural=True)
     monkeypatch.setattr(
-        converter.atlases,
+        converter._atlases,
         "convert",
         lambda *a, **k: (_ for _ in ()).throw(ValueError("bad intermediate atlas")),
     )
@@ -438,7 +437,7 @@ def test_typed_semantic_boundary_blocks_unknown_constraint_fields():
 
 
 def test_json_boundary_rejects_non_json_and_non_finite_values():
-    from fnx_spine_forge.conversion.json_types import require_json_object
+    from fnx_spine_forge.json_types import require_json_object
 
     with pytest.raises(ValueError, match="non-finite"):
         require_json_object({"value": float("nan")}, "fixture")
@@ -531,9 +530,9 @@ def test_skeleton_exact_version_conversion_preserves_semantics():
     assert result.status is ConversionStatus.STRUCTURALLY_VERIFIED
     assert result.output is not None
     assert json.loads(result.output) == json.loads(source)
-    assert result.semantic_qualification is SemanticQualification.IDENTITY_ONLY
+    assert result.qualification is not None and not result.qualification.qualified
     assert source == skeleton()
-    assert not result.runtime_verified and not result.visually_verified
+    assert not result.qualification.runtime_verified and not result.qualification.visually_verified
 
 
 def test_skeleton_cross_family_route_is_rejected():
@@ -592,7 +591,7 @@ def test_executor_stops_at_first_incompatible_hop_and_returns_evidence():
     source = json.dumps(document).encode()
     result = SkeletonConverter(experimental_structural=True).convert(source, "3.8.99")
     assert result.status is ConversionStatus.REJECTED
-    assert result.semantic_qualification is SemanticQualification.REJECTED
+    assert result.status is ConversionStatus.REJECTED and result.output is None
     assert result.output is None
     assert result.details["failed_hop"]["source_version"] == "4.3.13"
     assert result.details["failed_hop"]["target_version"] == "4.2.43"
@@ -789,7 +788,7 @@ def test_38_to_legacy_uses_skin_map_schema_and_keeps_runtime_timelines(target_ve
     for source_frame, target_frame in zip(source_curves, target_curves, strict=True):
         assert legacy_curve_samples(source_frame) == legacy_curve_samples(target_frame)
     assert result.details["verification_level"] == "structural_only"
-    assert result.feature_compatibility["target_runtime"] == "not_executed"
+    assert result.qualification is not None and not result.qualification.runtime_verified
     assert result.provenance["declared_source_version"] == "3.8.75"
     assert result.provenance["source_fidelity"] == "unverified_without_trusted_baseline"
     assert source_path.read_bytes() == source
@@ -2137,7 +2136,7 @@ def test_direct_42_to_43_real_bundle_reinspection_preserves_texture(tmp_path):
 def test_runtime_smoke_refuses_a_nonmatching_runtime_version(tmp_path):
     import json
 
-    from fnx_spine_forge.conversion.runtime import run_spine_42_runtime_smoke
+    from fnx_spine_forge.conversion.runtime import run_spine_runtime_smoke
 
     package = tmp_path / "spine-core"
     package.mkdir()
@@ -2151,7 +2150,7 @@ def test_runtime_smoke_refuses_a_nonmatching_runtime_version(tmp_path):
         ),
         encoding="utf-8",
     )
-    result = run_spine_42_runtime_smoke("missing.json", "missing.atlas", package)
+    result = run_spine_runtime_smoke("missing.json", "missing.atlas", package)
     assert result["status"] == "rejected_runtime_identity"
 
 

@@ -2,10 +2,14 @@
 
 from __future__ import annotations
 
+from collections.abc import Mapping
 from dataclasses import dataclass
 from enum import StrEnum
+from importlib.resources import files
+from types import MappingProxyType
 
-from .json_types import JSONDocument, JSONObject
+from ..json_types import JSONDocument, JSONObject, JSONValue, decode_json_object, is_document
+from .document import require_array, require_object, require_text
 from .registry import EXACT_ROUTE_PAIRS
 from .semantic import SemanticSkeleton
 
@@ -27,6 +31,8 @@ class QualificationCode(StrEnum):
 
 class SourceFeature(StrEnum):
     HIERARCHY = "hierarchy_setup_transforms"
+    BONE_INHERITANCE = "bone_inheritance"
+    BONE_EXTENSIONS = "bone_length_skin_editor_metadata"
     ATTACHMENTS = "skins_attachments"
     MESH = "mesh_geometry"
     AUXILIARY_ATTACHMENTS = "auxiliary_attachment_geometry"
@@ -50,12 +56,33 @@ def inspect_features(
 ) -> frozenset[SourceFeature]:
     """Classify validated records; retain unknown raw extensions as blocking evidence."""
     found = {SourceFeature.HIERARCHY}
-    if any(bone.transform.mode not in {None, "normal"} for bone in semantic.bones):
+    if any(bone.transform.mode is not None for bone in semantic.bones):
+        found.add(SourceFeature.BONE_INHERITANCE)
+    if any(
+        bone.length is not None
+        or bone.skin is not None
+        or bone.skin_required is not None
+        or bone.editor_metadata
+        for bone in semantic.bones
+    ):
+        found.add(SourceFeature.BONE_EXTENSIONS)
+    metadata = document.get("skeleton", {})
+    if isinstance(metadata, Mapping) and set(metadata) - {
+        "spine",
+        "hash",
+        "x",
+        "y",
+        "width",
+        "height",
+        "fps",
+        "images",
+        "audio",
+    }:
         found.add(SourceFeature.UNKNOWN)
     animations = document.get("animations", {})
-    if isinstance(animations, dict):
+    if is_document(animations):
         for animation in animations.values():
-            if isinstance(animation, dict) and set(animation) - {
+            if is_document(animation) and set(animation) - {
                 "bones",
                 "slots",
                 "ik",
@@ -130,14 +157,29 @@ def inspect_features(
 
 
 @dataclass(frozen=True)
+class FixtureEvidence:
+    identity: str
+    sha256: str
+    provenance: str
+
+    def __post_init__(self) -> None:
+        if not self.identity or not self.provenance or len(self.sha256) != 64:
+            raise ValueError("Fixture evidence requires identity, provenance and SHA-256")
+        if any(char not in "0123456789abcdef" for char in self.sha256):
+            raise ValueError("Fixture evidence SHA-256 must be lowercase hexadecimal")
+
+
+@dataclass(frozen=True)
 class QualificationRecord:
     source_version: str
     target_version: str
     path: tuple[str, ...]
     supported_features: frozenset[SourceFeature] = frozenset()
     unsupported_features: frozenset[SourceFeature] = frozenset({SourceFeature.UNKNOWN})
-    unverified_features: frozenset[SourceFeature] = frozenset(SourceFeature)
-    fixtures: tuple[str, ...] = ()
+    unverified_features: frozenset[SourceFeature] = frozenset(SourceFeature) - {
+        SourceFeature.UNKNOWN
+    }
+    fixtures: tuple[FixtureEvidence, ...] = ()
     provenance: str = "No end-to-end evidence recorded"
     structural_evidence: tuple[str, ...] = ()
     semantic_evidence: tuple[str, ...] = ()
@@ -145,6 +187,46 @@ class QualificationRecord:
     runtime_verified: bool = False
     visually_verified: bool = False
     schema_version: int = 1
+
+    def __post_init__(self) -> None:
+        if type(self.schema_version) is not int or self.schema_version != 1:
+            raise ValueError("Unsupported qualification contract version")
+        if (
+            len(self.path) < 2
+            or len(set(self.path)) != len(self.path)
+            or self.path[0] != self.source_version
+            or self.path[-1] != self.target_version
+        ):
+            raise ValueError("Qualification endpoints must match the complete migration path")
+        if any(edge not in EXACT_ROUTE_PAIRS for edge in zip(self.path, self.path[1:])):
+            raise ValueError("Qualification references an unregistered migration edge")
+        if (
+            self.supported_features & self.unsupported_features
+            or self.supported_features & self.unverified_features
+            or self.unsupported_features & self.unverified_features
+        ):
+            raise ValueError("Qualification feature sets must be disjoint")
+        if (
+            self.supported_features | self.unsupported_features | self.unverified_features
+            != frozenset(SourceFeature)
+        ):
+            raise ValueError("Qualification must account for every semantic feature category")
+        if SourceFeature.UNKNOWN in self.supported_features:
+            raise ValueError("Unknown semantics cannot be qualified")
+        if self.supported_features and not (
+            self.fixtures and self.structural_evidence and self.semantic_evidence
+        ):
+            raise ValueError("Supported features require fixture, structural and semantic evidence")
+        if SourceFeature.HIERARCHY in self.supported_features and not self.numerical_evidence:
+            raise ValueError("Setup transform qualification requires numerical evidence")
+        if self.semantic_evidence and not self.supported_features:
+            raise ValueError("Semantic evidence must identify a qualified feature subset")
+        if len({fixture.identity for fixture in self.fixtures}) != len(self.fixtures):
+            raise ValueError("Duplicate fixture evidence identity")
+        if self.runtime_verified or self.visually_verified:
+            raise ValueError(
+                "Runtime and visual certifications require an external evidence contract"
+            )
 
     @property
     def engineering_level(self) -> QualificationLevel:
@@ -155,23 +237,110 @@ class QualificationRecord:
         return QualificationLevel.NOT_QUALIFIED
 
 
-# Fixed evidence inventory, deliberately independent of future graph additions.
-_HIERARCHY_EVIDENCE_PATHS = frozenset(
-    ("3.8.99", target)
-    for target in (
-        "3.5.51",
-        "3.6.53",
-        "3.7.94",
-        "4.0.31",
-        "4.1.56",
-        "4.2.43",
-        "4.3.13",
-    )
+def _strings(value: JSONValue, context: str) -> tuple[str, ...]:
+    # The object boundary is admitted once, then all nested access remains typed.
+    if not isinstance(value, (list, tuple)):
+        raise ValueError(f"{context} must be an array")
+    # Configuration callers supply JSON arrays; a separate checked object handles the root.
+    result: list[str] = []
+    for item in value:
+        if not isinstance(item, str) or not item.strip():
+            raise ValueError(f"{context} must contain non-empty strings")
+        result.append(item)
+    return tuple(result)
+
+
+def load_qualification_records(payload: bytes) -> tuple[QualificationRecord, ...]:
+    document = decode_json_object(payload, "Qualification evidence")
+    if (
+        set(document) != {"schema_version", "records"}
+        or type(document["schema_version"]) is not int
+        or document["schema_version"] != 1
+    ):
+        raise ValueError("Unsupported qualification evidence schema")
+    records: list[QualificationRecord] = []
+    seen: set[tuple[str, ...]] = set()
+    expected = {
+        "source_version",
+        "target_version",
+        "path",
+        "supported_features",
+        "unsupported_features",
+        "unverified_features",
+        "fixtures",
+        "structural_evidence",
+        "semantic_evidence",
+        "numerical_evidence",
+        "runtime_verified",
+        "visually_verified",
+    }
+    for index, value in enumerate(require_array(document["records"], "qualification records")):
+        row = require_object(value, f"qualification record {index}")
+        if set(row) != expected:
+            raise ValueError(f"Qualification record {index} has missing or unknown fields")
+        path = _strings(row["path"], "qualification path")
+        if path in seen:
+            raise ValueError("Duplicate qualification path")
+        seen.add(path)
+        fixtures: list[FixtureEvidence] = []
+        for fixture_value in require_array(row["fixtures"], "fixture evidence"):
+            fixture = require_object(fixture_value, "fixture evidence")
+            if set(fixture) != {"identity", "sha256", "provenance"}:
+                raise ValueError("Invalid fixture evidence fields")
+            fixtures.append(
+                FixtureEvidence(
+                    require_text(fixture["identity"], "fixture identity"),
+                    require_text(fixture["sha256"], "fixture SHA-256"),
+                    require_text(fixture["provenance"], "fixture provenance"),
+                )
+            )
+        runtime, visual = row["runtime_verified"], row["visually_verified"]
+        if not isinstance(runtime, bool) or not isinstance(visual, bool):
+            raise ValueError("Verification flags must be booleans")
+        records.append(
+            QualificationRecord(
+                require_text(row["source_version"], "source version"),
+                require_text(row["target_version"], "target version"),
+                path,
+                frozenset(
+                    SourceFeature(v)
+                    for v in _strings(row["supported_features"], "supported features")
+                ),
+                frozenset(
+                    SourceFeature(v)
+                    for v in _strings(row["unsupported_features"], "unsupported features")
+                ),
+                frozenset(
+                    SourceFeature(v)
+                    for v in _strings(row["unverified_features"], "unverified features")
+                ),
+                tuple(fixtures),
+                "; ".join(f.provenance for f in fixtures) or "No fixture evidence",
+                _strings(row["structural_evidence"], "structural evidence"),
+                _strings(row["semantic_evidence"], "semantic evidence"),
+                _strings(row["numerical_evidence"], "numerical evidence"),
+                runtime,
+                visual,
+            )
+        )
+    return tuple(records)
+
+
+_PACKAGED_RECORDS = load_qualification_records(
+    files("fnx_spine_forge.conversion").joinpath("qualification_evidence.json").read_bytes()
 )
 
 
 class ConversionQualificationRegistry:
     """Exact directed paths, with no inheritance from constituent edges."""
+
+    def __init__(self, records: tuple[QualificationRecord, ...] | None = None) -> None:
+        admitted = _PACKAGED_RECORDS if records is None else records
+        self._evidence: Mapping[tuple[str, ...], QualificationRecord] = MappingProxyType(
+            {r.path: r for r in admitted}
+        )
+        if len(self._evidence) != len(admitted):
+            raise ValueError("Duplicate qualification path")
 
     def records(self) -> tuple[QualificationRecord, ...]:
         """Inventory every deterministic advertised candidate, including unqualified paths."""
@@ -190,42 +359,8 @@ class ConversionQualificationRegistry:
     def record(self, path: tuple[str, ...]) -> QualificationRecord:
         if not path:
             raise ValueError("Qualification record requires a complete directed path")
-        supported = (
-            frozenset({SourceFeature.HIERARCHY})
-            if path in _HIERARCHY_EVIDENCE_PATHS and (path[0], path[1]) in EXACT_ROUTE_PAIRS
-            else frozenset[SourceFeature]()
-        )
-        authentic = path == ("3.8.75", "4.2.43")
-        return QualificationRecord(
-            path[0],
-            path[-1],
-            path,
-            supported,
-            unverified_features=frozenset(SourceFeature) - supported - {SourceFeature.UNKNOWN},
-            fixtures=("tests/fixtures/b2_semantic/spine_3_8_99.json",)
-            if supported
-            else ("tests/fixtures/spine38/golden_ingot.json",)
-            if authentic
-            else (),
-            provenance="Schema-derived synthetic fixture; not an editor export"
-            if supported
-            else "Authentic 3.8.75 export; known export risk, structural bundle evidence only"
-            if authentic
-            else "No end-to-end semantic qualification",
-            structural_evidence=("tests/test_b2_semantic_qualification.py",)
-            if supported
-            else ("docs/B2_REPORT.md: Targeted fidelity recovery",)
-            if authentic
-            else (),
-            numerical_evidence=("Exact serialized bone setup values compared at endpoints",)
-            if supported
-            else (),
-            semantic_evidence=(
-                "test_38_99_feature_fixture_direct_route_semantic_evaluation: bones equality",
-            )
-            if supported
-            else (),
-        )
+        record = self._evidence.get(path)
+        return record if record is not None else QualificationRecord(path[0], path[-1], path)
 
 
 @dataclass(frozen=True)
@@ -238,6 +373,8 @@ class QualificationResult:
     missing_evidence: tuple[str, ...]
     diagnostic_codes: tuple[QualificationCode, ...]
     selected_path: tuple[str, ...]
+    runtime_verified: bool = False
+    visually_verified: bool = False
 
     @property
     def diagnostics(self) -> tuple[str, ...]:
@@ -255,12 +392,15 @@ class QualificationResult:
             "diagnostic_codes": tuple(x.value for x in self.diagnostic_codes),
             "selected_path": self.selected_path,
             "schema_version": 1,
-            "runtime_verified": False,
-            "visually_verified": False,
+            "runtime_verified": self.runtime_verified,
+            "visually_verified": self.visually_verified,
         }
 
 
 class QualificationService:
+    def __init__(self, registry: ConversionQualificationRegistry | None = None) -> None:
+        self.registry = registry if registry is not None else ConversionQualificationRegistry()
+
     def evaluate(
         self,
         source_version: str,
@@ -272,12 +412,14 @@ class QualificationService:
         experimental_structural: bool = False,
     ) -> QualificationResult:
         valid = (
-            bool(migration_path)
+            len(migration_path) >= 2
+            and bool(source_features)
+            and len(set(migration_path)) == len(migration_path)
             and migration_path[0] == source_version
             and (migration_path[-1] == target_version)
             and all(edge in EXACT_ROUTE_PAIRS for edge in zip(migration_path, migration_path[1:]))
         )
-        record = ConversionQualificationRegistry().record(migration_path) if valid else None
+        record = self.registry.record(migration_path) if valid else None
         supported = record.supported_features if record else frozenset()
         missing = source_features - supported
         available = (
@@ -287,7 +429,7 @@ class QualificationService:
             if record and record.structural_evidence
             else QualificationLevel.NOT_QUALIFIED
         )
-        qualified = valid and available == required_level
+        qualified = valid and available == required_level and not missing
         codes = (
             ()
             if qualified
@@ -306,9 +448,7 @@ class QualificationService:
                 available,
                 tuple(sorted(source_features & supported)),
                 tuple(sorted(missing)),
-                (
-                    "Experimental structural output; semantic qualification is not asserted",
-                ),
+                ("Experimental structural output; semantic qualification is not asserted",),
                 (QualificationCode.EXPERIMENTAL,),
                 migration_path,
             )
@@ -331,4 +471,6 @@ class QualificationService:
             ),
             codes,
             migration_path,
+            runtime_verified=record.runtime_verified if record else False,
+            visually_verified=record.visually_verified if record else False,
         )

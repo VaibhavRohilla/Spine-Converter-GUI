@@ -2,49 +2,12 @@
 
 from __future__ import annotations
 
-import json
 import shutil
 import subprocess
 from pathlib import Path
 
-from .json_types import JSONDocument, require_json_object
-from .registry import RUNTIME_SMOKE_PATCHES
-
-
-def run_spine_42_runtime_smoke(
-    skeleton_path: str | Path,
-    atlas_path: str | Path,
-    runtime_package: str | Path,
-) -> JSONDocument:
-    """Load and sample a target export using the exact official 4.2.43 runtime."""
-    return _run_spine_runtime_smoke(skeleton_path, atlas_path, runtime_package, "4.2.43")
-
-
-def run_spine_41_runtime_smoke(
-    skeleton_path: str | Path,
-    atlas_path: str | Path,
-    runtime_package: str | Path,
-) -> JSONDocument:
-    """Load and sample a target export using the exact official 4.1.56 runtime."""
-    return _run_spine_runtime_smoke(skeleton_path, atlas_path, runtime_package, "4.1.56")
-
-
-def run_spine_40_runtime_smoke(
-    skeleton_path: str | Path,
-    atlas_path: str | Path,
-    runtime_package: str | Path,
-) -> JSONDocument:
-    """Load and sample a target export using the exact official 4.0.31 runtime."""
-    return _run_spine_runtime_smoke(skeleton_path, atlas_path, runtime_package, "4.0.31")
-
-
-def run_spine_43_runtime_smoke(
-    skeleton_path: str | Path,
-    atlas_path: str | Path,
-    runtime_package: str | Path,
-) -> JSONDocument:
-    """Load and sample a target export using the exact official 4.3.13 runtime."""
-    return _run_spine_runtime_smoke(skeleton_path, atlas_path, runtime_package, "4.3.13")
+from ..json_types import JSONDocument, decode_json_object
+from .registry import RUNTIME_EXTENSION_LOADER_PATCHES, RUNTIME_SMOKE_PATCHES
 
 
 def run_spine_runtime_smoke(
@@ -55,11 +18,11 @@ def run_spine_runtime_smoke(
     """Select the exact supported runtime matching the skeleton's target version."""
     package_root = Path(runtime_package)
     try:
-        package = require_json_object(
-            json.loads((package_root / "package.json").read_text(encoding="utf-8")),
+        package = decode_json_object(
+            (package_root / "package.json").read_text(encoding="utf-8"),
             "Spine runtime package metadata",
         )
-    except (OSError, json.JSONDecodeError) as exc:
+    except (OSError, ValueError) as exc:
         return {"status": "not_run", "reason": f"Runtime package metadata unavailable: {exc}"}
     package_name, package_version = package.get("name"), package.get("version")
     if (
@@ -73,44 +36,13 @@ def run_spine_runtime_smoke(
             "reason": "Runtime must be an explicitly supported official Spine runtime package",
             "runtime": f"{package_name}@{package_version}",
         }
-    return _run_spine_runtime_smoke(
-        skeleton_path, atlas_path, runtime_package, package_version
-    )
-
-
-def _run_spine_runtime_smoke(
-    skeleton_path: str | Path,
-    atlas_path: str | Path,
-    runtime_package: str | Path,
-    target_version: str,
-) -> JSONDocument:
-    package_root = Path(runtime_package)
-    try:
-        package = require_json_object(
-            json.loads((package_root / "package.json").read_text(encoding="utf-8")),
-            "Spine runtime package metadata",
-        )
-    except (OSError, json.JSONDecodeError) as exc:
-        return {"status": "not_run", "reason": f"Runtime package metadata unavailable: {exc}"}
-    if (
-        package.get("name") != "@esotericsoftware/spine-core"
-        or package.get("version") != target_version
-        or not isinstance(package.get("main"), str)
-    ):
-        return {
-            "status": "rejected_runtime_identity",
-            "reason": (
-                "Runtime must be the official @esotericsoftware/spine-core "
-                f"{target_version} package"
-            ),
-            "runtime": f"{package.get('name')}@{package.get('version')}",
-        }
+    target_version = package_version
     node = shutil.which("node")
     if node is None:
         return {"status": "not_run", "reason": "Node.js is unavailable"}
     script = Path(__file__).with_name("runtime_smoke.mjs")
     command = [node]
-    if target_version == "4.0.31":
+    if target_version in RUNTIME_EXTENSION_LOADER_PATCHES:
         command.extend(
             ["--experimental-loader", str(Path(__file__).with_name("runtime_extension_loader.mjs"))]
         )
@@ -139,7 +71,7 @@ def _run_spine_runtime_smoke(
             "error": process.stderr.strip() or process.stdout.strip(),
         }
     try:
-        result = require_json_object(json.loads(process.stdout), "Runtime smoke report")
-    except json.JSONDecodeError as exc:
+        result = decode_json_object(process.stdout, "Runtime smoke report")
+    except ValueError as exc:
         return {"status": "failed", "error": f"Runtime harness returned invalid JSON: {exc}"}
     return result

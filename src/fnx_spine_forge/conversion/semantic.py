@@ -9,11 +9,26 @@ from __future__ import annotations
 
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
-from typing import Literal, Protocol, cast
+from enum import StrEnum
+from math import isfinite
+from typing import Literal, Protocol, TypeGuard
 
-from .registry import ROUTES_BY_PATCH, SUPPORTED_PATCH_VERSIONS, MigrationKind
+from ..json_types import JSONObject, JSONValue
+from .registry import ROUTES_BY_PATCH, SUPPORTED_PATCH_VERSIONS, MigrationKind, bone_mode_field
 
 AttachmentKind = Literal["region", "mesh", "linkedmesh", "boundingbox", "path", "clipping", "point"]
+
+
+def _is_attachment_kind(value: JSONValue) -> TypeGuard[AttachmentKind]:
+    return value in {"region", "mesh", "linkedmesh", "boundingbox", "path", "clipping", "point"}
+
+
+class BoneInheritance(StrEnum):
+    NORMAL = "normal"
+    ONLY_TRANSLATION = "onlytranslation"
+    NO_ROTATION_OR_REFLECTION = "norotationorreflection"
+    NO_SCALE = "noscale"
+    NO_SCALE_OR_REFLECTION = "noscaleorreflection"
 
 
 @dataclass(frozen=True, slots=True)
@@ -25,7 +40,7 @@ class BoneTransform:
     scale_y: float
     shear_x: float
     shear_y: float
-    mode: str | None
+    mode: BoneInheritance | None
 
 
 @dataclass(frozen=True, slots=True)
@@ -33,6 +48,10 @@ class BoneDefinition:
     name: str
     parent: str | None
     transform: BoneTransform
+    length: float | None
+    skin: bool | None
+    skin_required: bool | None
+    editor_metadata: tuple[tuple[str, str], ...]
 
 
 @dataclass(frozen=True, slots=True)
@@ -193,7 +212,7 @@ def decode_atlas_geometry(atlas: AtlasView, version: str) -> tuple[AtlasRegionGe
     return tuple(decoded)
 
 
-def _integer_tuple(value: object, count: int, name: str) -> tuple[int, ...]:
+def _integer_tuple(value: JSONValue, count: int, name: str) -> tuple[int, ...]:
     if not isinstance(value, str):
         raise ValueError(f"Atlas region {name!r} has non-text geometry")
     parts = tuple(_integer(part.strip(), name) for part in value.split(","))
@@ -342,22 +361,32 @@ _CONSTRAINT_TYPES = frozenset(_CONSTRAINT_FIELDS)
 ConstraintKind = Literal["ik", "path", "transform", "physics"]
 
 
-def _mapping(value: object, where: str) -> Mapping[str, object]:
+def _is_constraint_kind(value: JSONValue) -> TypeGuard[ConstraintKind]:
+    return value in _CONSTRAINT_TYPES
+
+
+def _mapping(value: JSONValue, where: str) -> JSONObject:
     if not isinstance(value, Mapping) or any(not isinstance(key, str) for key in value):
         raise ValueError(f"{where} must be an object with string keys")
     return value
 
 
-def _number(value: object, where: str, default: float = 0.0) -> float:
+def require_number(value: JSONValue, where: str, default: float = 0.0) -> float:
     if value is None:
         return default
     if isinstance(value, bool) or not isinstance(value, (int, float)):
         raise ValueError(f"{where} must be numeric")
-    return float(value)
+    try:
+        result = float(value)
+    except OverflowError as exc:
+        raise ValueError(f"{where} exceeds finite numeric range") from exc
+    if not isfinite(result):
+        raise ValueError(f"{where} must be finite")
+    return result
 
 
 def decode_semantic_skeleton(
-    document: Mapping[str, object], version: str, *, migration_target: str | None = None
+    document: JSONObject, version: str, *, migration_target: str | None = None
 ) -> SemanticSkeleton:
     """Decode supported high-risk records for one exact recognized patch version."""
     if version not in SUPPORTED_PATCH_VERSIONS:
@@ -384,30 +413,53 @@ def decode_semantic_skeleton(
         parent = row.get("parent")
         if parent is not None and not isinstance(parent, str):
             raise ValueError(f"bones[{index}].parent must be a string")
-        mode_key = (
-            "transform"
-            if version.startswith("4.0.")
-            else "inherit"
-            if version.startswith(("4.1.", "4.2.", "4.3."))
-            else None
+        mode_key = bone_mode_field(version)
+        mode_value = row.get(mode_key)
+        mode = None
+        if mode_value is not None:
+            if not isinstance(mode_value, str):
+                raise ValueError(f"bones[{index}].{mode_key} must be a string")
+            try:
+                mode = BoneInheritance(mode_value.lower())
+            except ValueError as exc:
+                raise ValueError(f"Unsupported bone inheritance mode {mode_value!r}") from exc
+        other_mode = "inherit" if mode_key == "transform" else "transform"
+        if other_mode in row:
+            raise ValueError(f"bones[{index}] has {other_mode!r} outside its exact version schema")
+        length = (
+            require_number(row["length"], f"bones[{index}].length") if "length" in row else None
         )
-        mode = row.get(mode_key) if mode_key else None
-        if mode is not None and not isinstance(mode, str):
-            raise ValueError(f"bones[{index}].{mode_key} must be a string")
+        skin_flags: dict[str, bool | None] = {}
+        for key in ("skin", "skinRequired"):
+            flag = row.get(key)
+            if flag is not None and not isinstance(flag, bool):
+                raise ValueError(f"bones[{index}].{key} must be a boolean")
+            skin_flags[key] = flag
+        editor_metadata: list[tuple[str, str]] = []
+        for key in ("icon", "color"):
+            if key in row:
+                text = row[key]
+                if not isinstance(text, str):
+                    raise ValueError(f"bones[{index}].{key} must be a string")
+                editor_metadata.append((key, text))
         bones.append(
             BoneDefinition(
                 name,
                 parent,
                 BoneTransform(
-                    _number(row.get("x"), f"bones[{index}].x"),
-                    _number(row.get("y"), f"bones[{index}].y"),
-                    _number(row.get("rotation"), f"bones[{index}].rotation"),
-                    _number(row.get("scaleX"), f"bones[{index}].scaleX", 1),
-                    _number(row.get("scaleY"), f"bones[{index}].scaleY", 1),
-                    _number(row.get("shearX"), f"bones[{index}].shearX"),
-                    _number(row.get("shearY"), f"bones[{index}].shearY"),
+                    require_number(row.get("x"), f"bones[{index}].x"),
+                    require_number(row.get("y"), f"bones[{index}].y"),
+                    require_number(row.get("rotation"), f"bones[{index}].rotation"),
+                    require_number(row.get("scaleX"), f"bones[{index}].scaleX", 1),
+                    require_number(row.get("scaleY"), f"bones[{index}].scaleY", 1),
+                    require_number(row.get("shearX"), f"bones[{index}].shearX"),
+                    require_number(row.get("shearY"), f"bones[{index}].shearY"),
                     mode,
                 ),
+                length,
+                skin_flags["skin"],
+                skin_flags["skinRequired"],
+                tuple(editor_metadata),
             )
         )
     bone_names = {bone.name for bone in bones}
@@ -443,7 +495,7 @@ def decode_semantic_skeleton(
     attachments: list[AttachmentDefinition] = []
     linked_parents: list[tuple[str, str, str, str, str]] = []
     attachment_names_by_skin_slot: dict[tuple[str, str], set[str]] = {}
-    skin_records: list[tuple[str, Mapping[str, object], Mapping[str, object]]] = []
+    skin_records: list[tuple[str, JSONObject, JSONObject]] = []
     if isinstance(raw_skins, list):
         for skin_index, raw_skin in enumerate(raw_skins):
             skin = _mapping(raw_skin, f"skins[{skin_index}]")
@@ -489,21 +541,15 @@ def decode_semantic_skeleton(
                         f"{', '.join(sorted(unknown))}"
                     )
                 kind_value = row.get("type", "region")
-                if kind_value not in {
-                    "region",
-                    "mesh",
-                    "linkedmesh",
-                    "boundingbox",
-                    "path",
-                    "clipping",
-                    "point",
-                }:
+                if not _is_attachment_kind(kind_value):
                     raise ValueError(f"Unsupported attachment discriminator {kind_value!r}")
                 attachment_kind: AttachmentKind = kind_value
                 vertices_raw = row.get("vertices", [])
                 if not isinstance(vertices_raw, list):
                     raise ValueError(f"Attachment {attachment_name!r} vertices must be an array")
-                vertices = tuple(_number(value, "attachment vertex") for value in vertices_raw)
+                vertices = tuple(
+                    require_number(value, "attachment vertex") for value in vertices_raw
+                )
                 parent = row.get("parent", row.get("source"))
                 parent_skin = row.get("skin", skin_name)
                 deform = row.get("deform", row.get("inheritDeform"))
@@ -571,7 +617,9 @@ def decode_semantic_skeleton(
                         f"Clipping attachment {attachment_name!r} has invalid end slot"
                     )
                 values = {
-                    key: _number(row.get(key), f"Attachment {attachment_name!r}.{key}", default)
+                    key: require_number(
+                        row.get(key), f"Attachment {attachment_name!r}.{key}", default
+                    )
                     for key, default in (
                         ("x", 0.0),
                         ("y", 0.0),
@@ -617,9 +665,9 @@ def decode_semantic_skeleton(
             )
 
     constraints: list[ConstraintDefinition] = []
-    constraint_records: list[tuple[ConstraintKind, Mapping[str, object], str]] = []
+    constraint_records: list[tuple[ConstraintKind, JSONObject, str]] = []
     for category in ("ik", "path", "transform", "physics"):
-        constraint_values: object = document.get(category, [])
+        constraint_values: JSONValue = document.get(category, [])
         if constraint_values is None:
             continue
         if not isinstance(constraint_values, list):
@@ -645,9 +693,9 @@ def decode_semantic_skeleton(
         for index, raw in enumerate(combined):
             row = _mapping(raw, f"constraints[{index}]")
             kind_value = row.get("type")
-            if kind_value not in _CONSTRAINT_TYPES:
+            if not _is_constraint_kind(kind_value):
                 raise ValueError(f"Unsupported constraint discriminator {kind_value!r}")
-            constraint_kind = cast(ConstraintKind, kind_value)
+            constraint_kind = kind_value
             constraint_records.append((constraint_kind, row, f"constraints[{index}]"))
 
     for kind, row, context in constraint_records:
@@ -700,7 +748,14 @@ def decode_semantic_skeleton(
                 raise ValueError(f"{context}.{field_name} must be a scalar setup value")
             setup.append((field_name, value))
         constraints.append(
-            ConstraintDefinition(kind, name, target, tuple(bone_list), order, tuple(setup))
+            ConstraintDefinition(
+                kind,
+                name,
+                target,
+                tuple(bone for bone in bone_list if isinstance(bone, str)),
+                order,
+                tuple(setup),
+            )
         )
 
     timelines: list[TimelineDefinition] = []
@@ -739,7 +794,7 @@ def _collect_timelines(
     out: list[TimelineDefinition],
     animation: str,
     category: str,
-    value: object,
+    value: JSONValue,
     owner: str = "",
 ) -> None:
     if isinstance(value, list):
@@ -754,16 +809,17 @@ def _collect_timelines(
                     )
                 for offset in range(0, len(curve), 4):
                     points = tuple(
-                        _number(part, "Bézier control") for part in curve[offset : offset + 4]
+                        require_number(part, "Bézier control")
+                        for part in curve[offset : offset + 4]
                     )
-                    curves.append(cast(tuple[float, float, float, float], points))
+                    curves.append((points[0], points[1], points[2], points[3]))
             elif isinstance(curve, (int, float)) and not isinstance(curve, bool):
                 curves.append(
                     (
-                        _number(curve, "Bézier control"),
-                        _number(frame.get("c2", 0), "Bézier control"),
-                        _number(frame.get("c3", 1), "Bézier control"),
-                        _number(frame.get("c4", 1), "Bézier control"),
+                        require_number(curve, "Bézier control"),
+                        require_number(frame.get("c2", 0), "Bézier control"),
+                        require_number(frame.get("c3", 1), "Bézier control"),
+                        require_number(frame.get("c4", 1), "Bézier control"),
                     )
                 )
             elif curve is not None and curve != "stepped":
@@ -777,13 +833,13 @@ def _collect_timelines(
             _collect_timelines(out, animation, category, child, f"{owner}/{key}".strip("/"))
 
 
-def _number_array(value: object, where: str) -> tuple[float, ...]:
+def _number_array(value: JSONValue, where: str) -> tuple[float, ...]:
     if not isinstance(value, list):
         raise ValueError(f"{where} must be an array")
-    return tuple(_number(item, where) for item in value)
+    return tuple(require_number(item, where) for item in value)
 
 
-def _integer_array(value: object, where: str) -> tuple[int, ...]:
+def _integer_array(value: JSONValue, where: str) -> tuple[int, ...]:
     if not isinstance(value, list):
         raise ValueError(f"{where} must be an array")
     result: list[int] = []

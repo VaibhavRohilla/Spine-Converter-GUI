@@ -10,6 +10,7 @@ from zipfile import BadZipFile
 from .config import InspectionConfig
 from .dependencies import DependencyResolver
 from .detection import TEXTURE_EXTENSIONS
+from .json_types import JSONDocument
 from .models import Asset, AssetManifest, Dependency, Diagnostic, Severity, SpineBundle
 from .parsers import inspect_skeleton, parse_atlas
 from .source import AssetSource
@@ -34,6 +35,7 @@ class InspectionService:
         skeletons = []
         atlases = []
         regions_by_atlas = {}
+        attachment_paths_by_skeleton: dict[str, tuple[str, ...]] = {}
         versions = {}
         try:
             with AssetSource(origin, self.config.source_limits) as source:
@@ -44,7 +46,7 @@ class InspectionService:
                     size = source.size(name)
                     kind = "other"
                     version = None
-                    metadata = {}
+                    metadata: JSONDocument = {}
                     if ext == ".json":
                         if size > self.config.max_skeleton_json_bytes:
                             diagnostics.append(
@@ -68,6 +70,7 @@ class InspectionService:
                                     kind = "skeleton_json"
                                     version = info.version
                                     skeletons.append(name)
+                                    attachment_paths_by_skeleton[name] = info.attachment_paths
                                     metadata = {
                                         "counts": info.counts,
                                         "names": info.names,
@@ -137,8 +140,14 @@ class InspectionService:
                             regions_by_atlas[name] = atlas_info.regions
                             metadata = {
                                 "regions": atlas_info.regions,
-                                "page_records": atlas_info.page_records,
-                                "region_records": atlas_info.region_records,
+                                "page_records": [
+                                    {"name": page.name, "attributes": page.attributes}
+                                    for page in atlas_info.page_records
+                                ],
+                                "region_records": [
+                                    {"name": region.name, "attributes": region.attributes}
+                                    for region in atlas_info.region_records
+                                ],
                                 "attributes": atlas_info.attributes,
                                 "unknown_attributes": atlas_info.unknown_attributes,
                             }
@@ -204,8 +213,7 @@ class InspectionService:
                     )
                 for skel in skeletons:
                     if skel.lower().endswith(".json"):
-                        asset = next(a for a in assets if a.path == skel)
-                        paths = asset.metadata.get("attachment_paths", ())
+                        paths = attachment_paths_by_skeleton.get(skel, ())
                         candidates = []
                         for atlas, atlas_regions in regions_by_atlas.items():
                             region_names = set(atlas_regions)
@@ -253,7 +261,7 @@ class InspectionService:
                                     Severity.ERROR,
                                     "No atlas contains the skeleton attachment references",
                                     skel,
-                                    {"atlases": atlases},
+                                    {"atlases": [atlas for atlas in atlases]},
                                 )
                             )
                         for atlas in related:

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import StrEnum
+from typing import Literal
 
 
 class MigrationKind(StrEnum):
@@ -73,9 +74,29 @@ SUPPORTED_PATCH_VERSIONS: frozenset[str] = frozenset(
 # policy sets here so recognition, conversion, atlas handling, and CLI reports
 # do not grow independent patch lists.
 KNOWN_EXPORT_ISSUE_PATCHES: frozenset[str] = frozenset({"3.8.75"})
-RUNTIME_SMOKE_PATCHES: frozenset[str] = frozenset(
-    {"4.0.31", "4.1.56", "4.2.43", "4.3.13"}
-)
+RUNTIME_EXTENSION_LOADER_PATCHES = frozenset({"4.0.31"})
+RUNTIME_SMOKE_PATCHES: frozenset[str] = frozenset({"4.0.31", "4.1.56", "4.2.43", "4.3.13"})
 ATLAS_42_SCHEMA_PATCHES: frozenset[str] = frozenset({"4.2.43", "4.3.13"})
 ATLAS_40_SCHEMA_PATCHES: frozenset[str] = frozenset({"4.0.31", "4.1.56"})
 ATLAS_41_PATCHES: frozenset[str] = frozenset({"4.1.56"})
+
+
+def require_route(kind: MigrationKind, source_version: str, target_version: str) -> MigrationRoute:
+    """Admit one exact registered edge to its owning writer."""
+    from .errors import MigrationError
+
+    route = ROUTES_BY_PATCH.get((source_version, target_version))
+    if route is None or route.kind is not kind:
+        raise MigrationError(
+            f"No registered {kind.value} edge for {source_version} -> {target_version}"
+        )
+    return route
+
+
+_BONE_INHERITANCE_PATCHES = frozenset({"4.2.43", "4.3.13"})
+
+
+def bone_mode_field(version: str) -> Literal["transform", "inherit"]:
+    if version not in SUPPORTED_PATCH_VERSIONS:
+        raise ValueError(f"No exact bone schema for {version!r}")
+    return "inherit" if version in _BONE_INHERITANCE_PATCHES else "transform"

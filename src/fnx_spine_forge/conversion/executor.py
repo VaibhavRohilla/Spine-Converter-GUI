@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections.abc import Callable
 from dataclasses import dataclass, replace
 
-from .models import ConversionResult, ConversionStatus, SemanticQualification
+from .models import ConversionResult, ConversionStatus
 from .planner import ConversionPlanner
 from .qualification import QualificationService, inspect_features
 from .registry import KNOWN_EXPORT_ISSUE_PATCHES
@@ -86,7 +86,8 @@ class MigrationExecutor:
                     None,
                     ConversionStatus.REJECTED,
                     q.missing_evidence,
-                    details={"qualification": q.to_json(), "experimental_structural": False},
+                    details={"experimental_structural": False},
+                    qualification=q,
                     diagnostic_codes=tuple(q.diagnostic_codes),
                 )
         result = self._execute_structural(source, source_version, target_version)
@@ -101,7 +102,6 @@ class MigrationExecutor:
             experimental_structural=self.experimental_structural,
         )
         details = dict(result.details or {})
-        details["qualification"] = q.to_json()
         details["experimental_structural"] = self.experimental_structural
         if not q.qualified and not self.experimental_structural:
             return replace(
@@ -111,15 +111,12 @@ class MigrationExecutor:
                 diagnostics=q.missing_evidence,
                 diagnostic_codes=tuple(q.diagnostic_codes),
                 details=details,
+                qualification=q,
             )
         return replace(
             result,
             details=details,
-            semantic_qualification=(
-                SemanticQualification.RESTRICTED_CHECKS_PASSED
-                if q.qualified
-                else SemanticQualification.NOT_END_TO_END_QUALIFIED
-            ),
+            qualification=q,
         )
 
     def _execute_structural(
@@ -191,7 +188,6 @@ class MigrationExecutor:
                 diagnostics=tuple(
                     diagnostic for hop in hop_evidence for diagnostic in hop.diagnostics
                 ),
-                semantic_qualification=SemanticQualification.NOT_END_TO_END_QUALIFIED,
             )
 
         best_evidence = evidence_by_route[0] if evidence_by_route else ()
@@ -229,5 +225,4 @@ class MigrationExecutor:
                     for hop in best_evidence
                 ],
             },
-            semantic_qualification=SemanticQualification.REJECTED,
         )

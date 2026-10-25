@@ -3,88 +3,92 @@
 from __future__ import annotations
 
 from copy import deepcopy
-from typing import Any
 
-from .migrate_38_to_4x import (
-    MigrationError,
+from ..json_types import JSONDocument, JSONValue, is_document
+from .document import require_object, require_records, require_text
+from .errors import MigrationError
+from .registry import MigrationKind, require_route
+from .schema import (
     _validate_constraints,
     _validate_deform_group,
     _validate_top_level,
     _walk_attachments,
 )
 
-_LEGACY_TARGETS = {
-    "3.5.51": "Spine 3.5.51 legacy skin-map schema",
-    "3.6.53": "Spine 3.6.53 legacy skin-map schema",
-    "3.7.94": "Spine 3.7.94 legacy skin-map schema",
-}
-
 
 def legacy_target_profile(target_version: str) -> str:
-    try:
-        return _LEGACY_TARGETS[target_version]
-    except KeyError as exc:
-        raise MigrationError(f"No legacy target profile for {target_version!r}") from exc
+    from .registry import MIGRATION_ROUTES
+
+    if not any(
+        route.kind is MigrationKind.SPINE_38_TO_LEGACY and route.target == target_version
+        for route in MIGRATION_ROUTES
+    ):
+        raise MigrationError(f"No legacy target profile for {target_version!r}")
+    return f"Spine {target_version} legacy skin-map schema"
 
 
-def _check_timeline_map(value: Any, allowed: set[str], context: str) -> None:
-    if not isinstance(value, dict):
+def _check_timeline_map(value: JSONValue, allowed: set[str], context: str) -> None:
+    if not is_document(value):
         raise MigrationError(f"{context} must be an object")
     unknown = set(value) - allowed
     if unknown:
         names = ", ".join(sorted(unknown))
         raise MigrationError(f"{context} has unsupported timeline types: {names}")
     for timeline, frames in value.items():
-        if not isinstance(frames, list) or any(not isinstance(frame, dict) for frame in frames):
+        if not isinstance(frames, list) or any(
+            not is_document(frame) for frame in require_records(frames, "bone timeline")
+        ):
             raise MigrationError(f"{context}.{timeline} must be an array of keyframe objects")
 
 
 def migrate_38_to_legacy(
-    source: dict[str, Any], source_version: str, target_version: str
-) -> tuple[dict[str, Any], dict[str, int | float]]:
+    source: JSONDocument, source_version: str, target_version: str
+) -> tuple[JSONDocument, dict[str, int | float]]:
     """Write the legacy 3.7 schema, rejecting data the 3.7 reader cannot consume."""
-    if source_version not in {"3.8.75", "3.8.99"} or target_version not in _LEGACY_TARGETS:
-        raise MigrationError(
-            "Only exact 3.8.75/3.8.99 to 3.5.51, 3.6.53, or 3.7.94 is implemented"
-        )
+    require_route(MigrationKind.SPINE_38_TO_LEGACY, source_version, target_version)
     target = deepcopy(source)
     _validate_top_level(target)
     if (
-        not isinstance(target.get("skeleton"), dict)
-        or target["skeleton"].get("spine") != source_version
+        not is_document(target.get("skeleton"))
+        or require_object(target["skeleton"], "migrate_38_to_legacy JSON field").get("spine")
+        != source_version
     ):
         raise MigrationError("Source version does not match skeleton metadata")
     skins = target.get("skins")
     if not isinstance(skins, list):
         raise MigrationError("Spine 3.8 skins must be an array")
-    skin_map: dict[str, Any] = {}
+    skin_map: JSONDocument = {}
     for skin in skins:
-        if not isinstance(skin, dict) or not isinstance(skin.get("name"), str):
+        if not is_document(skin) or not isinstance(skin.get("name"), str):
             raise MigrationError("Skin name is required")
-        name = skin["name"]
+        name = require_text(skin["name"], "skin name")
         if name in skin_map:
             raise MigrationError(f"Duplicate skin name {name!r}")
         if any(skin.get(key) for key in ("bones", "ik", "transform", "path")):
             raise MigrationError(
                 f"Spine 3.7 skin {name!r} cannot represent skin-specific bones or constraints"
             )
-        attachments = skin.get("attachments", {})
-        if not isinstance(attachments, dict):
+        attachments = require_object(skin.get("attachments", {}), "migrate_38_to_legacy JSON field")
+        if not is_document(attachments):
             raise MigrationError(f"Skin {name!r} attachments must be an object")
         skin_map[name] = attachments
 
     validation_document = deepcopy(target)
     _walk_attachments(validation_document, "4.0.31")
     _validate_constraints(validation_document)
-    for animation_name, animation in validation_document.get("animations", {}).items():
-        if isinstance(animation, dict) and "deform" in animation:
+    for animation_name, animation in require_object(
+        validation_document.get("animations", {}), "migrate_38_to_legacy JSON field"
+    ).items():
+        if is_document(animation) and "deform" in animation:
             _validate_deform_group(validation_document, animation["deform"], animation_name)
 
-    for constraint in target.get("ik", []):
-        if isinstance(constraint, dict) and "softness" in constraint:
+    for constraint in require_records(target.get("ik", []), "migrate_38_to_legacy JSON field"):
+        if is_document(constraint) and "softness" in constraint:
             raise MigrationError("Spine 3.7 cannot represent IK softness")
-    for animation_name, animation in target.get("animations", {}).items():
-        if not isinstance(animation, dict):
+    for animation_name, animation in require_object(
+        target.get("animations", {}), "migrate_38_to_legacy JSON field"
+    ).items():
+        if not is_document(animation):
             raise MigrationError(f"Animation {animation_name!r} must be an object")
         animation_groups = {
             "bones",
@@ -99,45 +103,63 @@ def migrate_38_to_legacy(
         }
         if any(key not in animation_groups for key in animation):
             raise MigrationError(
-                f"Animation {animation_name!r} contains a timeline unsupported by "
-                f"{target_version}"
+                f"Animation {animation_name!r} contains a timeline unsupported by {target_version}"
             )
-        for bone_name, timelines in animation.get("bones", {}).items():
+        for bone_name, timelines in require_object(
+            animation.get("bones", {}), "migrate_38_to_legacy JSON field"
+        ).items():
             _check_timeline_map(
-                timelines, {"rotate", "translate", "scale", "shear"},
+                timelines,
+                {"rotate", "translate", "scale", "shear"},
                 f"animation {animation_name!r} bone {bone_name!r}",
             )
-            for frame in (frame for frames in timelines.values() for frame in frames):
-                if "value" in frame or "angle" not in frame and any(
-                    key in frame for key in ("mixRotate", "mixX", "mixY")
+            for frame in (
+                frame
+                for frames in require_object(timelines, "semantic object").values()
+                for frame in require_records(frames, "bone timeline")
+            ):
+                if (
+                    "value" in frame
+                    or "angle" not in frame
+                    and any(key in frame for key in ("mixRotate", "mixX", "mixY"))
                 ):
                     raise MigrationError("Spine 3.7 bone timelines require legacy value fields")
-        for slot_name, timelines in animation.get("slots", {}).items():
+        for slot_name, timelines in require_object(
+            animation.get("slots", {}), "migrate_38_to_legacy JSON field"
+        ).items():
             _check_timeline_map(
-                timelines, {"attachment", "color", "twoColor"},
+                timelines,
+                {"attachment", "color", "twoColor"},
                 f"animation {animation_name!r} slot {slot_name!r}",
             )
         for category in ("ik", "transform"):
-            if category in animation and not isinstance(animation[category], dict):
+            if category in animation and not is_document(animation[category]):
                 raise MigrationError(f"animation {animation_name!r} {category} must be an object")
-        if "path" in animation and not isinstance(animation["path"], dict):
+        if "path" in animation and not is_document(animation["path"]):
             raise MigrationError(f"animation {animation_name!r} path must be an object")
         if "events" in animation and not isinstance(animation["events"], list):
             raise MigrationError(f"animation {animation_name!r} events must be an array")
-        for constraints in animation.get("ik", {}).values():
-            if any(isinstance(frame, dict) and "softness" in frame for frame in constraints):
+        for constraints in require_object(
+            animation.get("ik", {}), "migrate_38_to_legacy JSON field"
+        ).values():
+            if any(
+                is_document(frame) and "softness" in frame
+                for frame in require_records(constraints, "IK timeline")
+            ):
                 raise MigrationError("Spine 3.7 cannot represent animated IK softness")
 
     target["skins"] = skin_map
-    target["skeleton"]["spine"] = target_version
+    require_object(target["skeleton"], "migrate_38_to_legacy JSON field")["spine"] = target_version
     bezier_segments = 0
-    for animation in target.get("animations", {}).values():
-        if not isinstance(animation, dict):
+    for animation in require_object(
+        target.get("animations", {}), "migrate_38_to_legacy JSON field"
+    ).values():
+        if not is_document(animation):
             continue
-        stack: list[Any] = [animation]
+        stack: list[JSONValue] = [animation]
         while stack:
             value = stack.pop()
-            if isinstance(value, dict):
+            if is_document(value):
                 if "curve" in value:
                     curve = value["curve"]
                     if isinstance(curve, list):

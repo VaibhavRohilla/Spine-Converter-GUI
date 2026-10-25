@@ -2,11 +2,10 @@
 
 from __future__ import annotations
 
-import json
 from dataclasses import dataclass
-from typing import Any
 
 from .detection import SPINE_VERSION
+from .json_types import JSONValue, decode_json_object, is_document, require_json_object
 
 IMAGE_ATTACHMENT_TYPES = {"region", "mesh", "linkedmesh", "weightedmesh"}
 NON_IMAGE_ATTACHMENT_TYPES = {"boundingbox", "path", "point", "clipping"}
@@ -21,37 +20,37 @@ class SkeletonInfo:
     diagnostics: tuple[tuple[str, str], ...]
 
 
-def _names(records: Any) -> tuple[str, ...]:
+def _names(records: JSONValue) -> tuple[str, ...]:
     if not isinstance(records, list):
         return ()
     return tuple(
         str(item["name"])
         for item in records
-        if isinstance(item, dict) and isinstance(item.get("name"), str)
+        if is_document(item) and isinstance(item.get("name"), str)
     )
 
 
-def _skin_values(skins: Any) -> list[Any]:
-    if isinstance(skins, dict):
+def _skin_values(skins: JSONValue) -> list[JSONValue]:
+    if is_document(skins):
         return list(skins.values())
     if isinstance(skins, list):
         return skins
     return []
 
 
-def _attachment_refs(skins: Any) -> tuple[str, ...]:
+def _attachment_refs(skins: JSONValue) -> tuple[str, ...]:
     refs = []
     for skin in _skin_values(skins):
-        if not isinstance(skin, dict):
+        if not is_document(skin):
             continue
         attachment_slots = skin.get("attachments", skin)
-        if not isinstance(attachment_slots, dict):
+        if not is_document(attachment_slots):
             continue
         for attachment_map in attachment_slots.values():
-            if not isinstance(attachment_map, dict):
+            if not is_document(attachment_map):
                 continue
             for attachment_name, definition in attachment_map.items():
-                if not isinstance(definition, dict):
+                if not is_document(definition):
                     continue
                 kind = str(definition.get("type", "region")).lower()
                 if kind not in IMAGE_ATTACHMENT_TYPES:
@@ -64,17 +63,17 @@ def _attachment_refs(skins: Any) -> tuple[str, ...]:
 
 def inspect_skeleton(payload: bytes) -> SkeletonInfo | None:
     try:
-        obj = json.loads(payload.decode("utf-8-sig"))
-    except (UnicodeError, json.JSONDecodeError):
+        obj = decode_json_object(payload.decode("utf-8-sig"), "skeleton")
+    except (UnicodeError, ValueError):
         return None
     if (
-        not isinstance(obj, dict)
-        or not isinstance(obj.get("skeleton"), dict)
+        not is_document(obj)
+        or not is_document(obj.get("skeleton"))
         or not isinstance(obj.get("bones"), list)
     ):
         return None
     diagnostics = []
-    meta = obj["skeleton"]
+    meta = require_json_object(obj["skeleton"], "skeleton metadata")
     raw = meta.get("spine", meta.get("version"))
     version = str(raw).strip() if raw is not None else None
     if version is None:
@@ -103,11 +102,9 @@ def inspect_skeleton(payload: bytes) -> SkeletonInfo | None:
     events = obj.get("events", {})
     skin_names = (
         tuple(skins.keys())
-        if isinstance(skins, dict)
+        if is_document(skins)
         else tuple(
-            str(s.get("name"))
-            for s in skins
-            if isinstance(s, dict) and isinstance(s.get("name"), str)
+            str(s.get("name")) for s in skins if is_document(s) and isinstance(s.get("name"), str)
         )
         if isinstance(skins, list)
         else ()
@@ -118,7 +115,7 @@ def inspect_skeleton(payload: bytes) -> SkeletonInfo | None:
     if "constraints" in obj:
         combined_constraints = obj["constraints"]
         if not isinstance(combined_constraints, list) or any(
-            not isinstance(item, dict) or not isinstance(item.get("name"), str)
+            not is_document(item) or not isinstance(item.get("name"), str)
             for item in combined_constraints
         ):
             diagnostics.append(
@@ -128,7 +125,7 @@ def inspect_skeleton(payload: bytes) -> SkeletonInfo | None:
                 )
             )
         else:
-            constraints.extend(item["name"] for item in combined_constraints)
+            constraints.extend(_names(combined_constraints))
     recognized = {
         "skeleton",
         "bones",
@@ -160,7 +157,7 @@ def inspect_skeleton(payload: bytes) -> SkeletonInfo | None:
                 "Skins must use a recognized historical object or modern array shape",
             )
         )
-    if not isinstance(anim, dict):
+    if not is_document(anim):
         diagnostics.append(
             ("UNSUPPORTED_ANIMATIONS_SHAPE", "Animations must be an object keyed by animation name")
         )
@@ -168,8 +165,8 @@ def inspect_skeleton(payload: bytes) -> SkeletonInfo | None:
         "bones": bones,
         "slots": slots,
         "skins": skin_names,
-        "animations": tuple(anim.keys()) if isinstance(anim, dict) else (),
-        "events": tuple(events.keys()) if isinstance(events, dict) else (),
+        "animations": tuple(anim.keys()) if is_document(anim) else (),
+        "events": tuple(events.keys()) if is_document(events) else (),
         "constraints": tuple(constraints),
     }
     refs = _attachment_refs(skins)

@@ -1320,3 +1320,115 @@ certification, or visual equivalence. No B3–B5 work was started.
 The implementation commit is the Git commit containing this section; its actual
 SHA and clean post-commit status are recorded in the release response. The report
 cannot embed its own containing commit hash without changing that hash.
+
+## Production typing and ownership hardening — 2026-10-26
+
+This section supersedes the earlier descriptions of remaining `Any`, public
+qualification representation and obsolete API names. Starting clean HEAD was
+`a6173e32fb19d42b67e33b2113366f4006ab509d`. This pass does not add conversion
+routes, advance B3–B5, or broaden semantic/runtime/visual qualification.
+
+### Strong typing and canonical owners
+
+- All production Python modules and the independent `tests/b2_semantics.py`
+  numerical reader now pass strict mypy with `disallow_any_expr`,
+  `disallow_any_explicit`, `disallow_any_unimported` and `warn_unreachable`.
+  There are no retained `Any` annotations, unchecked casts or type-ignore
+  suppressions. The independent numerical reader retains its own evaluator and
+  semantic normalization; it does not call production migration mathematics.
+- JSON decoding enters through `object` once and reconstructs typed recursive
+  values. Mutable records, arrays, object arrays, strings and finite numbers
+  have checked accessors. Inspection metadata is immutable JSON data with
+  explicit typed serialization, rather than arbitrary Python objects.
+- Shared JSON types moved to `fnx_spine_forge.json_types`. Shared checked access,
+  errors, schema operations and curve mathematics have canonical modules;
+  migration writers no longer act as shared utility owners.
+- Exact edge admission now reads `registry.require_route()`. The second legacy
+  destination table was deleted. Descriptive target labels derive from admitted
+  registry data. Exact schema facts and numerical algorithm constants remain
+  explicit: discovering a version or editing configuration never invents a new
+  translator or qualification result.
+
+### Dynamic evidence and one qualification contract
+
+The qualification inventory now lives in packaged
+`conversion/qualification_evidence.json`, with eight evidence-bearing records:
+seven restricted semantic records and the authentic 3.8.75 → 4.2.43 structural
+record. Each fixture includes its actual identity, SHA-256 and provenance.
+The loader validates schema fields, exact complete paths, feature discriminants,
+disjoint/exhaustive feature categories, fixture identities, evidence
+requirements, duplicate records and unsupported certification flags. Unknown
+configuration fields do not fall back to defaults. Removing an admitted record
+removes its qualification; the service has no source/target special-case list.
+Unrecorded candidate paths remain explicitly unqualified.
+
+`ConversionResult.qualification` and `AssetSetResult.qualification` now expose
+an immutable typed `QualificationResult`. Planning and CLI reports use that same
+contract. CLI JSON uses a top-level `qualification` field. Invalid source
+admission can return `None`, accompanied by rejection and diagnostics.
+
+Deleted obsolete interfaces, with all in-tree callers migrated directly:
+
+- `SemanticQualification` and its independent string-status reporting.
+- Hardcoded `feature_compatibility` maps that mixed schema support with
+  verification claims, and duplicated standalone verification fields.
+- The unused `InspectionReport` alias.
+- Four version-specific runtime forwarding functions and their duplicate
+  metadata-loading path; one runtime entry point performs exact admission.
+- The old `conversion.json_types` module; no forwarding module remains.
+
+Historical version writers remain active registered migration implementations.
+Their removal would retire product routes, not eliminate backward-compatibility
+shims. They remain strongly typed, with no newly added fallback implementation.
+The removed API names are not preserved through compatibility aliases.
+
+### Correctness fixes found during the audit
+
+- Bone inheritance is now read from the exact schema owner and represented by
+  a typed enum. Previously, authored 3.x transform modes could be omitted from
+  semantic classification and slip into hierarchy-only qualification.
+- Bone length, skin flags and editor metadata are retained in validated records
+  and classified as unverified extensions. Authored inheritance, those bone
+  extensions and unknown skeleton metadata reject qualified execution. The seven
+  hierarchy-only records have not been widened to cover them.
+- Duplicate JSON keys, non-finite constants, numeric overflow and excessive or
+  cyclic nesting reject with actionable errors instead of overwriting values
+  or escaping as arithmetic/recursion exceptions.
+- Color decoding uses typed local scratch data instead of invented temporary
+  fields in timeline JSON. It preserves authored fields and handles empty color
+  timelines. Existing curve numerical assertions remain unchanged.
+- Skeleton qualification and conversion use one captured source byte snapshot.
+  Asset-set qualification uses staged source bytes and the actual selected
+  path, eliminating the former post-conversion reread of original source files.
+- Unknown features cannot qualify at a requested structural level merely because
+  a structural record exists. Experimental output always reports unqualified.
+
+### Verification and release boundary
+
+Executed on this implementation:
+
+- Full pytest suite: **212 passed**. Existing migration, numerical, source
+  immutability, rollback, texture identity and publication assertions remain.
+  Added malformed-evidence, fixture-digest, duplicate-JSON, numeric/nesting,
+  authored-bone-feature, single-snapshot and typed-result regressions.
+- Ruff: passed. Strict mypy with the stronger settings: passed, **45 checked
+  files** (44 production modules plus the independent numerical test reader).
+- Wheel and sdist: built successfully.
+- Fresh isolated wheel installation: installed CLI accepted the qualified
+  hierarchy subset; default known-risk admission rejected; explicit risk
+  allowance alone still rejected the unqualified asset set without publication.
+- Installed experimental asset-set conversion with both explicit allowances:
+  completed, reported unqualified, passed B1 output inspection without
+  diagnostics, preserved every source hash and returned identical PNG bytes.
+- Wheel inspection: packaged evidence resource present; deleted JSON module,
+  `InspectionReport` alias and version-specific runtime forwarding APIs absent.
+- Inventory remains **288 candidate paths / 64 reachable pairs / seven restricted
+  direct semantic records**. No authentic 3.8.99 source, licensed exact-runtime
+  playback or visual-equivalence evidence was added.
+
+**B2-RC1 remains a restricted engineering release.** The code typing and
+qualification ownership findings addressed here are closed after the verified
+commit and clean status. This is not a universal "10/10" asset-fidelity or runtime
+certification verdict. The exact seven-path hierarchy/setup restriction remains;
+all previously unverified categories and external-evidence boundaries remain
+explicit. The actual final commit SHA is recorded in the release response.

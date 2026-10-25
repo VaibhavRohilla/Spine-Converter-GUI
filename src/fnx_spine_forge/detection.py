@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 
-import json
 import re
+
+from .json_types import decode_json_object, require_json_object
 
 SPINE_VERSION = re.compile(r"^\d+\.\d+(?:\.\d+)?(?:[-+][\w.]+)?$")
 TEXTURE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp", ".ktx", ".ktx2", ".pvr", ".tga"}
@@ -12,8 +13,8 @@ TEXTURE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp", ".ktx", ".ktx2", ".pvr",
 def skeleton_version(payload: bytes) -> tuple[bool, str | None, str | None]:
     """Return (is_skeleton, version, error), never assume that JSON is a skeleton."""
     try:
-        obj = json.loads(payload.decode("utf-8-sig"))
-    except (UnicodeError, json.JSONDecodeError) as exc:
+        obj = decode_json_object(payload, "skeleton")
+    except (UnicodeError, ValueError) as exc:
         return False, None, f"Invalid JSON: {exc}"
     if (
         not isinstance(obj, dict)
@@ -21,7 +22,8 @@ def skeleton_version(payload: bytes) -> tuple[bool, str | None, str | None]:
         or not isinstance(obj.get("bones"), list)
     ):
         return False, None, None
-    raw = obj["skeleton"].get("spine", obj["skeleton"].get("version"))
+    metadata = require_json_object(obj["skeleton"], "skeleton metadata")
+    raw = metadata.get("spine", metadata.get("version"))
     if raw is None:
         return True, None, "Skeleton contains no Spine export version"
     version = str(raw).strip()

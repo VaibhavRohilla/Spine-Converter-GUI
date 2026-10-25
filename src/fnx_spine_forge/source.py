@@ -35,7 +35,8 @@ class SourceLimits:
             "max_total_compressed",
             "max_read_bytes",
         ):
-            if getattr(self, field_name) < 0:
+            limit: object = getattr(self, field_name)
+            if not isinstance(limit, int) or isinstance(limit, bool) or limit < 0:
                 raise ValueError(f"{field_name} must be non-negative")
         if not isfinite(self.max_compression_ratio) or self.max_compression_ratio <= 0:
             raise ValueError("max_compression_ratio must be a positive finite number")
@@ -84,7 +85,11 @@ class AssetSource:
 
     def _index_folder(self) -> None:
         root = self.origin.resolve()
-        paths = sorted(self.origin.rglob("*"), key=lambda p: p.relative_to(self.origin).as_posix())
+
+        def relative_name(path: Path) -> str:
+            return path.relative_to(self.origin).as_posix()
+
+        paths = sorted(self.origin.rglob("*"), key=relative_name)
         if len(paths) > self.limits.max_members:
             raise UnsafeSourceError("Too many entries in input folder")
         members = []

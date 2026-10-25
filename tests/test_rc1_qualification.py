@@ -42,16 +42,16 @@ def test_real_record_qualified_hierarchy_subset(target):
     before = source[:]
     result = SkeletonConverter().convert(source, target)
     assert result.output is not None, result.diagnostics
-    assert result.details["qualification"]["qualified"] is True
+    assert result.qualification.to_json()["qualified"] is True
     assert json.loads(result.output)["bones"] == subset()["bones"]
-    assert not result.runtime_verified and not result.visually_verified
+    assert not result.qualification.runtime_verified and not result.qualification.visually_verified
     assert result == SkeletonConverter().convert(source, target)
     assert source == before
     canonical = SkeletonConverter().read(source)
     plan = ConversionPlanner().plan(
         "3.8.99", target, source_features=inspect_features(canonical.semantic, canonical.document)
     )
-    assert plan.executable and plan.qualification.to_json() == result.details["qualification"]
+    assert plan.executable and plan.qualification.to_json() == result.qualification.to_json()
 
 
 @pytest.mark.parametrize(
@@ -77,7 +77,7 @@ def test_unqualified_composition_and_explicit_experiment():
     assert rejected.output is None
     assert experiment.output is not None
     assert experiment.details["experimental_structural"] is True
-    assert experiment.details["qualification"]["qualified"] is False
+    assert experiment.qualification.to_json()["qualified"] is False
     assert len(experiment.route) > 2
 
 
@@ -107,12 +107,12 @@ def test_cli_and_api_agree(tmp_path, capsys):
         main(["convert", "skeleton", "--input", str(path), "--target", "4.2.43", "--dry-run"]) == 0
     )
     cli = json.loads(capsys.readouterr().out)
-    assert cli["details"]["qualification"] == json.loads(json.dumps(api.details["qualification"]))
+    assert cli["qualification"] == json.loads(json.dumps(api.qualification.to_json()))
     path.write_text(json.dumps(subset() | {"future": []}))
     assert (
         main(["convert", "skeleton", "--input", str(path), "--target", "4.2.43", "--dry-run"]) == 2
     )
-    assert json.loads(capsys.readouterr().out)["details"]["qualification"]["qualified"] is False
+    assert json.loads(capsys.readouterr().out)["qualification"]["qualified"] is False
 
 
 def test_authentic_bundle_and_risk_policy_remain_closed():
@@ -127,7 +127,7 @@ def test_authentic_bundle_and_risk_policy_remain_closed():
         source_risk_policy=SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC,
     )
     assert result.outputs is None
-    assert result.details["qualification"]["qualified"] is False
+    assert result.qualification.to_json()["qualified"] is False
     with pytest.raises(ValueError, match="QUALIFICATION_EVIDENCE_MISSING"):
         AtlasConverter().convert(source / "golden_ingot.atlas", "4.2.43", source_version="3.8.75")
     assert before == {p.name: p.read_bytes() for p in source.iterdir() if p.is_file()}
@@ -193,5 +193,5 @@ def test_explicit_experiment_never_asserts_qualification_even_for_evidenced_subs
     result = SkeletonConverter(experimental_structural=True).convert(source, "4.2.43")
     assert result.output is not None
     assert result.details["experimental_structural"] is True
-    assert result.details["qualification"]["qualified"] is False
-    assert result.details["qualification"]["available_level"] == "semantic_qualified"
+    assert result.qualification.to_json()["qualified"] is False
+    assert result.qualification.to_json()["available_level"] == "semantic_qualified"
