@@ -1,0 +1,127 @@
+{
+  "skeleton": {
+    "spine": "4.1.56",
+    "width": 64,
+    "height": 64
+  },
+  "bones": [
+    {
+      "name": "root",
+      "x": 1,
+      "y": 2,
+      "rotation": 5,
+      "scaleX": 1.2,
+      "scaleY": 0.8,
+      "shearX": 3,
+      "shearY": -2
+    },
+    {
+      "name": "child",
+      "parent": "root",
+      "x": 4,
+      "y": 6
+    }
+  ],
+  "slots": [
+    {
+      "name": "body",
+      "bone": "child",
+      "attachment": "badge",
+      "color": "ffffffff"
+    },
+    {
+      "name": "accent",
+      "bone": "root",
+      "color": "ffffffff"
+    }
+  ],
+  "events": {
+    "impact": {
+      "int": 0,
+      "string": "",
+      "float": 0.0
+    }
+  },
+  "skins": [
+    {
+      "name": "default",
+      "attachments": {
+        "body": {
+          "badge": {
+            "name": "badge",
+            "path": "badge",
+            "x": 2,
+            "y": 3,
+            "width": 16,
+            "height": 12,
+            "rotation": 7
+          }
+        }
+      }
+    }
+  ],
+  "animations": {
+    "motion": {
+      "bones": {
+        "root": {
+          "rotate": [
+            {
+              "time": 0,
+              "value": 350
+            },
+            {
+              "time": 1,
+              "value": 370
+            }
+          ],
+          "translate": [
+            {
+              "time": 0,
+              "x": 0,
+              "y": 0
+            },
+            {
+              "time": 1,
+              "x": 12,
+              "y": -4
+            }
+          ]
+        }
+      },
+      "slots": {
+        "body": {
+          "attachment": [
+            {
+              "time": 0,
+              "name": "badge"
+            },
+            {
+              "time": 0.75,
+              "name": null
+            }
+          ]
+        }
+      },
+      "events": [
+        {
+          "time": 0.4,
+          "name": "impact",
+          "int": 2,
+          "string": "stone",
+          "float": 0.25
+        }
+      ],
+      "drawOrder": [
+        {
+          "time": 0.6,
+          "offsets": [
+            {
+              "slot": "body",
+              "offset": 1
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

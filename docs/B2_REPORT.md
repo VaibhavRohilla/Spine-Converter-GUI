@@ -728,9 +728,186 @@ Missing external verification: authentic 3.8.99 source, licensed/executable
 historical 3.x runtimes, and rendered visual-equivalence proof. No B3/B4/B5
 work was started.
 
-### Git checkpoint for this report update
+## B2 semantic qualification update — 2026-10-25
 
-- Branch: `codex/b2-conversion-engine`.
-- Starting HEAD: `96cc48ca198a32cbd9d51967e00a57e8405602b0` (clean).
-- Final implementation/report commit and post-commit working-tree status are
-  recorded in the delivery message after commit.
+### Live baseline and fixture provenance
+
+The live checkout was clean at `codex/b2-conversion-engine`, HEAD
+`2cd29f47c6d75a4584fa98d581b1ee2b9989c9a3`, before this update. This corrects
+the preceding section's stale baseline reference. The requested baseline gates
+passed before edits: 122 tests, Ruff, strict mypy (39 files), and wheel/sdist
+build.
+
+Added schema-derived fixtures in `tests/fixtures/b2_semantic/` for exact
+3.5.51, 3.6.53, 3.7.94, 3.8.99, 4.1.56, 4.2.43 and 4.3.13. Their provenance
+is synthetic JSON authored against the version-specific encodings already
+admitted by the registered migration readers: legacy versions use object-map
+skins and normalized curve controls; 3.8/4.x use named skin arrays; modern
+rotation uses `value`; 4.x color and draw-order fields use their modern names.
+These are not Spine Editor exports and have no exporter/runtime provenance.
+The 4.x downgrade fixtures omit channel curves and color timelines because the
+tested path must stay within the proved representable subset. The authentic
+3.8.75 `golden_ingot` source remains separate and risk gated; no 3.8.99 export
+was fabricated or relabeled.
+
+### Semantic and numerical evidence
+
+`tests/b2_semantics.py` implements a test-only independent decoder and
+playback evaluator. It normalizes legacy object-map and named skin records,
+reads setup transforms, slots, region attachment geometry, timeline groups,
+events and draw order, and maps 3.8/4.x rotation/color/draw-order field
+spellings. It does not call the converter's migration or semantic-decoder
+functions. Legacy Bézier evaluation reads scalar `curve` plus `c2/c3/c4`,
+solves the time cubic by 60-step bisection, then evaluates its value cubic;
+4.x absolute time/value controls are evaluated as a separate encoding.
+Stepped behavior, negative channel deltas, finite values, and strictly
+increasing key times have focused regression checks.
+
+Numerical tolerances are channel-specific: setup transform values `2e-6`,
+rotation samples `2e-5` degrees, translation samples `2e-6`, and event times
+`1e-7` to account for 3.6's observed float32 event-time serialization. Event
+payloads, attachment switches, colors, and draw-order records are compared
+exactly after their documented version-field normalization. Composed samples
+cover setup, keyframes, between-keyframe positions, immediately before the
+0.5/1.0 discontinuity boundaries, and end/after-end. Direct 3.8.99 samples
+cover setup, interior positions, midpoint, and end.
+
+| Required composed route | Selected path | Semantic and asset-set evidence | Maximum sampled error |
+|---|---|---|---|
+| 3.5.51 → 4.3.13 | 3.5.51 → 3.6.53 → 3.7.94 → 3.8.99 → 4.3.13 | Bones/setup, slot binding/color, region attachment, rotation/translation, attachment switch, event payload/time, draw order; returned bundle passed B1 | Rotation `5.69e-14`; translation `0` |
+| 3.6.53 → 4.2.43 | 3.6.53 → 3.7.94 → 3.8.99 → 4.2.43 | Same restricted subset; returned bundle passed B1 | Rotation `5.69e-14`; translation `0` |
+| 3.7.94 → 4.1.56 | 3.7.94 → 3.8.99 → 4.1.56 | Same restricted subset; returned bundle passed B1 | Rotation `5.69e-14`; translation `0` |
+| 4.3.13 → 3.8.99 | 4.3.13 → 4.2.43 → 4.1.56 → 4.0.31 → 3.8.99 | Representable downgrade subset; no 4.x color or per-channel Bézier; returned bundle passed B1 | Rotation `0`; translation `0` |
+| 4.2.43 → 3.6.53 | 4.2.43 → 4.1.56 → 4.0.31 → 3.8.99 → 3.6.53 | Representable downgrade subset; no 4.x color or per-channel Bézier; returned bundle passed B1 | Rotation `0`; translation `0` |
+| 4.1.56 → 3.5.51 | 4.1.56 → 4.0.31 → 3.8.99 → 3.5.51 | Representable downgrade subset; no 4.x color or per-channel Bézier; returned bundle passed B1 | Rotation `0`; translation `0` |
+
+The six composed tests compare the source and returned skeleton independently,
+assert hop continuity, re-inspect the actual returned JSON/atlas/PNG set through
+B1, compare texture bytes and SHA-256, repeat conversion for deterministic
+outputs, and confirm source files remain unchanged. Seven additional direct
+3.8.99 tests exercise each registered target route with nontrivial hierarchy,
+region, rotation, translation, slot color, attachment switch, event and
+draw-order data. A negative 4.3 transform-constraint downgrade remains rejected
+with no output. Existing direct converter, transaction rollback, missing
+dependency, and malformed input tests remain enabled.
+
+The exercised subset does not include weighted meshes/influence arrays, linked
+mesh ancestry, clipping, bounding boxes, paths, points, deform, IK/transform/
+path constraint values, scale/shear timelines, or two-color timelines in the
+six composed routes. Their fidelity is not inferred from the checks above.
+An unexercised category is not automatically classified as unsupported;
+route-specific guards remain the rejection authority. The 3.8.75 export risk
+policy remains unchanged.
+
+### 56-pair compatibility matrix
+
+The table below records every non-identity ordered pair in the 8-version
+representative grid. `Direct registered` means an exact edge exists;
+`Composed candidate` means the planner has a path, not that arbitrary inputs
+are executable. Pair-specific semantic qualification is restricted to the six
+composed rows above and the seven 3.8.99 direct routes. Other rows remain
+unqualified by this update. Their registered hop guards reject known
+unrepresentable constructs, but a complete per-pair unsupported-feature
+inventory and semantic corpus are not established. No pair received an
+official-runtime or rendered-visual claim in this update.
+
+| Pair | Registered route | Execution evidence | Qualified subset / nontrivial evidence | Numerical evidence | Unsupported-feature inventory | Official runtime | Classification |
+|---|---|---|---|---|---|---|---|
+| 3.5.51 → 3.6.53 | 3.5.51 → 3.6.53 (Direct registered) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 3.5.51 → 3.7.94 | 3.5.51 → 3.6.53 → 3.7.94 (Composed candidate) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 3.5.51 → 3.8.99 | 3.5.51 → 3.6.53 → 3.7.94 → 3.8.99 (Composed candidate) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 3.5.51 → 4.0.31 | 3.5.51 → 3.6.53 → 3.7.94 → 3.8.99 → 4.0.31 (Composed candidate) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 3.5.51 → 4.1.56 | 3.5.51 → 3.6.53 → 3.7.94 → 3.8.99 → 4.1.56 (Composed candidate) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 3.5.51 → 4.2.43 | 3.5.51 → 3.6.53 → 3.7.94 → 3.8.99 → 4.2.43 (Composed candidate) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 3.5.51 → 4.3.13 | 3.5.51 → 3.6.53 → 3.7.94 → 3.8.99 → 4.3.13 (Composed candidate) | Executed: all hops + B1 asset set | Restricted composed semantic fixture | 8 samples; rotation ≤5.69e-14, translation 0 | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Restricted semantic and asset-set subset; runtime/visual open |
+| 3.6.53 → 3.5.51 | 3.6.53 → 3.5.51 (Direct registered) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 3.6.53 → 3.7.94 | 3.6.53 → 3.7.94 (Direct registered) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 3.6.53 → 3.8.99 | 3.6.53 → 3.7.94 → 3.8.99 (Composed candidate) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 3.6.53 → 4.0.31 | 3.6.53 → 3.7.94 → 3.8.99 → 4.0.31 (Composed candidate) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 3.6.53 → 4.1.56 | 3.6.53 → 3.7.94 → 3.8.99 → 4.1.56 (Composed candidate) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 3.6.53 → 4.2.43 | 3.6.53 → 3.7.94 → 3.8.99 → 4.2.43 (Composed candidate) | Executed: all hops + B1 asset set | Restricted composed semantic fixture | 8 samples; rotation ≤5.69e-14, translation 0 | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Restricted semantic and asset-set subset; runtime/visual open |
+| 3.6.53 → 4.3.13 | 3.6.53 → 3.7.94 → 3.8.99 → 4.3.13 (Composed candidate) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 3.7.94 → 3.5.51 | 3.7.94 → 3.6.53 → 3.5.51 (Composed candidate) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 3.7.94 → 3.6.53 | 3.7.94 → 3.6.53 (Direct registered) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 3.7.94 → 3.8.99 | 3.7.94 → 3.8.99 (Direct registered) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 3.7.94 → 4.0.31 | 3.7.94 → 3.8.99 → 4.0.31 (Composed candidate) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 3.7.94 → 4.1.56 | 3.7.94 → 3.8.99 → 4.1.56 (Composed candidate) | Executed: all hops + B1 asset set | Restricted composed semantic fixture | 8 samples; rotation ≤5.69e-14, translation 0 | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Restricted semantic and asset-set subset; runtime/visual open |
+| 3.7.94 → 4.2.43 | 3.7.94 → 3.8.99 → 4.2.43 (Composed candidate) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 3.7.94 → 4.3.13 | 3.7.94 → 3.8.99 → 4.3.13 (Composed candidate) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 3.8.99 → 3.5.51 | 3.8.99 → 3.5.51 (Direct registered) | Executed: direct skeleton route | Restricted 3.8.99 semantic fixture | 5 samples; rotation within 2e-5 | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Restricted skeleton semantic subset; bundle/runtime/visual open |
+| 3.8.99 → 3.6.53 | 3.8.99 → 3.6.53 (Direct registered) | Executed: direct skeleton route | Restricted 3.8.99 semantic fixture | 5 samples; rotation within 2e-5 | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Restricted skeleton semantic subset; bundle/runtime/visual open |
+| 3.8.99 → 3.7.94 | 3.8.99 → 3.7.94 (Direct registered) | Executed: direct skeleton route | Restricted 3.8.99 semantic fixture | 5 samples; rotation within 2e-5 | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Restricted skeleton semantic subset; bundle/runtime/visual open |
+| 3.8.99 → 4.0.31 | 3.8.99 → 4.0.31 (Direct registered) | Executed: direct skeleton route | Restricted 3.8.99 semantic fixture | 5 samples; rotation within 2e-5 | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Restricted skeleton semantic subset; bundle/runtime/visual open |
+| 3.8.99 → 4.1.56 | 3.8.99 → 4.1.56 (Direct registered) | Executed: direct skeleton route | Restricted 3.8.99 semantic fixture | 5 samples; rotation within 2e-5 | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Restricted skeleton semantic subset; bundle/runtime/visual open |
+| 3.8.99 → 4.2.43 | 3.8.99 → 4.2.43 (Direct registered) | Executed: direct skeleton route | Restricted 3.8.99 semantic fixture | 5 samples; rotation within 2e-5 | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Restricted skeleton semantic subset; bundle/runtime/visual open |
+| 3.8.99 → 4.3.13 | 3.8.99 → 4.3.13 (Direct registered) | Executed: direct skeleton route | Restricted 3.8.99 semantic fixture | 5 samples; rotation within 2e-5 | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Restricted skeleton semantic subset; bundle/runtime/visual open |
+| 4.0.31 → 3.5.51 | 4.0.31 → 3.8.99 → 3.5.51 (Composed candidate) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 4.0.31 → 3.6.53 | 4.0.31 → 3.8.99 → 3.6.53 (Composed candidate) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 4.0.31 → 3.7.94 | 4.0.31 → 3.8.99 → 3.7.94 (Composed candidate) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 4.0.31 → 3.8.99 | 4.0.31 → 3.8.99 (Direct registered) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 4.0.31 → 4.1.56 | 4.0.31 → 4.1.56 (Direct registered) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 4.0.31 → 4.2.43 | 4.0.31 → 3.8.99 → 4.2.43 (Composed candidate) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 4.0.31 → 4.3.13 | 4.0.31 → 3.8.99 → 4.3.13 (Composed candidate) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 4.1.56 → 3.5.51 | 4.1.56 → 4.0.31 → 3.8.99 → 3.5.51 (Composed candidate) | Executed: all hops + B1 asset set | Restricted composed semantic fixture | 8 samples; rotation ≤5.69e-14, translation 0 | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Restricted semantic and asset-set subset; runtime/visual open |
+| 4.1.56 → 3.6.53 | 4.1.56 → 4.0.31 → 3.8.99 → 3.6.53 (Composed candidate) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 4.1.56 → 3.7.94 | 4.1.56 → 4.0.31 → 3.8.99 → 3.7.94 (Composed candidate) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 4.1.56 → 3.8.99 | 4.1.56 → 4.0.31 → 3.8.99 (Composed candidate) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 4.1.56 → 4.0.31 | 4.1.56 → 4.0.31 (Direct registered) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 4.1.56 → 4.2.43 | 4.1.56 → 4.2.43 (Direct registered) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 4.1.56 → 4.3.13 | 4.1.56 → 4.2.43 → 4.3.13 (Composed candidate) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 4.2.43 → 3.5.51 | 4.2.43 → 4.1.56 → 4.0.31 → 3.8.99 → 3.5.51 (Composed candidate) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 4.2.43 → 3.6.53 | 4.2.43 → 4.1.56 → 4.0.31 → 3.8.99 → 3.6.53 (Composed candidate) | Executed: all hops + B1 asset set | Restricted composed semantic fixture | 8 samples; rotation ≤5.69e-14, translation 0 | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Restricted semantic and asset-set subset; runtime/visual open |
+| 4.2.43 → 3.7.94 | 4.2.43 → 4.1.56 → 4.0.31 → 3.8.99 → 3.7.94 (Composed candidate) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 4.2.43 → 3.8.99 | 4.2.43 → 4.1.56 → 4.0.31 → 3.8.99 (Composed candidate) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 4.2.43 → 4.0.31 | 4.2.43 → 4.1.56 → 4.0.31 (Composed candidate) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 4.2.43 → 4.1.56 | 4.2.43 → 4.1.56 (Direct registered) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 4.2.43 → 4.3.13 | 4.2.43 → 4.3.13 (Direct registered) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 4.3.13 → 3.5.51 | 4.3.13 → 4.2.43 → 4.1.56 → 4.0.31 → 3.8.99 → 3.5.51 (Composed candidate) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 4.3.13 → 3.6.53 | 4.3.13 → 4.2.43 → 4.1.56 → 4.0.31 → 3.8.99 → 3.6.53 (Composed candidate) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 4.3.13 → 3.7.94 | 4.3.13 → 4.2.43 → 4.1.56 → 4.0.31 → 3.8.99 → 3.7.94 (Composed candidate) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 4.3.13 → 3.8.99 | 4.3.13 → 4.2.43 → 4.1.56 → 4.0.31 → 3.8.99 (Composed candidate) | Executed: all hops + B1 asset set | Restricted composed semantic fixture | 8 samples; rotation ≤5.69e-14, translation 0 | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Restricted semantic and asset-set subset; runtime/visual open |
+| 4.3.13 → 4.0.31 | 4.3.13 → 4.2.43 → 4.1.56 → 4.0.31 (Composed candidate) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 4.3.13 → 4.1.56 | 4.3.13 → 4.2.43 → 4.1.56 (Composed candidate) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+| 4.3.13 → 4.2.43 | 4.3.13 → 4.2.43 (Direct registered) | Not executed pair-specifically; per-hop guards apply | None in this update | None in this update | Route guards active; exhaustive pair inventory unverified | Not verified for this pair | Candidate only; unqualified |
+
+### Verification, runtime, and blockers
+
+| Test and runtime results | Current qualification run |
+|---|---|
+| Full pytest suite | **144 passed** |
+| Ruff | **passed** (`.venv/bin/ruff check src tests`) |
+| Strict mypy | **passed**, 39 source files |
+| Wheel and sdist | **passed** (`.venv/bin/python -m build`) |
+| Installed CLI | Editable install, help, and 3.5.51→4.3.13 conversion smoke **passed** |
+| Composed semantic and asset-set tests | Six routes **passed**; returned artifacts were B1 re-inspected |
+| Direct 3.8.99 semantic tests | Seven registered target routes **passed** |
+| Unsupported-feature test | 4.3 transform constraint rejected at 4.3.13→4.2.43 with `UNSUPPORTED_TARGET_FEATURE`; output absent |
+| Source immutability / texture / determinism | Six returned-bundle tests **passed**; existing rollback and unresolved-dependency tests remain passing |
+| Official runtime | **Not verified** in this update. No exact Spine runtime package metadata was present in the project. A compatible, licensed historical 3.x runtime was unavailable; no version restriction was bypassed. |
+| Visual equivalence | **Not assessed** |
+
+
+
+No new conversion defect was confirmed by this campaign; initial failures were
+invalid test assumptions about source-version fields and were corrected in the
+fixtures. The registered migration implementations remain unchanged. A review
+of migration modules still finds `Any` at internal raw-JSON transformation
+boundaries. The converter admits recursive JSON through `require_json_object`
+and the existing semantic reader validates a subset, but this update does not
+complete version-specific typed models for mesh/weights, linked meshes,
+deform, constraints, and every timeline field.
+
+Remaining blockers are the authentic 3.8.99 editor export, exact historical
+runtime evidence, the advanced attachment/constraint/deform feature corpus,
+complete pair-specific unsupported-feature inventories, and visual proof.
+The tests establish a restricted synthetic semantic and complete-bundle subset;
+they do not justify universal losslessness or runtime certification.
+
+**B2 OPEN / BLOCKED.** The six required routes now have nontrivial semantic,
+numerical, deterministic, source-immutable, texture-preserving, B1-reinspected
+subset evidence. The 56-pair table distinguishes candidates from tested pairs.
+External runtime/export evidence and the untested semantic categories remain
+open. No B3, B4, or B5 work was started.
+
+Implementation checkpoint and final working-tree status are recorded in the
+delivery message; this report does not claim a freeze.
