@@ -651,15 +651,15 @@ or universal lossless-conversion claim is made.
 
 - Starting checkout was clean on `codex/b2-conversion-engine` at the requested
   baseline `96cc48ca198a32cbd9d51967e00a57e8405602b0`.
-- Added six parametrized execution probes for the required composed pairs.
-  Three forward probes (3.5.51→4.3.13, 3.6.53→4.2.43, 3.7.94→4.1.56)
-  completed with structurally verified minimal skeletons. Three reverse/mixed
-  probes (4.3.13→3.8.99, 4.2.43→3.6.53, 4.1.56→3.5.51) rejected without
-  output because candidate hops encounter incompatible 4.0.31→3.8.99 or
-  named-skin/legacy boundaries. All six probes use empty bones/slots/skins and
-  no animations or attachments; they establish exact hop execution or failure
-  only, with no representative semantic-fidelity claim.
-- **Zero of six required composed routes is semantically qualified.** The three
+- Added six parametrized execution probes for all required composed pairs.
+  After using source-correct empty skin schemas (legacy object maps for 3.5–3.7;
+  named skin arrays for 3.8/4.x), all six completed with structurally verified
+  output, including per-hop source/target continuity checks. This corrects the
+  earlier report's false conclusion that three candidate paths reject; that
+  conclusion came from invalid probe inputs. All six probes still have empty
+  bones/slots/skins and no animations or attachments, so they establish hop
+  execution only and provide no representative semantic-fidelity evidence.
+- **Zero of six required composed routes is semantically qualified.** All six
   structurally executed probes have no measurable timeline, curve, mesh,
   constraint, event, or attachment behavior. Do not infer route correctness
   from planner candidates or isolated direct-edge tests.
@@ -719,12 +719,14 @@ Final commands on this checkout:
 - Installed CLI and actual historical runtime qualification were not repeated;
   runtime package identities for the legacy lines remain unavailable here.
 
-**B2 OPEN / BLOCKED.** Code defects/gaps: three required routes currently
-reject at the 4.0.31↔3.8.99 or named-skin/legacy schema boundaries, while the
-other three only passed empty-schema structural probes; none has representative
-feature fidelity qualification. Missing external verification: authentic
-3.8.99 source, licensed/executable historical 3.x runtimes, and rendered
-visual-equivalence proof. No B3/B4/B5 work was started.
+**B2 OPEN / BLOCKED.** Code defects/gaps: all six required routes execute on
+minimal schema-correct probes, but no route has representative feature-rich
+composed semantic comparison or numerical interpolation evidence. The
+migration boundary code continues to use dynamic dictionaries in places, with
+selective validators rather than a complete typed per-version schema contract.
+Missing external verification: authentic 3.8.99 source, licensed/executable
+historical 3.x runtimes, and rendered visual-equivalence proof. No B3/B4/B5
+work was started.
 
 ### Git checkpoint for this report update
 
