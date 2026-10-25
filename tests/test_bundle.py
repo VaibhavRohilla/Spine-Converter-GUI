@@ -440,3 +440,90 @@ def test_failed_dependency_reports_are_deterministic_and_use_original_source(tmp
     first, second = service.convert_bundle(req), service.convert_bundle(req)
     assert first.status == "failed" and first.to_dict() == second.to_dict()
     assert first.report["inspection"]["source"] == str(source)
+
+
+def test_texture_replacement_collision_rejects_without_overwriting(tmp_path):
+    from zlib import crc32
+
+    source = tmp_path / "source"
+    bundle(source)
+    original = (source / "asset.png").read_bytes()
+    # A valid PNG metadata variant with distinct bytes, not a new image export.
+    content = b"comment\0replacement fixture"
+    chunk = (
+        len(content).to_bytes(4, "big")
+        + b"tEXt"
+        + content
+        + (crc32(b"tEXt" + content) & 0xFFFFFFFF).to_bytes(4, "big")
+    )
+    replacement = original[:33] + chunk + original[33:]
+    (source / "replacement.png").write_bytes(replacement)
+    mappings = DependencyMappings(textures={("asset.atlas", "asset.png"): "replacement.png"})
+    req = request(
+        source, tmp_path / "collision.zip", mappings=mappings, retention=RetentionPolicy.ALL
+    )
+    service = BundleService()
+    rejected = service.convert_bundle(req)
+    assert not rejected.published and not req.output.exists()
+    assert "collides" in rejected.report["diagnostic"]["message"]
+    assert (source / "asset.png").read_bytes() == original
+    assert (source / "replacement.png").read_bytes() == replacement
+    allowed = replace(req, retention=RetentionPolicy.REQUIRED_ONLY, output=tmp_path / "mapped.zip")
+    assert service.convert_bundle(allowed).published
+    with ZipFile(allowed.output) as z:
+        assert z.read("asset.png") == replacement
+        assert "replacement.png" not in z.namelist()
+
+
+def test_shared_output_conflict_reports_every_bundle_without_publication(tmp_path):
+    source = tmp_path / "source"
+    bundle(source, "a", version="4.2.43")
+    bundle(source, "b", version="4.3.13")
+    (source / "b.atlas").unlink()
+    (source / "b.png").unlink()
+    (source / "a.atlas").write_text(
+        "a.png\nsize: 1718,891\nimage\n  bounds: 0,0,1,1\n  offsets: 0,0,1,1\n  rotate: 0\n"
+    )
+    # Same-version serialization preserves original atlas bytes, while the other
+    # bundle's real B2 migration serializes its page attributes. Do not silently
+    # choose between these different shared outputs, even if whitespace differs.
+    req = request(source, tmp_path / "conflict.zip")
+    result = BundleService().convert_bundle(req)
+    assert result.status == "failed" and not result.published and not req.output.exists()
+    rows = result.report["bundles"]
+    assert [r["bundle_id"] for r in rows] == ["a.json", "b.json"]
+    assert all(r["execution_success"] for r in rows)
+    assert rows[1]["merge_diagnostic"]["code"] == "SHARED_OUTPUT_CONFLICT"
+
+
+def test_excessive_json_nesting_is_a_structured_source_failure(tmp_path):
+    source = tmp_path / "source"
+    bundle(source)
+    depth = 10000
+    (source / "deep.json").write_text("[" * depth + "0" + "]" * depth)
+    service = BundleService()
+    inspected = service.inspect_source(source)
+    assert inspected.to_dict()["source_state"] == "INVALID"
+    req = request(source, tmp_path / "deep.zip", bundle_ids=("asset.json",))
+    outcome = service.convert_bundle(req)
+    assert outcome.status == "failed" and not outcome.published
+    assert outcome.report["diagnostic"]["code"] == "INPUT_NESTING_LIMIT"
+    assert outcome.report["bundles"][0]["structural_validation"] == "not_run"
+    assert not req.output.exists()
+
+
+def test_corrupt_zip_payload_returns_structured_failure(tmp_path):
+    path = tmp_path / "corrupt.zip"
+    with ZipFile(path, "w") as writer:
+        writer.writestr("broken.json", b"crc-invalid-fixture")
+    data = bytearray(path.read_bytes())
+    data[data.index(b"crc-invalid-fixture")] ^= 1
+    path.write_bytes(data)
+    service = BundleService()
+    assert service.inspect_source(path).to_dict()["source_state"] == "INVALID"
+    req = request(path, tmp_path / "unpublished.zip")
+    result = service.convert_bundle(req)
+    assert result.status == "failed" and not result.published
+    assert result.report["diagnostic"]["stage"] == "SCANNING"
+    assert result.report["diagnostic"]["file_path"] == "broken.json"
+    assert not req.output.exists()

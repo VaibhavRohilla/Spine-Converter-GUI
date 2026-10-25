@@ -125,11 +125,11 @@ class InspectionService:
                             payload = source.read(name)
                             registry = BinaryCodecRegistry()
                             version = registry.probe(payload)
+                            versions[name] = version
                             document = registry.codec(version, experimental=True).decode(payload)
                             info = inspect_skeleton(dumps(document).encode("utf-8"))
                             if info is None:
                                 raise ValueError("Decoded binary skeleton failed inspection")
-                            versions[name] = version
                             attachment_paths_by_skeleton[name] = info.attachment_paths
                             metadata = {
                                 "binary_capability": "experimental_hierarchy_only",

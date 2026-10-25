@@ -96,7 +96,7 @@ def test_varint_corruption(payload, code):
     assert error.value.code == code
 
 
-def test_security_limits_invalid_data_and_unsupported_constructs():
+def test_security_limits_invalid_data_and_unsupported_constructs(tmp_path):
     with pytest.raises(BinaryError):
         BinaryReader(bytes(10), BinaryLimits(max_bytes=9))
     with pytest.raises(BinaryError):
@@ -118,6 +118,10 @@ def test_security_limits_invalid_data_and_unsupported_constructs():
         codec().decode(vector() + b"junk")
     bad = bytearray(vector())
     bad[-9] = 1  # Slots are outside the implemented contract, not silently skipped.
+    (tmp_path / "unsupported.skel").write_bytes(bytes(bad))
+    inspected = InspectionService().inspect(str(tmp_path))
+    assert inspected.assets[0].spine_version == "4.2.43"
+    assert inspected.bundles[0].versions == ("4.2.43",)
     with pytest.raises(BinaryError, match="slots"):
         codec().decode(bytes(bad))
     for extension in (
@@ -237,3 +241,18 @@ def test_directional_capabilities_are_independent():
         encoder_only.decode(vector())
     with pytest.raises(BinaryError, match="authorization"):
         BinarySkeletonCodec(capability)
+
+
+def test_nonessential_defaults_match_exact_official_runtime_data_defaults():
+    # spine-core@4.2.43 SkeletonData.fps=0; BoneData color=new Color(0,0,0,0),
+    # visible=false. Enabling nonessential export must not invent editor values.
+    data = codec().encode(
+        {"skeleton": {"spine": "4.2.43", "images": "x"}, "bones": [{"name": "root"}]}
+    )
+    assert data[35] == 1
+    assert struct.unpack(">f", data[36:40]) == (0.0,)
+    assert data[84:90] == bytes(6)  # RGBA, null icon, hidden editor flag.
+    decoded = codec().decode(data)
+    assert decoded["skeleton"]["fps"] == 0
+    assert decoded["bones"][0]["color"] == "00000000"
+    assert decoded["bones"][0]["visible"] is False

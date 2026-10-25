@@ -402,7 +402,7 @@ class BinarySkeletonCodec:
         )
         writer.put(bytes((int(nonessential),)))
         if nonessential:
-            writer.number(metadata.get("fps", 30))
+            writer.number(metadata.get("fps", 0))
             for name in ("images", "audio"):
                 value = metadata.get(name)
                 writer.string(require_text(value, name) if value is not None else None)
@@ -437,12 +437,12 @@ class BinarySkeletonCodec:
             inherit = bone.get("inherit", "normal")
             if not isinstance(inherit, str) or inherit not in _INHERIT:
                 raise BinaryError("BINARY_INHERIT", "Invalid inheritance mode")
-            skin, visible = bone.get("skin", False), bone.get("visible", True)
+            skin, visible = bone.get("skin", False), bone.get("visible", False)
             if not isinstance(skin, bool) or not isinstance(visible, bool):
                 raise BinaryError("BINARY_BOOLEAN", "Bone flags must be boolean")
             writer.put(bytes((_INHERIT.index(inherit), int(skin))))
             if nonessential:
-                color = bone.get("color", "989898ff")
+                color = bone.get("color", "00000000")
                 if not isinstance(color, str) or len(color) != 8:
                     raise BinaryError("BINARY_COLOR", "Invalid RGBA color")
                 try:

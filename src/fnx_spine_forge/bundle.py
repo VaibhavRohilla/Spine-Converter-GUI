@@ -17,7 +17,8 @@ from hashlib import file_digest, sha256
 from pathlib import Path, PurePosixPath
 from types import MappingProxyType
 from typing import cast
-from zipfile import ZIP_DEFLATED, ZipFile, ZipInfo
+from zipfile import ZIP_DEFLATED, BadZipFile, ZipFile, ZipInfo
+from zlib import error as ZlibError
 
 from .binary import BinaryCodecRegistry, BinaryError
 from .conversion.asset_set import AssetSetConverter, AssetSetResult
@@ -34,6 +35,7 @@ from .texture import validate_png
 from .versions import VersionRegistry
 
 SourceSelection = str | Path | tuple[Path, ...]
+_JOB_ERRORS = (OSError, ValueError, UnicodeError, EOFError, RuntimeError, BadZipFile, ZlibError)
 
 
 class JobStatus(StrEnum):
@@ -292,7 +294,7 @@ class BundleService:
     ) -> BundleInspection:
         try:
             return self._inspect_source(source, mappings)
-        except (OSError, ValueError, UnicodeError) as exc:
+        except _JOB_ERRORS as exc:
             manifest = AssetManifest(
                 str(source),
                 (),
@@ -443,7 +445,11 @@ class BundleService:
             "publication": "not_published",
             "runtime_verification": "not_run",
             "visual_verification": "not_run",
-            "bundles": [],
+            "selected_bundle_ids": request.bundle_ids,
+            "bundles": tuple(
+                {"bundle_id": n, "execution_success": None, "structural_validation": "not_run"}
+                for n in sorted(request.bundle_ids)
+            ),
             "structural_validation": "not_run",
             "package_integrity": "not_run",
             "output": str(request.output),
@@ -489,6 +495,7 @@ class BundleService:
                             continue
                         if request.bundle_ids and name not in request.bundle_ids:
                             continue
+                        emit(Stage.DISCOVERING, name)
                         registry = BinaryCodecRegistry()
                         version = registry.probe(inputs[name])
                         decoded = registry.codec(
@@ -539,15 +546,23 @@ class BundleService:
                         sorted(source_names.get(n, n) for n in known)
                     )
                     report["selected_bundle_ids"] = tuple(source_names.get(n, n) for n in ids)
+                    rows: list[JSONValue] = [
+                        {
+                            "bundle_id": source_names.get(n, n),
+                            "execution_success": None,
+                            "structural_validation": "not_run",
+                        }
+                        for n in sorted(ids)
+                    ]
+                    report["bundles"] = rows
                     emit(Stage.VALIDATING)
                     if any(_state(manifest, name) != BundleState.READY for name in ids):
                         report["inspection"] = manifest.to_dict()
                         raise ValueError("Resolve selected bundle dependencies before conversion")
                     emit(Stage.PLANNING)
                     outputs: dict[str, bytes] = {}
-                    rows: list[JSONValue] = []
                     failed = False
-                    for name in sorted(ids):
+                    for index, name in enumerate(sorted(ids)):
                         emit(Stage.PLANNING, name)
                         outcome = AssetSetConverter(
                             inspection=inspection,
@@ -567,20 +582,26 @@ class BundleService:
                             if name in source_names or request.skeleton_format == "binary"
                             else "not_applicable"
                         )
-                        rows.append(row)
+                        rows[index] = row
                         if outcome.outputs is None:
                             failed = True
                             continue
+                        emit(Stage.VALIDATING, name)
                         for path, payload in outcome.outputs.items():
                             if path in outputs and outputs[path] != payload:
-                                raise ValueError(
-                                    "Selected bundles produce conflicting shared assets"
-                                )
+                                failed = True
+                                row["merge_diagnostic"] = {
+                                    "code": "SHARED_OUTPUT_CONFLICT",
+                                    "file_path": path,
+                                    "message": "Selected bundles produce conflicting shared assets",
+                                }
+                                continue
                             outputs[path] = payload
                     report["bundles"] = rows
                     if failed:
                         raise ValueError(
-                            "One or more selected bundles rejected conversion; no output published"
+                            "Selected bundles failed conversion or output merging; "
+                            "no output published"
                         )
                     selected_json_ids = ids
                     selected_sources = {source_names.get(name, name) for name in ids}
@@ -712,13 +733,15 @@ class BundleService:
                 "asset_id": asset_id,
             }
             return BundleResult(JobStatus.CANCELLED, published, report)
-        except (OSError, ValueError, UnicodeError) as exc:
+        except _JOB_ERRORS as exc:
             if published:
                 report["publication"] = "published"
             report["diagnostic"] = {
                 "code": (
                     exc.code
                     if isinstance(exc, BinaryError)
+                    else "INPUT_NESTING_LIMIT"
+                    if isinstance(exc, RecursionError)
                     else "OUTPUT_EXISTS"
                     if isinstance(exc, FileExistsError)
                     else "FILESYSTEM_ERROR"
@@ -727,7 +750,11 @@ class BundleService:
                 ),
                 "stage": current.value,
                 "asset_id": asset_id,
-                "message": str(exc),
+                "message": (
+                    "Input exceeds supported nesting"
+                    if isinstance(exc, RecursionError)
+                    else str(exc)
+                ),
                 "technical_details": str(exc),
                 "file_path": asset_id
                 or str(
