@@ -909,5 +909,7 @@ subset evidence. The 56-pair table distinguishes candidates from tested pairs.
 External runtime/export evidence and the untested semantic categories remain
 open. No B3, B4, or B5 work was started.
 
-Implementation checkpoint and final working-tree status are recorded in the
-delivery message; this report does not claim a freeze.
+Qualification implementation checkpoint: `a532c19ba8caff96d81f76e6f361ad8347ed45b1`.
+The implementation commit's working tree was clean after commit. The final
+post-report-commit status is clean; this report-only follow-up does not change
+the tested implementation. No freeze is claimed.
