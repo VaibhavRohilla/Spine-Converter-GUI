@@ -1,0 +1,3 @@
+recursive-include tests/fixtures *
+recursive-include docs *.md
+include scripts/verify_binary_reference.mjs

@@ -10,7 +10,7 @@ from __future__ import annotations
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from enum import StrEnum
-from math import isfinite
+from math import fsum, inf, isfinite, nextafter
 from typing import Literal, Protocol, TypeGuard
 
 from ..json_types import JSONObject, JSONValue
@@ -173,7 +173,7 @@ def decode_atlas_geometry(atlas: AtlasView, version: str) -> tuple[AtlasRegionGe
             ox, oy, original_width, original_height = _integer_tuple(
                 attrs["offsets"], 4, region.name
             )
-            rotation = _integer(attrs["rotate"], region.name)
+            rotation = atlas_rotation(attrs["rotate"], region.name)
         else:
             if not {"xy", "size"} <= attrs.keys():
                 raise ValueError(f"Atlas region {region.name!r} does not match {version} geometry")
@@ -210,6 +210,18 @@ def decode_atlas_geometry(atlas: AtlasView, version: str) -> tuple[AtlasRegionGe
             )
         )
     return tuple(decoded)
+
+
+def atlas_rotation(value: str, name: str) -> int:
+    """Official modern atlas readers accept true/false alongside degree integers."""
+    if value == "true":
+        return 90
+    if value == "false":
+        return 0
+    rotation = _integer(value, name)
+    if rotation not in (0, 90, 180, 270):
+        raise ValueError(f"Unsupported atlas rotation {value!r} on {name!r}")
+    return rotation
 
 
 def _integer_tuple(value: JSONValue, count: int, name: str) -> tuple[int, ...]:
@@ -866,7 +878,6 @@ def _decode_vertex_stream(
         end = position + total * 4
         if end > len(vertices):
             raise ValueError(f"Weighted mesh {name!r} has truncated influence data")
-        weight_sum = 0.0
         influences: list[tuple[int, float, float, float]] = []
         for influence in range(total):
             offset = position + influence * 4
@@ -875,9 +886,12 @@ def _decode_vertex_stream(
                 raise ValueError(f"Weighted mesh {name!r} references an invalid bone index")
             if not 0 <= weight <= 1:
                 raise ValueError(f"Weighted mesh {name!r} has an invalid influence weight")
-            weight_sum += weight
             influences.append((int(bone_index), local_x, local_y, weight))
-        if abs(weight_sum - 1.0) > 1e-5:
+        # Compare inclusive endpoints, avoiding cancellation at exported decimal
+        # tolerance boundaries. One ULP admits representation/summation rounding;
+        # values outside the existing 1e-5 policy still fail. Never normalize data.
+        weight_sum = fsum(row[3] for row in influences)
+        if not nextafter(1.0 - 1e-5, -inf) <= weight_sum <= nextafter(1.0 + 1e-5, inf):
             raise ValueError(f"Weighted mesh {name!r} influence weights do not sum to one")
         decoded.append(tuple(influences))
         position = end

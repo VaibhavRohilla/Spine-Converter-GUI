@@ -78,3 +78,49 @@ unverified. B1 inspection evidence remains in [B1_REPORT.md](docs/B1_REPORT.md).
 ## Spine licensing
 
 This repository includes no Esoteric Software runtime/editor binaries or third-party converter code. Before shipping a viewer with official Spine runtimes, review the Spine Editor and Runtimes license terms and include applicable notices.
+
+## B3 headless bundle API
+
+`fnx_spine_forge.bundle.BundleService` is the shared entry point for CLI and
+future viewer/UI integrations. It accepts folders, bounded ZIPs and explicit
+`tuple[Path, ...]` selections. `inspect_source` exposes B1 manifests, logical
+bundle states, mapping decisions, source risks and per-target B2 qualification.
+`plan_conversion` performs an isolated conversion rehearsal without publishing.
+`convert_bundle` publishes a validated ZIP or folder, and `convert_batch`
+returns an independent result for every request. See [B3_REPORT.md](docs/B3_REPORT.md)
+for the exact evidence and remaining binary implementation gaps.
+
+```python
+from pathlib import Path
+from fnx_spine_forge.bundle import BundleRequest, BundleService, CancellationToken
+
+service = BundleService()
+inspection = service.inspect_source(Path("assets.zip"))
+request = BundleRequest(Path("assets.zip"), "4.2.43", Path("converted.zip"))
+plan = service.plan_conversion(request)
+result = service.convert_bundle(request, cancellation=CancellationToken())
+```
+
+Qualified mode remains the default and enforces B2's frozen feature restrictions.
+A complete atlas bundle currently requires experimental structural authorization
+because atlas geometry is outside RC1 semantic evidence. Known 3.8.75 source risk
+requires a separate authorization. Neither flag certifies runtime or visual fidelity.
+
+```
+spine-forge bundle inspect assets.zip
+spine-forge bundle list assets.zip
+spine-forge bundle plan --input assets.zip --target 4.2.43
+spine-forge bundle convert --input assets.zip --target 4.2.43 --output converted.zip
+spine-forge binary-capabilities
+```
+
+Use `--experimental-structural` only to explicitly authorize unqualified output;
+`--allow-known-source-export-risk` is separate. `--bundle-id` is repeatable.
+`--skeleton-format binary` exposes only the implemented experimental 4.2.43
+hierarchy codec; attachments, slots, constraints and animations are rejected.
+`--retention all` preserves unrelated files. Excluded paths are always reported.
+Viewer mode adds no report member. Audit mode embeds a prepublication validation
+snapshot. `--report-output report.json` explicitly exports the final result as a
+sidecar, with its own atomic no-overwrite publication; sidecar failure never
+undoes a valid package. ZIP/folder publication is atomic per request, including
+all selected bundles; separate batch requests publish independently.

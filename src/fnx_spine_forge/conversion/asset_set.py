@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from collections.abc import Mapping
+from collections.abc import Callable, Mapping
 from dataclasses import dataclass
 from hashlib import sha256
 from pathlib import Path
@@ -87,7 +87,9 @@ class AssetSetConverter:
         inspection: InspectionService | None = None,
         *,
         experimental_structural: bool = False,
+        stage_callback: Callable[[str], None] | None = None,
     ) -> None:
+        self.stage_callback = stage_callback
         self.experimental_structural = experimental_structural
         self.planner = planner or ConversionPlanner()
         self.inspection = inspection or InspectionService()
@@ -315,6 +317,8 @@ class AssetSetConverter:
         current_skeleton, current_atlases = skeleton, atlases
         hop_results: list[JSONObject] = []
         for left, right in zip(route, route[1:]):
+            if self.stage_callback is not None:
+                self.stage_callback("CONVERTING_SKELETON")
             result = self._convert_hop(current_skeleton, left, right, source_risk_policy)
             if result.output is None or result.status is ConversionStatus.REJECTED:
                 return RouteFailure(
@@ -328,6 +332,8 @@ class AssetSetConverter:
                     result.diagnostic_codes,
                 )
             try:
+                if self.stage_callback is not None:
+                    self.stage_callback("CONVERTING_ATLAS")
                 next_atlases = {
                     name: self._atlases.convert(data, right, source_version=left)
                     for name, data in current_atlases.items()
@@ -384,7 +390,18 @@ class AssetSetConverter:
                 target = root.joinpath(*Path(name).parts)
                 target.parent.mkdir(parents=True, exist_ok=True)
                 target.write_bytes(data)
-            report = self.inspection.inspect(str(root))
+            # Overrides are source-wide; each validation stage contains one selected bundle.
+            inspection = InspectionService(
+                version_registry=self.inspection.versions,
+                config=self.inspection.config,
+                atlas_overrides={
+                    k: v for k, v in self.inspection.atlas_overrides.items() if k in files
+                },
+                texture_overrides={
+                    k: v for k, v in self.inspection.texture_overrides.items() if k[0] in files
+                },
+            )
+            report = inspection.inspect(str(root))
             staged = next(
                 (item for item in report.bundles if item.bundle_id == skeleton_path), None
             )

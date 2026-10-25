@@ -13,7 +13,7 @@ from .registry import (
     ATLAS_42_SCHEMA_PATCHES,
     EXACT_ROUTE_PAIRS,
 )
-from .semantic import AtlasRegionGeometry, decode_atlas_geometry
+from .semantic import AtlasRegionGeometry, atlas_rotation, decode_atlas_geometry
 
 
 @dataclass(frozen=True)
@@ -102,7 +102,7 @@ class AtlasConverter:
                     try:
                         bounds = tuple(int(part.strip()) for part in values["bounds"].split(","))
                         offsets = tuple(int(part.strip()) for part in values["offsets"].split(","))
-                        rotation = int(values["rotate"])
+                        rotation = atlas_rotation(values["rotate"], region.name)
                     except ValueError as exc:
                         raise ValueError(
                             f"Malformed Spine 4.2 atlas region {region.name!r}"
@@ -120,7 +120,7 @@ class AtlasConverter:
                     try:
                         bounds = tuple(int(part.strip()) for part in values["bounds"].split(","))
                         offsets = tuple(int(part.strip()) for part in values["offsets"].split(","))
-                        rotation = int(values["rotate"])
+                        rotation = atlas_rotation(values["rotate"], region.name)
                     except ValueError as exc:
                         raise ValueError(f"Malformed Spine 4.2 region {region.name!r}") from exc
                     if len(bounds) != 4 or len(offsets) != 4:
@@ -223,7 +223,7 @@ class AtlasConverter:
                 if (xy + size, offset + original, rotation) != (
                     bounds,
                     offsets,
-                    int(before_attrs["rotate"]),
+                    atlas_rotation(before_attrs["rotate"], before.name),
                 ):
                     raise ValueError(f"Atlas semantic equivalence failed for {before.name!r}")
         elif target_version in ATLAS_42_SCHEMA_PATCHES:

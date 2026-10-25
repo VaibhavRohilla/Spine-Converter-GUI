@@ -11,6 +11,8 @@ import tempfile
 from collections.abc import Mapping
 from pathlib import Path
 
+from .binary import BinaryCodecRegistry
+from .bundle import BundleRequest, BundleService, PackageMode, RetentionPolicy, SkeletonFormat
 from .conversion import (
     AssetSetConverter,
     AtlasConverter,
@@ -25,6 +27,12 @@ from .versions import VersionRegistry
 
 
 class CLIArguments(argparse.Namespace):
+    skeleton_format: str = "json"
+    report_output: str | None = None
+    bundle_operation: str = ""
+    bundle_id: list[str] | None = None
+    retention: str = "required_only"
+    package_mode: str = "viewer"
     command: str = ""
     kind: str = ""
     source: str = ""
@@ -92,8 +100,86 @@ def main(argv: list[str] | None = None) -> int:
     asset_convert.add_argument("--experimental-structural", action="store_true")
     for command_parser in conversion_parsers:
         command_parser.add_argument("--experimental-structural", action="store_true")
+    sub.add_parser("binary-capabilities", help="List exact binary operations and evidence limits")
+    bundle_parser = sub.add_parser("bundle", help="Inspect, plan and package logical bundles")
+    operations = bundle_parser.add_subparsers(dest="bundle_operation", required=True)
+    retention_choices: list[str] = [p.value for p in RetentionPolicy]
+    package_choices: list[str] = [p.value for p in PackageMode]
+    for operation in ("inspect", "list", "plan", "convert"):
+        operation_parser = operations.add_parser(operation)
+        if operation in ("inspect", "list"):
+            operation_parser.add_argument("source")
+        else:
+            operation_parser.add_argument("--input", required=True)
+            operation_parser.add_argument("--target", required=True)
+            operation_parser.add_argument(
+                "--skeleton-format", choices=("json", "binary"), default="json"
+            )
+            operation_parser.add_argument(
+                "--report-output", help="Separate atomic report sidecar export"
+            )
+            operation_parser.add_argument("--bundle-id", action="append")
+            operation_parser.add_argument("--output", required=operation == "convert")
+            operation_parser.add_argument("--experimental-structural", action="store_true")
+            operation_parser.add_argument("--allow-known-source-export-risk", action="store_true")
+            operation_parser.add_argument(
+                "--retention", choices=retention_choices, default="required_only"
+            )
+            operation_parser.add_argument(
+                "--package-mode", choices=package_choices, default="viewer"
+            )
     args = CLIArguments()
     parser.parse_args(argv, namespace=args)
+    if args.command == "binary-capabilities":
+        capabilities: tuple[JSONDocument, ...] = tuple(
+            c.to_dict() for c in BinaryCodecRegistry().capabilities()
+        )
+        print(json.dumps(capabilities, sort_keys=True, indent=2))
+        return 0
+    if args.command == "bundle":
+        service = BundleService()
+        if args.bundle_operation in ("inspect", "list"):
+            try:
+                inspected = service.inspect_source(args.source)
+                print(json.dumps(inspected.to_dict(), ensure_ascii=False, sort_keys=True, indent=2))
+                return 0 if inspected.manifest.ok else 2
+            except (OSError, ValueError) as exc:
+                failure_report: JSONDocument = {"status": "failed", "message": str(exc)}
+                print(json.dumps(failure_report))
+                return 2
+        request = BundleRequest(
+            source=args.input,
+            target=args.target,
+            output=Path(args.output or "unused-plan-output"),
+            bundle_ids=tuple(args.bundle_id or ()),
+            experimental_structural=args.experimental_structural,
+            source_risk_policy=(
+                SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC
+                if args.allow_known_source_export_risk
+                else SourceRiskPolicy.REJECT_KNOWN_ISSUES
+            ),
+            skeleton_format=SkeletonFormat(args.skeleton_format),
+            retention=RetentionPolicy(args.retention),
+            package_mode=PackageMode(args.package_mode),
+        )
+        bundle_result = (
+            service.plan_conversion(request)
+            if args.bundle_operation == "plan"
+            else service.convert_bundle(request)
+        )
+        if args.report_output:
+            try:
+                service.write_report(bundle_result, Path(args.report_output))
+            except OSError as exc:
+                bundle_result.report["sidecar_error"] = str(exc)
+                print(
+                    json.dumps(
+                        bundle_result.to_dict(), ensure_ascii=False, sort_keys=True, indent=2
+                    )
+                )
+                return 2
+        print(json.dumps(bundle_result.to_dict(), ensure_ascii=False, sort_keys=True, indent=2))
+        return 0 if bundle_result.status in ("completed", "planned") else 2
     if args.command == "versions":
         families: list[str] = [v.family for v in VersionRegistry().definitions()]
         print(json.dumps(families, indent=2))

@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 import zlib
-from json import JSONDecodeError, loads
+from collections.abc import Mapping
+from json import JSONDecodeError, dumps, loads
 from pathlib import PurePosixPath
 from zipfile import BadZipFile
 
+from .binary import BinaryCodecRegistry, BinaryError
 from .config import InspectionConfig
 from .dependencies import DependencyResolver
 from .detection import TEXTURE_EXTENSIONS
@@ -24,7 +26,12 @@ class InspectionService:
         self,
         version_registry: VersionRegistry | None = None,
         config: InspectionConfig | None = None,
+        *,
+        atlas_overrides: Mapping[str, str] | None = None,
+        texture_overrides: Mapping[tuple[str, str], str] | None = None,
     ):
+        self.atlas_overrides = dict(atlas_overrides or {})
+        self.texture_overrides = dict(texture_overrides or {})
         self.versions = version_registry or VersionRegistry()
         self.config = config or InspectionConfig()
 
@@ -114,15 +121,49 @@ class InspectionService:
                     elif ext == ".skel":
                         kind = "skeleton_binary"
                         skeletons.append(name)
-                        diagnostics.append(
-                            Diagnostic(
-                                "BINARY_NOT_YET_SUPPORTED",
-                                Severity.INFO,
-                                "Binary skeleton discovered; no documented bounded version probe "
-                                "is enabled",
-                                name,
+                        try:
+                            payload = source.read(name)
+                            registry = BinaryCodecRegistry()
+                            version = registry.probe(payload)
+                            document = registry.codec(version, experimental=True).decode(payload)
+                            info = inspect_skeleton(dumps(document).encode("utf-8"))
+                            if info is None:
+                                raise ValueError("Decoded binary skeleton failed inspection")
+                            versions[name] = version
+                            attachment_paths_by_skeleton[name] = info.attachment_paths
+                            metadata = {
+                                "binary_capability": "experimental_hierarchy_only",
+                                "counts": info.counts,
+                                "names": info.names,
+                                "attachment_paths": info.attachment_paths,
+                            }
+                            diagnostics.append(
+                                Diagnostic(
+                                    "BINARY_UNQUALIFIED",
+                                    Severity.WARNING,
+                                    "Restricted binary hierarchy codec has no "
+                                    "semantic qualification",
+                                    name,
+                                )
                             )
-                        )
+                        except BinaryError as exc:
+                            diagnostics.append(
+                                Diagnostic(
+                                    "BINARY_NOT_YET_SUPPORTED",
+                                    Severity.INFO,
+                                    "No supported binary operation for this input",
+                                    name,
+                                )
+                            )
+                            diagnostics.append(
+                                Diagnostic(
+                                    exc.code, Severity.WARNING, str(exc), name, exc.to_dict()
+                                )
+                            )
+                        except (ValueError, *_SOURCE_READ_ERRORS) as exc:
+                            diagnostics.append(
+                                Diagnostic("BINARY_INVALID", Severity.ERROR, str(exc), name)
+                            )
                     elif ext == ".atlas":
                         kind = "atlas"
                         atlases.append(name)
@@ -164,6 +205,17 @@ class InspectionService:
                             for page in atlas_info.pages:
                                 match = resolver.resolve(page, name)
                                 resolved, ambiguous = match.resolved, match.ambiguous
+                                override = self.texture_overrides.get((name, page))
+                                if override is not None:
+                                    if (
+                                        override not in names
+                                        or PurePosixPath(override).suffix.lower()
+                                        not in TEXTURE_EXTENSIONS
+                                    ):
+                                        raise ValueError(
+                                            "Texture override must select an existing texture"
+                                        )
+                                    resolved, ambiguous = override, False
                                 deps.append(
                                     Dependency(
                                         name,
@@ -211,8 +263,13 @@ class InspectionService:
                             metadata=metadata,
                         )
                     )
+                if set(self.atlas_overrides) - set(skeletons):
+                    raise ValueError("Atlas override references an undiscovered skeleton")
+                declared_pages = {(d.owner, d.requested) for d in deps if d.kind == "texture_page"}
+                if set(self.texture_overrides) - declared_pages:
+                    raise ValueError("Texture override references an undeclared atlas page")
                 for skel in skeletons:
-                    if skel.lower().endswith(".json"):
+                    if skel in attachment_paths_by_skeleton:
                         paths = attachment_paths_by_skeleton.get(skel, ())
                         candidates = []
                         for atlas, atlas_regions in regions_by_atlas.items():
@@ -229,18 +286,32 @@ class InspectionService:
                         ]
                         choices = complete or candidates
                         related = []
-                        if len(choices) == 1:
+                        override = self.atlas_overrides.get(skel)
+                        if override is not None:
+                            if override not in regions_by_atlas:
+                                raise ValueError(
+                                    "Atlas override must select a valid discovered atlas"
+                                )
+                            related = [override]
+                        elif len(choices) == 1:
                             related = [choices[0][0]]
                         elif len(choices) > 1:
                             # A matching export stem can resolve a tie only after
                             # attachment-region evidence has narrowed the choices.
                             stem = PurePosixPath(skel).stem.casefold()
+                            local_choices = [
+                                atlas
+                                for atlas, _ in choices
+                                if PurePosixPath(atlas).parent == PurePosixPath(skel).parent
+                            ]
                             stem_matches = [
                                 atlas
                                 for atlas, _ in choices
                                 if PurePosixPath(atlas).stem.casefold() == stem
                             ]
-                            if len(stem_matches) == 1:
+                            if len(local_choices) == 1 and len(stem_matches) <= 1:
+                                related = local_choices
+                            elif len(stem_matches) == 1:
                                 related = stem_matches
                             else:
                                 diagnostics.append(
@@ -254,7 +325,24 @@ class InspectionService:
                                 )
                         elif len(atlases) == 1:
                             related = [atlases[0]]
-                        elif len(atlases) > 1 and paths:
+                        elif (
+                            len(atlases) > 1
+                            and not paths
+                            and len(
+                                [
+                                    a
+                                    for a in atlases
+                                    if PurePosixPath(a).parent == PurePosixPath(skel).parent
+                                ]
+                            )
+                            == 1
+                        ):
+                            related = [
+                                a
+                                for a in atlases
+                                if PurePosixPath(a).parent == PurePosixPath(skel).parent
+                            ]
+                        elif len(atlases) > 1:
                             diagnostics.append(
                                 Diagnostic(
                                     "AMBIGUOUS_ATLAS",

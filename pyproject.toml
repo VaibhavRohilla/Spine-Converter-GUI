@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "fnx-spine-forge"
 version = "0.1.0"
-description = "FNX Spine Forge read-only asset inspection foundation"
+description = "Headless Spine inspection, restricted conversion and bundle packaging"
 requires-python = ">=3.11"
 license = "LicenseRef-Proprietary-FNX-Studio"
 
