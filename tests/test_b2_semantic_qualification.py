@@ -88,6 +88,260 @@ def test_fixture_schemas_are_version_shaped_and_nontrivial() -> None:
     assert legacy["animations"]["motion"]["events"][0]["name"] == "impact"
 
 
+def _attachment_records(
+    document: dict[str, object],
+) -> dict[tuple[str, str, str], tuple[object, ...]]:
+    """Independent fixture reader for serialized attachment meaning."""
+    raw_skins = document["skins"]
+    records: dict[tuple[str, str, str], tuple[object, ...]] = {}
+    if isinstance(raw_skins, list):
+        skins = ((str(skin["name"]), skin["attachments"]) for skin in raw_skins)
+    else:
+        skins = ((str(name), skin) for name, skin in raw_skins.items())
+    for skin_name, slots in skins:
+        for slot_name, attachments in slots.items():
+            for attachment_name, attachment in attachments.items():
+                kind = attachment.get("type", "region")
+                records[(skin_name, slot_name, attachment_name)] = (
+                    kind,
+                    attachment.get("path", attachment_name),
+                    attachment.get("x", 0),
+                    attachment.get("y", 0),
+                    attachment.get("rotation", 0),
+                    attachment.get("width", 0),
+                    attachment.get("height", 0),
+                    tuple(attachment.get("uvs", ())),
+                    tuple(attachment.get("triangles", ())),
+                    tuple(attachment.get("vertices", ())),
+                    attachment.get("parent"),
+                    attachment.get("skin", skin_name),
+                    attachment.get("deform", attachment.get("inheritDeform")),
+                    attachment.get("hull"),
+                    attachment.get("vertexCount"),
+                    tuple(attachment.get("lengths", ())),
+                    attachment.get("end"),
+                )
+    return records
+
+
+def test_independent_attachment_expected_records_and_corruption_detection() -> None:
+    """Schema-derived expectations are authored independently of converter output."""
+    doc = {
+        "skeleton": {"spine": "3.8.75"},
+        "bones": [{"name": "root"}],
+        "slots": [{"name": "slot", "bone": "root"}],
+        "skins": {
+            "base": {
+                "slot": {
+                    "region": {
+                        "path": "art",
+                        "x": 2,
+                        "y": -3,
+                        "rotation": 15,
+                        "width": 8,
+                        "height": 6,
+                    },
+                    "mesh": {
+                        "type": "mesh",
+                        "uvs": [0, 0, 1, 0],
+                        "triangles": [0, 1, 0],
+                        "vertices": [1, 2, 3, 4],
+                        "hull": 2,
+                    },
+                    "weighted": {
+                        "type": "mesh",
+                        "uvs": [0.25, 0.75],
+                        "vertices": [1, 0, 1, 2, 3, 0.4, 1, 4, 5, 0.6],
+                        "triangles": [],
+                        "vertexCount": 1,
+                    },
+                    "clip": {"type": "clipping", "vertices": [0, 0, 4, 0, 4, 3], "end": "slot"},
+                    "box": {"type": "boundingbox", "vertices": [-1, -2, 2, 3]},
+                    "path": {"type": "path", "vertices": [0, 0, 2, 1], "lengths": [3.5]},
+                    "point": {"type": "point", "x": 5, "y": 6, "rotation": 90},
+                }
+            },
+            "linkedSkin": {
+                "slot": {
+                    "linked": {
+                        "type": "linkedmesh",
+                        "parent": "mesh",
+                        "skin": "base",
+                        "inheritDeform": True,
+                    }
+                }
+            },
+        },
+        "animations": {},
+    }
+    expected = {
+        ("base", "slot", "region"): (
+            "region",
+            "art",
+            2,
+            -3,
+            15,
+            8,
+            6,
+            (),
+            (),
+            (),
+            None,
+            "base",
+            None,
+            None,
+            None,
+            (),
+            None,
+        ),
+        ("base", "slot", "mesh"): (
+            "mesh",
+            "mesh",
+            0,
+            0,
+            0,
+            0,
+            0,
+            (0, 0, 1, 0),
+            (0, 1, 0),
+            (1, 2, 3, 4),
+            None,
+            "base",
+            None,
+            2,
+            None,
+            (),
+            None,
+        ),
+        ("base", "slot", "weighted"): (
+            "mesh",
+            "weighted",
+            0,
+            0,
+            0,
+            0,
+            0,
+            (0.25, 0.75),
+            (),
+            (1, 0, 1, 2, 3, 0.4, 1, 4, 5, 0.6),
+            None,
+            "base",
+            None,
+            None,
+            1,
+            (),
+            None,
+        ),
+        ("base", "slot", "clip"): (
+            "clipping",
+            "clip",
+            0,
+            0,
+            0,
+            0,
+            0,
+            (),
+            (),
+            (0, 0, 4, 0, 4, 3),
+            None,
+            "base",
+            None,
+            None,
+            None,
+            (),
+            "slot",
+        ),
+        ("base", "slot", "box"): (
+            "boundingbox",
+            "box",
+            0,
+            0,
+            0,
+            0,
+            0,
+            (),
+            (),
+            (-1, -2, 2, 3),
+            None,
+            "base",
+            None,
+            None,
+            None,
+            (),
+            None,
+        ),
+        ("base", "slot", "path"): (
+            "path",
+            "path",
+            0,
+            0,
+            0,
+            0,
+            0,
+            (),
+            (),
+            (0, 0, 2, 1),
+            None,
+            "base",
+            None,
+            None,
+            None,
+            (3.5,),
+            None,
+        ),
+        ("base", "slot", "point"): (
+            "point",
+            "point",
+            5,
+            6,
+            90,
+            0,
+            0,
+            (),
+            (),
+            (),
+            None,
+            "base",
+            None,
+            None,
+            None,
+            (),
+            None,
+        ),
+        ("linkedSkin", "slot", "linked"): (
+            "linkedmesh",
+            "linked",
+            0,
+            0,
+            0,
+            0,
+            0,
+            (),
+            (),
+            (),
+            "mesh",
+            "base",
+            True,
+            None,
+            None,
+            (),
+            None,
+        ),
+    }
+    assert _attachment_records(doc) == expected
+    for mutate in (
+        lambda a: a["mesh"].update(vertices=[1, 2, 3, 5]),
+        lambda a: a["mesh"].update(uvs=[0, 0, 0.9, 0]),
+        lambda a: a["weighted"].update(vertices=[1, 0, 1, 2, 3, 0.3, 1, 4, 5, 0.7]),
+        lambda a: a["linked"].update(parent="region"),
+    ):
+        corrupted = json.loads(json.dumps(doc))
+        attachments = corrupted["skins"]["base"]["slot"]
+        attachments.update({"linked": corrupted["skins"]["linkedSkin"]["slot"]["linked"]})
+        mutate(attachments)
+        assert _attachment_records(corrupted) != expected
+
+
 @pytest.mark.parametrize("target_version", SPINE_38_TARGETS)
 def test_38_99_feature_fixture_direct_route_semantic_evaluation(target_version: str) -> None:
     source = json.loads(

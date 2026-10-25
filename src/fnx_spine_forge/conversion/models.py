@@ -33,7 +33,7 @@ class CanonicalSkeleton:
     slots: tuple[str, ...]
     skins: tuple[str, ...]
     animations: tuple[str, ...]
-    semantic: SemanticSkeleton | None = None
+    semantic: SemanticSkeleton
 
 
 @dataclass(frozen=True)

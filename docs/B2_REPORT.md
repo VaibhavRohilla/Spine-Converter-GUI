@@ -1,5 +1,12 @@
 # FNX Spine Forge B2 conversion report
 
+> **Status supersession:** The initial sections below record earlier checkpoint
+> claims. The latest audited scope and freeze decision are in
+> [Targeted fidelity recovery](#targeted-fidelity-recovery--2026-10-26).
+> Current verified scope is restricted to the evidence in that section; prior
+> broad advanced attachment and animation support statements are not current
+> qualification claims.
+
 ## B2 integration and fidelity closure pass — 2026-10-23
 
 Starting HEAD was `22b65b1a82277740b5bccd8630830559ca5d93df`. The earlier
@@ -913,3 +920,112 @@ Qualification implementation checkpoint: `a532c19ba8caff96d81f76e6f361ad8347ed45
 The implementation commit's working tree was clean after commit. The final
 post-report-commit status is clean; this report-only follow-up does not change
 the tested implementation. No freeze is claimed.
+
+## Targeted fidelity recovery — 2026-10-26
+
+Starting implementation was `8eb7d110af4cdfbc24e1b0f282e9bdc636e6089e`.
+Semantic parsing now runs for every supported exact patch, with a required
+`SemanticSkeleton` on `CanonicalSkeleton`. The previously bypassed 3.x
+object-map skin representation is normalized only for validation; source JSON
+remains unchanged for migration serialization.
+
+### Static attachment semantic comparisons
+
+- Typed attachment records retain region transforms, UVs, triangle indices,
+  unweighted vertex arrays, decoded weighted influence groups, hull and vertex
+  counts, path lengths, clipping end slots, and linked-mesh parent skin and
+  deform-inheritance flags.
+- Weighted streams validate influence count, bone indices, local coordinates,
+  finite numeric input at the JSON boundary, weight range and per-vertex weight
+  sum. Mesh topology validates UV pairing, triangle triples and vertex bounds.
+- Legacy and named skin records validate attachment objects and slot
+  references. Linked meshes resolve their named parent in the declared skin
+  and same slot, including cross-skin parents. Unsupported object-map schemas
+  are rejected except empty maps accepted by route planning inputs.
+- Added an independent test-only schema reader with authored expected records
+  for region transforms, unweighted and weighted mesh streams, UVs, triangle
+  topology, clipping polygons, bounding boxes, path geometry, point transforms,
+  and cross-skin linked-mesh parent/deform inheritance. The fixture is an
+  independently specified, schema-derived synthetic case, not an editor export
+  or converter-output snapshot.
+- Deliberate geometry, UV, weight, and linked-parent mutations each differ from
+  the authored expected semantic record. The existing parser test separately
+  checks cross-skin link resolution and malformed UV rejection.
+- This semantic comparison currently covers serialized records only. It does
+  not yet compare source and converted attachment records across the 3.8.75 →
+  4.2.43 route, and it does not establish weighted world-vertex behavior.
+
+Commands run in this pass:
+
+- `.venv/bin/pytest -q` — **146 passed**.
+- `.venv/bin/ruff check src tests` — passed.
+- `.venv/bin/mypy` — passed, 39 source files.
+- `.venv/bin/python -m build` — passed; wheel and sdist.
+- `.venv/bin/python -m pip install -e '.[dev]'` and
+  `.venv/bin/spine-forge --help` — passed.
+- Installed CLI `inspect tests/fixtures/spine38 --json` — passed B1; one valid
+  bundle resolved one skeleton, one atlas, and one texture.
+- Installed CLI default 3.8.75 → 4.2.43 skeleton conversion — correctly
+  rejected, exit 2, with `SOURCE_EXPORT_KNOWN_BUG`.
+- Installed CLI explicit `--allow-known-source-export-risk` 3.8.75 → 4.2.43
+  skeleton conversion — passed structural checks; 42 Bézier segments,
+  max reported converter error `2.731148640577885e-14`. The source-fidelity
+  provenance remains unverified; this is not an independent timeline result.
+- Installed CLI 3.8.75 → 4.2.43 atlas conversion — passed, one page and six
+  regions. Converted bundle B1 reinspection passed with all dependencies
+  resolved.
+- Added installed CLI `convert-asset-set` over `AssetSetConverter`; the
+  command converted the authentic bundle with explicit risk allowance, wrote
+  JSON/atlas/PNG, and its output passed installed CLI B1 inspection with one
+  valid bundle and no diagnostics.
+- Asset-set integration 3.8.75 → 4.2.43 — passed; returned JSON, atlas, and
+  PNG, output B1 reinspection passed, source bytes remained unchanged, and the
+  texture SHA-256 was identical:
+  `2615d1607a5881fc8a5b55baa31f6391b52e98ca921745d5e2004d0569ee80c2`.
+- Exact target runtime smoke — `not_run`, exit 2: the configured
+  `node_modules/@esotericsoftware/spine-core/package.json` does not exist.
+- `git diff --check` — passed.
+
+Static attachment categories have authored synthetic expected records and
+corruption checks, but route-level cross-version attachment equivalence is
+UNVERIFIED. Timeline verification inherited from the pre-existing synthetic
+route suite is limited to bone rotation and translation numerical samples,
+serialized slot color, attachment selection, event payload/timing, draw order,
+and duration checks; it does not cover scale, shear, two-color, deform, or
+independently cross-check supported Bézier channels. Numerical samples newly
+added in this pass: **0**. The six composed route probes have not been expanded
+with these attachment cases. Constraint evaluation and world-space deform
+remain UNVERIFIED. No authentic editor export beyond 3.8.75 `golden_ingot` is
+available. Runtime acquisition remains blocked by the absent exact official
+4.2.43 package metadata; historical 3.x runtimes remain unavailable. No
+runtime or visual certification is claimed.
+
+### Runtime and route evidence in this pass
+
+- Exact Spine runtime parsing: `not_run`; the
+  `@esotericsoftware/spine-core@4.2.43` package metadata was not installed.
+- Historical 3.x runtime parsing: `not_run`; no licensed runtime was supplied.
+- Authentic 3.8.99 source: unavailable; the available authentic fixture is
+  3.8.75 and its version metadata was not rewritten.
+- New numerical animation samples: **0**. The existing independent evaluator
+  covers only the previously documented restricted timelines; this pass made
+  no new animation-fidelity claim.
+- The previously recorded focused route/transaction/parser recheck was **28
+  passed**; the full current suite above is **146 passed**.
+- Constraint and deform playback, attachment switching, and final-bundle
+  advanced semantic equivalence were not evaluated in this pass.
+
+**B2 OPEN / BLOCKED.** Legacy skin parser validation is fixed, and static
+attachment semantic records now have independent synthetic expected values
+and deliberate corruption detection. The requested source-to-target advanced
+attachment comparisons, timeline verification across all listed categories,
+and qualifying route evidence are not complete. The 3.8.75 → 4.2.43 installed
+CLI and asset-set route passed structural/dependency checks under the explicit
+known-export-risk policy, with source immutability and texture identity, but
+static geometry equivalence and independent timeline equivalence on that route
+remain UNVERIFIED. The exact 4.2.43 runtime package is absent. No B2 freeze,
+runtime certification, or visual equivalence is claimed.
+
+The semantic-validation checkpoint is committed as a development checkpoint;
+it is not a B2 freeze. The independent fidelity and runtime gates remain open.
+See the final Git status and HEAD recorded after commit.

@@ -13,6 +13,8 @@ from typing import Literal, Protocol, cast
 
 from .registry import ROUTES_BY_PATCH, SUPPORTED_PATCH_VERSIONS, MigrationKind
 
+AttachmentKind = Literal["region", "mesh", "linkedmesh", "boundingbox", "path", "clipping", "point"]
+
 
 @dataclass(frozen=True, slots=True)
 class BoneTransform:
@@ -44,10 +46,24 @@ class SlotDefinition:
 @dataclass(frozen=True, slots=True)
 class AttachmentDefinition:
     name: str
-    kind: Literal["region", "mesh", "linkedmesh", "boundingbox", "path", "clipping", "point"]
+    kind: AttachmentKind
     path: str | None
     parent: str | None
+    parent_skin: str | None
+    deform_inheritance: bool | None
+    x: float
+    y: float
+    rotation: float
+    width: float
+    height: float
+    uvs: tuple[float, ...]
+    triangles: tuple[int, ...]
     vertices: tuple[float, ...]
+    bone_influences: tuple[tuple[tuple[int, float, float, float], ...], ...]
+    hull: int | None
+    vertex_count: int | None
+    lengths: tuple[float, ...]
+    clipping_end_slot: str | None
     weighted: bool
 
 
@@ -238,6 +254,7 @@ _ATTACHMENT_KEYS = {
     "rotation",
     "name",
     "parent",
+    "skin",
     "deform",
     "timelines",
     "sequence",
@@ -248,19 +265,78 @@ _ATTACHMENT_KEYS = {
 _ATTACHMENT_KEYS.update({"source", "color2", "sequence", "vertices", "bones"})
 
 _CONSTRAINT_COMMON_FIELDS = {
-    "name", "order", "bones", "target", "skin", "skinRequired", "icon", "color"
+    "name",
+    "order",
+    "bones",
+    "target",
+    "skin",
+    "skinRequired",
+    "icon",
+    "color",
 }
 _CONSTRAINT_FIELDS: dict[str, set[str]] = {
-    "ik": {"mix", "softness", "bendPositive", "bendDirection", "compress", "stretch",
-           "uniform", "scaleX", "scaleY", "mixRotate"},
-    "path": {"slot", "positionMode", "spacingMode", "rotateMode", "rotation",
-             "offsetRotation", "position", "spacing", "rotateMix", "translateMix",
-             "mixRotate", "mixX", "mixY"},
-    "transform": {"rotation", "scaleX", "scaleY", "shearY", "x", "y", "rotateMix",
-                  "translateMix", "scaleMix", "shearMix", "mixRotate", "mixX", "mixY",
-                  "mixScaleX", "mixScaleY", "mixShearY"},
-    "physics": {"bone", "x", "y", "rotate", "scale", "shear", "limit", "step",
-                "inertia", "strength", "damping", "mass", "wind", "gravity", "mix"},
+    "ik": {
+        "mix",
+        "softness",
+        "bendPositive",
+        "bendDirection",
+        "compress",
+        "stretch",
+        "uniform",
+        "scaleX",
+        "scaleY",
+        "mixRotate",
+    },
+    "path": {
+        "slot",
+        "positionMode",
+        "spacingMode",
+        "rotateMode",
+        "rotation",
+        "offsetRotation",
+        "position",
+        "spacing",
+        "rotateMix",
+        "translateMix",
+        "mixRotate",
+        "mixX",
+        "mixY",
+    },
+    "transform": {
+        "rotation",
+        "scaleX",
+        "scaleY",
+        "shearY",
+        "x",
+        "y",
+        "rotateMix",
+        "translateMix",
+        "scaleMix",
+        "shearMix",
+        "mixRotate",
+        "mixX",
+        "mixY",
+        "mixScaleX",
+        "mixScaleY",
+        "mixShearY",
+    },
+    "physics": {
+        "bone",
+        "x",
+        "y",
+        "rotate",
+        "scale",
+        "shear",
+        "limit",
+        "step",
+        "inertia",
+        "strength",
+        "damping",
+        "mass",
+        "wind",
+        "gravity",
+        "mix",
+    },
 }
 _CONSTRAINT_TYPES = frozenset(_CONSTRAINT_FIELDS)
 ConstraintKind = Literal["ik", "path", "transform", "physics"]
@@ -365,86 +441,176 @@ def decode_semantic_skeleton(
     raw_skins = document.get("skins", [])
     skins: list[str] = []
     attachments: list[AttachmentDefinition] = []
-    linked_parents: list[tuple[str, str, str, str]] = []
+    linked_parents: list[tuple[str, str, str, str, str]] = []
     attachment_names_by_skin_slot: dict[tuple[str, str], set[str]] = {}
+    skin_records: list[tuple[str, Mapping[str, object], Mapping[str, object]]] = []
     if isinstance(raw_skins, list):
         for skin_index, raw_skin in enumerate(raw_skins):
             skin = _mapping(raw_skin, f"skins[{skin_index}]")
             skin_name = skin.get("name")
-            if not isinstance(skin_name, str):
-                raise ValueError(f"skins[{skin_index}].name must be a string")
-            skins.append(skin_name)
-            attachment_map = _mapping(
-                skin.get("attachments", {}), f"skins[{skin_index}].attachments"
-            )
-            for slot_name, slot_map_raw in attachment_map.items():
-                if slot_name not in {slot.name for slot in slots}:
-                    raise ValueError(f"Skin {skin_name!r} references missing slot {slot_name!r}")
-                slot_map = _mapping(slot_map_raw, f"skin {skin_name}.{slot_name}")
-                attachment_names_by_skin_slot.setdefault((skin_name, slot_name), set()).update(
-                    slot_map
+            if not isinstance(skin_name, str) or not skin_name:
+                raise ValueError(f"skins[{skin_index}].name must be a non-empty string")
+            skin_records.append(
+                (
+                    skin_name,
+                    skin,
+                    _mapping(skin.get("attachments", {}), f"skins[{skin_index}].attachments"),
                 )
-                for attachment_name, attachment_raw in slot_map.items():
-                    row = _mapping(attachment_raw, f"attachment {attachment_name}")
-                    unknown = set(row) - _ATTACHMENT_KEYS
-                    if unknown:
-                        raise ValueError(
-                            f"Unknown semantic attachment fields for {version}: "
-                            f"{', '.join(sorted(unknown))}"
-                        )
-                    kind_value = row.get("type", "region")
-                    if kind_value not in {
-                        "region",
-                        "mesh",
-                        "linkedmesh",
-                        "boundingbox",
-                        "path",
-                        "clipping",
-                        "point",
-                    }:
-                        raise ValueError(f"Unsupported attachment discriminator {kind_value!r}")
-                    vertices_raw = row.get("vertices", [])
-                    if not isinstance(vertices_raw, list):
-                        raise ValueError(
-                            f"Attachment {attachment_name!r} vertices must be an array"
-                        )
-                    vertices = tuple(_number(value, "attachment vertex") for value in vertices_raw)
-                    parent = row.get("parent", row.get("source"))
-                    path = row.get("path")
-                    if parent is not None and not isinstance(parent, str):
-                        raise ValueError("Linked mesh parent must be a string")
-                    if path is not None and not isinstance(path, str):
-                        raise ValueError("Attachment path must be a string")
-                    if kind_value == "linkedmesh":
-                        if parent is None:
-                            raise ValueError(f"Linked mesh {attachment_name!r} lacks parent")
-                        linked_parents.append((skin_name, slot_name, attachment_name, parent))
-                    uvs = row.get("uvs", [])
-                    if not isinstance(uvs, list):
-                        raise ValueError(f"Attachment {attachment_name!r} UVs must be an array")
-                    weighted = bool(
-                        kind_value == "mesh" and vertices_raw and len(vertices_raw) != len(uvs)
-                    )
-                    if weighted:
-                        _validate_weighted_vertices(vertices, len(bone_names), attachment_name)
-                    attachments.append(
-                        AttachmentDefinition(
-                            attachment_name,
-                            kind_value,
-                            path,
-                            parent,
-                            vertices,
-                            weighted,
-                        )
-                    )
+            )
+    elif isinstance(raw_skins, Mapping) and version.startswith("3."):
+        for skin_name, raw_skin in raw_skins.items():
+            if not isinstance(skin_name, str) or not skin_name:
+                raise ValueError("Legacy skin names must be non-empty strings")
+            skin_records.append((skin_name, {}, _mapping(raw_skin, f"skin {skin_name}")))
+    elif isinstance(raw_skins, Mapping) and not raw_skins:
+        skin_records = []
     elif isinstance(raw_skins, Mapping):
-        skins.extend(str(name) for name in raw_skins)
-        # Legacy object-map skins are retained as raw serialization boundary data;
-        # this version decoder currently indexes newer named-skin records only.
+        raise ValueError(f"Object-map skins are unsupported for Spine {version}")
     else:
         raise ValueError("skins must be a version-specific array or object")
-    for skin_name, slot_name, linked_name, parent_name in linked_parents:
-        if parent_name not in attachment_names_by_skin_slot.get((skin_name, slot_name), set()):
+
+    slot_names = {slot.name for slot in slots}
+    for skin_name, skin, attachment_map in skin_records:
+        skins.append(skin_name)
+        for slot_name, slot_map_raw in attachment_map.items():
+            if slot_name not in slot_names:
+                raise ValueError(f"Skin {skin_name!r} references missing slot {slot_name!r}")
+            slot_map = _mapping(slot_map_raw, f"skin {skin_name}.{slot_name}")
+            attachment_names_by_skin_slot.setdefault((skin_name, slot_name), set()).update(slot_map)
+            for attachment_name, attachment_raw in slot_map.items():
+                row = _mapping(attachment_raw, f"attachment {attachment_name}")
+                allowed_attachment_keys = _ATTACHMENT_KEYS
+                if version.startswith("3."):
+                    allowed_attachment_keys = _ATTACHMENT_KEYS - {"sequence"}
+                unknown = set(row) - allowed_attachment_keys
+                if unknown:
+                    raise ValueError(
+                        f"Unknown semantic attachment fields for {version}: "
+                        f"{', '.join(sorted(unknown))}"
+                    )
+                kind_value = row.get("type", "region")
+                if kind_value not in {
+                    "region",
+                    "mesh",
+                    "linkedmesh",
+                    "boundingbox",
+                    "path",
+                    "clipping",
+                    "point",
+                }:
+                    raise ValueError(f"Unsupported attachment discriminator {kind_value!r}")
+                attachment_kind: AttachmentKind = kind_value
+                vertices_raw = row.get("vertices", [])
+                if not isinstance(vertices_raw, list):
+                    raise ValueError(f"Attachment {attachment_name!r} vertices must be an array")
+                vertices = tuple(_number(value, "attachment vertex") for value in vertices_raw)
+                parent = row.get("parent", row.get("source"))
+                parent_skin = row.get("skin", skin_name)
+                deform = row.get("deform", row.get("inheritDeform"))
+                path = row.get("path")
+                if parent is not None and not isinstance(parent, str):
+                    raise ValueError("Linked mesh parent must be a string")
+                if not isinstance(parent_skin, str):
+                    raise ValueError("Linked mesh skin must be a string")
+                if deform is not None and not isinstance(deform, bool):
+                    raise ValueError("Linked mesh deform inheritance must be boolean")
+                if path is not None and not isinstance(path, str):
+                    raise ValueError("Attachment path must be a string")
+                if attachment_kind == "linkedmesh":
+                    if parent is None:
+                        raise ValueError(f"Linked mesh {attachment_name!r} lacks parent")
+                    linked_parents.append(
+                        (skin_name, parent_skin, slot_name, attachment_name, parent)
+                    )
+                uvs = row.get("uvs", [])
+                uvs_tuple = _number_array(uvs, f"Attachment {attachment_name!r} UVs")
+                if len(uvs_tuple) % 2:
+                    raise ValueError(f"Attachment {attachment_name!r} UV count must be even")
+                triangles_raw = row.get("triangles", [])
+                triangles = _integer_array(
+                    triangles_raw, f"Attachment {attachment_name!r} triangles"
+                )
+                if len(triangles) % 3:
+                    raise ValueError(f"Attachment {attachment_name!r} triangle count is invalid")
+                vertex_count_raw = row.get("vertexCount")
+                if vertex_count_raw is not None and (
+                    not isinstance(vertex_count_raw, int)
+                    or isinstance(vertex_count_raw, bool)
+                    or vertex_count_raw < 0
+                ):
+                    raise ValueError(f"Attachment {attachment_name!r} vertexCount is invalid")
+                vertex_count = vertex_count_raw if isinstance(vertex_count_raw, int) else None
+                influences: tuple[tuple[tuple[int, float, float, float], ...], ...] = ()
+                weighted = False
+                geometry_kind = attachment_kind in {"mesh", "boundingbox", "path", "clipping"}
+                if geometry_kind and vertices:
+                    expected_count = (
+                        vertex_count if vertex_count is not None else len(uvs_tuple) // 2
+                    )
+                    influences = _decode_vertex_stream(
+                        vertices, expected_count, len(bone_names), attachment_name
+                    )
+                    weighted = bool(influences)
+                if attachment_kind == "mesh" and len(uvs_tuple) // 2 != (
+                    vertex_count or len(uvs_tuple) // 2
+                ):
+                    raise ValueError(f"Mesh {attachment_name!r} UV and vertex counts differ")
+                if attachment_kind == "mesh" and not vertex_count and uvs_tuple and not vertices:
+                    raise ValueError(f"Mesh {attachment_name!r} lacks vertex geometry")
+                vertex_total = vertex_count or len(uvs_tuple) // 2
+                if any(index < 0 or index >= vertex_total for index in triangles):
+                    raise ValueError(f"Mesh {attachment_name!r} triangle references invalid vertex")
+                lengths = _number_array(
+                    row.get("lengths", []), f"Attachment {attachment_name!r} lengths"
+                )
+                end_slot = row.get("end")
+                if end_slot is not None and (
+                    not isinstance(end_slot, str) or end_slot not in slot_names
+                ):
+                    raise ValueError(
+                        f"Clipping attachment {attachment_name!r} has invalid end slot"
+                    )
+                values = {
+                    key: _number(row.get(key), f"Attachment {attachment_name!r}.{key}", default)
+                    for key, default in (
+                        ("x", 0.0),
+                        ("y", 0.0),
+                        ("rotation", 0.0),
+                        ("width", 0.0),
+                        ("height", 0.0),
+                    )
+                }
+                hull_raw = row.get("hull")
+                if hull_raw is not None and (
+                    not isinstance(hull_raw, int) or isinstance(hull_raw, bool) or hull_raw < 0
+                ):
+                    raise ValueError(f"Attachment {attachment_name!r} hull is invalid")
+                attachments.append(
+                    AttachmentDefinition(
+                        attachment_name,
+                        attachment_kind,
+                        path,
+                        parent,
+                        parent_skin if attachment_kind == "linkedmesh" else None,
+                        deform if attachment_kind == "linkedmesh" else None,
+                        values["x"],
+                        values["y"],
+                        values["rotation"],
+                        values["width"],
+                        values["height"],
+                        uvs_tuple,
+                        triangles,
+                        vertices,
+                        influences,
+                        hull_raw,
+                        vertex_count,
+                        lengths,
+                        end_slot,
+                        weighted,
+                    )
+                )
+    for _owner_skin, parent_skin, slot_name, linked_name, parent_name in linked_parents:
+        if parent_name not in attachment_names_by_skin_slot.get((parent_skin, slot_name), set()):
             raise ValueError(
                 f"Linked mesh {linked_name!r} references missing parent {parent_name!r} "
                 f"in slot {slot_name!r}"
@@ -453,12 +619,12 @@ def decode_semantic_skeleton(
     constraints: list[ConstraintDefinition] = []
     constraint_records: list[tuple[ConstraintKind, Mapping[str, object], str]] = []
     for category in ("ik", "path", "transform", "physics"):
-        values = document.get(category, [])
-        if values is None:
+        constraint_values: object = document.get(category, [])
+        if constraint_values is None:
             continue
-        if not isinstance(values, list):
+        if not isinstance(constraint_values, list):
             raise ValueError(f"{category} constraints must be an array")
-        for index, raw in enumerate(values):
+        for index, raw in enumerate(constraint_values):
             constraint_records.append(
                 (
                     category,
@@ -478,10 +644,10 @@ def decode_semantic_skeleton(
             )
         for index, raw in enumerate(combined):
             row = _mapping(raw, f"constraints[{index}]")
-            kind = row.get("type")
-            if kind not in _CONSTRAINT_TYPES:
-                raise ValueError(f"Unsupported constraint discriminator {kind!r}")
-            constraint_kind = cast(ConstraintKind, kind)
+            kind_value = row.get("type")
+            if kind_value not in _CONSTRAINT_TYPES:
+                raise ValueError(f"Unsupported constraint discriminator {kind_value!r}")
+            constraint_kind = cast(ConstraintKind, kind_value)
             constraint_records.append((constraint_kind, row, f"constraints[{index}]"))
 
     for kind, row, context in constraint_records:
@@ -602,8 +768,30 @@ def _collect_timelines(
             _collect_timelines(out, animation, category, child, f"{owner}/{key}".strip("/"))
 
 
-def _validate_weighted_vertices(vertices: tuple[float, ...], bone_count: int, name: str) -> None:
+def _number_array(value: object, where: str) -> tuple[float, ...]:
+    if not isinstance(value, list):
+        raise ValueError(f"{where} must be an array")
+    return tuple(_number(item, where) for item in value)
+
+
+def _integer_array(value: object, where: str) -> tuple[int, ...]:
+    if not isinstance(value, list):
+        raise ValueError(f"{where} must be an array")
+    result: list[int] = []
+    for item in value:
+        if not isinstance(item, int) or isinstance(item, bool):
+            raise ValueError(f"{where} must contain integers")
+        result.append(item)
+    return tuple(result)
+
+
+def _decode_vertex_stream(
+    vertices: tuple[float, ...], vertex_count: int, bone_count: int, name: str
+) -> tuple[tuple[tuple[int, float, float, float], ...], ...]:
+    if len(vertices) == vertex_count * 2:
+        return ()
     position = 0
+    decoded: list[tuple[tuple[int, float, float, float], ...]] = []
     while position < len(vertices):
         count = vertices[position]
         if count < 1 or not count.is_integer():
@@ -614,17 +802,23 @@ def _validate_weighted_vertices(vertices: tuple[float, ...], bone_count: int, na
         if end > len(vertices):
             raise ValueError(f"Weighted mesh {name!r} has truncated influence data")
         weight_sum = 0.0
+        influences: list[tuple[int, float, float, float]] = []
         for influence in range(total):
             offset = position + influence * 4
-            bone_index, weight = vertices[offset], vertices[offset + 3]
+            bone_index, local_x, local_y, weight = vertices[offset : offset + 4]
             if not bone_index.is_integer() or not 0 <= bone_index < bone_count:
                 raise ValueError(f"Weighted mesh {name!r} references an invalid bone index")
             if not 0 <= weight <= 1:
                 raise ValueError(f"Weighted mesh {name!r} has an invalid influence weight")
             weight_sum += weight
+            influences.append((int(bone_index), local_x, local_y, weight))
         if abs(weight_sum - 1.0) > 1e-5:
             raise ValueError(f"Weighted mesh {name!r} influence weights do not sum to one")
+        decoded.append(tuple(influences))
         position = end
+    if len(decoded) != vertex_count:
+        raise ValueError(f"Weighted mesh {name!r} vertex count does not match geometry")
+    return tuple(decoded)
 
 
 __all__ = (

@@ -268,7 +268,7 @@ def test_typed_semantic_boundary_decodes_transforms_meshes_constraints_and_curve
                             "type": "mesh",
                             "uvs": [0, 0, 1, 0],
                             "vertices": [0, 0, 1, 0],
-                            "triangles": [0, 1],
+                            "triangles": [0, 1, 0],
                             "hull": 2,
                         },
                         "weighted": {
@@ -301,6 +301,8 @@ def test_typed_semantic_boundary_decodes_transforms_meshes_constraints_and_curve
     assert semantic.slots[0].attachment == "base"
     assert {item.kind for item in semantic.attachments} == {"mesh", "linkedmesh"}
     assert next(item for item in semantic.attachments if item.name == "weighted").weighted
+    weighted = next(item for item in semantic.attachments if item.name == "weighted")
+    assert weighted.bone_influences == (((0, 0.0, 0.0, 1.0),),)
     assert semantic.constraints[0].kind == "ik"
     assert semantic.timelines[0].curves == ((0.1, 0.2, 0.8, 0.9),)
 
@@ -327,6 +329,61 @@ def test_typed_semantic_boundary_blocks_unknown_fields_and_dangling_linked_mesh(
         decode_semantic_skeleton(unknown, "4.2.43")
     with pytest.raises(ValueError, match="exact Spine version"):
         decode_semantic_skeleton(base, "4.2.44")
+
+
+def test_legacy_skin_maps_are_validated_and_linked_skin_is_resolved():
+    from fnx_spine_forge.conversion.semantic import decode_semantic_skeleton
+
+    document = {
+        "skeleton": {"spine": "3.8.75"},
+        "bones": [{"name": "root"}],
+        "slots": [{"name": "slot", "bone": "root"}],
+        "skins": {
+            "baseSkin": {
+                "slot": {
+                    "base": {
+                        "type": "mesh",
+                        "uvs": [0, 0, 1, 0, 1, 1],
+                        "vertices": [0, 0, 1, 0, 1, 1],
+                        "triangles": [0, 1, 2],
+                        "hull": 3,
+                    }
+                }
+            },
+            "linkedSkin": {
+                "slot": {
+                    "linked": {
+                        "type": "linkedmesh",
+                        "parent": "base",
+                        "skin": "baseSkin",
+                        "inheritDeform": True,
+                    }
+                }
+            },
+        },
+        "animations": {},
+    }
+    semantic = decode_semantic_skeleton(document, "3.8.75")
+    linked = next(item for item in semantic.attachments if item.name == "linked")
+    assert semantic.skins == ("baseSkin", "linkedSkin")
+    assert linked.parent_skin == "baseSkin"
+    assert linked.deform_inheritance is True
+    malformed = {
+        **document,
+        "skins": {
+            "default": {
+                "slot": {
+                    "bad": {
+                        "type": "mesh",
+                        "uvs": [0, 0, 1],
+                        "vertices": [0, 0],
+                    }
+                }
+            }
+        },
+    }
+    with pytest.raises(ValueError, match="UV count must be even"):
+        decode_semantic_skeleton(malformed, "3.8.75")
 
 
 def test_typed_semantic_boundary_blocks_unknown_constraint_fields():

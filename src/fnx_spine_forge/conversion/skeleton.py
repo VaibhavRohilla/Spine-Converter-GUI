@@ -177,11 +177,9 @@ class SkeletonConverter:
         )
         raw_animations = obj.get("animations", {})
         animations = tuple(raw_animations) if isinstance(raw_animations, dict) else ()
-        semantic: SemanticSkeleton | None = None
-        if isinstance(obj.get("skins", []), list):
-            semantic = decode_semantic_skeleton(
-                obj, version, migration_target=migration_target
-            )
+        semantic: SemanticSkeleton = decode_semantic_skeleton(
+            obj, version, migration_target=migration_target
+        )
         return CanonicalSkeleton(
             version, obj, bones, slots, _skin_names(obj.get("skins", {})), animations, semantic
         )

@@ -10,7 +10,13 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
-from .conversion import AtlasConverter, ConversionPlanner, SkeletonConverter, SourceRiskPolicy
+from .conversion import (
+    AssetSetConverter,
+    AtlasConverter,
+    ConversionPlanner,
+    SkeletonConverter,
+    SourceRiskPolicy,
+)
 from .conversion.runtime import run_spine_runtime_smoke
 from .inspection import InspectionService
 from .versions import VersionRegistry
@@ -34,6 +40,15 @@ def main(argv: list[str] | None = None) -> int:
     runtime_smoke.add_argument("--skeleton", required=True)
     runtime_smoke.add_argument("--atlas", required=True)
     runtime_smoke.add_argument("--runtime-package", required=True)
+    asset_convert = sub.add_parser(
+        "convert-asset-set",
+        help="Convert and validate a complete skeleton, atlas, and texture bundle",
+    )
+    asset_convert.add_argument("--input", required=True, help="Inspected folder or ZIP source")
+    asset_convert.add_argument("--skeleton", required=True, help="Skeleton path or bundle ID")
+    asset_convert.add_argument("--target", required=True)
+    asset_convert.add_argument("--output-dir", required=True)
+    asset_convert.add_argument("--allow-known-source-export-risk", action="store_true")
     convert = sub.add_parser("convert", help="Convert a standalone JSON skeleton or atlas")
     kinds = convert.add_subparsers(dest="kind", required=True)
     for kind in ("skeleton", "atlas"):
@@ -107,8 +122,41 @@ def main(argv: list[str] | None = None) -> int:
         )
         print(json.dumps(runtime_report, ensure_ascii=False, sort_keys=True, indent=2))
         return 0 if runtime_report.get("status") == "animation_state_evaluated" else 2
+    if args.command == "convert-asset-set":
+        outcome = AssetSetConverter().convert(
+            args.input,
+            args.skeleton,
+            args.target,
+            source_risk_policy=(
+                SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC
+                if args.allow_known_source_export_risk
+                else SourceRiskPolicy.REJECT_KNOWN_ISSUES
+            ),
+        )
+        if outcome.outputs is not None:
+            output_root = Path(args.output_dir)
+            output_root.mkdir(parents=True, exist_ok=True)
+            for name, payload in outcome.outputs.items():
+                _atomic_write(output_root / name, payload)
+        print(
+            json.dumps(
+                {
+                    "status": outcome.status.value,
+                    "source_version": outcome.source_version,
+                    "target_version": outcome.target_version,
+                    "route": outcome.route,
+                    "diagnostics": outcome.diagnostics,
+                    "details": outcome.details,
+                    "outputs": sorted(outcome.outputs) if outcome.outputs is not None else None,
+                },
+                ensure_ascii=False,
+                sort_keys=True,
+                indent=2,
+            )
+        )
+        return 0 if outcome.outputs is not None else 2
     if args.kind == "skeleton":
-        outcome = SkeletonConverter().convert(
+        skeleton_outcome = SkeletonConverter().convert(
             args.input,
             args.target,
             source_risk_policy=(
@@ -118,26 +166,26 @@ def main(argv: list[str] | None = None) -> int:
             ),
         )
         report: dict[str, Any] = {
-            "status": outcome.status.value,
-            "source_version": outcome.source_version,
-            "target_version": outcome.target_version,
-            "route": outcome.route,
-            "diagnostics": outcome.diagnostics,
-            "statistics": outcome.statistics,
-            "details": outcome.details,
-            "unsupported_features": outcome.unsupported_features,
-            "runtime_verified": outcome.runtime_verified,
-            "visually_verified": outcome.visually_verified,
-            "diagnostic_codes": outcome.diagnostic_codes,
-            "provenance": outcome.provenance,
-            "feature_compatibility": outcome.feature_compatibility,
+            "status": skeleton_outcome.status.value,
+            "source_version": skeleton_outcome.source_version,
+            "target_version": skeleton_outcome.target_version,
+            "route": skeleton_outcome.route,
+            "diagnostics": skeleton_outcome.diagnostics,
+            "statistics": skeleton_outcome.statistics,
+            "details": skeleton_outcome.details,
+            "unsupported_features": skeleton_outcome.unsupported_features,
+            "runtime_verified": skeleton_outcome.runtime_verified,
+            "visually_verified": skeleton_outcome.visually_verified,
+            "diagnostic_codes": skeleton_outcome.diagnostic_codes,
+            "provenance": skeleton_outcome.provenance,
+            "feature_compatibility": skeleton_outcome.feature_compatibility,
         }
-        if outcome.output is not None and not args.dry_run:
+        if skeleton_outcome.output is not None and not args.dry_run:
             if not args.output:
                 parser.error("convert skeleton requires --output unless --dry-run is used")
-            _atomic_write(Path(args.output), outcome.output)
+            _atomic_write(Path(args.output), skeleton_outcome.output)
         print(json.dumps(report, indent=2))
-        return 0 if outcome.output is not None else 2
+        return 0 if skeleton_outcome.output is not None else 2
     try:
         atlas_output = AtlasConverter().convert(
             args.input, args.target, source_version=args.source_version
