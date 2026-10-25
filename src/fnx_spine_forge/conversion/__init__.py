@@ -8,6 +8,10 @@ from .planner import ConversionPlanner
 from .skeleton import SkeletonConverter
 
 __all__ = [
+    "ConversionQualificationRegistry",
+    "QualificationLevel",
+    "QualificationService",
+    "SourceFeature",
     "AtlasConverter",
     "AssetSetConverter",
     "AssetSetResult",
@@ -17,3 +21,10 @@ __all__ = [
     "SkeletonConverter",
     "SourceRiskPolicy",
 ]
+
+from .qualification import (
+    ConversionQualificationRegistry,
+    QualificationLevel,
+    QualificationService,
+    SourceFeature,
+)

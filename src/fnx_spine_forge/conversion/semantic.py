@@ -757,7 +757,16 @@ def _collect_timelines(
                         _number(part, "Bézier control") for part in curve[offset : offset + 4]
                     )
                     curves.append(cast(tuple[float, float, float, float], points))
-            elif curve is not None and curve != "stepped" and not isinstance(curve, (int, float)):
+            elif isinstance(curve, (int, float)) and not isinstance(curve, bool):
+                curves.append(
+                    (
+                        _number(curve, "Bézier control"),
+                        _number(frame.get("c2", 0), "Bézier control"),
+                        _number(frame.get("c3", 1), "Bézier control"),
+                        _number(frame.get("c4", 1), "Bézier control"),
+                    )
+                )
+            elif curve is not None and curve != "stepped":
                 raise ValueError("Unsupported Bézier interpolation encoding")
         out.append(
             TimelineDefinition(animation, category, owner, "frames", len(value), tuple(curves))

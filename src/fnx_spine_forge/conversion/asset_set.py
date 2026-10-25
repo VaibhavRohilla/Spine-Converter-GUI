@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from hashlib import sha256
 from pathlib import Path
 
@@ -18,6 +18,7 @@ from .models import (
     SourceRiskPolicy,
 )
 from .planner import ConversionPlanner
+from .qualification import QualificationService, SourceFeature, inspect_features
 from .registry import KNOWN_EXPORT_ISSUE_PATCHES
 from .skeleton import SkeletonConverter
 
@@ -87,13 +88,59 @@ class AssetSetConverter:
         self,
         planner: ConversionPlanner | None = None,
         inspection: InspectionService | None = None,
+        *,
+        experimental_structural: bool = False,
     ) -> None:
+        self.experimental_structural = experimental_structural
         self.planner = planner or ConversionPlanner()
         self.inspection = inspection or InspectionService()
-        self.skeletons = SkeletonConverter(self.planner)
-        self.atlases = AtlasConverter()
+        self.skeletons = SkeletonConverter(self.planner, experimental_structural=True)
+        self.atlases = AtlasConverter(experimental_structural=True)
 
     def convert(
+        self,
+        origin: str | Path,
+        skeleton_path: str,
+        target_version: str,
+        *,
+        source_risk_policy: SourceRiskPolicy = SourceRiskPolicy.REJECT_KNOWN_ISSUES,
+    ) -> AssetSetResult:
+        result = self._convert_structural(
+            origin, skeleton_path, target_version, source_risk_policy=source_risk_policy
+        )
+        if result.outputs is None:
+            return result
+        with AssetSource(origin) as source:
+            canonical = self.skeletons.read(
+                source.read(skeleton_path), migration_target=target_version
+            )
+        q = QualificationService().evaluate(
+            canonical.version,
+            target_version,
+            result.route,
+            inspect_features(canonical.semantic, canonical.document) | {SourceFeature.ATLAS},
+            experimental_structural=self.experimental_structural,
+        )
+        details = dict(result.details or {})
+        details["qualification"] = q.to_json()
+        details["experimental_structural"] = self.experimental_structural
+        details["semantic_qualification"] = "not_end_to_end_qualified"
+        if not q.qualified and not self.experimental_structural:
+            return replace(
+                result,
+                outputs=None,
+                status=ConversionStatus.REJECTED,
+                diagnostics=q.missing_evidence,
+                details=details,
+                semantic_qualification=SemanticQualification.REJECTED,
+            )
+        return replace(
+            result,
+            details=details,
+            semantic_qualification=SemanticQualification.NOT_END_TO_END_QUALIFIED,
+        )
+
+    def _convert_structural(
         self,
         origin: str | Path,
         skeleton_path: str,
@@ -163,7 +210,7 @@ class AssetSetConverter:
                 ConversionStatus.REJECTED,
                 (str(exc),),
             )
-        plan = self.planner.plan(source_version, target_version)
+        plan = self.planner.structural_plan(source_version, target_version)
         route = plan.route
         if not plan.executable and len(route) < 3:
             return AssetSetResult(
@@ -213,6 +260,30 @@ class AssetSetConverter:
                 {"diagnostic_codes": rejected.diagnostic_codes, "provenance": rejected.provenance},
             )
 
+        if not self.experimental_structural:
+            canonical = self.skeletons.read(skeleton, migration_target=target_version)
+            q = QualificationService().evaluate(
+                source_version,
+                target_version,
+                route,
+                inspect_features(canonical.semantic, canonical.document) | {SourceFeature.ATLAS},
+            )
+            if not q.qualified:
+                return AssetSetResult(
+                    source_version,
+                    target_version,
+                    route,
+                    skeleton_path,
+                    bundle.atlases,
+                    None,
+                    ConversionStatus.REJECTED,
+                    q.missing_evidence,
+                    {
+                        "qualification": q.to_json(),
+                        "experimental_structural": False,
+                        "diagnostic_codes": tuple(q.diagnostic_codes),
+                    },
+                )
         failures: list[RouteFailure] = []
         for candidate in self.planner.candidate_routes(source_version, target_version):
             attempted = self._execute_route(
@@ -222,7 +293,9 @@ class AssetSetConverter:
                 failures.append(attempted)
                 continue
             current_skeleton, current_atlases, hop_results = (
-                attempted.skeleton, attempted.atlases, attempted.hops
+                attempted.skeleton,
+                attempted.atlases,
+                attempted.hops,
             )
             outputs = {skeleton_path: current_skeleton, **current_atlases, **texture_data}
             return AssetSetResult(
@@ -235,7 +308,7 @@ class AssetSetConverter:
                 ConversionStatus.STRUCTURALLY_VERIFIED,
                 details={
                     "per_hop": tuple(hop_results),
-                    "semantic_qualification": _route_semantic_qualification(candidate).value,
+                    "semantic_qualification": SemanticQualification.NOT_END_TO_END_QUALIFIED.value,
                     "rejected_routes": tuple(failure.to_json() for failure in failures),
                     "source_risk_warnings": (
                         ("SOURCE_EXPORT_KNOWN_BUG",)
@@ -249,10 +322,14 @@ class AssetSetConverter:
                     "textures_unchanged": True,
                     "structural_verification": "every_hop_and_asset_set",
                 },
-                semantic_qualification=_route_semantic_qualification(candidate),
+                semantic_qualification=SemanticQualification.NOT_END_TO_END_QUALIFIED,
             )
-        failed = failures[0] if failures else RouteFailure(
-            source_version, target_version, skeleton_path, "route", plan.diagnostics
+        failed = (
+            failures[0]
+            if failures
+            else RouteFailure(
+                source_version, target_version, skeleton_path, "route", plan.diagnostics
+            )
         )
         return AssetSetResult(
             source_version,
@@ -281,7 +358,9 @@ class AssetSetConverter:
             result = self._convert_hop(current_skeleton, left, right, source_risk_policy)
             if result.output is None or result.status is ConversionStatus.REJECTED:
                 return RouteFailure(
-                    left, right, skeleton_path,
+                    left,
+                    right,
+                    skeleton_path,
                     result.unsupported_features[0]
                     if result.unsupported_features
                     else "skeleton_migration",
@@ -297,28 +376,32 @@ class AssetSetConverter:
                     {skeleton_path: result.output, **next_atlases, **textures}, skeleton_path
                 )
             except (ValueError, UnicodeError, OSError) as exc:
-                asset = exc.asset if isinstance(exc, AssetSetValidationError) else next(
-                    iter(current_atlases), skeleton_path
+                asset = (
+                    exc.asset
+                    if isinstance(exc, AssetSetValidationError)
+                    else next(iter(current_atlases), skeleton_path)
                 )
                 feature = (
-                    exc.feature if isinstance(exc, AssetSetValidationError)
+                    exc.feature
+                    if isinstance(exc, AssetSetValidationError)
                     else "atlas_or_cross_file_reference"
                 )
                 codes = exc.codes if isinstance(exc, AssetSetValidationError) else ()
                 return RouteFailure(left, right, asset, feature, (str(exc),), codes)
             current_skeleton, current_atlases = result.output, next_atlases
             hop_evidence: JSONObject = {
-                    "source": left,
-                    "target": right,
-                    "skeleton": "validated",
-                    "atlases": len(next_atlases),
-                    "texture_pages": len(textures),
-                    "statistics": result.statistics,
-                    "unsupported_features": result.unsupported_features,
-                    "semantic_qualification": result.semantic_qualification.value,
-                }
+                "source": left,
+                "target": right,
+                "skeleton": "validated",
+                "atlases": len(next_atlases),
+                "texture_pages": len(textures),
+                "statistics": result.statistics,
+                "unsupported_features": result.unsupported_features,
+                "semantic_qualification": result.semantic_qualification.value,
+            }
             hop_results.append(hop_evidence)
         return RouteSuccess(current_skeleton, current_atlases, tuple(hop_results))
+
     def _convert_hop(
         self,
         source: bytes,
@@ -345,7 +428,8 @@ class AssetSetConverter:
             )
             if staged is None or staged.validation_state != "valid":
                 relevant = tuple(
-                    diagnostic for diagnostic in report.diagnostics
+                    diagnostic
+                    for diagnostic in report.diagnostics
                     if diagnostic.path == skeleton_path
                     or diagnostic.severity.value in {"error", "blocker"}
                 )
@@ -353,9 +437,7 @@ class AssetSetConverter:
                 failed = relevant[0] if relevant else None
                 asset = failed.path if failed is not None and failed.path else skeleton_path
                 feature = (
-                    "skeleton_semantics"
-                    if asset == skeleton_path
-                    else "atlas_or_texture_reference"
+                    "skeleton_semantics" if asset == skeleton_path else "atlas_or_texture_reference"
                 )
                 raise AssetSetValidationError(
                     "Staged skeleton/atlas/texture references failed B1 validation: "
@@ -364,11 +446,3 @@ class AssetSetConverter:
                     feature,
                     tuple(item.code for item in relevant),
                 )
-
-
-def _route_semantic_qualification(route: tuple[str, ...]) -> SemanticQualification:
-    if len(route) == 1:
-        return SemanticQualification.IDENTITY_ONLY
-    if len(route) == 2:
-        return SemanticQualification.RESTRICTED_CHECKS_PASSED
-    return SemanticQualification.NOT_END_TO_END_QUALIFIED

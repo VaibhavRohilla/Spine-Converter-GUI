@@ -66,6 +66,9 @@ def main(argv: list[str] | None = None) -> int:
                 action="store_true",
                 help="Allow Spine 3.8.75 conversion while recording SOURCE_EXPORT_KNOWN_BUG",
             )
+    asset_convert.add_argument("--experimental-structural", action="store_true")
+    for command_parser in kinds.choices.values():
+        command_parser.add_argument("--experimental-structural", action="store_true")
     args = parser.parse_args(argv)
     if args.command == "versions":
         print(json.dumps([v.family for v in VersionRegistry().definitions()], indent=2))
@@ -113,19 +116,20 @@ def main(argv: list[str] | None = None) -> int:
                     "executable": planned.executable,
                     "route": planned.route,
                     "diagnostics": planned.diagnostics,
+                    "qualification": planned.qualification.to_json()
+                    if planned.qualification
+                    else None,
                 },
                 indent=2,
             )
         )
         return 0 if planned.executable else 2
     if args.command == "runtime-smoke":
-        runtime_report = run_spine_runtime_smoke(
-            args.skeleton, args.atlas, args.runtime_package
-        )
+        runtime_report = run_spine_runtime_smoke(args.skeleton, args.atlas, args.runtime_package)
         print(json.dumps(runtime_report, ensure_ascii=False, sort_keys=True, indent=2))
         return 0 if runtime_report.get("status") == "animation_state_evaluated" else 2
     if args.command == "convert-asset-set":
-        outcome = AssetSetConverter().convert(
+        outcome = AssetSetConverter(experimental_structural=args.experimental_structural).convert(
             args.input,
             args.skeleton,
             args.target,
@@ -156,7 +160,9 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 0 if outcome.outputs is not None else 2
     if args.kind == "skeleton":
-        skeleton_outcome = SkeletonConverter().convert(
+        skeleton_outcome = SkeletonConverter(
+            experimental_structural=args.experimental_structural
+        ).convert(
             args.input,
             args.target,
             source_risk_policy=(
@@ -188,7 +194,7 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(report, indent=2))
         return 0 if skeleton_outcome.output is not None else 2
     try:
-        atlas_output = AtlasConverter().convert(
+        atlas_output = AtlasConverter(experimental_structural=args.experimental_structural).convert(
             args.input, args.target, source_version=args.source_version
         )
         atlas_model = AtlasConverter().read(atlas_output)
@@ -196,6 +202,10 @@ def main(argv: list[str] | None = None) -> int:
             "status": "structurally_verified",
             "source_version": args.source_version,
             "target_version": args.target,
+            "qualification": AtlasConverter()
+            .qualification(args.source_version or "", args.target)
+            .to_json(),
+            "experimental_structural": args.experimental_structural,
             "pages": len(atlas_model.pages),
             "regions": len(atlas_model.regions),
             "structural_verification": "passed",
@@ -206,7 +216,13 @@ def main(argv: list[str] | None = None) -> int:
                 parser.error("convert atlas requires --output unless --dry-run is used")
             _atomic_write(Path(args.output), atlas_output)
     except (OSError, ValueError, UnicodeError) as exc:
-        report = {"status": "rejected", "diagnostics": [str(exc)]}
+        report = {
+            "status": "rejected",
+            "diagnostics": [str(exc)],
+            "qualification": AtlasConverter()
+            .qualification(args.source_version or "", args.target)
+            .to_json(),
+        }
         print(json.dumps(report, indent=2))
         return 2
     print(json.dumps(report, indent=2))

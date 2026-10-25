@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 from collections.abc import Callable
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 
 from .models import ConversionResult, ConversionStatus, SemanticQualification
 from .planner import ConversionPlanner
+from .qualification import QualificationService, inspect_features
+from .registry import KNOWN_EXPORT_ISSUE_PATCHES
 
 
 @dataclass(frozen=True, slots=True)
@@ -32,14 +34,100 @@ class MigrationExecutor:
         self,
         planner: ConversionPlanner,
         convert_direct: Callable[[bytes, str], ConversionResult],
+        *,
+        experimental_structural: bool = False,
     ) -> None:
+        self.experimental_structural = experimental_structural
         self._planner = planner
         self._convert_direct = convert_direct
 
     def execute(self, source: bytes, source_version: str, target_version: str) -> ConversionResult:
+        from .skeleton import SkeletonConverter
+
+        if not self.experimental_structural:
+            try:
+                canonical = SkeletonConverter().read(source, migration_target=target_version)
+            except (ValueError, UnicodeError) as exc:
+                return ConversionResult(
+                    source_version, target_version, (), None, ConversionStatus.REJECTED, (str(exc),)
+                )
+            if canonical.version != source_version:
+                return ConversionResult(
+                    source_version,
+                    target_version,
+                    (),
+                    None,
+                    ConversionStatus.REJECTED,
+                    ("Declared source version does not match input",),
+                    diagnostic_codes=("QUALIFICATION_PATH_INVALID",),
+                )
+            if source_version in KNOWN_EXPORT_ISSUE_PATCHES:
+                return ConversionResult(
+                    source_version,
+                    target_version,
+                    (),
+                    None,
+                    ConversionStatus.REJECTED,
+                    ("Known source export risk requires explicit policy",),
+                    diagnostic_codes=("SOURCE_EXPORT_KNOWN_BUG",),
+                )
+            path = self._planner.structural_plan(source_version, target_version).route
+            q = QualificationService().evaluate(
+                source_version,
+                target_version,
+                path,
+                inspect_features(canonical.semantic, canonical.document),
+            )
+            if not q.qualified:
+                return ConversionResult(
+                    source_version,
+                    target_version,
+                    path,
+                    None,
+                    ConversionStatus.REJECTED,
+                    q.missing_evidence,
+                    details={"qualification": q.to_json(), "experimental_structural": False},
+                    diagnostic_codes=tuple(q.diagnostic_codes),
+                )
+        result = self._execute_structural(source, source_version, target_version)
+        if result.output is None:
+            return result
+        canonical = SkeletonConverter().read(source, migration_target=target_version)
+        q = QualificationService().evaluate(
+            source_version,
+            target_version,
+            result.route,
+            inspect_features(canonical.semantic, canonical.document),
+            experimental_structural=self.experimental_structural,
+        )
+        details = dict(result.details or {})
+        details["qualification"] = q.to_json()
+        details["experimental_structural"] = self.experimental_structural
+        if not q.qualified and not self.experimental_structural:
+            return replace(
+                result,
+                output=None,
+                status=ConversionStatus.REJECTED,
+                diagnostics=q.missing_evidence,
+                diagnostic_codes=tuple(q.diagnostic_codes),
+                details=details,
+            )
+        return replace(
+            result,
+            details=details,
+            semantic_qualification=(
+                SemanticQualification.RESTRICTED_CHECKS_PASSED
+                if q.qualified
+                else SemanticQualification.NOT_END_TO_END_QUALIFIED
+            ),
+        )
+
+    def _execute_structural(
+        self, source: bytes, source_version: str, target_version: str
+    ) -> ConversionResult:
         candidates = self._planner.candidate_routes(source_version, target_version)
         if not candidates:
-            planned = self._planner.plan(source_version, target_version)
+            planned = self._planner.structural_plan(source_version, target_version)
             return ConversionResult(
                 source_version,
                 target_version,

@@ -6,6 +6,7 @@ from collections import deque
 from dataclasses import dataclass
 
 from ..versions import VersionRegistry
+from .qualification import QualificationResult, QualificationService, SourceFeature
 from .registry import EXACT_ROUTE_PAIRS
 
 
@@ -16,6 +17,7 @@ class ConversionPlan:
     route: tuple[str, ...]
     executable: bool
     diagnostics: tuple[str, ...]
+    qualification: QualificationResult | None = None
 
 
 class ConversionPlanner:
@@ -25,7 +27,22 @@ class ConversionPlanner:
         self._routes = EXACT_ROUTE_PAIRS if routes is None else frozenset(routes)
         self._versions = VersionRegistry()
 
-    def plan(self, source_version: str, target_version: str) -> ConversionPlan:
+    def plan(
+        self,
+        source_version: str,
+        target_version: str,
+        *,
+        source_features: frozenset[SourceFeature] = frozenset({SourceFeature.UNKNOWN}),
+    ) -> ConversionPlan:
+        structural = self.structural_plan(source_version, target_version)
+        q = QualificationService().evaluate(
+            source_version, target_version, structural.route, source_features
+        )
+        return ConversionPlan(
+            source_version, target_version, structural.route, q.qualified, q.missing_evidence, q
+        )
+
+    def structural_plan(self, source_version: str, target_version: str) -> ConversionPlan:
         source_family = self._versions.family_for(source_version)
         target_family = self._versions.family_for(target_version)
         if source_family is None or target_family is None:

@@ -1200,3 +1200,123 @@ remain explicit open production-hardening work. This worktree does not meet the
 user's all-strongly-typed 10/10 criterion.
 
 Follow-up commit: `320303d354169bb986001867f1e690af04ed96ac`. Working tree was clean after commit.
+
+## B2-RC1 central qualification contract — 2026-10-26
+
+This section supersedes earlier RC1 qualification and freeze decisions. The
+actual clean starting HEAD was `2fd28912c12f4e3b5dc8dc18d531928b336b1566`,
+ahead of the supplied `5450e0128e1636572842c9828b7263d990df7ed7` baseline.
+Existing migrations and their structural/semantic regression assertions remain.
+Legacy conversion tests now explicitly request experimental structural execution;
+the old direct-route `restricted_checks_passed` expectations for the authentic
+bundle were replaced by the stronger `not_end_to_end_qualified` boundary.
+
+### Contract and policy
+
+`conversion/qualification.py` owns schema version 1: immutable exact-source,
+exact-target, complete-path records, feature inventories, fixture identities and
+provenance, structural/semantic/numerical evidence, and separate runtime/visual
+flags. `ConversionQualificationRegistry.records()` inventories every bounded
+candidate path advertised by the existing planner: **288 paths / 64 reachable
+ordered pairs**, including the risk-gated 3.8.75 source. These counts describe
+reachability, not qualification. Qualification is never inherited from edges.
+The seven semantic records use a fixed evidence path inventory independent of
+future graph changes. Other paths receive explicit unqualified records.
+
+`QualificationService.evaluate()` returns the selected path, required/available
+level, qualified/unqualified source features, missing evidence and typed codes.
+Engineering levels do not imply runtime or visual verification. Source-feature
+inspection uses validated `SemanticSkeleton` records, conservatively identifies
+unknown extensions, and blocks unverified combinations. Numeric legacy Bézier
+controls are now retained in typed timeline records for feature detection.
+
+`ConversionPlanner.plan()` requires source features and evidence to report
+qualified executability; omitted features default to unknown. Its explicitly
+named `structural_plan()` retains graph planning without a qualification claim.
+Skeleton, executor, asset-set, standalone atlas, and CLI conversion gates share
+the qualification service. `AtlasConverter.qualification()` exposes the same
+result while preserving its existing bytes-returning conversion API. These
+headless typed contracts are available to future desktop UI consumers.
+
+Default conversion rejects absent semantic qualification and publishes no
+output. `experimental_structural=True` in Python or `--experimental-structural`
+in the CLI explicitly enables structural attempts; reports retain qualification
+failure, separate structural status, and an experimental flag. Asset sets remain
+transactional and CLI directory publication remains atomic. The 3.8.75 source
+risk policy is independent: experimental mode does not replace its required
+explicit risk allowance. Schema parsing never grants semantic qualification.
+
+### Exact RC1 qualification matrix
+
+| Exact source | Exact target / complete path | Engineering qualification | Qualified feature subset / evidence |
+|---|---|---|---|
+| 3.8.99 | Direct to 3.5.51 | SEMANTIC_QUALIFIED, restricted | Hierarchy and setup transforms only |
+| 3.8.99 | Direct to 3.6.53 | SEMANTIC_QUALIFIED, restricted | Hierarchy and setup transforms only |
+| 3.8.99 | Direct to 3.7.94 | SEMANTIC_QUALIFIED, restricted | Hierarchy and setup transforms only |
+| 3.8.99 | Direct to 4.0.31 | SEMANTIC_QUALIFIED, restricted | Hierarchy and setup transforms only |
+| 3.8.99 | Direct to 4.1.56 | SEMANTIC_QUALIFIED, restricted | Hierarchy and setup transforms only |
+| 3.8.99 | Direct to 4.2.43 | SEMANTIC_QUALIFIED, restricted | Hierarchy and setup transforms only |
+| 3.8.99 | Direct to 4.3.13 | SEMANTIC_QUALIFIED, restricted | Hierarchy and setup transforms only |
+| 3.8.75 | Direct to 4.2.43 | STRUCTURAL_ONLY; default rejected | Authentic bundle structural evidence; no qualified semantic features |
+| Every other advertised exact path | Including every composed path | NOT_QUALIFIED | Experimental structural execution only |
+| Exact-version identity | No migration qualification | NOT_QUALIFIED | Explicit experimental serialization only |
+
+The seven records cite `tests/fixtures/b2_semantic/spine_3_8_99.json`, a
+schema-derived **synthetic** fixture, and
+`test_38_99_feature_fixture_direct_route_semantic_evaluation`, which compares
+endpoint bone names, parent hierarchy and serialized setup transforms. Exact
+serialized setup-value equality is numerical evidence for these static records;
+it is not world-space playback evidence. New RC1 tests derive a hierarchy-only
+subset from that fixture and compare returned setup records on all seven routes.
+Non-default inheritance modes remain unqualified.
+
+The authentic structural record cites `tests/fixtures/spine38/golden_ingot.json`
+and the executed bundle checks in this report. Its known 3.8.75 export risk is
+not removed by risk allowance or structural success.
+
+Skins/attachments, mesh geometry, weights, linked meshes, auxiliary attachment
+geometry, deform, all animation categories (rotation/translation/scale/shear,
+slot color/selection, events/draw order, Bézier channels), constraints and atlas
+geometry remain **unverified for qualified RC1 execution**, even where individual
+schema transforms or other restricted tests exist. Unknown semantics are
+unsupported. Any source containing these categories rejects qualified conversion.
+In particular, full static skins and authentic textured bundles do not qualify.
+Earlier composed numerical tests remain useful regression evidence but are not
+promoted to a composed qualification record: they do not establish a sufficient
+joint feature contract. No composed semantic route is advertised as qualified.
+
+**Runtime verification: false for all records. Visual verification: false for
+all records.** No authentic 3.8.99 editor export, exact licensed runtime evidence,
+weighted world-vertex/deform playback evidence, or visual equivalence was added.
+
+### Executed final verification
+
+- Full pytest suite: **166 passed**, including qualification rejection,
+  deterministic results, direct qualified subsets, unqualified composition,
+  unknown/advanced features, source-risk policy, executor admission before hop
+  callbacks, CLI/Python consistency, asset-set enforcement and source immutability.
+- Ruff: passed. Strict mypy: passed, **40 source files**.
+- Wheel and sdist: built successfully.
+- Wheel installed without dependencies into a fresh temporary virtual environment.
+- Installed CLI: qualified hierarchy subset converted; default known-risk bundle
+  rejected; risk-allowed but unqualified bundle rejected without publication.
+- Installed CLI with both explicit experimental and source-risk allowances:
+  authentic 3.8.75 → 4.2.43 bundle converted; B1 output inspection passed with no
+  diagnostics; all source file hashes stayed identical and PNG bytes matched.
+- Existing rollback, texture identity, deterministic conversion, malformed-hop,
+  complete-bundle and atomic publication tests continue to pass.
+- No runtime or visual checks were claimed or promoted from structural evidence.
+
+### Release decision
+
+**B2-RC1 CLOSED / FROZEN AS A RESTRICTED ENGINEERING RELEASE**, contingent on
+the final verified commit and clean status recorded below. The meaningful
+qualified capability is hierarchy/setup-only JSON migration on the seven exact
+direct paths. Full asset-set migration remains explicitly experimental. This
+closes the central enforceable qualification-contract blocker; it does not claim
+universal feature support, complete 56-pair semantic coverage, runtime
+certification, or visual equivalence. No B3–B5 work was started.
+
+The implementation commit is the Git commit containing this section; its actual
+SHA and clean post-commit status are recorded in the release response. The report
+cannot embed its own containing commit hash without changing that hash.

@@ -39,7 +39,7 @@ def test_feature_fixture_composed_route_semantic_and_numerical_evidence(
         source_doc = restricted_fixture(source_version, target_version)
     source_bytes = json.dumps(source_doc, separators=(",", ":")).encode()
     before = source_bytes[:]
-    result = SkeletonConverter().convert(source_bytes, target_version)
+    result = SkeletonConverter(experimental_structural=True).convert(source_bytes, target_version)
     assert result.output is not None, result.diagnostics
     assert result.status is ConversionStatus.STRUCTURALLY_VERIFIED
     assert result.route[0] == source_version and result.route[-1] == target_version
@@ -347,7 +347,9 @@ def test_38_99_feature_fixture_direct_route_semantic_evaluation(target_version: 
     source = json.loads(
         (Path(__file__).parent / "fixtures" / "b2_semantic" / "spine_3_8_99.json").read_text()
     )
-    result = SkeletonConverter().convert(json.dumps(source).encode(), target_version)
+    result = SkeletonConverter(experimental_structural=True).convert(
+        json.dumps(source).encode(), target_version
+    )
     assert result.output is not None, result.diagnostics
     assert len(result.route) == 2
     left, right = semantic_view(source), semantic_view(json.loads(result.output))
@@ -381,7 +383,9 @@ def test_unsupported_feature_stays_rejected_on_required_downgrade() -> None:
             "mixRotate": 0.5,
         }
     ]
-    result = SkeletonConverter().convert(json.dumps(source).encode(), "3.8.99")
+    result = SkeletonConverter(experimental_structural=True).convert(
+        json.dumps(source).encode(), "3.8.99"
+    )
     assert result.status is ConversionStatus.REJECTED
     assert result.output is None
     assert result.details.get("failed_hop") is not None
@@ -424,7 +428,7 @@ def test_composed_asset_set_returns_reinspected_bundle_and_preserves_source(
         "repeat: none\nbadge\n" + geometry + "  index: -1\n"
     )
     before = {path.name: path.read_bytes() for path in tmp_path.iterdir()}
-    converter = AssetSetConverter()
+    converter = AssetSetConverter(experimental_structural=True)
     result = converter.convert(tmp_path, "asset.json", target_version)
     assert result.status is ConversionStatus.STRUCTURALLY_VERIFIED, result.diagnostics
     assert result.outputs is not None

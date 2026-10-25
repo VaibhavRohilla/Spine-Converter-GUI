@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 from collections import Counter
 from collections.abc import Mapping
+from dataclasses import replace
 from pathlib import Path
 
 from ..detection import skeleton_version
@@ -38,6 +39,7 @@ from .models import (
     SourceRiskPolicy,
 )
 from .planner import ConversionPlanner
+from .qualification import QualificationService, inspect_features
 from .registry import KNOWN_EXPORT_ISSUE_PATCHES, ROUTES_BY_PATCH, MigrationKind
 from .semantic import SemanticSkeleton, decode_semantic_skeleton
 
@@ -156,7 +158,10 @@ def _run_direct_migration(
 class SkeletonConverter:
     """Read/serialize JSON skeletons without claiming unimplemented migrations."""
 
-    def __init__(self, planner: ConversionPlanner | None = None) -> None:
+    def __init__(
+        self, planner: ConversionPlanner | None = None, *, experimental_structural: bool = False
+    ) -> None:
+        self.experimental_structural = experimental_structural
         self.planner = planner if planner is not None else ConversionPlanner()
         self.versions = VersionRegistry()
 
@@ -197,13 +202,87 @@ class SkeletonConverter:
         *,
         source_risk_policy: SourceRiskPolicy = SourceRiskPolicy.REJECT_KNOWN_ISSUES,
     ) -> ConversionResult:
+        if not self.experimental_structural:
+            try:
+                canonical = self.read(source, migration_target=target_version)
+            except (OSError, ValueError, UnicodeError):
+                canonical = None
+            if canonical is not None and not (
+                canonical.version in KNOWN_EXPORT_ISSUE_PATCHES
+                and source_risk_policy is SourceRiskPolicy.REJECT_KNOWN_ISSUES
+            ):
+                path = self.planner.structural_plan(canonical.version, target_version).route
+                q = QualificationService().evaluate(
+                    canonical.version,
+                    target_version,
+                    path,
+                    inspect_features(canonical.semantic, canonical.document),
+                )
+                if not q.qualified:
+                    return ConversionResult(
+                        canonical.version,
+                        target_version,
+                        path,
+                        None,
+                        ConversionStatus.REJECTED,
+                        q.missing_evidence,
+                        details={"qualification": q.to_json(), "experimental_structural": False},
+                        diagnostic_codes=tuple(q.diagnostic_codes),
+                    )
+        result = self._convert_structural(
+            source, target_version, source_risk_policy=source_risk_policy
+        )
+        if result.output is None:
+            return result
+        canonical = self.read(source, migration_target=target_version)
+        qualification = QualificationService().evaluate(
+            canonical.version,
+            target_version,
+            result.route,
+            inspect_features(canonical.semantic, canonical.document),
+            experimental_structural=self.experimental_structural,
+        )
+        details = dict(result.details or {})
+        details["qualification"] = qualification.to_json()
+        details["experimental_structural"] = self.experimental_structural
+        if not qualification.qualified and not self.experimental_structural:
+            return replace(
+                result,
+                output=None,
+                status=ConversionStatus.REJECTED,
+                diagnostics=qualification.missing_evidence,
+                diagnostic_codes=tuple(qualification.diagnostic_codes),
+                details=details,
+                semantic_qualification=SemanticQualification.REJECTED,
+            )
+        return replace(
+            result,
+            details=details,
+            semantic_qualification=(
+                SemanticQualification.RESTRICTED_CHECKS_PASSED
+                if qualification.qualified
+                else (
+                    SemanticQualification.IDENTITY_ONLY
+                    if canonical.version == target_version
+                    else SemanticQualification.NOT_END_TO_END_QUALIFIED
+                )
+            ),
+        )
+
+    def _convert_structural(
+        self,
+        source: bytes | str | Path,
+        target_version: str,
+        *,
+        source_risk_policy: SourceRiskPolicy = SourceRiskPolicy.REJECT_KNOWN_ISSUES,
+    ) -> ConversionResult:
         try:
             canonical = self.read(source, migration_target=target_version)
         except (OSError, ValueError, UnicodeError, json.JSONDecodeError) as exc:
             return ConversionResult(
                 None, target_version, (), None, ConversionStatus.REJECTED, (str(exc),)
             )
-        plan = self.planner.plan(canonical.version, target_version)
+        plan = self.planner.structural_plan(canonical.version, target_version)
         if not plan.executable and len(plan.route) <= 2:
             return ConversionResult(
                 canonical.version,
@@ -233,12 +312,13 @@ class SkeletonConverter:
             payload = source if isinstance(source, bytes) else Path(source).read_bytes()
             executor = MigrationExecutor(
                 self.planner,
-                lambda current, next_version: self.convert(
+                lambda current, next_version: self._convert_structural(
                     current,
                     next_version,
                     source_risk_policy=SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC,
                 ),
             )
+            executor.experimental_structural = True
             return executor.execute(payload, canonical.version, target_version)
         route_spec = ROUTES_BY_PATCH.get((canonical.version, target_version))
         if route_spec is not None and route_spec.kind not in {

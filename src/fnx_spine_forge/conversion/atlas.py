@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from ..parsers import AtlasInfo, AtlasPage, AtlasRegion, parse_atlas
+from .qualification import QualificationResult, QualificationService, SourceFeature
 from .registry import (
     ATLAS_40_SCHEMA_PATCHES,
     ATLAS_41_PATCHES,
@@ -27,6 +28,17 @@ class CanonicalAtlas:
 
 class AtlasConverter:
     """Semantically round-trip atlas text; texture payloads are never touched."""
+
+    def __init__(self, *, experimental_structural: bool = False) -> None:
+        self.experimental_structural = experimental_structural
+
+    def qualification(self, source_version: str, target_version: str) -> QualificationResult:
+        return QualificationService().evaluate(
+            source_version,
+            target_version,
+            (source_version, target_version),
+            frozenset({SourceFeature.ATLAS}),
+        )
 
     def read(self, source: bytes | str | Path) -> CanonicalAtlas:
         payload = source if isinstance(source, bytes) else Path(source).read_bytes()
@@ -52,6 +64,13 @@ class AtlasConverter:
         *,
         source_version: str | None = None,
     ) -> bytes:
+        if target_version is not None and not self.experimental_structural:
+            q = self.qualification(source_version or "", target_version)
+            if not q.qualified:
+                raise ValueError(
+                    "QUALIFICATION_EVIDENCE_MISSING: atlas end-to-end evidence absent; "
+                    "explicit experimental structural opt-in required"
+                )
         model = self.read(source)
         if target_version is not None:
             if (source_version, target_version) not in EXACT_ROUTE_PAIRS:
@@ -107,9 +126,7 @@ class AtlasConverter:
                     if len(bounds) != 4 or len(offsets) != 4:
                         raise ValueError(f"Invalid Spine 4.2 region geometry for {region.name!r}")
                     if rotation not in {0, 90}:
-                        raise ValueError(
-                            f"Spine 4.1 cannot represent {rotation}-degree rotation"
-                        )
+                        raise ValueError(f"Spine 4.1 cannot represent {rotation}-degree rotation")
                     retained = [
                         (key, value)
                         for key, value in attributes
@@ -236,9 +253,7 @@ class AtlasConverter:
                     raise ValueError(
                         f"Atlas semantic equivalence failed for region {region.name!r}"
                     )
-        elif target_version in {
-            "3.5.51", "3.6.53", "3.7.94", "3.8.99", "4.0.31", "4.1.56"
-        }:
+        elif target_version in {"3.5.51", "3.6.53", "3.7.94", "3.8.99", "4.0.31", "4.1.56"}:
             if reparsed.page_records != model.pages or reparsed.region_records != model.regions:
                 raise ValueError("Spine 4.1 atlas serialization changed source atlas semantics")
         return output
