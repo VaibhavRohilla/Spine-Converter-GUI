@@ -30,7 +30,13 @@ from .migrate_41_to_42 import migrate_41_to_42
 from .migrate_42_to_41 import migrate_42_to_41
 from .migrate_42_to_43 import migrate_42_to_43
 from .migrate_43_to_42 import migrate_43_to_42
-from .models import CanonicalSkeleton, ConversionResult, ConversionStatus, SourceRiskPolicy
+from .models import (
+    CanonicalSkeleton,
+    ConversionResult,
+    ConversionStatus,
+    SemanticQualification,
+    SourceRiskPolicy,
+)
 from .planner import ConversionPlanner
 from .registry import KNOWN_EXPORT_ISSUE_PATCHES, ROUTES_BY_PATCH, MigrationKind
 from .semantic import SemanticSkeleton, decode_semantic_skeleton
@@ -449,6 +455,7 @@ class SkeletonConverter:
                     "feature_compatibility": compatibility.copy(),
                 },
                 feature_compatibility=compatibility,
+                semantic_qualification=SemanticQualification.RESTRICTED_CHECKS_PASSED,
             )
         if route_spec is not None and route_spec.kind is MigrationKind.SPINE_38_TO_LEGACY:
             try:
@@ -551,6 +558,7 @@ class SkeletonConverter:
                     "source_fidelity": "unverified_without_trusted_baseline",
                 },
                 feature_compatibility=feature_compatibility,
+                semantic_qualification=SemanticQualification.RESTRICTED_CHECKS_PASSED,
             )
         if route_spec is not None and route_spec.kind is MigrationKind.SPINE_38_TO_MODERN:
             try:
@@ -675,6 +683,7 @@ class SkeletonConverter:
                     else {"declared_source_version": canonical.version}
                 ),
                 feature_compatibility=feature_compatibility,
+                semantic_qualification=SemanticQualification.RESTRICTED_CHECKS_PASSED,
             )
         # Same-family serialization is only accepted for an exact exporter version.
         if canonical.version != target_version:
@@ -713,4 +722,5 @@ class SkeletonConverter:
             ConversionStatus.STRUCTURALLY_VERIFIED,
             (),
             stats,
+            semantic_qualification=SemanticQualification.IDENTITY_ONLY,
         )

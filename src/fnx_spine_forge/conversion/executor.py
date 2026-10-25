@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections.abc import Callable
 from dataclasses import dataclass
 
-from .models import ConversionResult, ConversionStatus
+from .models import ConversionResult, ConversionStatus, SemanticQualification
 from .planner import ConversionPlanner
 
 
@@ -103,6 +103,7 @@ class MigrationExecutor:
                 diagnostics=tuple(
                     diagnostic for hop in hop_evidence for diagnostic in hop.diagnostics
                 ),
+                semantic_qualification=SemanticQualification.NOT_END_TO_END_QUALIFIED,
             )
 
         best_evidence = evidence_by_route[0] if evidence_by_route else ()
@@ -140,4 +141,5 @@ class MigrationExecutor:
                     for hop in best_evidence
                 ],
             },
+            semantic_qualification=SemanticQualification.REJECTED,
         )

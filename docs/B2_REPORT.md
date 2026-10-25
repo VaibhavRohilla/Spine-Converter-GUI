@@ -1149,3 +1149,54 @@ is claimed.
 
 This checkpoint is not a B2 freeze. Its actual commit SHA is recorded after
 the commit below.
+
+## Engineering hardening follow-up — 2026-10-26
+
+A typed `SemanticQualification` result now separates `identity_only`,
+`restricted_checks_passed`, `not_end_to_end_qualified`, `rejected`, and
+`not_assessed`. Skeleton and asset-set CLI output exposes that state directly;
+composed execution stays structurally verified while explicitly marked
+`not_end_to_end_qualified`. Tests cover the direct restricted result and
+composed-route boundary. This supersedes the preceding blocker specifically
+about the absence of a machine-readable semantic qualification state.
+
+Verification after the follow-up: Ruff passed, strict mypy passed (39 source
+files), and pytest passed (**148 tests**). The earlier wheel/sdist and installed
+CLI evidence still applies to the preceding checkpoint, but was not rerun after
+this follow-up.
+
+The full “10/10, no weak typing” objective remains **OPEN**. Fourteen source
+modules still use `Any` in dynamic JSON transformation or inspection helpers.
+A mechanical substitution with the recursive JSON union produced 685 strict
+mypy errors because transformations need schema-aware mutable record/list
+narrowing at each version boundary; that experiment was reverted. A proper
+remediation needs version-specific validated mutable document contracts and
+incremental migration of each writer, with semantic regression evidence at each
+boundary. No unchecked broad cast substitution was retained.
+
+No deprecated, unreferenced migration module was found: the historical
+translators remain active in the exact route registry and are referenced by
+route tests. Deleting them without retiring their registered routes would
+silently break supported product behavior. They are not compatibility
+forwarders or duplicate implementations. Their continued presence means the
+request to eliminate all historical conversion behavior has not been met; that
+would require an explicit product support-matrix cut and removal of the
+corresponding routes/tests. No such routes were silently removed in this
+follow-up.
+
+This is a development hardening checkpoint, not a 10/10 or production
+certification claim. Runtime and visual qualification remain separate and
+unverified.
+
+Follow-up release checks for the typed qualification API: pytest **148 passed**,
+Ruff passed, strict mypy passed (39 files), and wheel/sdist build passed. The
+installed asset-set CLI reported `restricted_checks_passed` for the exact
+3.8.75 → 4.2.43 fixture conversion; installed B1 inspection found one valid
+output bundle with no errors, and source bytes remained unchanged.
+
+The current typing audit finds `Any` in 15 Python source modules, concentrated
+in version-specific migration writers and parser/model JSON helpers. These
+remain explicit open production-hardening work. This worktree does not meet the
+user's all-strongly-typed 10/10 criterion.
+
+Follow-up commit: `320303d354169bb986001867f1e690af04ed96ac`. Working tree was clean after commit.

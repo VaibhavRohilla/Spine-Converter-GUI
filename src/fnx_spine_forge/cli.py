@@ -141,6 +141,7 @@ def main(argv: list[str] | None = None) -> int:
             json.dumps(
                 {
                     "status": outcome.status.value,
+                    "semantic_qualification": outcome.semantic_qualification.value,
                     "source_version": outcome.source_version,
                     "target_version": outcome.target_version,
                     "route": outcome.route,
@@ -166,6 +167,7 @@ def main(argv: list[str] | None = None) -> int:
         )
         report: dict[str, JSONValue] = {
             "status": skeleton_outcome.status.value,
+            "semantic_qualification": skeleton_outcome.semantic_qualification.value,
             "source_version": skeleton_outcome.source_version,
             "target_version": skeleton_outcome.target_version,
             "route": skeleton_outcome.route,

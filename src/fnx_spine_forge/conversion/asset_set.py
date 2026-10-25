@@ -11,7 +11,12 @@ from ..inspection import InspectionService
 from ..source import AssetSource
 from .atlas import AtlasConverter
 from .json_types import JSONObject
-from .models import ConversionResult, ConversionStatus, SourceRiskPolicy
+from .models import (
+    ConversionResult,
+    ConversionStatus,
+    SemanticQualification,
+    SourceRiskPolicy,
+)
 from .planner import ConversionPlanner
 from .registry import KNOWN_EXPORT_ISSUE_PATCHES
 from .skeleton import SkeletonConverter
@@ -30,6 +35,14 @@ class AssetSetResult:
     status: ConversionStatus
     diagnostics: tuple[str, ...] = ()
     details: JSONObject | None = None
+    semantic_qualification: SemanticQualification = SemanticQualification.NOT_ASSESSED
+
+    def __post_init__(self) -> None:
+        if (
+            self.status is ConversionStatus.REJECTED
+            and self.semantic_qualification is SemanticQualification.NOT_ASSESSED
+        ):
+            object.__setattr__(self, "semantic_qualification", SemanticQualification.REJECTED)
 
 
 class AssetSetValidationError(ValueError):
@@ -222,6 +235,7 @@ class AssetSetConverter:
                 ConversionStatus.STRUCTURALLY_VERIFIED,
                 details={
                     "per_hop": tuple(hop_results),
+                    "semantic_qualification": _route_semantic_qualification(candidate).value,
                     "rejected_routes": tuple(failure.to_json() for failure in failures),
                     "source_risk_warnings": (
                         ("SOURCE_EXPORT_KNOWN_BUG",)
@@ -235,6 +249,7 @@ class AssetSetConverter:
                     "textures_unchanged": True,
                     "structural_verification": "every_hop_and_asset_set",
                 },
+                semantic_qualification=_route_semantic_qualification(candidate),
             )
         failed = failures[0] if failures else RouteFailure(
             source_version, target_version, skeleton_path, "route", plan.diagnostics
@@ -300,10 +315,10 @@ class AssetSetConverter:
                     "texture_pages": len(textures),
                     "statistics": result.statistics,
                     "unsupported_features": result.unsupported_features,
+                    "semantic_qualification": result.semantic_qualification.value,
                 }
             hop_results.append(hop_evidence)
         return RouteSuccess(current_skeleton, current_atlases, tuple(hop_results))
-
     def _convert_hop(
         self,
         source: bytes,
@@ -349,3 +364,11 @@ class AssetSetConverter:
                     feature,
                     tuple(item.code for item in relevant),
                 )
+
+
+def _route_semantic_qualification(route: tuple[str, ...]) -> SemanticQualification:
+    if len(route) == 1:
+        return SemanticQualification.IDENTITY_ONLY
+    if len(route) == 2:
+        return SemanticQualification.RESTRICTED_CHECKS_PASSED
+    return SemanticQualification.NOT_END_TO_END_QUALIFIED

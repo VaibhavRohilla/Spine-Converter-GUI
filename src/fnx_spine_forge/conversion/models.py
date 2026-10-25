@@ -23,6 +23,16 @@ class SourceRiskPolicy(StrEnum):
     ALLOW_WITH_DIAGNOSTIC = "allow_with_diagnostic"
 
 
+class SemanticQualification(StrEnum):
+    """Machine-readable boundary between feature checks and route qualification."""
+
+    NOT_ASSESSED = "not_assessed"
+    RESTRICTED_CHECKS_PASSED = "restricted_checks_passed"
+    NOT_END_TO_END_QUALIFIED = "not_end_to_end_qualified"
+    IDENTITY_ONLY = "identity_only"
+    REJECTED = "rejected"
+
+
 @dataclass(frozen=True)
 class CanonicalSkeleton:
     """Lossless JSON document plus typed indexes used for semantic checks."""
@@ -52,3 +62,11 @@ class ConversionResult:
     diagnostic_codes: tuple[str, ...] = ()
     provenance: JSONObject | None = None
     feature_compatibility: dict[str, str] | None = None
+    semantic_qualification: SemanticQualification = SemanticQualification.NOT_ASSESSED
+
+    def __post_init__(self) -> None:
+        if (
+            self.status is ConversionStatus.REJECTED
+            and self.semantic_qualification is SemanticQualification.NOT_ASSESSED
+        ):
+            object.__setattr__(self, "semantic_qualification", SemanticQualification.REJECTED)

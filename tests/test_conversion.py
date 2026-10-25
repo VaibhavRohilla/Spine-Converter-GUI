@@ -11,7 +11,11 @@ from fnx_spine_forge.conversion import (
     SkeletonConverter,
     SourceRiskPolicy,
 )
-from fnx_spine_forge.conversion.models import ConversionResult, ConversionStatus
+from fnx_spine_forge.conversion.models import (
+    ConversionResult,
+    ConversionStatus,
+    SemanticQualification,
+)
 from fnx_spine_forge.inspection import InspectionService
 from fnx_spine_forge.parsers import parse_atlas
 
@@ -54,6 +58,8 @@ def test_asset_set_conversion_reinspects_output_and_preserves_texture(tmp_path):
         source_risk_policy=SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC,
     )
     assert result.status is ConversionStatus.STRUCTURALLY_VERIFIED
+    assert result.semantic_qualification is SemanticQualification.RESTRICTED_CHECKS_PASSED
+    assert result.details["semantic_qualification"] == "restricted_checks_passed"
     assert result.route == ("3.8.75", "4.2.43")
     assert set(result.outputs or {}) == set(before)
     assert result.outputs["golden_ingot.png"] == texture
@@ -71,6 +77,8 @@ def test_asset_set_composed_conversion_reinspects_each_hop(tmp_path):
     planner = ConversionPlanner({("4.0.31", "4.1.56"), ("4.1.56", "4.2.43")})
     result = AssetSetConverter(planner=planner).convert(source, "golden_ingot.json", "4.2.43")
     assert result.status is ConversionStatus.STRUCTURALLY_VERIFIED
+    assert result.semantic_qualification is SemanticQualification.NOT_END_TO_END_QUALIFIED
+    assert result.details["semantic_qualification"] == "not_end_to_end_qualified"
     assert result.route == ("4.0.31", "4.1.56", "4.2.43")
     assert [hop["target"] for hop in result.details["per_hop"]] == ["4.1.56", "4.2.43"]
     assert all(hop["statistics"]["bezier_segments"] > 0 for hop in result.details["per_hop"])
@@ -87,6 +95,17 @@ def test_asset_set_composed_conversion_reinspects_each_hop(tmp_path):
         report = InspectionService().inspect(str(root))
     assert report.ok, report.diagnostics
     assert report.bundles[0].validation_state == "valid"
+
+
+def test_skeleton_conversion_reports_restricted_semantic_scope():
+    source = (Path(__file__).parent / "fixtures/spine38/golden_ingot.json").read_bytes()
+    result = SkeletonConverter().convert(
+        source,
+        "4.2.43",
+        source_risk_policy=SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC,
+    )
+    assert result.semantic_qualification is SemanticQualification.RESTRICTED_CHECKS_PASSED
+    assert result.status is ConversionStatus.STRUCTURALLY_VERIFIED
 
 
 @pytest.mark.parametrize(
@@ -509,6 +528,7 @@ def test_skeleton_exact_version_conversion_preserves_semantics():
     assert result.status is ConversionStatus.STRUCTURALLY_VERIFIED
     assert result.output is not None
     assert json.loads(result.output) == json.loads(source)
+    assert result.semantic_qualification is SemanticQualification.IDENTITY_ONLY
     assert source == skeleton()
     assert not result.runtime_verified and not result.visually_verified
 
@@ -569,6 +589,7 @@ def test_executor_stops_at_first_incompatible_hop_and_returns_evidence():
     source = json.dumps(document).encode()
     result = SkeletonConverter().convert(source, "3.8.99")
     assert result.status is ConversionStatus.REJECTED
+    assert result.semantic_qualification is SemanticQualification.REJECTED
     assert result.output is None
     assert result.details["failed_hop"]["source_version"] == "4.3.13"
     assert result.details["failed_hop"]["target_version"] == "4.2.43"
