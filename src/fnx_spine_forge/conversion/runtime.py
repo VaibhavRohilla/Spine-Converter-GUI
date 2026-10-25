@@ -8,6 +8,7 @@ import subprocess
 from pathlib import Path
 
 from .json_types import JSONDocument, require_json_object
+from .registry import RUNTIME_SMOKE_PATCHES
 
 
 def run_spine_42_runtime_smoke(
@@ -64,12 +65,7 @@ def run_spine_runtime_smoke(
     if (
         package_name != "@esotericsoftware/spine-core"
         or not isinstance(package_version, str)
-        or package_version not in {
-        "4.0.31",
-        "4.1.56",
-        "4.2.43",
-        "4.3.13",
-        }
+        or package_version not in RUNTIME_SMOKE_PATCHES
         or not isinstance(package.get("main"), str)
     ):
         return {

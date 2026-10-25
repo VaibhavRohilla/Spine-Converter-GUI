@@ -68,3 +68,14 @@ EXACT_ROUTE_PAIRS: frozenset[tuple[str, str]] = frozenset(ROUTES_BY_PATCH)
 SUPPORTED_PATCH_VERSIONS: frozenset[str] = frozenset(
     version for route in MIGRATION_ROUTES for version in (route.source, route.target)
 )
+
+# Patch-scoped operational capabilities that are not route edges. Keep these
+# policy sets here so recognition, conversion, atlas handling, and CLI reports
+# do not grow independent patch lists.
+KNOWN_EXPORT_ISSUE_PATCHES: frozenset[str] = frozenset({"3.8.75"})
+RUNTIME_SMOKE_PATCHES: frozenset[str] = frozenset(
+    {"4.0.31", "4.1.56", "4.2.43", "4.3.13"}
+)
+ATLAS_42_SCHEMA_PATCHES: frozenset[str] = frozenset({"4.2.43", "4.3.13"})
+ATLAS_40_SCHEMA_PATCHES: frozenset[str] = frozenset({"4.0.31", "4.1.56"})
+ATLAS_41_PATCHES: frozenset[str] = frozenset({"4.1.56"})

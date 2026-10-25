@@ -252,6 +252,21 @@ def test_asset_set_rolls_back_atlas_failure_without_partial_outputs(tmp_path, mo
     assert "bad intermediate atlas" in result.diagnostics[0]
 
 
+def test_asset_set_cli_publication_is_atomic_and_rejects_existing_destination(tmp_path):
+    from fnx_spine_forge.cli import _publish_asset_set
+
+    destination = tmp_path / "bundle"
+    _publish_asset_set(destination, {"skeleton.json": b"{}", "atlas.atlas": b"page"})
+    assert {path.name for path in destination.iterdir()} == {"skeleton.json", "atlas.atlas"}
+    with pytest.raises(FileExistsError):
+        _publish_asset_set(destination, {"later.json": b"{}"})
+    assert not (destination / "later.json").exists()
+    with pytest.raises(ValueError, match="filename-to-bytes"):
+        _publish_asset_set(tmp_path / "unsafe", {"../escape": b"bad"})
+    assert not (tmp_path / "unsafe").exists()
+    assert not (tmp_path / "escape").exists()
+
+
 def test_typed_semantic_boundary_decodes_transforms_meshes_constraints_and_curves():
     from fnx_spine_forge.conversion.semantic import decode_semantic_skeleton
 

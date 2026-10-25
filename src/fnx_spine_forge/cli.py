@@ -5,10 +5,11 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import shutil
 import sys
 import tempfile
+from collections.abc import Mapping
 from pathlib import Path
-from typing import Any
 
 from .conversion import (
     AssetSetConverter,
@@ -17,6 +18,7 @@ from .conversion import (
     SkeletonConverter,
     SourceRiskPolicy,
 )
+from .conversion.json_types import JSONValue
 from .conversion.runtime import run_spine_runtime_smoke
 from .inspection import InspectionService
 from .versions import VersionRegistry
@@ -134,10 +136,7 @@ def main(argv: list[str] | None = None) -> int:
             ),
         )
         if outcome.outputs is not None:
-            output_root = Path(args.output_dir)
-            output_root.mkdir(parents=True, exist_ok=True)
-            for name, payload in outcome.outputs.items():
-                _atomic_write(output_root / name, payload)
+            _publish_asset_set(Path(args.output_dir), outcome.outputs)
         print(
             json.dumps(
                 {
@@ -165,7 +164,7 @@ def main(argv: list[str] | None = None) -> int:
                 else SourceRiskPolicy.REJECT_KNOWN_ISSUES
             ),
         )
-        report: dict[str, Any] = {
+        report: dict[str, JSONValue] = {
             "status": skeleton_outcome.status.value,
             "source_version": skeleton_outcome.source_version,
             "target_version": skeleton_outcome.target_version,
@@ -226,6 +225,24 @@ def _atomic_write(path: Path, content: bytes) -> None:
             os.unlink(temporary)
         except FileNotFoundError:
             pass
+        raise
+
+
+def _publish_asset_set(output_root: Path, outputs: Mapping[str, bytes]) -> None:
+    """Publish a complete converted bundle with one directory rename."""
+    for name, payload in outputs.items():
+        if Path(name).name != name or name in {".", ".."} or not isinstance(payload, bytes):
+            raise ValueError("Asset-set outputs must be filename-to-bytes entries")
+    if output_root.exists():
+        raise FileExistsError(f"Asset-set output directory already exists: {output_root}")
+    output_root.parent.mkdir(parents=True, exist_ok=True)
+    stage = Path(tempfile.mkdtemp(prefix=f".{output_root.name}.", dir=output_root.parent))
+    try:
+        for name, payload in outputs.items():
+            _atomic_write(stage / name, payload)
+        os.replace(stage, output_root)
+    except BaseException:
+        shutil.rmtree(stage, ignore_errors=True)
         raise
 
 

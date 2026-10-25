@@ -6,7 +6,12 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from ..parsers import AtlasInfo, AtlasPage, AtlasRegion, parse_atlas
-from .registry import EXACT_ROUTE_PAIRS
+from .registry import (
+    ATLAS_40_SCHEMA_PATCHES,
+    ATLAS_41_PATCHES,
+    ATLAS_42_SCHEMA_PATCHES,
+    EXACT_ROUTE_PAIRS,
+)
 from .semantic import AtlasRegionGeometry, decode_atlas_geometry
 
 
@@ -59,7 +64,7 @@ class AtlasConverter:
         chunks: list[str] = []
         direct_42_to_43 = source_version == "4.2.43" and target_version == "4.3.13"
         direct_43_to_42 = source_version == "4.3.13" and target_version == "4.2.43"
-        direct_42_to_41 = source_version == "4.2.43" and target_version == "4.1.56"
+        direct_42_to_41 = source_version == "4.2.43" and target_version in ATLAS_41_PATCHES
         regions_by_page: list[list[AtlasRegion]] = [[] for _ in model.pages]
         for region, page_index in zip(model.regions, model.region_pages, strict=True):
             regions_by_page[page_index].append(region)
@@ -117,7 +122,7 @@ class AtlasConverter:
                         ("orig", f"{offsets[2]}, {offsets[3]}"),
                         ("offset", f"{offsets[0]}, {offsets[1]}"),
                     ) + tuple(retained)
-                elif target_version in {"4.2.43", "4.3.13"}:
+                elif target_version in ATLAS_42_SCHEMA_PATCHES:
                     values = dict(attributes)
                     if len(values) != len(attributes):
                         raise ValueError(f"Duplicate atlas properties on region {region.name!r}")
@@ -163,7 +168,7 @@ class AtlasConverter:
                         ("bounds", ", ".join(map(str, bounds))),
                         ("offsets", ", ".join(map(str, offsets))),
                     ) + tuple(retained)
-                elif target_version in {"4.0.31", "4.1.56"}:
+                elif target_version in ATLAS_40_SCHEMA_PATCHES:
                     values = dict(attributes)
                     if len(values) != len(attributes):
                         raise ValueError(f"Duplicate atlas properties on region {region.name!r}")
@@ -204,7 +209,7 @@ class AtlasConverter:
                     int(before_attrs["rotate"]),
                 ):
                     raise ValueError(f"Atlas semantic equivalence failed for {before.name!r}")
-        elif target_version in {"4.2.43", "4.3.13"}:
+        elif target_version in ATLAS_42_SCHEMA_PATCHES:
             for before, region in zip(model.regions, reparsed.region_records, strict=True):
                 attrs = dict(region.attributes)
                 if not {"rotate", "bounds", "offsets"} <= attrs.keys():

@@ -1029,3 +1029,123 @@ runtime certification, or visual equivalence is claimed.
 The semantic-validation checkpoint is committed as a development checkpoint;
 it is not a B2 freeze. The independent fidelity and runtime gates remain open.
 See the final Git status and HEAD recorded after commit.
+
+## Production hardening follow-up — 2026-10-26
+
+Starting HEAD: `d9e00264332b487c8c90c97a3e04b55403e5bc60`.
+
+- Asset-set CLI publication now stages all output files in a sibling temporary
+  directory and publishes the completed bundle with one directory rename. It
+  rejects an existing destination and unsafe output names. A regression test
+  verifies complete publication, no overwrite, and path traversal rejection.
+- The CLI conversion result report now uses the recursive `JSONValue` contract
+  instead of `Any`.
+- Checks after these changes: Ruff passed; strict mypy passed (39 files); pytest
+  passed (147 tests). Package build and installed command smoke remain to be
+  rerun after this follow-up.
+
+This is not a full strong-typing or version-authority cleanup. Migration
+writers still contain `Any` across dynamic version-specific JSON transforms;
+their replacement requires explicit per-version input/output contracts and
+typed narrowing at each schema boundary. Exact patch identities also still
+appear in several dispatch and atlas/runtime decisions instead of being read
+from one fully authoritative capability profile. Deprecated historical route
+modules are still supported migration edges, so deleting those would violate
+the current route contract rather than remove unused dead code. The report
+does not call this codebase 10/10 or production-certified.
+
+## B2-RC1 restricted release review — 2026-10-26
+
+Baseline reviewed: `d9e00264332b487c8c90c97a3e04b55403e5bc60`.
+
+### Restricted patch and feature matrix
+
+The exact-patch registry is the route boundary. A listed edge means an
+implementation can be attempted; it does not claim complete support for every
+Spine feature. Structural output is reported as `structurally_verified` and
+does not set runtime or visual verification. Unsupported feature-specific
+transforms are expected to reject with `UNSUPPORTED_TARGET_FEATURE` or a
+specific migration diagnostic. Same-version JSON is identity-preserving and
+does not constitute a migration qualification.
+
+| Source patch | Target patch | Registered feature category | Restricted evidence and enforced boundary |
+|---|---|---|---|
+| 3.8.75, risk gated | 3.5.51 / 3.6.53 / 3.7.94 | Skin and attachment schema migration | Fixture and route tests; default rejects known source export risk; explicit allow emits warning. Unsupported legacy schema constructs reject. |
+| 3.8.99 | 3.5.51 / 3.6.53 / 3.7.94 | Skin and attachment schema migration | Exact patch only; feature-specific migration validation. No authentic 3.8.99 fixture is available. |
+| 3.8.75, risk gated | 4.0.31 / 4.1.56 / 4.2.43 / 4.3.13 | Named skins, attachments, constraints and animation schema | 3.8.75 fixture conversion to 4.2.43 passed structure/dependency checks, curve sampling, texture identity and source immutability. Unsupported mappings reject; source-risk override is explicit. |
+| 3.8.99 | 4.0.31 / 4.1.56 / 4.2.43 / 4.3.13 | Named skins, attachments, constraints and animation schema | Registered exact edges with migration checks; no authentic 3.8.99 source or runtime/visual proof. |
+| 3.5.51 | 3.6.53 | Event timing and legacy JSON | Exact migration tests; single-precision timing behavior is checked. |
+| 3.6.53 | 3.5.51 | Event timing and legacy JSON | Exact migration tests; preserved 3.6 timing values are serialized in 3.5 JSON. |
+| 3.6.53 | 3.7.94 | Legacy skins and IK defaults | Exact migration tests; unsupported non-default semantics reject. |
+| 3.7.94 | 3.6.53 | Legacy skins, IK options and audio events | False/default-only options; unsupported audio values and IK options reject. |
+| 3.7.94 | 3.8.99 | Legacy skin map to named-skin array | Exact schema transform tests and target reinspection. |
+| 4.0.31 | 3.8.99 | Skin, linked mesh, deform and animation curves | Per-channel Bézier curves reject unless shared controls are proven equivalent; unsupported skin-specific constraints and attachment timelines reject. |
+| 4.0.31 | 4.1.56 | Linked mesh and deform timeline schema | Exact transform and semantic tests; unsupported sequences reject. |
+| 4.1.56 | 4.0.31 | Linked mesh and deform timeline schema | Exact transform and semantic tests; unsupported sequences and non-deform attachment timelines reject. |
+| 4.1.56 | 4.2.43 | Bone inheritance and animation schema | Exact transform and semantic tests; unsupported target-only constructs reject. |
+| 4.2.43 | 4.1.56 | Bone inheritance, slots, constraints and timelines | Non-default reference scale, physics, inherit timelines, hidden setup slots and skin-scoped data reject. |
+| 4.2.43 | 4.3.13 | Constraint and animation schema | Exact transform and semantic tests; unsupported transform constraint constructs reject. |
+| 4.3.13 | 4.2.43 | Constraints, linked meshes and animation | Sequences, unsupported constraint/timeline types, slot visibility and other non-representable additions reject. |
+
+These are finite exact-patch implementation boundaries, not a universal
+compatibility promise. Composed routes are candidate compositions of those
+edges and only establish per-hop structural checks. The authentic 3.8.75 →
+4.2.43 fixture is the only end-to-end asset-set route exercised by the
+installed CLI in this release review. Feature categories are the transform
+areas covered by route-specific code/tests, not exhaustive feature support.
+
+### Exact-version audit and capability restriction
+
+This review moved shared operational patch groups into `conversion/registry.py`:
+the known 3.8.75 export-risk set, the supported exact runtime patch set, and
+the 4.0/4.1 versus 4.2/4.3 atlas schema groups. Skeleton, asset-set, runtime,
+and atlas policy now consume these shared groups. Per-edge transformation
+dispatch remains tied to the exact `MigrationRoute.kind`; historical
+migration implementations remain present.
+
+Feature rejection is enforced in existing semantic admission and route-specific
+migration readers. The output result only claims structural verification;
+`runtime_verified` and `visually_verified` remain false unless those activities
+are separately run. Runtime support in the harness is 4.0.31, 4.1.56, 4.2.43,
+and 4.3.13, not runtime proof for a conversion. Visual verification was not
+performed.
+
+### Executed release evidence
+
+- `.venv/bin/python -m pytest -q` — **147 passed**.
+- `.venv/bin/ruff check src tests` — **passed**.
+- `.venv/bin/mypy` — **passed**, strict configuration, 39 source files.
+- `.venv/bin/python -m build` — **passed**, wheel and sdist.
+- Installed `.venv/bin/spine-forge convert-asset-set` on the authentic
+  `golden_ingot` bundle, 3.8.75 → 4.2.43 with explicit risk allowance —
+  **passed**, output `structurally_verified`; 42 Bézier segments sampled,
+  maximum numerical error `2.731148640577885e-14`, one texture SHA-256
+  preserved, source files unchanged.
+- Installed `.venv/bin/spine-forge inspect <output> --json` — **passed**;
+  one valid bundle, one skeleton, one atlas, one texture page, no diagnostics.
+- Existing tests exercise deterministic repeated output, semantic decoding and
+  rejection boundaries, malformed intermediate rollback, all-or-nothing
+  asset-set results, texture byte identity, and atomic CLI publication
+  rejection of existing output directories and unsafe names.
+- Exact runtime execution — **not run**; the configured official runtime
+  package is absent. Visual equivalence — **not run**.
+
+### Freeze decision
+
+**B2-RC1 OPEN / BLOCKED.** The requested restricted validation gates pass, but
+the acceptance requirement that unqualified routes/features cannot be treated
+as successful is not yet encoded as a central capability profile: the registry
+records route edges and kind, while semantic qualification is distributed
+between semantic admission and route-specific migration code. Candidate
+multi-hop execution can return `structurally_verified` after each hop without
+an end-to-end route-feature qualification record. This status is truthful
+about structure, but the CLI has no machine-readable semantic qualification
+state to distinguish a structurally passing candidate route from an
+end-to-end qualified route. Closing this defect requires a narrow
+route/feature capability contract and executor/report gate, plus tests showing
+unqualified route/feature attempts cannot be represented as qualified. No
+runtime certification, visual equivalence, or universal version compatibility
+is claimed.
+
+This checkpoint is not a B2 freeze. Its actual commit SHA is recorded after
+the commit below.

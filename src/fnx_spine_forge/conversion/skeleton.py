@@ -32,7 +32,7 @@ from .migrate_42_to_43 import migrate_42_to_43
 from .migrate_43_to_42 import migrate_43_to_42
 from .models import CanonicalSkeleton, ConversionResult, ConversionStatus, SourceRiskPolicy
 from .planner import ConversionPlanner
-from .registry import ROUTES_BY_PATCH, MigrationKind
+from .registry import KNOWN_EXPORT_ISSUE_PATCHES, ROUTES_BY_PATCH, MigrationKind
 from .semantic import SemanticSkeleton, decode_semantic_skeleton
 
 
@@ -207,7 +207,7 @@ class SkeletonConverter:
                 ConversionStatus.REJECTED,
                 plan.diagnostics,
             )
-        known_export_issue = canonical.version == "3.8.75"
+        known_export_issue = canonical.version in KNOWN_EXPORT_ISSUE_PATCHES
         if known_export_issue and source_risk_policy is SourceRiskPolicy.REJECT_KNOWN_ISSUES:
             return ConversionResult(
                 canonical.version,

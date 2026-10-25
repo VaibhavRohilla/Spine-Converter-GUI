@@ -13,6 +13,7 @@ from .atlas import AtlasConverter
 from .json_types import JSONObject
 from .models import ConversionResult, ConversionStatus, SourceRiskPolicy
 from .planner import ConversionPlanner
+from .registry import KNOWN_EXPORT_ISSUE_PATCHES
 from .skeleton import SkeletonConverter
 
 
@@ -181,7 +182,7 @@ class AssetSetConverter:
             )
 
         if (
-            source_version == "3.8.75"
+            source_version in KNOWN_EXPORT_ISSUE_PATCHES
             and source_risk_policy is SourceRiskPolicy.REJECT_KNOWN_ISSUES
         ):
             rejected = self.skeletons.convert(
@@ -224,7 +225,7 @@ class AssetSetConverter:
                     "rejected_routes": tuple(failure.to_json() for failure in failures),
                     "source_risk_warnings": (
                         ("SOURCE_EXPORT_KNOWN_BUG",)
-                        if source_version == "3.8.75"
+                        if source_version in KNOWN_EXPORT_ISSUE_PATCHES
                         and source_risk_policy is SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC
                         else ()
                     ),
