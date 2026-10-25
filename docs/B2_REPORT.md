@@ -643,3 +643,92 @@ registered migration implementations through typed per-version contracts,
 finishing composed route semantic/numerical qualification, obtaining authentic
 3.8.99 evidence, and running available exact historical runtimes. No B2 freeze
 or universal lossless-conversion claim is made.
+
+
+## B2 final conversion qualification — 2026-10-25
+
+### Verified live checkout
+
+- Starting checkout was clean on `codex/b2-conversion-engine` at the requested
+  baseline `96cc48ca198a32cbd9d51967e00a57e8405602b0`.
+- Added six parametrized execution probes for the required composed pairs.
+  Three forward probes (3.5.51→4.3.13, 3.6.53→4.2.43, 3.7.94→4.1.56)
+  completed with structurally verified minimal skeletons. Three reverse/mixed
+  probes (4.3.13→3.8.99, 4.2.43→3.6.53, 4.1.56→3.5.51) rejected without
+  output because candidate hops encounter incompatible 4.0.31→3.8.99 or
+  named-skin/legacy boundaries. All six probes use empty bones/slots/skins and
+  no animations or attachments; they establish exact hop execution or failure
+  only, with no representative semantic-fidelity claim.
+- **Zero of six required composed routes is semantically qualified.** The three
+  structurally executed probes have no measurable timeline, curve, mesh,
+  constraint, event, or attachment behavior. Do not infer route correctness
+  from planner candidates or isolated direct-edge tests.
+- Existing direct conversion and asset-set route tests remain in place. The
+  asset-set suite covers real single-skeleton input, multi-page atlases,
+  dependency rejection including ambiguous atlas selection, linked-mesh
+  semantics, failed intermediate skeleton and atlas stages, texture SHA-256,
+  determinism, source immutability, and 3.8.75 source-risk policy. Complete
+  staged outputs are reinspected with B1. These tests qualify bundle staging
+  behavior on their recorded fixtures, not all composed semantic routes.
+- Typed semantic views already exist for named-skin bone/slot/attachment,
+  weighted mesh, linked mesh, constraints, timelines, curves, and atlas geometry.
+  Migration writers still use `Any` internally at raw JSON transformation
+  boundaries; `_map`, frame, curve, and weighted-vertex validators provide
+  runtime checks in selected writers, but legacy schemas are not uniformly
+  typed. This is an identified scope gap, not a reason for broad mechanical
+  typing changes.
+
+### Evidence gaps and qualification classification
+
+- The only exported fixture in this checkout is authentic-derived
+  `tests/fixtures/spine38/golden_ingot` at declared Spine 3.8.75. No authorized
+  authentic 3.8.99 export was found in the project. No metadata rewrite or
+  manufactured export was used; retain the known 3.8.75 source-risk policy.
+- No historical Spine 3.5.51, 3.6.53, or 3.7.94 runtime package/build is
+  present in the project. Matching official runtime source branches are not an
+  executable runtime dependency, and this checkout has no provided licensed
+  historical runtime artifact. Historical runtime parsing, attachment
+  resolution, setup pose, animation-state evaluation, exceptions, and visual
+  equivalence are **not run**. Existing recorded 4.x runtime results apply
+  only to the exact fixtures/routes listed in earlier sections; this final
+  pass did not rerun them.
+- The 56 distinct ordered pair matrix is the 8×8 representative version grid
+  excluding eight identity pairs; it is not 56-pair end-to-end certification.
+  Registered direct routes are executable with their implementation's feature
+  guards; graph-composed routes are candidate-only / executable but unqualified
+  until all intermediate schemas and semantics validate; unsupported features
+  remain rejected. Structural JSON/B1 validation is not semantic or runtime
+  qualification. No general lossless-conversion claim is made.
+
+### Tests, gates, and disposition
+
+The initial live baseline was **116 passing tests**. Six required-pair execution
+probes were added. A passing probe proves only empty-schema structural hop
+execution or fail-closed rejection; it does not satisfy the request to compare
+all six semantic routes. Numerical composed-route error, feature-rich
+source/final semantic diffs, and complete rollback fault injection across all
+six routes remain unmeasured.
+
+Final commands on this checkout:
+
+- `.venv/bin/python -m pytest -q` — **122 passed**.
+- `.venv/bin/ruff check src tests` — **passed**.
+- `.venv/bin/mypy` — **passed**, 39 source files.
+- `.venv/bin/python -m build` — **passed**, sdist and wheel.
+- `git diff --check` — **passed**.
+- Installed CLI and actual historical runtime qualification were not repeated;
+  runtime package identities for the legacy lines remain unavailable here.
+
+**B2 OPEN / BLOCKED.** Code defects/gaps: three required routes currently
+reject at the 4.0.31↔3.8.99 or named-skin/legacy schema boundaries, while the
+other three only passed empty-schema structural probes; none has representative
+feature fidelity qualification. Missing external verification: authentic
+3.8.99 source, licensed/executable historical 3.x runtimes, and rendered
+visual-equivalence proof. No B3/B4/B5 work was started.
+
+### Git checkpoint for this report update
+
+- Branch: `codex/b2-conversion-engine`.
+- Starting HEAD: `96cc48ca198a32cbd9d51967e00a57e8405602b0` (clean).
+- Final implementation/report commit and post-commit working-tree status are
+  recorded in the delivery message after commit.

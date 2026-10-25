@@ -89,6 +89,45 @@ def test_asset_set_composed_conversion_reinspects_each_hop(tmp_path):
     assert report.bundles[0].validation_state == "valid"
 
 
+@pytest.mark.parametrize(
+    ("source_version", "target_version", "expected_status"),
+    [
+        ("3.5.51", "4.3.13", ConversionStatus.STRUCTURALLY_VERIFIED),
+        ("3.6.53", "4.2.43", ConversionStatus.STRUCTURALLY_VERIFIED),
+        ("3.7.94", "4.1.56", ConversionStatus.STRUCTURALLY_VERIFIED),
+        ("4.3.13", "3.8.99", ConversionStatus.REJECTED),
+        ("4.2.43", "3.6.53", ConversionStatus.REJECTED),
+        ("4.1.56", "3.5.51", ConversionStatus.REJECTED),
+    ],
+)
+def test_required_composed_route_probe_records_structural_outcome(
+    source_version, target_version, expected_status
+):
+    """An empty probe records execution only, not semantic fidelity qualification."""
+    document = {
+        "skeleton": {"spine": source_version},
+        "bones": [{"name": "root"}],
+        "slots": [],
+        "skins": {},
+        "animations": {},
+    }
+    result = SkeletonConverter().convert(json.dumps(document).encode(), target_version)
+    assert result.status is expected_status, result.diagnostics
+    assert result.route[0] == source_version
+    assert result.route[-1] == target_version
+    if expected_status is ConversionStatus.STRUCTURALLY_VERIFIED:
+        assert result.output is not None
+        assert json.loads(result.output)["skeleton"]["spine"] == target_version
+        assert len(result.details["hop_evidence"]) == len(result.route) - 1
+        assert all(
+            hop["structural_verification"] == "passed"
+            for hop in result.details["hop_evidence"]
+        )
+    else:
+        assert result.output is None
+        assert result.diagnostics
+
+
 def test_asset_set_risk_policy_rejects_default_and_allows_explicit_override(tmp_path):
     source, _ = _copy_bundle(tmp_path / "source")
     converter = AssetSetConverter()
