@@ -1,11 +1,32 @@
 """Official runtime manifest; runtime acceptance never alters B2 qualification."""
 
 from dataclasses import dataclass
+from enum import StrEnum
 from importlib.resources import files
 from pathlib import Path
 
-from ..json_types import decode_json_object, is_document
+from ..json_types import JSONValue, decode_json_object, is_document
 from ..versions import VersionRegistry
+
+
+class RuntimeFeature(StrEnum):
+    VERSION_RECOGNIZED = "VERSION_RECOGNIZED"
+    RUNTIME_AVAILABLE = "RUNTIME_AVAILABLE"
+    SKELETON_LOAD_SUPPORTED = "SKELETON_LOAD_SUPPORTED"
+    ANIMATION_EVALUATION_SUPPORTED = "ANIMATION_EVALUATION_SUPPORTED"
+    RENDERING_SUPPORTED = "RENDERING_SUPPORTED"
+    BINARY_LOAD_SUPPORTED = "BINARY_LOAD_SUPPORTED"
+    HEADLESS_CAPTURE_SUPPORTED = "HEADLESS_CAPTURE_SUPPORTED"
+    EXTERNAL_VIEWER_ONLY = "EXTERNAL_VIEWER_ONLY"
+    UNSUPPORTED = "UNSUPPORTED"
+
+
+def _optional_identity(value: JSONValue, field: str) -> str | None:
+    if value is None:
+        return None
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError(f"Invalid runtime {field}")
+    return value
 
 
 @dataclass(frozen=True)
@@ -16,7 +37,7 @@ class RuntimeCapability:
     embedded: bool
     binary: bool
     source_commit: str | None
-    capabilities: tuple[str, ...]
+    capabilities: tuple[RuntimeFeature, ...]
     backend: str | None
     qualification: str
 
@@ -60,25 +81,30 @@ class RuntimeRegistry:
                 or not isinstance(capabilities, list)
             ):
                 raise ValueError("Invalid runtime capability")
-            if any(
-                value is not None and not isinstance(value, str)
-                for value in (revision, identity, commit, backend)
-            ):
-                raise ValueError("Invalid runtime identity")
-            # Explicit narrowing retains the strong source type gate.
-            if not (revision is None or isinstance(revision, str)):
-                raise ValueError("Invalid revision")
-            if not (identity is None or isinstance(identity, str)):
-                raise ValueError("Invalid identity")
-            if not (commit is None or isinstance(commit, str)):
-                raise ValueError("Invalid commit")
-            if not (backend is None or isinstance(backend, str)):
-                raise ValueError("Invalid backend")
-            names: list[str] = []
+            revision = _optional_identity(revision, "revision")
+            identity = _optional_identity(identity, "identity")
+            commit = _optional_identity(commit, "sourceCommit")
+            backend = _optional_identity(backend, "backend")
+            if VersionRegistry().family_for(f"{family}.0") != family:
+                raise ValueError("Invalid runtime family")
+            if any(entry.family == family for entry in entries):
+                raise ValueError("Duplicate runtime family")
+            if embedded and not all((revision, identity, commit, backend)):
+                raise ValueError("Embedded runtime requires a complete identity")
+            if binary and not embedded:
+                raise ValueError("Binary support requires an embedded runtime")
+            names: list[RuntimeFeature] = []
             for capability in capabilities:
                 if not isinstance(capability, str):
                     raise ValueError("Invalid capability name")
-                names.append(capability)
+                feature = RuntimeFeature(capability)
+                if feature in names:
+                    raise ValueError("Duplicate runtime capability")
+                names.append(feature)
+            if (RuntimeFeature.BINARY_LOAD_SUPPORTED in names) != binary:
+                raise ValueError("Binary capability contradicts implementation")
+            if embedded and RuntimeFeature.UNSUPPORTED in names:
+                raise ValueError("Embedded runtime cannot be unsupported")
             entries.append(
                 RuntimeCapability(
                     family,

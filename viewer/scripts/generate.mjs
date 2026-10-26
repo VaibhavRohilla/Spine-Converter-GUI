@@ -2,6 +2,9 @@
 // duck typing, casts between versions, or fallback method lookup is used.
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 await mkdir("viewer/src/generated", { recursive: true });
+const manifest = JSON.parse(
+  await readFile("src/fnx_spine_forge/viewer/runtime_manifest.json", "utf8"),
+);
 const template = await readFile("viewer/src/kernel.template", "utf8");
 const oldConstraints = `return [
  ...skeleton.ikConstraints.map(c=>({name:c.data.name,type:'ik' as const,values:{mix:c.mix,bendDirection:c.bendDirection}})),
@@ -13,15 +16,16 @@ const newConstraints = `const result:ConstraintPose[]=[];for(const c of skeleton
  else if(c instanceof spine.PathConstraint)result.push({name:c.data.name,type:'path',values:{position:c.appliedPose.position,spacing:c.appliedPose.spacing}});
  else if(c instanceof spine.PhysicsConstraint)result.push({name:c.data.name,type:'physics',values:{inertia:c.appliedPose.inertia,strength:c.appliedPose.strength,damping:c.appliedPose.damping,mix:c.appliedPose.mix}});
  }return result;`;
-for (const family of ["38", "40", "41", "42", "43"]) {
-  const legacy = family === "38",
+for (const runtime of manifest.runtimes.filter((r) => r.embeddedImplemented)) {
+  const family = runtime.family.replace(".", "");
+  const namespaceRuntime = family === "38",
     v43 = family === "43";
   const values = {
-    IMPORT: legacy
+    IMPORT: namespaceRuntime
       ? "import {spine} from '../../.runtime/spine-webgl';"
       : "import * as spine from 'spine" + family + "';",
-    WEBGL: legacy ? "spine.webgl" : "spine",
-    ATLAS: legacy
+    WEBGL: namespaceRuntime ? "spine.webgl" : "spine",
+    ATLAS: namespaceRuntime
       ? "atlas=new spine.TextureAtlas(atlasText,texture);"
       : "atlas=new spine.TextureAtlas(atlasText);for(const page of atlas.pages)page.setTexture(texture(page.name));",
     WORLD: ["42", "43"].includes(family)
@@ -55,7 +59,7 @@ for (const family of ["38", "40", "41", "42", "43"]) {
       ? "a.computeWorldVertices(skeleton,s,0,a.worldVerticesLength,worldVertices,0,2);"
       : "a.computeWorldVertices(s,0,a.worldVerticesLength,worldVertices,0,2);",
     CONSTRAINTS: v43 ? newConstraints : oldConstraints,
-    TRANSFORM_MIX: legacy
+    TRANSFORM_MIX: namespaceRuntime
       ? "rotateMix:c.rotateMix,translateMix:c.translateMix,scaleMix:c.scaleMix,shearMix:c.shearMix"
       : "mixRotate:c.mixRotate,mixX:c.mixX,mixY:c.mixY",
     PHYSICS_CONSTRAINTS:
@@ -73,9 +77,6 @@ for (const family of ["38", "40", "41", "42", "43"]) {
   );
 }
 
-const manifest = JSON.parse(
-  await readFile("src/fnx_spine_forge/viewer/runtime_manifest.json", "utf8"),
-);
 const revisions = Object.fromEntries(
   manifest.runtimes
     .filter((r) => r.embeddedImplemented)
@@ -85,5 +86,24 @@ await writeFile(
   "viewer/src/generated/revisions.ts",
   "export const revisions = " +
     JSON.stringify(revisions, null, 2) +
+    " as const;\nexport const families = " +
+    JSON.stringify(Object.keys(revisions)) +
     " as const;\n",
+);
+
+await writeFile(
+  "viewer/src/generated/factories.ts",
+  'import type { Family, KernelFactory } from "../contracts";\n' +
+    "export const factories = {\n" +
+    manifest.runtimes
+      .filter((r) => r.embeddedImplemented)
+      .map(
+        (r) =>
+          JSON.stringify(r.family) +
+          ': () => import("./kernel' +
+          r.family.replace(".", "") +
+          '")',
+      )
+      .join(",\n") +
+    "\n} satisfies Record<Family, () => Promise<{ createKernel: KernelFactory }>>;\n",
 );

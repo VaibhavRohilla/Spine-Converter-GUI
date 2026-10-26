@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { families } from "./generated/revisions";
 const number = z.number().finite();
 export const cameraSchema = z
   .object({
@@ -91,7 +92,7 @@ export const assetsSchema = z
   .object({
     sessionId: z.string().min(1).max(128),
     assetId: z.string(),
-    family: z.enum(["3.8", "4.0", "4.1", "4.2", "4.3"]),
+    family: z.enum(families),
     exportVersion: z.string(),
     runtimeRevision: z.string(),
     skeleton: z.string(),

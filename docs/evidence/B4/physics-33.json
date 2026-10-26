@@ -36,13 +36,13 @@
       "zoom": 1
     },
     "statistics": {
-      "loadMs": 13.100000143051147,
-      "textureUploadMs": 0.5,
+      "loadMs": 15.099999904632568,
+      "textureUploadMs": 0.40000009536743164,
       "textureCount": 1,
       "texturePixels": 524288,
       "frames": 3,
-      "updateMs": 0.39999985694885254,
-      "renderMs": 0.09999990463256836
+      "updateMs": 0.5999999046325684,
+      "renderMs": 0.20000004768371582
     },
     "limitations": [
       "single animation track control",

@@ -39,3 +39,7 @@ Events include LOAD_STARTED, RUNTIME_READY, ASSETS_LOADED, VIEWER_READY, PLAYBAC
 Qt output must be a fresh path. The Python wheel contains orchestration and the runtime registry; distribute the separately built `viewer/dist` with matching manifest and license notices. The source archive includes frontend source/fixtures, not installed npm dependencies. Restore authentic official fixtures using `node viewer/scripts/fixtures.mjs` (pinned hashes); private production fixtures are never downloaded by that script.
 
 See [B4 qualification](../docs/B4_REPORT.md) for tested coverage and remaining restrictions. This developer viewer is not the B5 desktop UI.
+
+## Typed host subscriptions
+
+`viewer.subscribe(listener)` receives a discriminated `[eventName, payload]` union and returns an unsubscribe function. Narrow on the name to obtain the exact payload type. Subscriptions are released at disposal; host observer errors are reported to the browser without failing the renderer. The polling bridge forwards all defined events, including FRAME_CAPTURED and VIEWER_UPDATED. Bone transforms and RGBA values have fixed-length tuple types. Runtime factories, family types and runtime-family validation derive from the canonical manifest. Version-specific official API bindings remain explicit: they are required runtime implementations, not deprecated compatibility fallbacks.

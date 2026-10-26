@@ -1,8 +1,8 @@
+import { factories } from "./generated/factories";
 import { revisions } from "./generated/revisions";
 import type {
   Assets,
   Kernel,
-  KernelFactory,
   Camera,
   Pose,
   Capture,
@@ -13,6 +13,9 @@ import type {
   DebugOptions,
   Viewport,
   Command,
+  ViewerState,
+  ViewerEvent,
+  ViewerEventListener,
 } from "./contracts";
 import {
   requestSchema,
@@ -25,19 +28,7 @@ import {
 import { ViewerError, diagnostic, cancelled } from "./diagnostics";
 import { sha256 } from "./resources";
 import { RealtimeClock, FIXED_STEP, simulationSteps } from "./clock";
-export type State =
-  | "CREATED"
-  | "LOADING_RUNTIME"
-  | "LOADING_ASSETS"
-  | "INITIALIZING"
-  | "READY"
-  | "PLAYING"
-  | "PAUSED"
-  | "STOPPED"
-  | "SEEKING"
-  | "FAILED"
-  | "DISPOSING"
-  | "DISPOSED";
+type State = ViewerState;
 const flow: Record<State, readonly State[]> = {
   CREATED: ["LOADING_RUNTIME"],
   LOADING_RUNTIME: ["LOADING_ASSETS"],
@@ -51,16 +42,6 @@ const flow: Record<State, readonly State[]> = {
   FAILED: ["LOADING_RUNTIME"],
   DISPOSING: ["DISPOSED"],
   DISPOSED: [],
-};
-const factories: Record<
-  Assets["family"],
-  () => Promise<{ createKernel: KernelFactory }>
-> = {
-  "3.8": () => import("./generated/kernel38"),
-  "4.0": () => import("./generated/kernel40"),
-  "4.1": () => import("./generated/kernel41"),
-  "4.2": () => import("./generated/kernel42"),
-  "4.3": () => import("./generated/kernel43"),
 };
 export const cleanDebug = (): DebugOptions => ({
   bones: false,
@@ -110,9 +91,14 @@ export class SpineViewer extends EventTarget {
   };
   private restored = () =>
     this.notify("RUNTIME_WARNING", {
-      code: "WEBGL_CONTEXT_LOST",
-      message:
-        "Context restored. Explicit load() retry is required; no stale playback is resumed.",
+      ...diagnostic(
+        new ViewerError(
+          "WEBGL_CONTEXT_LOST",
+          "Context restored. Explicit load() retry is required; no stale playback is resumed.",
+        ),
+        this.assets,
+      ),
+      severity: "warning",
     });
   private visibility = () => this.clock.reset();
   constructor(
@@ -129,7 +115,11 @@ export class SpineViewer extends EventTarget {
         try {
           this.render();
         } catch (e) {
-          this.fail(e);
+          this.fail(
+            e instanceof Error
+              ? e
+              : new Error("Non-Error runtime exception", { cause: e }),
+          );
         }
       }
     });
@@ -138,8 +128,26 @@ export class SpineViewer extends EventTarget {
     canvas.addEventListener("webglcontextrestored", this.restored);
     document.addEventListener("visibilitychange", this.visibility);
   }
-  private notify(type: string, detail: object) {
+  private readonly eventListeners = new Set<ViewerEventListener>();
+  subscribe(listener: ViewerEventListener): () => void {
+    if (this.state === "DISPOSED")
+      throw new ViewerError("INVALID_SESSION_STATE");
+    this.eventListeners.add(listener);
+    return () => {
+      this.eventListeners.delete(listener);
+    };
+  }
+  private notify(...event: ViewerEvent): void {
+    const [type, detail] = event;
     this.dispatchEvent(new CustomEvent(type, { detail }));
+    for (const listener of this.eventListeners) {
+      try {
+        listener(event);
+      } catch (error) {
+        // Host observers must not corrupt the renderer lifecycle.
+        reportError(error);
+      }
+    }
   }
   private transition(state: State) {
     if (state === this.currentState) return;
@@ -156,7 +164,7 @@ export class SpineViewer extends EventTarget {
     this.currentState = state;
     this.notify("PLAYBACK_CHANGED", { state, sessionId: this.sessionId });
   }
-  private fail(error: unknown) {
+  private fail(error: Error) {
     if (this.state === "DISPOSED" || this.state === "DISPOSING") return;
     this.abort.abort();
     this.epoch++;
@@ -221,7 +229,12 @@ export class SpineViewer extends EventTarget {
       this.transition("READY");
       this.notify("VIEWER_READY", this.info());
     } catch (e) {
-      if (epoch === this.epoch) this.fail(e);
+      if (epoch === this.epoch)
+        this.fail(
+          e instanceof Error
+            ? e
+            : new Error("Non-Error runtime exception", { cause: e }),
+        );
       throw e;
     }
   }
@@ -309,7 +322,11 @@ export class SpineViewer extends EventTarget {
       if (this.state === "PLAYING")
         this.frame = requestAnimationFrame(this.tick);
     } catch (e) {
-      this.fail(e);
+      this.fail(
+        e instanceof Error
+          ? e
+          : new Error("Non-Error runtime exception", { cause: e }),
+      );
     }
   };
   async play() {
@@ -391,7 +408,12 @@ export class SpineViewer extends EventTarget {
       this.transition("PAUSED");
       this.render();
     } catch (e) {
-      if (epoch === this.epoch) this.fail(e);
+      if (epoch === this.epoch)
+        this.fail(
+          e instanceof Error
+            ? e
+            : new Error("Non-Error runtime exception", { cause: e }),
+        );
       throw e;
     }
   }
@@ -505,7 +527,7 @@ export class SpineViewer extends EventTarget {
       const png = this.canvas.toDataURL("image/png");
       if (!png.startsWith("data:image/png;base64,"))
         throw new ViewerError("FRAME_CAPTURE_FAILED");
-      const metadata = {
+      const metadata: Omit<Capture, "png" | "sha256"> = {
         width: this.canvas.width,
         height: this.canvas.height,
         dpr: this.viewport?.pixelRatio ?? Math.min(devicePixelRatio, 3),
@@ -548,6 +570,7 @@ export class SpineViewer extends EventTarget {
     this.kernel = null;
     this.transition("DISPOSED");
     this.notify("SESSION_DISPOSED", { sessionId: this.sessionId });
+    this.eventListeners.clear();
   }
   async request(input: Request): Promise<Reply> {
     const parsed = requestSchema.safeParse(input);
@@ -571,7 +594,12 @@ export class SpineViewer extends EventTarget {
       this.notify("VIEWER_UPDATED", this.info());
       return { ...base, success: true, result, diagnostics: [] };
     } catch (e) {
-      const d: Diagnostic = diagnostic(e, this.assets);
+      const d: Diagnostic = diagnostic(
+        e instanceof Error
+          ? e
+          : new Error("Non-Error runtime exception", { cause: e }),
+        this.assets,
+      );
       return { ...base, success: false, result: null, diagnostics: [d] };
     }
   }

@@ -1,5 +1,5 @@
 import type { DiagnosticCode } from "./diagnostics";
-export type Family = "3.8" | "4.0" | "4.1" | "4.2" | "4.3";
+export type Family = keyof typeof import("./generated/revisions").revisions;
 export interface TextureResource {
   url: string;
   sha256: string;
@@ -22,11 +22,29 @@ export interface Assets {
   resourceHashes: Record<string, string>;
   conversionQualification: "UNCHANGED_NOT_INFERRED_FROM_PLAYBACK";
 }
+export type RGBA = [red: number, green: number, blue: number, alpha: number];
+export type LocalTransform = [
+  x: number,
+  y: number,
+  rotation: number,
+  scaleX: number,
+  scaleY: number,
+  shearX: number,
+  shearY: number,
+];
+export type WorldTransform = [
+  x: number,
+  y: number,
+  a: number,
+  b: number,
+  c: number,
+  d: number,
+];
 export interface BonePose {
   name: string;
   parent: string | null;
-  local: number[];
-  world: number[];
+  local: LocalTransform;
+  world: WorldTransform;
 }
 export type AttachmentType =
   | "region"
@@ -41,8 +59,8 @@ export interface SlotPose {
   bone: string;
   attachment: string | null;
   type: AttachmentType | null;
-  color: number[];
-  darkColor: number[] | null;
+  color: RGBA;
+  darkColor: RGBA | null;
   worldVertices: number[];
   triangles: number[];
   influenceBones: number[] | null;
@@ -155,7 +173,7 @@ export interface Capture {
   height: number;
   dpr: number;
   camera: Camera;
-  background: number[];
+  background: RGBA;
   pma: boolean;
   debug: DebugOptions;
   pose: Pose;
@@ -221,7 +239,7 @@ export type Reply =
       diagnostics: Diagnostic[];
     };
 export interface Info {
-  state: string;
+  state: ViewerState;
   family: Family;
   revision: string;
   exportVersion: string;
@@ -238,3 +256,36 @@ export interface Info {
   statistics: RuntimeStatistics | null;
   limitations: readonly string[];
 }
+
+export type ViewerState =
+  | "CREATED"
+  | "LOADING_RUNTIME"
+  | "LOADING_ASSETS"
+  | "INITIALIZING"
+  | "READY"
+  | "PLAYING"
+  | "PAUSED"
+  | "STOPPED"
+  | "SEEKING"
+  | "FAILED"
+  | "DISPOSING"
+  | "DISPOSED";
+export interface ViewerEventMap {
+  LOAD_STARTED: { sessionId: string };
+  RUNTIME_READY: { family: Family; revision: string };
+  ASSETS_LOADED: { pages: string[] };
+  VIEWER_READY: Info;
+  VIEWER_UPDATED: Info;
+  PLAYBACK_CHANGED: { state: ViewerState; sessionId: string };
+  ANIMATION_EVENT: AnimationEvent;
+  ANIMATION_COMPLETE: { animation: string | null; time: number };
+  TIME_CHANGED: { time: number; animationTime: number };
+  FRAME_CAPTURED: Omit<Capture, "png">;
+  RUNTIME_WARNING: Diagnostic;
+  RUNTIME_ERROR: Diagnostic;
+  SESSION_DISPOSED: { sessionId: string };
+}
+export type ViewerEvent = {
+  [Name in keyof ViewerEventMap]: [event: Name, detail: ViewerEventMap[Name]];
+}[keyof ViewerEventMap];
+export type ViewerEventListener = (event: ViewerEvent) => void;

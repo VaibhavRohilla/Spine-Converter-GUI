@@ -631,3 +631,52 @@ test("paired sampled playback synchronizes normalized time without equating dura
   );
   expect(times[0]!.duration).not.toBe(times[1]!.duration);
 });
+
+test("typed subscriptions detach and bridge includes captured-frame metadata", async ({
+  page,
+}) => {
+  await load(page, 6);
+  const result = await page.evaluate(async () => {
+    const viewer = window.fnxViewer;
+    const events: string[] = [];
+    const unsubscribe = viewer.subscribe(([name, detail]) => {
+      if (name === "FRAME_CAPTURED") events.push(detail.sha256);
+    });
+    window.fnxBridge.takeEvents();
+    const captured = await viewer.captureFrame();
+    unsubscribe();
+    await viewer.captureFrame();
+    const bridgeEvents: object = JSON.parse(window.fnxBridge.takeEvents());
+    return { events, hash: captured.sha256, bridgeEvents };
+  });
+  expect(result.events).toEqual([result.hash]);
+  expect(result.bridgeEvents).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({
+        event: "FRAME_CAPTURED",
+        detail: expect.objectContaining({ sha256: result.hash }),
+      }),
+    ]),
+  );
+});
+
+test("host observer failures do not corrupt capture or disposal", async ({
+  page,
+}) => {
+  await load(page, 6);
+  const errors: string[] = [];
+  page.on("pageerror", (error) => errors.push(error.message));
+  const result = await page.evaluate(async () => {
+    const viewer = window.fnxViewer;
+    const unsubscribe = viewer.subscribe(([name]) => {
+      if (name === "FRAME_CAPTURED") throw new Error("host observer failure");
+    });
+    const capture = await viewer.captureFrame();
+    unsubscribe();
+    viewer.dispose();
+    return { sha256: capture.sha256, state: viewer.state };
+  });
+  expect(result.sha256).toMatch(/^[a-f0-9]{64}$/);
+  expect(result.state).toBe("DISPOSED");
+  expect(errors).toContain("host observer failure");
+});

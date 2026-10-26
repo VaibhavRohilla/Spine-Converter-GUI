@@ -1,5 +1,5 @@
 import { requestSchema } from "./protocol";
-import type { Reply } from "./contracts";
+import type { Reply, ViewerEvent } from "./contracts";
 import type { SpineViewer } from "./viewer";
 export interface HostBridge {
   submit(serialized: string): boolean;
@@ -8,24 +8,12 @@ export interface HostBridge {
 }
 export function createHostBridge(viewer: SpineViewer): HostBridge {
   const replies: Reply[] = [];
-  const events: { event: string; detail: object }[] = [];
+  const events: ViewerEvent[] = [];
   const requests = new Set<string>();
-  for (const event of [
-    "LOAD_STARTED",
-    "RUNTIME_READY",
-    "ASSETS_LOADED",
-    "VIEWER_READY",
-    "PLAYBACK_CHANGED",
-    "ANIMATION_COMPLETE",
-    "ANIMATION_EVENT",
-    "RUNTIME_WARNING",
-    "RUNTIME_ERROR",
-    "SESSION_DISPOSED",
-  ])
-    viewer.addEventListener(event, (e) => {
-      events.push({ event, detail: (e as CustomEvent<object>).detail });
-      if (events.length > 256) events.shift();
-    });
+  viewer.subscribe((event) => {
+    events.push(event);
+    if (events.length > 256) events.shift();
+  });
   return {
     submit(serialized) {
       if (
@@ -59,7 +47,9 @@ export function createHostBridge(viewer: SpineViewer): HostBridge {
       return result;
     },
     takeEvents() {
-      const result = JSON.stringify(events);
+      const result = JSON.stringify(
+        events.map(([event, detail]) => ({ event, detail })),
+      );
       events.length = 0;
       return result;
     },

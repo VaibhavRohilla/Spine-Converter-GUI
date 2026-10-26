@@ -33,8 +33,8 @@
       "textureCount": 1,
       "texturePixels": 131072,
       "frames": 3,
-      "updateMs": 0.39999985694885254,
-      "renderMs": 0.19999980926513672
+      "updateMs": 0.2999999523162842,
+      "renderMs": 0.20000004768371582
     },
     "limitations": [
       "single animation track control",

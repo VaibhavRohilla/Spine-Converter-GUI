@@ -54,7 +54,14 @@ test("pose comparison does not compare bones with different parents", () => {
   const base: Pose = {
     runtime: "x",
     exportVersion: "4.2.43",
-    bones: [{ name: "b", parent: null, local: [], world: [1, 2, 1, 0, 0, 1] }],
+    bones: [
+      {
+        name: "b",
+        parent: null,
+        local: [0, 0, 0, 1, 1, 0, 0],
+        world: [1, 2, 1, 0, 0, 1],
+      },
+    ],
     slots: [],
     drawOrder: [],
     skin: null,

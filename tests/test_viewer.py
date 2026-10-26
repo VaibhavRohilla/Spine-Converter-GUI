@@ -363,3 +363,35 @@ def test_render_capability_and_allocation_admission():
         admit_render_document({"bones": [{}] * 10001}, "4.2")
     with pytest.raises(ValueError, match="UNSUPPORTED_RENDER_FEATURE"):
         admit_render_document({"physics": [{}]}, "3.8")
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    [
+        "duplicate_family", "unknown_capability", "duplicate_capability",
+        "missing_identity", "binary_conflict", "unsupported_embedded",
+    ],
+)
+def test_runtime_manifest_rejects_contradictory_capabilities(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, mutation: str
+) -> None:
+    from fnx_spine_forge.viewer import registry
+
+    document = json.loads(Path(registry.__file__).with_name("runtime_manifest.json").read_text())
+    row = next(row for row in document["runtimes"] if row["embeddedImplemented"])
+    if mutation == "duplicate_family":
+        document["runtimes"].append(row.copy())
+    elif mutation == "unknown_capability":
+        row["capabilities"].append("PRETEND_RENDERING")
+    elif mutation == "duplicate_capability":
+        row["capabilities"].append(row["capabilities"][0])
+    elif mutation == "missing_identity":
+        row["revision"] = None
+    elif mutation == "binary_conflict":
+        row["binaryImplemented"] = False
+    elif mutation == "unsupported_embedded":
+        row["capabilities"].append("UNSUPPORTED")
+    (tmp_path / "runtime_manifest.json").write_text(json.dumps(document))
+    monkeypatch.setattr(registry, "files", lambda package: tmp_path)
+    with pytest.raises(ValueError):
+        registry.RuntimeRegistry()

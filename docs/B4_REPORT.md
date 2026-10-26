@@ -127,3 +127,12 @@ Explicit product restrictions remain: legacy 3.5–3.7 unavailable; PNG textures
 ## K. Git publication
 
 Branch: `codex/b3-production-hardening`. Implementation commit: `f60f0bff7e7c8d7f1912f8d7c302988b1af92f3a`. Qualification report commit: `7b96c34aca45313287ee605ae6c5f218b41ed90b`. Working tree was clean after that publication; this metadata-only follow-up records its immutable hash. There is no B4 freeze tag because the decision is PARTIAL. Frozen B1/B2/B3 boundaries remain in force.
+
+
+## Typed-contract hardening follow-up
+
+The subsequent production-hardening pass retains the PARTIAL decision and the outstanding gates in section J. Current regression totals are **428 Python tests and 69 TypeScript/browser tests**, all passing. Ruff, strict mypy, stricter TypeScript checking, lint, production build, Python wheel/sdist build and repeated-build identity checks passed. Qt WebEngine capture/bridge/disposal passed again with the same image checksum; see `evidence/B4/qt-typed` and `logs/typed-*.log`. Browser/fixture evidence has been refreshed for this revision; the original qualification counts above describe the initial implementation commit.
+
+Changes: fixed-size bone-transform/RGBA tuples; finite lifecycle state type; discriminated event payloads; unsubscribe/disposal-aware typed host subscriptions; complete bridge event forwarding including frame capture; host observer exception isolation; generated runtime factories/family schemas from the canonical manifest; enum-backed Python runtime features with rejection of duplicate/contradictory capabilities and incomplete identities. Redundant runtime-family declarations and the bridge's unchecked CustomEvent cast were removed. TypeScript now enforces exact optional properties, explicit returns, switch fallthrough checks and override checks. Lint disallows explicit `any` and `unknown` in application code. Caught foreign exceptions remain untrusted until narrowed to Error; no unsafe casts replace that validation.
+
+Required 3.8/4.0/4.1 adapters are retained as supported product features, not backward-compatibility fallbacks. Each implements its official API directly. No deprecated runtime API or unused compatibility shim was found that could be removed without losing requested playback coverage. Version-specific behavior and bounded security limits remain explicit; making them arbitrary dynamic inputs would weaken correctness. No claim of universal production readiness or a subjective “10/10” replaces the remaining qualification work.

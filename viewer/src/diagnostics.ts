@@ -40,11 +40,11 @@ export class ViewerError extends Error {
   }
 }
 export function diagnostic(
-  error: unknown,
+  error: Error,
   assets: Assets,
   fallback: DiagnosticCode = "RUNTIME_UPDATE_FAILED",
 ): Diagnostic {
-  const e = error instanceof Error ? error : new Error(String(error));
+  const e = error;
   return {
     code: e instanceof ViewerError ? e.code : fallback,
     severity: "error",
