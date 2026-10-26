@@ -1,5 +1,10 @@
 # FNX Spine Forge — B3 qualification report
 
+> Historical checkpoint: this report records the schema-1 B3 implementation.
+> The current typed schema-2 contract, cleanup and test evidence are in
+> [B3_HARDENING_REPORT.md](B3_HARDENING_REPORT.md). Its API descriptions supersede
+> this checkpoint; the original evidence below is retained for audit history.
+
 Decision: **B3 PARTIAL — BUNDLE SUBSYSTEM FROZEN**.
 
 The restricted JSON bundle workflow is implemented and verified. Overall B3

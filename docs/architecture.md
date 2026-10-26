@@ -50,3 +50,38 @@ All production modules and the independent numerical test reader are checked
 with strict mypy plus explicit/implicit `Any` rejection. No type suppressions or
 unchecked casts are retained. There are no compatibility forwarders for removed
 APIs or modules.
+
+
+## B3 canonical owners (0.2)
+
+- `source.py`: bounded folders/ZIPs/explicit selections and canonical member paths.
+  Selection limits apply to selected files; unrelated siblings are not scanned.
+- `detection.py` and `versions.py`: one typed JSON skeleton recognition operation
+  and version syntax/family authority. Numeric/alternate version fields are not
+  coerced into an export version.
+- `parsers.py`: sole atlas grammar and region/page ownership, including indexed
+  regions. B2 consumes its ownership records directly, without a second scan.
+- `bundle_models.py`: immutable/slotted request, report, target and operation
+  contracts. Operational state is typed; JSON is produced only at serialization.
+- `progress.py`: one typed phase/event vocabulary shared by B2 and B3, with
+  cooperative thread-safe cancellation.
+- `bundle.py`: B1/B2 orchestration and selected-bundle transactions. Qualification
+  still belongs to B2.
+- `packaging.py`: package construction, measured texture dependencies, deterministic
+  archives, final validation and publication receipts.
+- `atomic_io.py`: shared staging/path checks and native exclusive file/directory
+  publication. CLI and bundle workflows use this owner; replacement is unsupported.
+- `texture.py`: configured, streaming PNG structural validation. Image bytes are
+  immutable artifacts, not rendered approximations.
+- `binary.py`: exact registered codec evidence, typed capability features/errors
+  and independent decode/encode operations. Capability records cannot be forged
+  into a different version or wider qualification through codec construction.
+
+Retired `registry.py`, root `errors.py`, and `protocols.py` have no forwarders.
+`conversion/registry.py` is the only migration graph. Recognition does not expose
+placeholder family-level reader/writer capability fields. Fixed binary/PNG/ZIP
+wire constants are explicitly distinct from configured operational limits.
+
+Every new public contract is checked by `tests/b3_contracts.py`. Installed clients
+receive PEP 561 type information. There are no `Any` suppressions or missing-import
+silencers. Checked FFI/unpack narrowing is limited to native integer/float formats.

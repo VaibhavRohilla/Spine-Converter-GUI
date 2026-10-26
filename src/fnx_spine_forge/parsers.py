@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
+from collections import Counter
 from dataclasses import dataclass
 
-from .detection import SPINE_VERSION
-from .json_types import JSONValue, decode_json_object, is_document, require_json_object
+from .detection import TEXTURE_EXTENSIONS, recognize_skeleton
+from .json_types import JSONValue, decode_json_object, is_document
 
 IMAGE_ATTACHMENT_TYPES = {"region", "mesh", "linkedmesh", "weightedmesh"}
 NON_IMAGE_ATTACHMENT_TYPES = {"boundingbox", "path", "point", "clipping"}
@@ -66,32 +67,20 @@ def inspect_skeleton(payload: bytes) -> SkeletonInfo | None:
         obj = decode_json_object(payload.decode("utf-8-sig"), "skeleton")
     except (UnicodeError, ValueError):
         return None
-    if (
-        not is_document(obj)
-        or not is_document(obj.get("skeleton"))
-        or not isinstance(obj.get("bones"), list)
-    ):
+    recognition = recognize_skeleton(obj)
+    if recognition is None:
         return None
-    diagnostics = []
-    meta = require_json_object(obj["skeleton"], "skeleton metadata")
-    raw = meta.get("spine", meta.get("version"))
-    version = str(raw).strip() if raw is not None else None
-    if version is None:
-        diagnostics.append(
-            ("SKELETON_VERSION_MISSING", "Skeleton has no Spine export version metadata")
-        )
-    elif not SPINE_VERSION.fullmatch(version):
-        diagnostics.append(
-            ("SKELETON_VERSION_MALFORMED", f"Unrecognized Spine version: {version!r}")
-        )
-        version = None
+    diagnostics: list[tuple[str, str]] = []
+    version = recognition.version
+    if recognition.diagnostic is not None:
+        diagnostics.append((recognition.diagnostic.code.value, recognition.diagnostic.message))
     bones = _names(obj["bones"])
     slots = _names(obj.get("slots", []))
     skins = obj.get("skins", {})
     if "slots" not in obj:
         diagnostics.append(("SKELETON_SLOTS_MISSING", "Skeleton is missing essential slots field"))
     for label, values in (("bone", bones), ("slot", slots)):
-        repeated = sorted({v for v in values if values.count(v) > 1})
+        repeated = sorted(name for name, count in Counter(values).items() if count > 1)
         if repeated:
             diagnostics.append(
                 ("DUPLICATE_IDENTIFIER", f"Duplicate {label} names: {', '.join(repeated)}")
@@ -200,6 +189,7 @@ class AtlasInfo:
     regions: tuple[str, ...]
     attributes: tuple[tuple[str, str], ...]
     unknown_attributes: tuple[tuple[str, str], ...]
+    region_pages: tuple[int, ...]
     duplicate_regions: tuple[str, ...] = ()
     page_records: tuple[AtlasPage, ...] = ()
     region_records: tuple[AtlasRegion, ...] = ()
@@ -219,7 +209,6 @@ REGION_KEYS = {
     "pad",
     "-",
 }
-TEXTURE_SUFFIXES = (".png", ".jpg", ".jpeg", ".webp", ".ktx", ".ktx2", ".pvr", ".tga")
 
 
 def parse_atlas(payload: bytes) -> AtlasInfo:
@@ -230,7 +219,9 @@ def parse_atlas(payload: bytes) -> AtlasInfo:
     unknown: list[tuple[str, str]] = []
     current_page: int | None = None
     current_region: int | None = None
-    for raw in text.splitlines():
+    region_pages: list[int] = []
+    lines = text.splitlines()
+    for position, raw in enumerate(lines):
         line = raw.strip()
         if not line or line.startswith("#"):
             continue
@@ -250,8 +241,19 @@ def parse_atlas(payload: bytes) -> AtlasInfo:
             if key.lower() not in known:
                 unknown.append((key, value))
             continue
-        if line.lower().endswith(TEXTURE_SUFFIXES):
-            # Texture declarations are page headers in both atlas syntax families.
+        following: set[str] = set()
+        for lookahead in range(position + 1, len(lines)):
+            next_line = lines[lookahead].strip()
+            if not next_line or next_line.startswith("#"):
+                continue
+            if ":" not in next_line:
+                break
+            following.add(next_line.split(":", 1)[0].strip())
+        region_evidence = bool(following & (REGION_KEYS - PAGE_KEYS))
+        page_evidence = bool(following & (PAGE_KEYS - REGION_KEYS))
+        if region_evidence and page_evidence:
+            raise ValueError(f"Mixed atlas page and region attributes on {line!r}")
+        if any(line.lower().endswith(ext) for ext in TEXTURE_EXTENSIONS) and not region_evidence:
             pages.append((line, []))
             current_page = len(pages) - 1
             current_region = None
@@ -259,27 +261,34 @@ def parse_atlas(payload: bytes) -> AtlasInfo:
             raise ValueError(f"Region declared before texture page: {line!r}")
         else:
             regions.append((line, []))
+            region_pages.append(current_page)
             current_region = len(regions) - 1
     if not pages:
         raise ValueError("Atlas contains no page declarations")
     region_names = [name for name, _ in regions]
-    # Atlas names may repeat when region indices distinguish the entries.
-    indices = [dict(values).get("index") for _, values in regions]
-    duplicate_names = {
-        name
-        for i, name in enumerate(region_names)
-        if name in region_names[:i]
-        and (indices[i] is None or indices[region_names.index(name)] is None)
-    }
+    # Indexed names may repeat only when every index is explicit, nonnegative and unique.
+    seen_regions: dict[str, set[int | None]] = {}
+    duplicate_names: set[str] = set()
+    for name, values in regions:
+        raw_index = dict(values).get("index")
+        index = int(raw_index) if raw_index is not None else -1
+        if index < -1:
+            raise ValueError(f"Invalid atlas index on {name!r}")
+        index_key = index if index >= 0 else None
+        previous = seen_regions.setdefault(name, set())
+        if previous and (index_key is None or None in previous or index_key in previous):
+            duplicate_names.add(name)
+        previous.add(index_key)
     duplicates = tuple(sorted(duplicate_names))
     page_records = tuple(AtlasPage(name, tuple(values)) for name, values in pages)
     region_records = tuple(AtlasRegion(name, tuple(values)) for name, values in regions)
     return AtlasInfo(
-        tuple(name for name, _ in pages),
-        tuple(region_names),
-        tuple(attrs),
-        tuple(unknown),
-        duplicates,
-        page_records,
-        region_records,
+        pages=tuple(name for name, _ in pages),
+        regions=tuple(region_names),
+        attributes=tuple(attrs),
+        unknown_attributes=tuple(unknown),
+        region_pages=tuple(region_pages),
+        duplicate_regions=duplicates,
+        page_records=page_records,
+        region_records=region_records,
     )

@@ -1,14 +1,16 @@
 import json
 
+from fnx_spine_forge.conversion import ConversionPlanner
 from fnx_spine_forge.parsers import inspect_skeleton, parse_atlas
-from fnx_spine_forge.versions import CapabilityState, VersionRegistry
+from fnx_spine_forge.versions import VersionRegistry
 
 
 def test_version_families_are_recognized_without_writer_claim():
     registry = VersionRegistry()
     assert registry.family_for("4.3.12") == "4.3"
     assert registry.family_for("9.1.0") is None
-    assert registry.definitions()[0].writer is CapabilityState.NOT_IMPLEMENTED
+    assert registry.definitions()[0].family == "3.5"
+    assert not ConversionPlanner().structural_plan("3.5", "4.2.43").executable
 
 
 def test_skeleton_historical_skin_shape_and_image_path():

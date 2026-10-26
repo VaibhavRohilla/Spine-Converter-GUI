@@ -7,20 +7,20 @@ from zipfile import ZipFile
 
 import pytest
 
-from fnx_spine_forge.bundle import (
+from fnx_spine_forge.atomic_io import publish_directory
+from fnx_spine_forge.bundle import BundleService
+from fnx_spine_forge.bundle_models import (
     BundleRequest,
-    BundleService,
     BundleState,
-    CancellationToken,
     DependencyMappings,
+    PackageContainer,
     PackageMode,
     RetentionPolicy,
-    Stage,
-    _rename_exclusive,
 )
 from fnx_spine_forge.cli import main
 from fnx_spine_forge.conversion.models import SourceRiskPolicy
 from fnx_spine_forge.inspection import InspectionService
+from fnx_spine_forge.progress import CancellationToken, Stage
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
@@ -36,8 +36,12 @@ def bundle(root, name="asset", version="3.8.99", directory=""):
         "animations": {},
     }
     (parent / f"{name}.json").write_text(json.dumps(document))
+    image_bytes = (FIXTURES / "spine38/golden_ingot.png").read_bytes()
+    width = int.from_bytes(image_bytes[16:20], "big")
+    height = int.from_bytes(image_bytes[20:24], "big")
     (parent / f"{name}.atlas").write_text(
-        f"{name}.png\nsize: 1,1\nformat: RGBA8888\nfilter: Linear,Linear\nrepeat: none\n"
+        f"{name}.png\nsize: {width},{height}\n"
+        "format: RGBA8888\nfilter: Linear,Linear\nrepeat: none\n"
         "image\n  rotate: false\n  xy: 0,0\n  size: 1,1\n  orig: 1,1\n  offset: 0,0\n  index: -1\n"
     )
     (parent / f"{name}.png").write_bytes((FIXTURES / "spine38/golden_ingot.png").read_bytes())
@@ -45,6 +49,9 @@ def bundle(root, name="asset", version="3.8.99", directory=""):
 
 
 def request(source, output, **kwargs):
+    kwargs.setdefault(
+        "container", PackageContainer.ZIP if output.suffix == ".zip" else PackageContainer.FOLDER
+    )
     kwargs.setdefault("experimental_structural", True)
     return BundleRequest(source, "4.2.43", output, **kwargs)
 
@@ -59,8 +66,8 @@ def test_real_qualified_zip_folder_and_reproducibility(tmp_path):
         dest = tmp_path / name
         result = service.convert_bundle(request(source, dest))
         assert result.published, result.report
-        assert not result.report["bundles"][0]["qualification"]["qualified"]
-        assert result.report["runtime_verification"] == "not_run"
+        assert not result.to_dict()["report"]["bundles"][0]["qualification"]["qualified"]
+        assert result.to_dict()["report"]["runtime_verification"] == "not_run"
         assert InspectionService().inspect(str(dest)).ok
         outputs.append(dest)
     assert outputs[0].read_bytes() == outputs[1].read_bytes()
@@ -97,7 +104,9 @@ def test_ambiguity_mapping_selection_and_missing_texture(tmp_path):
     with ZipFile(fixed.output) as z:
         assert z.read("two.png") == (source / "replacement.png").read_bytes()
     bad = DependencyMappings({"absent.json": "two.atlas"})
-    assert not service.convert_bundle(replace(req, output=tmp_path / "bad", mappings=bad)).published
+    assert not service.convert_bundle(
+        replace(req, output=tmp_path / "bad.zip", mappings=bad)
+    ).published
 
 
 def test_nested_multiple_shared_and_source_parity(tmp_path):
@@ -135,10 +144,10 @@ def test_qualification_risk_and_real_experimental(tmp_path):
     permitted = replace(req, source_risk_policy=SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC)
     result = service.convert_bundle(permitted)
     assert result.published, result.report
-    assert result.report["bundles"][0]["source_version"] == "3.8.75"
-    assert not result.report["bundles"][0]["qualification"]["qualified"]
+    assert result.to_dict()["report"]["bundles"][0]["source_version"] == "3.8.75"
+    assert not result.to_dict()["report"]["bundles"][0]["qualification"]["qualified"]
     rejected = service.convert_bundle(
-        replace(permitted, experimental_structural=False, output=tmp_path / "reject")
+        replace(permitted, experimental_structural=False, output=tmp_path / "reject.zip")
     )
     assert not rejected.published
 
@@ -183,7 +192,9 @@ def test_plan_retention_audit_cli_and_explicit_selection(tmp_path, capsys):
         assert json.loads(z.read("fnx-conversion-report.json"))["runtime_verification"] == "not_run"
     explicit = tuple(source.iterdir())
     assert service.convert_bundle(
-        replace(req, source=explicit, output=tmp_path / "explicit")
+        replace(
+            req, source=explicit, output=tmp_path / "explicit", container=PackageContainer.FOLDER
+        )
     ).published
     assert main(["bundle", "inspect", str(source)]) == 0
     assert main(["bundle", "list", str(source)]) == 0
@@ -206,6 +217,8 @@ def test_plan_retention_audit_cli_and_explicit_selection(tmp_path, capsys):
             [
                 "bundle",
                 "convert",
+                "--container",
+                "zip",
                 "--experimental-structural",
                 "--input",
                 str(source),
@@ -225,7 +238,7 @@ def test_folder_publication_no_replace(tmp_path):
     source.mkdir()
     target.mkdir()
     with pytest.raises(OSError):
-        _rename_exclusive(source, target)
+        publish_directory(source, target)
     assert source.is_dir() and target.is_dir()
 
 
@@ -236,7 +249,7 @@ def test_rollback_on_write_failure(tmp_path, monkeypatch):
     def fail(*args, **kwargs):
         raise OSError("simulated disk error")
 
-    monkeypatch.setattr("fnx_spine_forge.bundle.os.link", fail)
+    monkeypatch.setattr("fnx_spine_forge.atomic_io.os.link", fail)
     dest = tmp_path / "failure.zip"
     result = BundleService().convert_bundle(request(source, dest))
     assert result.status == "failed" and not result.published and not dest.exists()
@@ -315,7 +328,7 @@ def test_distinct_attachment_evidence_nested_multi_bundle_and_mixed_versions(tmp
     output = tmp_path / "mixed.zip"
     result = service.convert_bundle(request(source, output))
     assert result.published, result.report
-    assert len(result.report["bundles"]) == 2
+    assert len(result.to_dict()["report"]["bundles"]) == 2
     with ZipFile(output) as z:
         assert set(z.namelist()) == {
             "α/same.json",
@@ -340,9 +353,9 @@ def test_batch_reports_all_jobs_and_qualification_rejection(tmp_path):
         )
     )
     assert [r.status for r in results] == ["failed", "completed", "failed"]
-    assert results[0].report["bundles"][0]["qualification"]["unqualified_features"] == (
-        "atlas_geometry",
-    )
+    assert results[0].to_dict()["report"]["bundles"][0]["qualification"][
+        "unqualified_features"
+    ] == ("atlas_geometry",)
     assert not req.output.exists()
 
 
@@ -439,7 +452,7 @@ def test_failed_dependency_reports_are_deterministic_and_use_original_source(tmp
     req = request(source, tmp_path / "missing.zip")
     first, second = service.convert_bundle(req), service.convert_bundle(req)
     assert first.status == "failed" and first.to_dict() == second.to_dict()
-    assert first.report["inspection"]["source"] == str(source)
+    assert first.to_dict()["report"]["inspection"]["source"] == str(source)
 
 
 def test_texture_replacement_collision_rejects_without_overwriting(tmp_path):
@@ -465,7 +478,7 @@ def test_texture_replacement_collision_rejects_without_overwriting(tmp_path):
     service = BundleService()
     rejected = service.convert_bundle(req)
     assert not rejected.published and not req.output.exists()
-    assert "collides" in rejected.report["diagnostic"]["message"]
+    assert "collides" in rejected.to_dict()["report"]["diagnostic"]["message"]
     assert (source / "asset.png").read_bytes() == original
     assert (source / "replacement.png").read_bytes() == replacement
     allowed = replace(req, retention=RetentionPolicy.REQUIRED_ONLY, output=tmp_path / "mapped.zip")
@@ -490,7 +503,7 @@ def test_shared_output_conflict_reports_every_bundle_without_publication(tmp_pat
     req = request(source, tmp_path / "conflict.zip")
     result = BundleService().convert_bundle(req)
     assert result.status == "failed" and not result.published and not req.output.exists()
-    rows = result.report["bundles"]
+    rows = result.to_dict()["report"]["bundles"]
     assert [r["bundle_id"] for r in rows] == ["a.json", "b.json"]
     assert all(r["execution_success"] for r in rows)
     assert rows[1]["merge_diagnostic"]["code"] == "SHARED_OUTPUT_CONFLICT"
@@ -507,8 +520,8 @@ def test_excessive_json_nesting_is_a_structured_source_failure(tmp_path):
     req = request(source, tmp_path / "deep.zip", bundle_ids=("asset.json",))
     outcome = service.convert_bundle(req)
     assert outcome.status == "failed" and not outcome.published
-    assert outcome.report["diagnostic"]["code"] == "INPUT_NESTING_LIMIT"
-    assert outcome.report["bundles"][0]["structural_validation"] == "not_run"
+    assert outcome.to_dict()["report"]["diagnostic"]["code"] == "INPUT_NESTING_LIMIT"
+    assert outcome.to_dict()["report"]["bundles"][0]["structural_validation"] == "not_run"
     assert not req.output.exists()
 
 
@@ -524,6 +537,6 @@ def test_corrupt_zip_payload_returns_structured_failure(tmp_path):
     req = request(path, tmp_path / "unpublished.zip")
     result = service.convert_bundle(req)
     assert result.status == "failed" and not result.published
-    assert result.report["diagnostic"]["stage"] == "SCANNING"
-    assert result.report["diagnostic"]["file_path"] == "broken.json"
+    assert result.to_dict()["report"]["diagnostic"]["stage"] == "SCANNING"
+    assert result.to_dict()["report"]["diagnostic"]["file_path"] == "broken.json"
     assert not req.output.exists()

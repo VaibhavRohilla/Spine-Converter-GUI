@@ -14,7 +14,8 @@ from fnx_spine_forge.binary import (
     BinaryLimits,
     BinaryReader,
 )
-from fnx_spine_forge.bundle import BundleRequest, BundleService
+from fnx_spine_forge.bundle import BundleService
+from fnx_spine_forge.bundle_models import BundleRequest, SkeletonFormat
 from fnx_spine_forge.inspection import InspectionService
 from fnx_spine_forge.versions import BINARY_HIERARCHY_VERSION
 
@@ -64,7 +65,14 @@ def test_encode_independent_layout_and_nonessential_roundtrip():
         "skeleton": {"spine": "4.2.43", "fps": 60, "images": "图片/"},
         "bones": [
             {"name": "root", "icon": "bone", "color": "010203ff", "visible": False},
-            {"name": "child", "parent": "root", "inherit": "noScale", "skin": True},
+            {
+                "name": "child",
+                "parent": "root",
+                "inherit": "noScale",
+                "skin": True,
+                "color": "989898ff",
+                "visible": True,
+            },
         ],
     }
     decoded = codec().decode(codec().encode(doc))
@@ -159,7 +167,7 @@ def test_binary_bundle_json_and_binary_outputs(tmp_path):
     assert result.published, result.report
     with ZipFile(req.output) as z:
         assert json.loads(z.read("asset.json"))["bones"][0]["x"] == 2
-    binary_req = replace(req, skeleton_format="binary", output=tmp_path / "binary.zip")
+    binary_req = replace(req, skeleton_format=SkeletonFormat.BINARY, output=tmp_path / "binary.zip")
     result = service.convert_bundle(binary_req)
     assert result.published, result.report
     with ZipFile(binary_req.output) as z:
@@ -201,7 +209,7 @@ def test_decoder_invalid_parent_and_excessive_bones():
 
 @pytest.mark.parametrize("output_format", ["json", "binary"])
 def test_binary_retention_does_not_retain_superseded_selected_skeleton(tmp_path, output_format):
-    from fnx_spine_forge.bundle import RetentionPolicy, SkeletonFormat
+    from fnx_spine_forge.bundle_models import RetentionPolicy, SkeletonFormat
 
     source = tmp_path / "source"
     source.mkdir()
@@ -224,7 +232,7 @@ def test_binary_retention_does_not_retain_superseded_selected_skeleton(tmp_path,
         assert "notes.txt" in z.namelist()
         skeletons = [n for n in z.namelist() if n.endswith((".json", ".skel"))]
         assert skeletons == ["setup.json" if output_format == "json" else "setup.skel"]
-    assert result.report["excluded_files"] == ()
+    assert result.to_dict()["report"]["excluded_files"] == ()
 
 
 def test_directional_capabilities_are_independent():
@@ -243,15 +251,23 @@ def test_directional_capabilities_are_independent():
         BinarySkeletonCodec(capability)
 
 
-def test_nonessential_defaults_match_exact_official_runtime_data_defaults():
-    # spine-core@4.2.43 SkeletonData.fps=0; BoneData color=new Color(0,0,0,0),
-    # visible=false. Enabling nonessential export must not invent editor values.
+def test_nonessential_metadata_requires_explicit_values():
+    from fnx_spine_forge.binary import BinaryErrorCode
+
+    with pytest.raises(BinaryError) as error:
+        codec().encode(
+            {"skeleton": {"spine": "4.2.43", "images": "x"}, "bones": [{"name": "root"}]}
+        )
+    assert error.value.code == BinaryErrorCode.METADATA_INCOMPLETE
     data = codec().encode(
-        {"skeleton": {"spine": "4.2.43", "images": "x"}, "bones": [{"name": "root"}]}
+        {
+            "skeleton": {"spine": "4.2.43", "images": "x", "fps": 0},
+            "bones": [{"name": "root", "color": "00000000", "visible": False}],
+        }
     )
     assert data[35] == 1
     assert struct.unpack(">f", data[36:40]) == (0.0,)
-    assert data[84:90] == bytes(6)  # RGBA, null icon, hidden editor flag.
+    assert data[84:90] == bytes(6)
     decoded = codec().decode(data)
     assert decoded["skeleton"]["fps"] == 0
     assert decoded["bones"][0]["color"] == "00000000"

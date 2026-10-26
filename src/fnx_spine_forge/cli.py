@@ -4,15 +4,20 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
-import shutil
 import sys
-import tempfile
-from collections.abc import Mapping
+from dataclasses import replace
 from pathlib import Path
 
+from .atomic_io import write_bytes_exclusive
 from .binary import BinaryCodecRegistry
-from .bundle import BundleRequest, BundleService, PackageMode, RetentionPolicy, SkeletonFormat
+from .bundle import BundleService
+from .bundle_models import (
+    BundleRequest,
+    PackageContainer,
+    PackageMode,
+    RetentionPolicy,
+    SkeletonFormat,
+)
 from .conversion import (
     AssetSetConverter,
     AtlasConverter,
@@ -23,10 +28,12 @@ from .conversion import (
 from .conversion.runtime import run_spine_runtime_smoke
 from .inspection import InspectionService
 from .json_types import JSONDocument, JSONValue
+from .packaging import PackageBuilder
 from .versions import VersionRegistry
 
 
 class CLIArguments(argparse.Namespace):
+    container: str = "zip"
     skeleton_format: str = "json"
     report_output: str | None = None
     bundle_operation: str = ""
@@ -54,6 +61,19 @@ class CLIArguments(argparse.Namespace):
 
 
 def main(argv: list[str] | None = None) -> int:
+    try:
+        return _execute(argv)
+    except (OSError, ValueError, UnicodeError) as exc:
+        failure: JSONDocument = {
+            "status": "failed",
+            "code": "CLI_OPERATION_FAILED",
+            "message": str(exc),
+        }
+        print(json.dumps(failure, ensure_ascii=False, sort_keys=True, indent=2))
+        return 2
+
+
+def _execute(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="spine-forge")
     sub = parser.add_subparsers(dest="command", required=True)
     inspect = sub.add_parser("inspect", help="Inspect a ZIP or folder")
@@ -104,6 +124,8 @@ def main(argv: list[str] | None = None) -> int:
     bundle_parser = sub.add_parser("bundle", help="Inspect, plan and package logical bundles")
     operations = bundle_parser.add_subparsers(dest="bundle_operation", required=True)
     retention_choices: list[str] = [p.value for p in RetentionPolicy]
+    format_choices: tuple[str, ...] = tuple(f.value for f in SkeletonFormat)
+    container_choices: tuple[str, ...] = tuple(c.value for c in PackageContainer)
     package_choices: list[str] = [p.value for p in PackageMode]
     for operation in ("inspect", "list", "plan", "convert"):
         operation_parser = operations.add_parser(operation)
@@ -113,7 +135,13 @@ def main(argv: list[str] | None = None) -> int:
             operation_parser.add_argument("--input", required=True)
             operation_parser.add_argument("--target", required=True)
             operation_parser.add_argument(
-                "--skeleton-format", choices=("json", "binary"), default="json"
+                "--container",
+                choices=container_choices,
+                required=operation == "convert",
+                default="zip",
+            )
+            operation_parser.add_argument(
+                "--skeleton-format", choices=format_choices, default=SkeletonFormat.JSON.value
             )
             operation_parser.add_argument(
                 "--report-output", help="Separate atomic report sidecar export"
@@ -150,7 +178,7 @@ def main(argv: list[str] | None = None) -> int:
         request = BundleRequest(
             source=args.input,
             target=args.target,
-            output=Path(args.output or "unused-plan-output"),
+            output=Path(args.output or "unused-plan-output.zip"),
             bundle_ids=tuple(args.bundle_id or ()),
             experimental_structural=args.experimental_structural,
             source_risk_policy=(
@@ -158,6 +186,7 @@ def main(argv: list[str] | None = None) -> int:
                 if args.allow_known_source_export_risk
                 else SourceRiskPolicy.REJECT_KNOWN_ISSUES
             ),
+            container=PackageContainer(args.container),
             skeleton_format=SkeletonFormat(args.skeleton_format),
             retention=RetentionPolicy(args.retention),
             package_mode=PackageMode(args.package_mode),
@@ -171,7 +200,9 @@ def main(argv: list[str] | None = None) -> int:
             try:
                 service.write_report(bundle_result, Path(args.report_output))
             except OSError as exc:
-                bundle_result.report["sidecar_error"] = str(exc)
+                bundle_result = replace(
+                    bundle_result, report=replace(bundle_result.report, sidecar_error=str(exc))
+                )
                 print(
                     json.dumps(
                         bundle_result.to_dict(), ensure_ascii=False, sort_keys=True, indent=2
@@ -245,7 +276,14 @@ def main(argv: list[str] | None = None) -> int:
             ),
         )
         if outcome.outputs is not None:
-            _publish_asset_set(Path(args.output_dir), outcome.outputs)
+            if outcome.skeleton_path is None:
+                raise ValueError("Converted asset set has no skeleton path")
+            PackageBuilder().publish(
+                outcome.outputs,
+                (outcome.skeleton_path,),
+                Path(args.output_dir),
+                PackageContainer.FOLDER,
+            )
         output_names: list[str] = sorted(outcome.outputs) if outcome.outputs is not None else []
         asset_report: JSONDocument = {
             "status": outcome.status.value,
@@ -289,7 +327,7 @@ def main(argv: list[str] | None = None) -> int:
         if skeleton_outcome.output is not None and not args.dry_run:
             if not args.output:
                 parser.error("convert skeleton requires --output unless --dry-run is used")
-            _atomic_write(Path(args.output), skeleton_outcome.output)
+            write_bytes_exclusive(Path(args.output), skeleton_outcome.output)
         print(json.dumps(report, indent=2))
         return 0 if skeleton_outcome.output is not None else 2
     try:
@@ -313,7 +351,7 @@ def main(argv: list[str] | None = None) -> int:
         if not args.dry_run:
             if not args.output:
                 parser.error("convert atlas requires --output unless --dry-run is used")
-            _atomic_write(Path(args.output), atlas_output)
+            write_bytes_exclusive(Path(args.output), atlas_output)
     except (OSError, ValueError, UnicodeError) as exc:
         report = {
             "status": "rejected",
@@ -326,41 +364,6 @@ def main(argv: list[str] | None = None) -> int:
         return 2
     print(json.dumps(report, indent=2))
     return 0
-
-
-def _atomic_write(path: Path, content: bytes) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    fd, temporary = tempfile.mkstemp(prefix=f".{path.name}.", dir=path.parent)
-    try:
-        with os.fdopen(fd, "wb") as stream:
-            stream.write(content)
-            stream.flush()
-            os.fsync(stream.fileno())
-        os.replace(temporary, path)
-    except BaseException:
-        try:
-            os.unlink(temporary)
-        except FileNotFoundError:
-            pass
-        raise
-
-
-def _publish_asset_set(output_root: Path, outputs: Mapping[str, bytes]) -> None:
-    """Publish a complete converted bundle with one directory rename."""
-    for name, payload in outputs.items():
-        if Path(name).name != name or name in {".", ".."} or not isinstance(payload, bytes):
-            raise ValueError("Asset-set outputs must be filename-to-bytes entries")
-    if output_root.exists():
-        raise FileExistsError(f"Asset-set output directory already exists: {output_root}")
-    output_root.parent.mkdir(parents=True, exist_ok=True)
-    stage = Path(tempfile.mkdtemp(prefix=f".{output_root.name}.", dir=output_root.parent))
-    try:
-        for name, payload in outputs.items():
-            _atomic_write(stage / name, payload)
-        os.replace(stage, output_root)
-    except BaseException:
-        shutil.rmtree(stage, ignore_errors=True)
-        raise
 
 
 if __name__ == "__main__":

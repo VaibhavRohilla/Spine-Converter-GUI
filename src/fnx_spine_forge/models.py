@@ -10,19 +10,19 @@ from types import MappingProxyType
 from .json_types import JSONDocument, JSONObject, JSONValue
 
 
-def _freeze(value: JSONValue) -> JSONValue:
+def freeze_json(value: JSONValue) -> JSONValue:
     if isinstance(value, Mapping):
-        return MappingProxyType({key: _freeze(item) for key, item in value.items()})
+        return MappingProxyType({key: freeze_json(item) for key, item in value.items()})
     if isinstance(value, (list, tuple)):
-        return tuple(_freeze(item) for item in value)
+        return tuple(freeze_json(item) for item in value)
     return value
 
 
-def _plain(value: JSONValue) -> JSONValue:
+def plain_json(value: JSONValue) -> JSONValue:
     if isinstance(value, Mapping):
-        return {key: _plain(item) for key, item in value.items()}
+        return {key: plain_json(item) for key, item in value.items()}
     if isinstance(value, (list, tuple)):
-        return [_plain(item) for item in value]
+        return [plain_json(item) for item in value]
     return value
 
 
@@ -42,6 +42,23 @@ class FileType(StrEnum):
     UNKNOWN = "unknown"
 
 
+class DependencyKind(StrEnum):
+    ATLAS = "atlas"
+    TEXTURE_PAGE = "texture_page"
+
+
+class DependencyStatus(StrEnum):
+    RESOLVED = "resolved"
+    MISSING = "missing"
+    AMBIGUOUS = "ambiguous"
+
+
+class BundleValidation(StrEnum):
+    NOT_EVALUATED = "not_evaluated"
+    VALID = "valid"
+    INVALID = "invalid"
+
+
 @dataclass(frozen=True)
 class Diagnostic:
     code: str
@@ -52,13 +69,13 @@ class Diagnostic:
     suggestion: str | None = None
 
     def __post_init__(self) -> None:
-        object.__setattr__(self, "context", _freeze(self.context))
+        object.__setattr__(self, "context", freeze_json(self.context))
 
 
 @dataclass(frozen=True)
 class Asset:
     path: str
-    kind: str
+    kind: FileType
     spine_version: str | None = None
     byte_size: int = 0
     asset_id: str = ""
@@ -69,7 +86,9 @@ class Asset:
     metadata: JSONObject = field(default_factory=dict)
 
     def __post_init__(self) -> None:
-        object.__setattr__(self, "metadata", _freeze(self.metadata))
+        if not isinstance(self.kind, FileType):
+            raise TypeError("Asset kind must be FileType")
+        object.__setattr__(self, "metadata", freeze_json(self.metadata))
 
 
 @dataclass(frozen=True)
@@ -77,8 +96,16 @@ class Dependency:
     owner: str
     requested: str
     resolved: str | None
-    kind: str
-    status: str = "resolved"
+    kind: DependencyKind
+    status: DependencyStatus = DependencyStatus.RESOLVED
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.kind, DependencyKind) or not isinstance(
+            self.status, DependencyStatus
+        ):
+            raise TypeError("Dependencies require typed kind and status")
+        if (self.status == DependencyStatus.RESOLVED) != (self.resolved is not None):
+            raise ValueError("Dependency resolution and status disagree")
 
 
 @dataclass(frozen=True)
@@ -90,7 +117,7 @@ class SpineBundle:
     source_location: str
     versions: tuple[str, ...] = ()
     dependencies: tuple[Dependency, ...] = ()
-    validation_state: str = "unknown"
+    validation_state: BundleValidation = BundleValidation.NOT_EVALUATED
 
 
 @dataclass(frozen=True)
@@ -104,7 +131,7 @@ class AssetManifest:
     summary: Mapping[str, int] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
-        object.__setattr__(self, "summary", _freeze(self.summary))
+        object.__setattr__(self, "summary", freeze_json(self.summary))
 
     @property
     def ok(self) -> bool:
@@ -119,7 +146,7 @@ class AssetManifest:
             "assets": [
                 {
                     "path": a.path,
-                    "kind": a.kind,
+                    "kind": a.kind.value,
                     "spine_version": a.spine_version,
                     "byte_size": a.byte_size,
                     "asset_id": a.asset_id,
@@ -127,7 +154,7 @@ class AssetManifest:
                     "filename": a.filename,
                     "extension": a.extension,
                     "checksum": a.checksum,
-                    "metadata": _plain(a.metadata),
+                    "metadata": plain_json(a.metadata),
                 }
                 for a in self.assets
             ],
@@ -139,7 +166,7 @@ class AssetManifest:
                     "texture_pages": list(b.texture_pages),
                     "source_location": b.source_location,
                     "versions": list(b.versions),
-                    "validation_state": b.validation_state,
+                    "validation_state": b.validation_state.value,
                     "dependencies": [_dependency_dict(d) for d in b.dependencies],
                 }
                 for b in self.bundles
@@ -151,7 +178,7 @@ class AssetManifest:
                     "severity": d.severity.value,
                     "message": d.message,
                     "path": d.path,
-                    "context": _plain(d.context),
+                    "context": plain_json(d.context),
                     "suggestion": d.suggestion,
                 }
                 for d in self.diagnostics
@@ -164,6 +191,6 @@ def _dependency_dict(dependency: Dependency) -> JSONDocument:
         "owner": dependency.owner,
         "requested": dependency.requested,
         "resolved": dependency.resolved,
-        "kind": dependency.kind,
-        "status": dependency.status,
+        "kind": dependency.kind.value,
+        "status": dependency.status.value,
     }

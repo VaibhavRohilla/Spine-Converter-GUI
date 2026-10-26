@@ -6,170 +6,61 @@ independent requests have independent destinations and qualification results.
 
 from __future__ import annotations
 
-import json
-import os
 import tempfile
 from collections.abc import Callable, Iterator, Mapping
 from contextlib import contextmanager
-from dataclasses import dataclass, field, replace
-from enum import StrEnum
-from hashlib import file_digest, sha256
+from dataclasses import replace
 from pathlib import Path, PurePosixPath
-from types import MappingProxyType
-from typing import cast
-from zipfile import ZIP_DEFLATED, BadZipFile, ZipFile, ZipInfo
+from zipfile import BadZipFile
 from zlib import error as ZlibError
 
-from .binary import BinaryCodecRegistry, BinaryError
+from .atomic_io import file_digests, publish_file, stage_files
+from .binary import BinaryCapability, BinaryCodecRegistry, BinaryError
+from .bundle_models import (
+    BinaryOperation,
+    BundleInspection,
+    BundleOutcome,
+    BundleReport,
+    BundleRequest,
+    BundleResult,
+    BundleState,
+    DependencyMappings,
+    FileRename,
+    JobDiagnostic,
+    JobDiagnosticCode,
+    JobStatus,
+    PackageMode,
+    PublicationState,
+    RetentionPolicy,
+    SkeletonFormat,
+    SourceDescriptor,
+    SourceRisk,
+    TargetInspection,
+    TextureVerification,
+    VerificationState,
+)
+from .config import InspectionConfig
 from .conversion.asset_set import AssetSetConverter, AssetSetResult
-from .conversion.models import SourceRiskPolicy
+from .conversion.models import ConversionStatus
 from .conversion.planner import ConversionPlanner
 from .conversion.qualification import QualificationService, SourceFeature, inspect_features
 from .conversion.registry import KNOWN_EXPORT_ISSUE_PATCHES, SUPPORTED_PATCH_VERSIONS
 from .conversion.skeleton import SkeletonConverter
+from .dependencies import resolve_relative_path
 from .inspection import InspectionService
-from .json_types import JSONDocument, JSONValue
+from .json_types import encode_json
 from .models import AssetManifest, Diagnostic, Severity
-from .source import AssetSource, canonical_path
+from .packaging import PackageBuilder, PackageSettings, validate_package
+from .progress import CancellationToken, ProgressEvent, Stage
+from .source import (
+    AssetSource,
+    SourceLimits,
+    SourceSelection,
+)
 from .texture import validate_png
 from .versions import VersionRegistry
 
-SourceSelection = str | Path | tuple[Path, ...]
 _JOB_ERRORS = (OSError, ValueError, UnicodeError, EOFError, RuntimeError, BadZipFile, ZlibError)
-
-
-class JobStatus(StrEnum):
-    COMPLETED = "completed"
-    PLANNED = "planned"
-    FAILED = "failed"
-    CANCELLED = "cancelled"
-
-
-class SkeletonFormat(StrEnum):
-    JSON = "json"
-    BINARY = "binary"
-
-
-class BundleState(StrEnum):
-    READY = "READY"
-    NEEDS_SELECTION = "NEEDS_SELECTION"
-    INCOMPLETE = "INCOMPLETE"
-    UNSUPPORTED = "UNSUPPORTED"
-    INVALID = "INVALID"
-
-
-class Stage(StrEnum):
-    SCANNING = "SCANNING"
-    DISCOVERING = "DISCOVERING"
-    VALIDATING = "VALIDATING"
-    PLANNING = "PLANNING"
-    CONVERTING_SKELETON = "CONVERTING_SKELETON"
-    CONVERTING_ATLAS = "CONVERTING_ATLAS"
-    VERIFYING = "VERIFYING"
-    PACKAGING = "PACKAGING"
-    PUBLISHING = "PUBLISHING"
-    COMPLETED = "COMPLETED"
-    FAILED = "FAILED"
-    CANCELLED = "CANCELLED"
-
-
-class RetentionPolicy(StrEnum):
-    REQUIRED_ONLY = "required_only"
-    ALL = "all"
-
-
-class PackageMode(StrEnum):
-    VIEWER = "viewer"
-    AUDIT = "audit"
-
-
-@dataclass(frozen=True)
-class DependencyMappings:
-    atlases: Mapping[str, str] = field(default_factory=dict)
-    textures: Mapping[tuple[str, str], str] = field(default_factory=dict)
-
-    def __post_init__(self) -> None:
-        atlases: Mapping[str, str] = MappingProxyType(dict(self.atlases))
-        textures: Mapping[tuple[str, str], str] = MappingProxyType(dict(self.textures))
-        object.__setattr__(self, "atlases", atlases)
-        object.__setattr__(self, "textures", textures)
-
-
-@dataclass(frozen=True)
-class ProgressEvent:
-    stage: Stage
-    asset_id: str | None = None
-
-
-@dataclass
-class CancellationToken:
-    cancelled: bool = False
-
-    def cancel(self) -> None:
-        self.cancelled = True
-
-
-@dataclass(frozen=True)
-class BundleRequest:
-    source: SourceSelection
-    target: str
-    output: Path
-    bundle_ids: tuple[str, ...] = ()
-    experimental_structural: bool = False
-    source_risk_policy: SourceRiskPolicy = SourceRiskPolicy.REJECT_KNOWN_ISSUES
-    retention: RetentionPolicy = RetentionPolicy.REQUIRED_ONLY
-    package_mode: PackageMode = PackageMode.VIEWER
-    mappings: DependencyMappings = field(default_factory=DependencyMappings)
-    skeleton_format: SkeletonFormat = SkeletonFormat.JSON
-
-
-@dataclass(frozen=True)
-class BundleInspection:
-    manifest: AssetManifest
-    states: Mapping[str, BundleState]
-    targets: Mapping[str, Mapping[str, JSONDocument]]
-
-    def to_dict(self) -> JSONDocument:
-        result = self.manifest.to_dict()
-        result["binary_capabilities"] = tuple(
-            c.to_dict() for c in BinaryCodecRegistry().capabilities()
-        )
-        result["source_state"] = (
-            BundleState.INVALID.value
-            if not self.manifest.ok
-            else BundleState.UNSUPPORTED.value
-            if not self.states
-            else BundleState.READY.value
-            if all(s == BundleState.READY for s in self.states.values())
-            else next(s.value for s in self.states.values() if s != BundleState.READY)
-        )
-        result["states"] = {k: v.value for k, v in self.states.items()}
-        result["targets"] = {k: dict(v) for k, v in self.targets.items()}
-        result["source_risks"] = {
-            a.path: "SOURCE_EXPORT_KNOWN_BUG"
-            for a in self.manifest.assets
-            if a.spine_version in KNOWN_EXPORT_ISSUE_PATCHES
-        }
-        result["required_decisions"] = tuple(
-            {"asset_id": k, "code": v.value}
-            for k, v in self.states.items()
-            if v != BundleState.READY
-        ) + tuple(
-            {"asset_id": a.path, "code": "SOURCE_EXPORT_RISK_AUTHORIZATION_REQUIRED"}
-            for a in self.manifest.assets
-            if a.spine_version in KNOWN_EXPORT_ISSUE_PATCHES
-        )
-        return result
-
-
-@dataclass(frozen=True)
-class BundleResult:
-    status: JobStatus
-    published: bool
-    report: JSONDocument
-
-    def to_dict(self) -> JSONDocument:
-        return {"status": self.status, "published": self.published, "report": self.report}
 
 
 class _Cancelled(Exception):
@@ -177,22 +68,13 @@ class _Cancelled(Exception):
 
 
 @contextmanager
-def _source(selection: SourceSelection) -> Iterator[str]:
+def _source(selection: SourceSelection, limits: SourceLimits) -> Iterator[str]:
     if not isinstance(selection, tuple):
         yield str(selection)
         return
-    if not selection or any(not p.is_file() or p.is_symlink() for p in selection):
-        raise ValueError("Explicit selection requires existing regular files")
-    root = Path(os.path.commonpath([str(p.absolute().parent) for p in selection]))
     with tempfile.TemporaryDirectory(prefix="fnx-selection-") as directory:
-        with AssetSource(root) as source:
-            for path in selection:
-                name = canonical_path(path.absolute().relative_to(root).as_posix())
-                target = Path(directory) / name
-                if target.exists():
-                    raise ValueError("Duplicate explicit selection")
-                target.parent.mkdir(parents=True, exist_ok=True)
-                target.write_bytes(source.read(name))
+        with AssetSource(selection, limits) as source:
+            stage_files(Path(directory), {name: source.read(name) for name in source.names()})
         yield directory
 
 
@@ -205,19 +87,27 @@ def _manifest_source(manifest: AssetManifest, location: str) -> AssetManifest:
     )
 
 
-def _inspection(mappings: DependencyMappings) -> InspectionService:
-    return InspectionService(atlas_overrides=mappings.atlases, texture_overrides=mappings.textures)
+def _inspection(mappings: DependencyMappings, config: InspectionConfig) -> InspectionService:
+    return InspectionService(
+        config=config, atlas_overrides=mappings.atlases, texture_overrides=mappings.textures
+    )
 
 
 def _state(manifest: AssetManifest, bundle_id: str) -> BundleState:
     bundle = next(b for b in manifest.bundles if b.bundle_id == bundle_id)
     asset = next(a for a in manifest.assets if a.path == bundle_id)
-    if VersionRegistry().family_for(asset.spine_version) is None or (
-        asset.kind == "skeleton_binary" and not asset.metadata.get("binary_capability")
-    ):
-        return BundleState.UNSUPPORTED
     paths = {bundle_id, *bundle.atlases, *bundle.texture_pages}
     diagnostics = [d for d in manifest.diagnostics if d.path is None or d.path in paths]
+    if any(
+        d.severity in (Severity.ERROR, Severity.BLOCKER)
+        and not d.code.startswith(("AMBIGUOUS", "MISSING"))
+        for d in diagnostics
+    ):
+        return BundleState.INVALID
+    if VersionRegistry().family_for(asset.spine_version) is None or (
+        asset.kind == "skeleton_binary" and not asset.metadata.get("binary_decoded")
+    ):
+        return BundleState.UNSUPPORTED
     if any(d.code == "CONVERSION_SOURCE_UNSUPPORTED" for d in diagnostics):
         return BundleState.UNSUPPORTED
     if any(d.code.startswith("AMBIGUOUS") for d in diagnostics):
@@ -246,15 +136,9 @@ def _portable(
         for dep in bundle.dependencies:
             if dep.kind != "texture_page" or dep.resolved is None:
                 continue
-            parts = list(PurePosixPath(dep.owner).parent.parts)
-            for part in PurePosixPath(dep.requested).parts:
-                if part == "..":
-                    if not parts:
-                        raise ValueError("Texture reference escapes package")
-                    parts.pop()
-                elif part != ".":
-                    parts.append(part)
-            name = canonical_path(PurePosixPath(*parts).as_posix())
+            name = resolve_relative_path(dep.requested, dep.owner)
+            if name is None:
+                raise ValueError("Texture reference escapes package or is unsafe")
             targets.add(name)
             resolved.add(dep.resolved)
             payload = files[dep.resolved]
@@ -267,28 +151,15 @@ def _portable(
     return result
 
 
-def _write_files(root: Path, files: Mapping[str, bytes]) -> None:
-    seen: set[str] = set()
-    for name, data in sorted(files.items()):
-        safe = canonical_path(name)
-        if safe.casefold() in seen:
-            raise ValueError("Normalized output collision")
-        seen.add(safe.casefold())
-        target = root / safe
-        target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_bytes(data)
-
-
-def _validate(root: Path, ids: tuple[str, ...]) -> None:
-    manifest = InspectionService().inspect(str(root))
-    if not manifest.ok or any(
-        not any(b.bundle_id == name and b.validation_state == "valid" for b in manifest.bundles)
-        for name in ids
-    ):
-        raise ValueError("Final B1 package reinspection rejected dependencies")
-
-
 class BundleService:
+    def __init__(
+        self,
+        inspection_config: InspectionConfig | None = None,
+        package_settings: PackageSettings | None = None,
+    ) -> None:
+        self.inspection_config = inspection_config or InspectionConfig()
+        self.packages = PackageBuilder(self.inspection_config, package_settings)
+
     def inspect_source(
         self, source: SourceSelection, mappings: DependencyMappings | None = None
     ) -> BundleInspection:
@@ -311,18 +182,22 @@ class BundleService:
     def _inspect_source(
         self, source: SourceSelection, mappings: DependencyMappings | None = None
     ) -> BundleInspection:
-        with _source(source) as origin:
-            manifest = _inspection(mappings or DependencyMappings()).inspect(origin)
-            manifest = _manifest_source(manifest, str(source))
-            targets: dict[str, dict[str, JSONDocument]] = {}
+        with _source(source, self.inspection_config.source_limits) as origin:
+            manifest = _inspection(
+                mappings or DependencyMappings(), self.inspection_config
+            ).inspect(origin)
+            manifest = _manifest_source(manifest, SourceDescriptor.from_selection(source).label)
+            targets: dict[str, dict[str, TargetInspection]] = {}
             if not manifest.assets:
                 return BundleInspection(manifest, {}, targets)
-            with AssetSource(origin) as reader:
+            with AssetSource(origin, self.inspection_config.source_limits) as reader:
                 texture_diagnostics: list[Diagnostic] = []
                 for asset in manifest.assets:
                     if asset.kind == "texture" and asset.path.lower().endswith(".png"):
                         try:
-                            validate_png(reader.read(asset.path))
+                            validate_png(
+                                reader.read(asset.path), self.packages.settings.texture_limits
+                            )
                         except (OSError, ValueError) as exc:
                             texture_diagnostics.append(
                                 Diagnostic("INVALID_TEXTURE", Severity.ERROR, str(exc), asset.path)
@@ -331,7 +206,7 @@ class BundleService:
                     manifest, diagnostics=manifest.diagnostics + tuple(texture_diagnostics)
                 )
                 for bundle in manifest.bundles:
-                    rows: dict[str, JSONDocument] = {}
+                    rows: dict[str, TargetInspection] = {}
                     asset = next(a for a in manifest.assets if a.path == bundle.bundle_id)
                     if asset.kind in ("skeleton_json", "skeleton_binary") and asset.spine_version:
                         try:
@@ -342,7 +217,7 @@ class BundleService:
                                     .codec(asset.spine_version, experimental=True)
                                     .decode(payload)
                                 )
-                                payload = _json_bytes(decoded)
+                                payload = encode_json(decoded)
                             canonical = SkeletonConverter().read(payload)
                             features = inspect_features(canonical.semantic, canonical.document)
                             if bundle.atlases:
@@ -351,20 +226,20 @@ class BundleService:
                                 plan = ConversionPlanner().structural_plan(
                                     asset.spine_version, target
                                 )
-                                rows[target] = dict(
-                                    QualificationService()
-                                    .evaluate(asset.spine_version, target, plan.route, features)
-                                    .to_json()
-                                )
-                                rows[target]["structural_route_available"] = bool(plan.route)
-                                rows[target]["route"] = plan.route
-                                rows[target]["source_risk_authorization_required"] = (
-                                    asset.spine_version in KNOWN_EXPORT_ISSUE_PATCHES
-                                )
-                                rows[target]["target_formats"] = ("json",) + tuple(
-                                    "binary"
-                                    for c in BinaryCodecRegistry().capabilities()
-                                    if c.version == target and c.encode
+                                rows[target] = TargetInspection(
+                                    qualification=QualificationService().evaluate(
+                                        asset.spine_version, target, plan.route, features
+                                    ),
+                                    route=plan.route,
+                                    source_risk_authorization_required=(
+                                        asset.spine_version in KNOWN_EXPORT_ISSUE_PATCHES
+                                    ),
+                                    target_formats=(SkeletonFormat.JSON,)
+                                    + tuple(
+                                        SkeletonFormat.BINARY
+                                        for c in BinaryCodecRegistry().capabilities()
+                                        if c.version == target and c.encode
+                                    ),
                                 )
                         except (ValueError, UnicodeError) as exc:
                             manifest = replace(
@@ -410,8 +285,8 @@ class BundleService:
         output.parent.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(prefix=".fnx-report-", dir=output.parent) as directory:
             staged = Path(directory) / "report.json"
-            staged.write_bytes(_json_bytes(result.to_dict()))
-            os.link(staged, output)
+            staged.write_bytes(encode_json(result.to_dict()))
+            publish_file(staged, output)
 
     def convert_batch(self, requests: tuple[BundleRequest, ...]) -> tuple[BundleResult, ...]:
         return tuple(self.convert_bundle(request) for request in requests)
@@ -426,34 +301,19 @@ class BundleService:
     ) -> BundleResult:
         current = Stage.SCANNING
         asset_id: str | None = None
-        report: JSONDocument = {
-            "schema_version": 1,
-            "input_type": (
-                "explicit_files"
-                if isinstance(request.source, tuple)
-                else "folder"
-                if Path(request.source).is_dir()
-                else "zip"
-            ),
-            "source": str(request.source),
-            "target": request.target,
-            "target_format": request.skeleton_format,
-            "experimental_authorized": request.experimental_structural,
-            "source_risk_policy": request.source_risk_policy.value,
-            "retention": request.retention.value,
-            "package_mode": request.package_mode.value,
-            "publication": "not_published",
-            "runtime_verification": "not_run",
-            "visual_verification": "not_run",
-            "selected_bundle_ids": request.bundle_ids,
-            "bundles": tuple(
-                {"bundle_id": n, "execution_success": None, "structural_validation": "not_run"}
-                for n in sorted(request.bundle_ids)
-            ),
-            "structural_validation": "not_run",
-            "package_integrity": "not_run",
-            "output": str(request.output),
-        }
+        report = BundleReport(
+            source=SourceDescriptor.from_selection(request.source),
+            target=request.target,
+            target_format=request.skeleton_format,
+            output=request.output.absolute(),
+            experimental_authorized=request.experimental_structural,
+            source_risk_policy=request.source_risk_policy,
+            retention=request.retention,
+            package_mode=request.package_mode,
+            container=request.container,
+            selected_bundle_ids=request.bundle_ids,
+            bundles=tuple(BundleOutcome(n) for n in sorted(request.bundle_ids)),
+        )
 
         def emit(stage: Stage, name: str | None = None) -> None:
             nonlocal current, asset_id
@@ -471,25 +331,26 @@ class BundleService:
         published = False
         try:
             emit(Stage.SCANNING)
-            if request.skeleton_format not in ("json", "binary"):
-                raise ValueError("Skeleton output format must be json or binary")
-            if request.skeleton_format == "binary":
+            if request.skeleton_format == SkeletonFormat.BINARY:
                 BinaryCodecRegistry().codec(
-                    request.target, experimental=request.experimental_structural
+                    request.target,
+                    limits=self.inspection_config.binary_limits,
+                    experimental=request.experimental_structural,
                 )
-            with _source(request.source) as origin:
+            with _source(request.source, self.inspection_config.source_limits) as origin:
                 # Snapshot the bounded source once. Conversion and hashes consume the same bytes.
                 with tempfile.TemporaryDirectory(prefix="fnx-bundle-input-") as directory:
                     snapshot = Path(directory)
-                    with AssetSource(origin) as reader:
+                    with AssetSource(origin, self.inspection_config.source_limits) as reader:
                         inputs: dict[str, bytes] = {}
                         for source_name in reader.names():
                             emit(Stage.SCANNING, source_name)
                             inputs[source_name] = reader.read(source_name)
-                    _write_files(snapshot, inputs)
-                    report["input_checksums"] = _hashes(inputs)
+                    stage_files(snapshot, inputs)
+                    report = replace(report, input_checksums=file_digests(inputs))
                     emit(Stage.DISCOVERING)
                     source_names: dict[str, str] = {}
+                    source_codecs: dict[str, BinaryCapability] = {}
                     for name in sorted(inputs):
                         if not name.lower().endswith(".skel"):
                             continue
@@ -497,24 +358,30 @@ class BundleService:
                             continue
                         emit(Stage.DISCOVERING, name)
                         registry = BinaryCodecRegistry()
-                        version = registry.probe(inputs[name])
-                        decoded = registry.codec(
-                            version, experimental=request.experimental_structural
-                        ).decode(inputs[name])
+                        version = registry.probe(
+                            inputs[name], limits=self.inspection_config.binary_limits
+                        )
+                        decoder = registry.codec(
+                            version,
+                            limits=self.inspection_config.binary_limits,
+                            experimental=request.experimental_structural,
+                        )
+                        decoded = decoder.decode(inputs[name])
                         json_name = str(PurePosixPath(name).with_suffix(".json"))
                         if json_name in inputs:
                             raise ValueError("Binary to JSON filename collides with an input asset")
                         (snapshot / name).unlink()
-                        (snapshot / json_name).write_bytes(_json_bytes(decoded))
+                        (snapshot / json_name).write_bytes(encode_json(decoded))
                         source_names[json_name] = name
+                        source_codecs[json_name] = decoder.capability
                     names_to_json = {v: k for k, v in source_names.items()}
                     mapped = DependencyMappings(
                         {names_to_json.get(k, k): v for k, v in request.mappings.atlases.items()},
                         request.mappings.textures,
                     )
-                    inspection = _inspection(mapped)
+                    inspection = _inspection(mapped, self.inspection_config)
                     manifest = _manifest_source(
-                        inspection.inspect(str(snapshot)), str(request.source)
+                        inspection.inspect(str(snapshot)), report.source.label
                     )
                     if not manifest.assets:
                         raise ValueError("Input inspection failed or no files were discovered")
@@ -526,38 +393,27 @@ class BundleService:
                     known = {b.bundle_id for b in manifest.bundles}
                     if set(ids) - known:
                         raise ValueError("Selected bundle ID was not discovered")
-                    report["source_risk_status"] = {
-                        a.path: (
-                            "known_export_issue"
-                            if a.spine_version in KNOWN_EXPORT_ISSUE_PATCHES
-                            else "no_known_issue_in_registry"
-                        )
-                        for a in manifest.assets
-                        if a.kind in ("skeleton_json", "skeleton_binary")
-                    }
-                    report["dependency_mappings"] = {
-                        "atlases": dict(request.mappings.atlases),
-                        "textures": tuple(
-                            {"atlas": k[0], "page": k[1], "replacement": v}
-                            for k, v in sorted(request.mappings.textures.items())
+                    report = replace(
+                        report,
+                        source_risk_status=tuple(
+                            SourceRisk(a.path, a.spine_version in KNOWN_EXPORT_ISSUE_PATCHES)
+                            for a in manifest.assets
+                            if a.kind in ("skeleton_json", "skeleton_binary")
                         ),
-                    }
-                    report["discovered_bundle_ids"] = tuple(
-                        sorted(source_names.get(n, n) for n in known)
+                        dependency_mappings=request.mappings,
                     )
-                    report["selected_bundle_ids"] = tuple(source_names.get(n, n) for n in ids)
-                    rows: list[JSONValue] = [
-                        {
-                            "bundle_id": source_names.get(n, n),
-                            "execution_success": None,
-                            "structural_validation": "not_run",
-                        }
-                        for n in sorted(ids)
-                    ]
-                    report["bundles"] = rows
+                    report = replace(
+                        report,
+                        discovered_bundle_ids=tuple(sorted(source_names.get(n, n) for n in known)),
+                    )
+                    report = replace(
+                        report, selected_bundle_ids=tuple(source_names.get(n, n) for n in ids)
+                    )
+                    rows = [BundleOutcome(source_names.get(n, n)) for n in sorted(ids)]
+                    report = replace(report, bundles=tuple(rows))
                     emit(Stage.VALIDATING)
                     if any(_state(manifest, name) != BundleState.READY for name in ids):
-                        report["inspection"] = manifest.to_dict()
+                        report = replace(report, inspection=manifest)
                         raise ValueError("Resolve selected bundle dependencies before conversion")
                     emit(Stage.PLANNING)
                     outputs: dict[str, bytes] = {}
@@ -566,7 +422,7 @@ class BundleService:
                         emit(Stage.PLANNING, name)
                         outcome = AssetSetConverter(
                             inspection=inspection,
-                            stage_callback=lambda stage: emit(Stage(stage), name),
+                            stage_callback=lambda stage: emit(stage, name),
                             experimental_structural=request.experimental_structural,
                         ).convert(
                             snapshot,
@@ -575,14 +431,40 @@ class BundleService:
                             source_risk_policy=request.source_risk_policy,
                         )
                         row = _outcome(source_names.get(name, name), outcome)
-                        if name in source_names:
-                            row["source_format"] = "binary"
-                        row["binary_codec_verification"] = (
-                            "experimental_hierarchy_only"
-                            if name in source_names or request.skeleton_format == "binary"
-                            else "not_applicable"
+                        row = replace(
+                            row,
+                            source_format=(
+                                SkeletonFormat.BINARY
+                                if name in source_names
+                                else SkeletonFormat.JSON
+                            ),
+                            binary_decode=(
+                                BinaryOperation(source_codecs[name], VerificationState.PASSED)
+                                if name in source_codecs
+                                else None
+                            ),
+                            binary_encode=(
+                                BinaryOperation(
+                                    BinaryCodecRegistry()
+                                    .codec(
+                                        request.target,
+                                        limits=self.inspection_config.binary_limits,
+                                        experimental=request.experimental_structural,
+                                    )
+                                    .capability
+                                )
+                                if request.skeleton_format == SkeletonFormat.BINARY
+                                else None
+                            ),
+                            execution_success=(
+                                None
+                                if outcome.outputs is not None
+                                and request.skeleton_format == SkeletonFormat.BINARY
+                                else outcome.outputs is not None
+                            ),
                         )
                         rows[index] = row
+                        report = replace(report, bundles=tuple(rows))
                         if outcome.outputs is None:
                             failed = True
                             continue
@@ -590,14 +472,21 @@ class BundleService:
                         for path, payload in outcome.outputs.items():
                             if path in outputs and outputs[path] != payload:
                                 failed = True
-                                row["merge_diagnostic"] = {
-                                    "code": "SHARED_OUTPUT_CONFLICT",
-                                    "file_path": path,
-                                    "message": "Selected bundles produce conflicting shared assets",
-                                }
+                                row = replace(
+                                    row,
+                                    merge_diagnostic=JobDiagnostic(
+                                        code=JobDiagnosticCode.SHARED_OUTPUT_CONFLICT,
+                                        stage=Stage.VALIDATING,
+                                        file_path=path,
+                                        asset_id=row.bundle_id,
+                                        message="Conflicting shared outputs from selected bundles",
+                                    ),
+                                )
+                                rows[index] = row
+                                report = replace(report, bundles=tuple(rows))
                                 continue
                             outputs[path] = payload
-                    report["bundles"] = rows
+                    report = replace(report, bundles=tuple(rows))
                     if failed:
                         raise ValueError(
                             "Selected bundles failed conversion or output merging; "
@@ -614,212 +503,198 @@ class BundleService:
                             **{n: data for n, data in inputs.items() if n not in selected_sources},
                             **outputs,
                         }
-                    report["excluded_files"] = (
-                        tuple(sorted(set(inputs) - consumed - set(outputs)))
+                    report = replace(
+                        report,
+                        excluded_files=tuple(sorted(set(inputs) - consumed - set(outputs)))
                         if request.retention == RetentionPolicy.REQUIRED_ONLY
-                        else ()
+                        else (),
                     )
                     outputs = _portable(
                         outputs, manifest, ids, retain_all=request.retention == RetentionPolicy.ALL
                     )
-                    if request.skeleton_format == "binary":
+                    if request.skeleton_format == SkeletonFormat.BINARY:
                         codec = BinaryCodecRegistry().codec(
-                            request.target, experimental=request.experimental_structural
+                            request.target,
+                            limits=self.inspection_config.binary_limits,
+                            experimental=request.experimental_structural,
                         )
                         output_ids: list[str] = []
+                        row_indexes = {name: index for index, name in enumerate(sorted(ids))}
                         for name in ids:
+                            emit(Stage.CONVERTING_SKELETON, source_names.get(name, name))
                             document = SkeletonConverter().read(outputs.pop(name)).document
                             binary_name = str(PurePosixPath(name).with_suffix(".skel"))
                             if binary_name in outputs:
                                 raise ValueError("Binary output filename collision")
-                            outputs[binary_name] = codec.encode(document)
+                            index = row_indexes[name]
+                            try:
+                                outputs[binary_name] = codec.encode(document)
+                            except BinaryError as exc:
+                                rows[index] = replace(
+                                    rows[index],
+                                    execution_success=False,
+                                    structural_validation=ConversionStatus.REJECTED,
+                                    binary_encode=BinaryOperation(
+                                        codec.capability, VerificationState.FAILED, exc.code
+                                    ),
+                                    diagnostics=rows[index].diagnostics + (str(exc),),
+                                )
+                                report = replace(report, bundles=tuple(rows))
+                                raise
+                            rows[index] = replace(
+                                rows[index],
+                                execution_success=True,
+                                binary_encode=BinaryOperation(
+                                    codec.capability, VerificationState.PASSED
+                                ),
+                            )
+                            report = replace(report, bundles=tuple(rows))
                             output_ids.append(binary_name)
                         ids = tuple(output_ids)
-                    report["file_renames"] = {
-                        source_names.get(source_id, source_id): output_id
-                        for source_id, output_id in zip(selected_json_ids, ids)
-                        if source_names.get(source_id, source_id) != output_id
-                    }
-                    report["files_generated"] = tuple(sorted(set(outputs) - set(inputs)))
-                    report["output_checksums"] = _hashes(outputs)
-                    report["files_preserved"] = tuple(
-                        sorted(n for n in outputs if inputs.get(n) == outputs[n])
+                    report = replace(
+                        report,
+                        file_renames=tuple(
+                            FileRename(source_names.get(source_id, source_id), output_id)
+                            for source_id, output_id in zip(selected_json_ids, ids)
+                            if source_names.get(source_id, source_id) != output_id
+                        ),
                     )
-                    report["files_transformed"] = tuple(
-                        sorted(n for n in outputs if n in inputs and inputs[n] != outputs[n])
+                    report = replace(
+                        report, files_generated=tuple(sorted(set(outputs) - set(inputs)))
+                    )
+                    report = replace(report, output_checksums=file_digests(outputs))
+                    report = replace(
+                        report,
+                        files_preserved=tuple(
+                            sorted(n for n in outputs if inputs.get(n) == outputs[n])
+                        ),
+                    )
+                    report = replace(
+                        report,
+                        files_transformed=tuple(
+                            sorted(n for n in outputs if n in inputs and inputs[n] != outputs[n])
+                        ),
                     )
                     emit(Stage.VERIFYING)
                     for texture_path, texture_bytes in outputs.items():
                         if texture_path.lower().endswith(".png"):
                             emit(Stage.VERIFYING, texture_path)
-                            validate_png(texture_bytes)
-                    report["texture_integrity"] = "png_signature_chunks_crc"
+                            validate_png(texture_bytes, self.packages.settings.texture_limits)
+                    report = replace(report, texture_integrity=TextureVerification.PNG_STRUCTURAL)
                     with tempfile.TemporaryDirectory(prefix="fnx-bundle-verify-") as verify:
-                        _write_files(Path(verify), outputs)
-                        _validate(Path(verify), ids)
-                    report["structural_validation"] = "passed"
+                        stage_files(Path(verify), outputs)
+                        validate_package(
+                            Path(verify),
+                            ids,
+                            self.inspection_config,
+                            self.packages.settings.texture_limits,
+                        )
+                    report = replace(report, structural_validation=VerificationState.PASSED)
                     if dry_run:
                         return BundleResult(JobStatus.PLANNED, False, report)
                     emit(Stage.PACKAGING)
-                    destination = request.output.absolute()
-                    if destination.exists() or destination.is_symlink():
-                        raise FileExistsError("Output destination is occupied")
-                    destination.parent.mkdir(parents=True, exist_ok=True)
-                    # Audit reports live inside audit packages; viewer packages contain assets only.
-                    report["package_integrity"] = "not_run"
-                    packaged = dict(outputs)
-                    if request.package_mode == PackageMode.AUDIT:
-                        if "fnx-conversion-report.json" in packaged:
-                            raise ValueError("Audit report filename collides with an input asset")
-                        snapshot_report = dict(report)
-                        snapshot_report["report_scope"] = "prepublication_validation"
-                        packaged["fnx-conversion-report.json"] = _json_bytes(snapshot_report)
-                    report["packaged_file_checksums"] = _hashes(packaged)
-                    with tempfile.TemporaryDirectory(
-                        prefix=f".{destination.name}.", dir=destination.parent
-                    ) as stage:
-                        stage_root = Path(stage)
-                        payload_root = stage_root / "payload"
-                        payload_root.mkdir()
-                        _write_files(payload_root, packaged)
-                        _validate(payload_root, ids)
-                        if destination.suffix.lower() == ".zip":
-                            archive = stage_root / "package.zip"
-                            with ZipFile(
-                                archive, "w", compression=ZIP_DEFLATED, compresslevel=9
-                            ) as writer:
-                                for name, data in sorted(packaged.items()):
-                                    info = ZipInfo(
-                                        canonical_path(name), date_time=(1980, 1, 1, 0, 0, 0)
-                                    )
-                                    info.create_system = 3
-                                    info.external_attr = 0o100644 << 16
-                                    info.compress_type = ZIP_DEFLATED
-                                    writer.writestr(info, data, compresslevel=9)
-                            with ZipFile(archive) as reader_zip:
-                                if reader_zip.testzip() is not None:
-                                    raise ValueError("Generated ZIP failed CRC verification")
-                            with AssetSource(archive) as reader:
-                                if {n: reader.read(n) for n in reader.names()} != packaged:
-                                    raise ValueError("Generated ZIP differs from staged assets")
-                            _validate(archive, ids)
-                            with archive.open("rb") as stream:
-                                report["package_sha256"] = file_digest(stream, "sha256").hexdigest()
-                            report["package_integrity"] = "passed"
-                            emit(Stage.PUBLISHING)
-                            os.link(archive, destination)  # Exclusive, atomic, no overwrite.
-                        else:
-                            report["package_integrity"] = "passed"
-                            emit(Stage.PUBLISHING)
-                            _rename_exclusive(payload_root, destination)
-                        published = True
-                    report["publication"] = "published"
+                    receipt = self.packages.publish(
+                        outputs,
+                        ids,
+                        request.output.absolute(),
+                        request.container,
+                        audit_report=report if request.package_mode == PackageMode.AUDIT else None,
+                        before_publish=lambda: emit(Stage.PUBLISHING),
+                    )
+                    published = True
+                    report = replace(
+                        report,
+                        packaged_file_checksums=receipt.files,
+                        package_sha256=receipt.package_sha256,
+                        cleanup_warning=receipt.cleanup_warning,
+                        package_integrity=VerificationState.PASSED,
+                    )
+                    report = replace(report, publication=PublicationState.PUBLISHED)
             # Completion callbacks cannot retroactively cancel publication.
             if progress is not None:
                 try:
                     progress(ProgressEvent(Stage.COMPLETED))
                 except Exception:
-                    report["callback_warning"] = "Completion callback failed after publication"
+                    report = replace(
+                        report, callback_warning="Completion callback failed after publication"
+                    )
             return BundleResult(JobStatus.COMPLETED, True, report)
         except _Cancelled:
             if progress is not None:
                 try:
                     progress(ProgressEvent(Stage.CANCELLED, asset_id))
                 except Exception:
-                    report["callback_warning"] = "Cancellation callback failed"
-            report["diagnostic"] = {
-                "code": "CANCELLED",
-                "stage": current.value,
-                "asset_id": asset_id,
-            }
+                    report = replace(report, callback_warning="Cancellation callback failed")
+            report = replace(
+                report,
+                diagnostic=JobDiagnostic(
+                    code=JobDiagnosticCode.CANCELLED,
+                    stage=current,
+                    asset_id=asset_id,
+                    message="Conversion cancelled before publication",
+                    file_path=asset_id,
+                ),
+            )
             return BundleResult(JobStatus.CANCELLED, published, report)
         except _JOB_ERRORS as exc:
             if published:
-                report["publication"] = "published"
-            report["diagnostic"] = {
-                "code": (
-                    exc.code
+                report = replace(
+                    report, publication=PublicationState.PUBLISHED, cleanup_warning=str(exc)
+                )
+                if progress is not None:
+                    try:
+                        progress(ProgressEvent(Stage.COMPLETED))
+                    except Exception:
+                        report = replace(report, callback_warning="Completion callback failed")
+                return BundleResult(JobStatus.COMPLETED, True, report)
+            report = replace(
+                report,
+                diagnostic=JobDiagnostic(
+                    code=exc.code
                     if isinstance(exc, BinaryError)
-                    else "INPUT_NESTING_LIMIT"
+                    else JobDiagnosticCode.INPUT_NESTING_LIMIT
                     if isinstance(exc, RecursionError)
-                    else "OUTPUT_EXISTS"
+                    else JobDiagnosticCode.OUTPUT_EXISTS
                     if isinstance(exc, FileExistsError)
-                    else "FILESYSTEM_ERROR"
+                    else JobDiagnosticCode.FILESYSTEM_ERROR
                     if isinstance(exc, OSError)
-                    else "BUNDLE_REJECTED"
-                ),
-                "stage": current.value,
-                "asset_id": asset_id,
-                "message": (
-                    "Input exceeds supported nesting"
+                    else JobDiagnosticCode.BUNDLE_REJECTED,
+                    stage=current,
+                    asset_id=asset_id,
+                    message="Input exceeds supported nesting"
                     if isinstance(exc, RecursionError)
-                    else str(exc)
+                    else str(exc),
+                    technical_details=str(exc),
+                    file_path=asset_id
+                    or str(
+                        request.output
+                        if current in (Stage.PACKAGING, Stage.PUBLISHING)
+                        else request.source
+                    ),
+                    publication_status=PublicationState.PUBLISHED
+                    if published
+                    else PublicationState.NOT_PUBLISHED,
+                    suggestion="Review dependency, qualification and output policies",
                 ),
-                "technical_details": str(exc),
-                "file_path": asset_id
-                or str(
-                    request.output
-                    if current in (Stage.PACKAGING, Stage.PUBLISHING)
-                    else request.source
-                ),
-                "publication_status": "published" if published else "not_published",
-                "suggestion": "Review dependency, qualification and output policies",
-            }
+            )
             if progress is not None:
                 try:
                     progress(ProgressEvent(Stage.FAILED, asset_id))
                 except Exception:
-                    report["callback_warning"] = "Failure callback failed"
+                    report = replace(report, callback_warning="Failure callback failed")
             return BundleResult(JobStatus.FAILED, published, report)
 
 
-def _outcome(name: str, result: AssetSetResult) -> JSONDocument:
-    return {
-        "bundle_id": name,
-        "execution_success": result.outputs is not None,
-        "source_format": "json",
-        "source_version": result.source_version,
-        "target_version": result.target_version,
-        "route": result.route,
-        "structural_validation": result.status.value,
-        "qualification": result.qualification.to_json() if result.qualification else None,
-        "diagnostics": result.diagnostics,
-        "details": result.details,
-    }
-
-
-def _hashes(files: Mapping[str, bytes]) -> JSONDocument:
-    return {name: sha256(data).hexdigest() for name, data in sorted(files.items())}
-
-
-def _json_bytes(document: JSONDocument) -> bytes:
-    return (json.dumps(document, ensure_ascii=False, sort_keys=True, indent=2) + "\n").encode(
-        "utf-8"
+def _outcome(name: str, result: AssetSetResult) -> BundleOutcome:
+    return BundleOutcome(
+        bundle_id=name,
+        source_format=SkeletonFormat.JSON,
+        execution_success=result.outputs is not None,
+        source_version=result.source_version,
+        target_version=result.target_version,
+        route=result.route,
+        structural_validation=result.status,
+        qualification=result.qualification,
+        diagnostics=result.diagnostics,
+        details=result.details,
     )
-
-
-def _rename_exclusive(source: Path, target: Path) -> None:
-    """Use the OS no-replace rename primitive; fail closed on unsupported platforms."""
-    import ctypes
-    import sys
-
-    libc = ctypes.CDLL(None, use_errno=True)
-    if sys.platform == "darwin":
-        rename = libc.renamex_np
-        rename.argtypes = (ctypes.c_char_p, ctypes.c_char_p, ctypes.c_uint)
-        result = cast(int, rename(os.fsencode(source), os.fsencode(target), 4))
-    elif sys.platform.startswith("linux"):
-        rename = libc.renameat2
-        rename.argtypes = (
-            ctypes.c_int,
-            ctypes.c_char_p,
-            ctypes.c_int,
-            ctypes.c_char_p,
-            ctypes.c_uint,
-        )
-        result = cast(int, rename(-100, os.fsencode(source), -100, os.fsencode(target), 1))
-    else:
-        raise ValueError("Atomic folder publication requires macOS or Linux no-replace rename")
-    if result != 0:
-        error = ctypes.get_errno()
-        raise OSError(error, os.strerror(error), str(target))

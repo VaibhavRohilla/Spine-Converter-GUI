@@ -8,7 +8,7 @@ from collections.abc import Mapping
 from dataclasses import replace
 from pathlib import Path
 
-from ..detection import skeleton_version
+from ..detection import recognize_skeleton
 from ..json_types import JSONDocument, JSONValue, decode_json_object, is_document
 from ..parsers import inspect_skeleton
 from ..versions import VersionRegistry
@@ -165,10 +165,16 @@ class SkeletonConverter:
         self, source: bytes | str | Path, *, migration_target: str | None = None
     ) -> CanonicalSkeleton:
         payload = source if isinstance(source, bytes) else Path(source).read_bytes()
-        valid, version, error = skeleton_version(payload)
-        if not valid or version is None or error:
-            raise ValueError(error or "Input is not a versioned Spine JSON skeleton")
-        obj = decode_json_object(payload.decode("utf-8-sig"), "Skeleton root")
+        obj = decode_json_object(payload, "Skeleton root")
+        recognition = recognize_skeleton(obj)
+        if recognition is None or recognition.version is None:
+            message = (
+                recognition.diagnostic.message
+                if recognition is not None and recognition.diagnostic is not None
+                else "Input is not a versioned Spine JSON skeleton"
+            )
+            raise ValueError(message)
+        version = recognition.version
         family = self.versions.family_for(version)
         if family is None:
             raise ValueError(f"Unsupported Spine version family: {version}")

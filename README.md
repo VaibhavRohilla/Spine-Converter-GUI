@@ -1,8 +1,14 @@
 # FNX Spine Forge
 
-FNX Spine Forge provides a read-only, headless inspection API for Spine export folders and ZIP archives. The same typed inspection service is intended for the CLI and later desktop workflows.
+FNX Spine Forge provides headless inspection, qualification-gated JSON/atlas
+migration, and atomic bundle packaging. Service models are strongly typed and
+independent of desktop UI frameworks. Recognition, implementation support,
+semantic qualification and runtime/visual evidence are separate contracts.
 
-B1 discovers skeleton JSON, binary skeleton files, atlases, textures, and other files; inspects skeleton structure and atlas pages/regions; resolves dependencies; recognizes Spine version families; and returns a deterministic JSON manifest. Inspection is structural. It does not convert assets, decode full binary skeletons, load a Spine runtime, or certify animation fidelity.
+Version 0.2 is the B3 contract cutover. Binary support remains restricted to an
+experimental, unqualified 4.2.43 hierarchy codec; full B3 binary acceptance is
+still open. Current evidence and limitations are in
+[the hardening report](docs/B3_HARDENING_REPORT.md).
 
 ## Development
 
@@ -62,18 +68,14 @@ spine-forge convert-asset-set --input ./assets --skeleton golden_ingot.json \
   --experimental-structural --allow-known-source-export-risk
 ```
 
-Qualification records are loaded from packaged, validated evidence data. Python
-results expose `qualification: QualificationResult | None`; CLI reports use the
-same top-level field. The superseded `SemanticQualification` enum,
-`feature_compatibility` maps, `InspectionReport` alias, internal
-`conversion.json_types` module and version-specific runtime forwarders have been
-removed. No compatibility aliases are provided. JSON types now live in
-`fnx_spine_forge.json_types`; runtime probes use `run_spine_runtime_smoke`.
+Qualification records are loaded from packaged, validated evidence data.
+Historical Spine writers remain active supported functionality. The retired
+family-only graph, unused protocol/error scaffolding and duplicate parsers and
+publishers are removed. There are no compatibility modules for removed symbols.
 
-Strict mypy rejects explicit and implicit `Any` across production code and the
-independent numerical test reader. See [B2_REPORT.md](docs/B2_REPORT.md) for the
-restricted matrix and executed evidence. Runtime and visual certification remain
-unverified. B1 inspection evidence remains in [B1_REPORT.md](docs/B1_REPORT.md).
+Strict mypy rejects explicit/implicit `Any` and missing imports. The distribution
+ships `py.typed`, and an independent typed client checks its public contracts.
+Existing B2 qualifications remain unchanged; see [B2_REPORT.md](docs/B2_REPORT.md).
 
 ## Spine licensing
 
@@ -88,15 +90,19 @@ bundle states, mapping decisions, source risks and per-target B2 qualification.
 `plan_conversion` performs an isolated conversion rehearsal without publishing.
 `convert_bundle` publishes a validated ZIP or folder, and `convert_batch`
 returns an independent result for every request. See [B3_REPORT.md](docs/B3_REPORT.md)
-for the exact evidence and remaining binary implementation gaps.
+for the original checkpoint; [B3_HARDENING_REPORT.md](docs/B3_HARDENING_REPORT.md)
+documents the current schema-2 API.
 
 ```python
 from pathlib import Path
-from fnx_spine_forge.bundle import BundleRequest, BundleService, CancellationToken
+from fnx_spine_forge.bundle import BundleService
+from fnx_spine_forge.bundle_models import BundleRequest, PackageContainer
+from fnx_spine_forge.progress import CancellationToken
 
 service = BundleService()
 inspection = service.inspect_source(Path("assets.zip"))
-request = BundleRequest(Path("assets.zip"), "4.2.43", Path("converted.zip"))
+request = BundleRequest(Path("assets.zip"), "4.2.43", Path("converted.zip"),
+                        container=PackageContainer.ZIP)
 plan = service.plan_conversion(request)
 result = service.convert_bundle(request, cancellation=CancellationToken())
 ```
@@ -110,7 +116,8 @@ requires a separate authorization. Neither flag certifies runtime or visual fide
 spine-forge bundle inspect assets.zip
 spine-forge bundle list assets.zip
 spine-forge bundle plan --input assets.zip --target 4.2.43
-spine-forge bundle convert --input assets.zip --target 4.2.43 --output converted.zip
+spine-forge bundle convert --input assets.zip --target 4.2.43 \
+  --container zip --output converted.zip
 spine-forge binary-capabilities
 ```
 
@@ -124,3 +131,27 @@ snapshot. `--report-output report.json` explicitly exports the final result as a
 sidecar, with its own atomic no-overwrite publication; sidecar failure never
 undoes a valid package. ZIP/folder publication is atomic per request, including
 all selected bundles; separate batch requests publish independently.
+
+### Typed contract and policy configuration
+
+Import service orchestration from `fnx_spine_forge.bundle` and domain contracts
+from `fnx_spine_forge.bundle_models`. `BundleResult.report` is an immutable
+`BundleReport`; access named fields such as `result.report.bundles` and
+`result.report.output`. Call `to_dict()` only at a JSON boundary. Report and
+inspection schema 2 have no dictionary-access adapters or legacy import aliases.
+
+The output container is an explicit `PackageContainer`. A folder can have any
+name, including a `.zip` suffix; names no longer choose service behavior.
+CLI conversion requires `--container zip` or `--container folder`.
+`InspectionConfig` owns source and binary resource limits. `PackageSettings`
+owns ZIP compression and `TextureLimits`. All stages consume these same policy
+objects. Fixed wire constants remain fixed format facts, not user configuration.
+
+PNG validation bounds file/chunk/pixel/decoded sizes and checks CRC, DEFLATE,
+scanlines and Adam7 structure. Atlas-declared PNG sizes must match measured
+headers. Validation never crops, resizes or re-encodes the authored textures.
+
+Standalone CLI output is exclusive as well: existing files are rejected rather
+than replaced. Nonessential binary metadata must provide explicit FPS, bone
+color and visibility when enabled; metadata defaults are not inferred from a
+different JSON/editor/runtime contract.

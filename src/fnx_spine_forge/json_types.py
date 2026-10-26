@@ -83,3 +83,10 @@ def decode_json_object(payload: bytes | str, context: str) -> JSONDocument:
         return require_json_object(decoded, context)
     except RecursionError as exc:
         raise ValueError(f"{context} exceeds supported JSON nesting") from exc
+
+
+def encode_json(document: JSONDocument) -> bytes:
+    """Canonical UTF-8 report/document encoding, with no Python object coercion."""
+    return (
+        json.dumps(document, ensure_ascii=False, sort_keys=True, indent=2, allow_nan=False) + "\n"
+    ).encode("utf-8")

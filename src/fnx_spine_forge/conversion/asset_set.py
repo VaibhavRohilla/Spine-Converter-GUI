@@ -9,6 +9,7 @@ from pathlib import Path
 
 from ..inspection import InspectionService
 from ..json_types import JSONObject
+from ..progress import Stage
 from ..source import AssetSource
 from .atlas import AtlasConverter
 from .models import (
@@ -87,7 +88,7 @@ class AssetSetConverter:
         inspection: InspectionService | None = None,
         *,
         experimental_structural: bool = False,
-        stage_callback: Callable[[str], None] | None = None,
+        stage_callback: Callable[[Stage], None] | None = None,
     ) -> None:
         self.stage_callback = stage_callback
         self.experimental_structural = experimental_structural
@@ -138,7 +139,7 @@ class AssetSetConverter:
                 ("Asset bundle must resolve exactly one JSON skeleton and at least one atlas",),
             )
         try:
-            with AssetSource(origin) as source:
+            with AssetSource(origin, self.inspection.config.source_limits) as source:
                 skeleton = source.read(skeleton_path)
                 atlas_data = {name: source.read(name) for name in bundle.atlases}
                 texture_data = {name: source.read(name) for name in bundle.texture_pages}
@@ -318,7 +319,7 @@ class AssetSetConverter:
         hop_results: list[JSONObject] = []
         for left, right in zip(route, route[1:]):
             if self.stage_callback is not None:
-                self.stage_callback("CONVERTING_SKELETON")
+                self.stage_callback(Stage.CONVERTING_SKELETON)
             result = self._convert_hop(current_skeleton, left, right, source_risk_policy)
             if result.output is None or result.status is ConversionStatus.REJECTED:
                 return RouteFailure(
@@ -333,7 +334,7 @@ class AssetSetConverter:
                 )
             try:
                 if self.stage_callback is not None:
-                    self.stage_callback("CONVERTING_ATLAS")
+                    self.stage_callback(Stage.CONVERTING_ATLAS)
                 next_atlases = {
                     name: self._atlases.convert(data, right, source_version=left)
                     for name, data in current_atlases.items()

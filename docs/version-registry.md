@@ -19,9 +19,11 @@ qualification. Without inspected source features it cannot claim qualified
 executability. `structural_plan()` and `candidate_routes()` expose implementation
 connectivity for explicit experimental use.
 
-The current inventory has 288 candidate paths across 64 reachable ordered pairs.
-Only seven direct 3.8.99 hierarchy/setup-only records qualify semantically. These
-counts are an inventory, not a production compatibility matrix. Authored bone
+Candidate routes are obtained from `ConversionPlanner.candidate_routes()`;
+qualification comes from the packaged evidence registry rather than duplicated
+counts in application code. Only the seven documented direct 3.8.99
+hierarchy/setup-only records qualify semantically. Route inventory is not a
+production compatibility matrix. Authored bone
 inheritance, bone extensions, attachments, animation and full asset sets remain
 outside qualified execution. See [B2_REPORT.md](B2_REPORT.md) for exact paths,
 restrictions and executed checks. Runtime and visual certification are absent.

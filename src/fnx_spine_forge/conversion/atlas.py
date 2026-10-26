@@ -43,19 +43,11 @@ class AtlasConverter:
     def read(self, source: bytes | str | Path) -> CanonicalAtlas:
         payload = source if isinstance(source, bytes) else Path(source).read_bytes()
         parsed = parse_atlas(payload)
-        region_pages: list[int] = []
-        page_index = -1
-        for raw in payload.decode("utf-8-sig").splitlines():
-            line = raw.strip()
-            if not line or line.startswith("#") or ":" in line:
-                continue
-            if line.lower().endswith(
-                (".png", ".jpg", ".jpeg", ".webp", ".ktx", ".ktx2", ".pvr", ".tga")
-            ):
-                page_index += 1
-            elif page_index >= 0:
-                region_pages.append(page_index)
-        return CanonicalAtlas(parsed.page_records, parsed.region_records, tuple(region_pages))
+        if parsed.duplicate_regions:
+            raise ValueError(
+                "Conflicting atlas region names or indices: " + ", ".join(parsed.duplicate_regions)
+            )
+        return CanonicalAtlas(parsed.page_records, parsed.region_records, parsed.region_pages)
 
     def convert(
         self,

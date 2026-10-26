@@ -274,16 +274,25 @@ def test_asset_set_rolls_back_atlas_failure_without_partial_outputs(tmp_path, mo
 
 
 def test_asset_set_cli_publication_is_atomic_and_rejects_existing_destination(tmp_path):
-    from fnx_spine_forge.cli import _publish_asset_set
+    from fnx_spine_forge.bundle_models import PackageContainer
+    from fnx_spine_forge.packaging import PackageBuilder
 
+    fixture = Path(__file__).parent / "fixtures/spine38"
+    outputs = {p.name: p.read_bytes() for p in fixture.iterdir() if p.is_file()}
     destination = tmp_path / "bundle"
-    _publish_asset_set(destination, {"skeleton.json": b"{}", "atlas.atlas": b"page"})
-    assert {path.name for path in destination.iterdir()} == {"skeleton.json", "atlas.atlas"}
+    builder = PackageBuilder()
+    builder.publish(outputs, ("golden_ingot.json",), destination, PackageContainer.FOLDER)
+    assert {p.name: p.read_bytes() for p in destination.iterdir()} == outputs
     with pytest.raises(FileExistsError):
-        _publish_asset_set(destination, {"later.json": b"{}"})
+        builder.publish(
+            {**outputs, "later.json": b"{}"},
+            ("golden_ingot.json",),
+            destination,
+            PackageContainer.FOLDER,
+        )
     assert not (destination / "later.json").exists()
-    with pytest.raises(ValueError, match="filename-to-bytes"):
-        _publish_asset_set(tmp_path / "unsafe", {"../escape": b"bad"})
+    with pytest.raises(ValueError, match="Unsafe path"):
+        builder.publish({"../escape": b"bad"}, (), tmp_path / "unsafe", PackageContainer.FOLDER)
     assert not (tmp_path / "unsafe").exists()
     assert not (tmp_path / "escape").exists()
 

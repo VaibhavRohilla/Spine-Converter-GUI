@@ -8,12 +8,23 @@ from json import JSONDecodeError, dumps, loads
 from pathlib import PurePosixPath
 from zipfile import BadZipFile
 
-from .binary import BinaryCodecRegistry, BinaryError
+from .binary import BinaryCodecRegistry, BinaryError, BinaryErrorCode
 from .config import InspectionConfig
 from .dependencies import DependencyResolver
 from .detection import TEXTURE_EXTENSIONS
 from .json_types import JSONDocument
-from .models import Asset, AssetManifest, Dependency, Diagnostic, Severity, SpineBundle
+from .models import (
+    Asset,
+    AssetManifest,
+    BundleValidation,
+    Dependency,
+    DependencyKind,
+    DependencyStatus,
+    Diagnostic,
+    FileType,
+    Severity,
+    SpineBundle,
+)
 from .parsers import inspect_skeleton, parse_atlas
 from .source import AssetSource
 from .versions import VersionRegistry
@@ -51,7 +62,7 @@ class InspectionService:
                 for name in names:
                     ext = PurePosixPath(name).suffix.lower()
                     size = source.size(name)
-                    kind = "other"
+                    kind = FileType.OTHER
                     version = None
                     metadata: JSONDocument = {}
                     if ext == ".json":
@@ -74,7 +85,7 @@ class InspectionService:
                             else:
                                 info = inspect_skeleton(payload)
                                 if info:
-                                    kind = "skeleton_json"
+                                    kind = FileType.SKELETON_JSON
                                     version = info.version
                                     skeletons.append(name)
                                     attachment_paths_by_skeleton[name] = info.attachment_paths
@@ -119,20 +130,24 @@ class InspectionService:
                                             )
                                         )
                     elif ext == ".skel":
-                        kind = "skeleton_binary"
+                        kind = FileType.SKELETON_BINARY
                         skeletons.append(name)
                         try:
                             payload = source.read(name)
                             registry = BinaryCodecRegistry()
-                            version = registry.probe(payload)
+                            version = registry.probe(payload, limits=self.config.binary_limits)
                             versions[name] = version
-                            document = registry.codec(version, experimental=True).decode(payload)
+                            codec = registry.codec(
+                                version, experimental=True, limits=self.config.binary_limits
+                            )
+                            document = codec.decode(payload)
                             info = inspect_skeleton(dumps(document).encode("utf-8"))
                             if info is None:
                                 raise ValueError("Decoded binary skeleton failed inspection")
                             attachment_paths_by_skeleton[name] = info.attachment_paths
                             metadata = {
-                                "binary_capability": "experimental_hierarchy_only",
+                                "binary_decoded": True,
+                                "binary_codec": codec.capability.to_dict(),
                                 "counts": info.counts,
                                 "names": info.names,
                                 "attachment_paths": info.attachment_paths,
@@ -141,23 +156,24 @@ class InspectionService:
                                 Diagnostic(
                                     "BINARY_UNQUALIFIED",
                                     Severity.WARNING,
-                                    "Restricted binary hierarchy codec has no "
-                                    "semantic qualification",
+                                    "Binary decoding has no semantic qualification",
                                     name,
                                 )
                             )
                         except BinaryError as exc:
                             diagnostics.append(
                                 Diagnostic(
-                                    "BINARY_NOT_YET_SUPPORTED",
-                                    Severity.INFO,
-                                    "No supported binary operation for this input",
+                                    exc.code.value,
+                                    Severity.WARNING
+                                    if exc.code
+                                    in (
+                                        BinaryErrorCode.VERSION_UNSUPPORTED,
+                                        BinaryErrorCode.FEATURE_UNSUPPORTED,
+                                    )
+                                    else Severity.ERROR,
+                                    str(exc),
                                     name,
-                                )
-                            )
-                            diagnostics.append(
-                                Diagnostic(
-                                    exc.code, Severity.WARNING, str(exc), name, exc.to_dict()
+                                    exc.to_dict(),
                                 )
                             )
                         except (ValueError, *_SOURCE_READ_ERRORS) as exc:
@@ -165,7 +181,7 @@ class InspectionService:
                                 Diagnostic("BINARY_INVALID", Severity.ERROR, str(exc), name)
                             )
                     elif ext == ".atlas":
-                        kind = "atlas"
+                        kind = FileType.ATLAS
                         atlases.append(name)
                         try:
                             atlas_payload = source.read(name)
@@ -221,12 +237,12 @@ class InspectionService:
                                         name,
                                         page,
                                         resolved,
-                                        "texture_page",
-                                        "ambiguous"
+                                        DependencyKind.TEXTURE_PAGE,
+                                        DependencyStatus.AMBIGUOUS
                                         if ambiguous
-                                        else "missing"
+                                        else DependencyStatus.MISSING
                                         if not resolved
-                                        else "resolved",
+                                        else DependencyStatus.RESOLVED,
                                     )
                                 )
                                 if not resolved:
@@ -247,9 +263,9 @@ class InspectionService:
                                     Diagnostic("INVALID_ATLAS", Severity.ERROR, str(exc), name)
                                 )
                     elif ext in TEXTURE_EXTENSIONS:
-                        kind = "texture"
+                        kind = FileType.TEXTURE
                     else:
-                        kind = "other"
+                        kind = FileType.OTHER
                     assets.append(
                         Asset(
                             path=name,
@@ -353,7 +369,7 @@ class InspectionService:
                                 )
                             )
                         for atlas in related:
-                            deps.append(Dependency(skel, atlas, atlas, "atlas"))
+                            deps.append(Dependency(skel, atlas, atlas, DependencyKind.ATLAS))
                             region_set = set(regions_by_atlas.get(atlas, ()))
                             for requested in paths:
                                 region = PurePosixPath(requested).name
@@ -402,12 +418,14 @@ class InspectionService:
                             str(origin),
                             (versions[skel],) if skel in versions else (),
                             bundle_deps,
-                            "valid"
-                            if not any(
+                            BundleValidation.INVALID
+                            if any(
                                 d.severity in (Severity.ERROR, Severity.BLOCKER) and d.path == skel
                                 for d in diagnostics
                             )
-                            else "invalid",
+                            else BundleValidation.NOT_EVALUATED
+                            if skel not in attachment_paths_by_skeleton
+                            else BundleValidation.VALID,
                         )
                     )
                 counts = {
