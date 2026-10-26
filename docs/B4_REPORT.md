@@ -126,4 +126,4 @@ Explicit product restrictions remain: legacy 3.5–3.7 unavailable; PNG textures
 
 ## K. Git publication
 
-Branch: `codex/b3-production-hardening`. Implementation commit: `f60f0bff7e7c8d7f1912f8d7c302988b1af92f3a`. This report is published in the following documentation commit; its immutable hash is recorded in the subsequent publication record. There is no B4 freeze tag because the decision is PARTIAL. Frozen B1/B2/B3 boundaries remain in force.
+Branch: `codex/b3-production-hardening`. Implementation commit: `f60f0bff7e7c8d7f1912f8d7c302988b1af92f3a`. Qualification report commit: `7b96c34aca45313287ee605ae6c5f218b41ed90b`. Working tree was clean after that publication; this metadata-only follow-up records its immutable hash. There is no B4 freeze tag because the decision is PARTIAL. Frozen B1/B2/B3 boundaries remain in force.
