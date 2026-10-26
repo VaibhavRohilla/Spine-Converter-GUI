@@ -8,3 +8,12 @@ __pycache__/
 build/
 dist/
 *.egg-info/
+
+node_modules/
+viewer/dist/
+viewer/.runtime/
+viewer/src/generated/
+viewer/test-results/
+viewer/playwright-report/
+
+viewer/viewer/

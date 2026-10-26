@@ -1,0 +1,21 @@
+{
+  "golden42": {
+    "origin": "Existing B2 experimental converted output from original 3.8.75; no original playback reference",
+    "sourceSkeletonSha256": "5d3d0d2cbda5c8ab7304d911841396d708af355330e80c301f8271efdf6deee8",
+    "conversionQualification": "experimental; unchanged"
+  },
+  "merged43": {
+    "origin": "Existing B3 hardening ZIP output",
+    "zipSha256": "7e5a32292fd9e42c64479c52c9fe6063051f39782c82ad68de545f6a5c1420c6",
+    "conversionQualification": "experimental; unchanged"
+  },
+  "checksums": {
+    "viewer/fixtures/production/golden42/golden_ingot.png": "2615d1607a5881fc8a5b55baa31f6391b52e98ca921745d5e2004d0569ee80c2",
+    "viewer/fixtures/production/golden42/golden_ingot.atlas": "e65535e70de8104b05d335fb80598467125072e6af21c7e7e47723504dbbf2c6",
+    "viewer/fixtures/production/golden42/golden_ingot.json": "65d3faca969a5b2323300cd45912ca46ff089cb78d7c26cecfb0a7af7aaccc90",
+    "viewer/fixtures/production/merged43/merged_multi.atlas": "f0951d40420a4f2a45f47217e038f8cf0b48abb6bb5871e638efd856f356c06d",
+    "viewer/fixtures/production/merged43/merged_multi.png": "54a1cddeea2dbca8bdff33af90c2dbab22344c03cc37194ab5a9c52ad958ee93",
+    "viewer/fixtures/production/merged43/merged_multi2.png": "1d1b7176417f7a692ee7147d0f2e5aa2f9a6017afabc35b7f54937c538cb5835",
+    "viewer/fixtures/production/merged43/merged_multi.json": "473d08abc8b1631e1e70fcc1543f0a1691f591b6eca8627a58c1678165e5f5dc"
+  }
+}

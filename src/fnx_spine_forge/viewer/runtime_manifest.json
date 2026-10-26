@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "runtimes": [
+    {
+      "family": "3.5",
+      "revision": null,
+      "identity": null,
+      "sourceCommit": null,
+      "backend": null,
+      "embeddedImplemented": false,
+      "binaryImplemented": false,
+      "capabilities": [
+        "VERSION_RECOGNIZED",
+        "UNSUPPORTED"
+      ],
+      "availability": "NOT_IMPLEMENTED",
+      "license": null,
+      "qualification": "fixture-specific evidence only; see docs/B4_REPORT.md"
+    },
+    {
+      "family": "3.6",
+      "revision": null,
+      "identity": null,
+      "sourceCommit": null,
+      "backend": null,
+      "embeddedImplemented": false,
+      "binaryImplemented": false,
+      "capabilities": [
+        "VERSION_RECOGNIZED",
+        "UNSUPPORTED"
+      ],
+      "availability": "NOT_IMPLEMENTED",
+      "license": null,
+      "qualification": "fixture-specific evidence only; see docs/B4_REPORT.md"
+    },
+    {
+      "family": "3.7",
+      "revision": null,
+      "identity": null,
+      "sourceCommit": null,
+      "backend": null,
+      "embeddedImplemented": false,
+      "binaryImplemented": false,
+      "capabilities": [
+        "VERSION_RECOGNIZED",
+        "UNSUPPORTED"
+      ],
+      "availability": "NOT_IMPLEMENTED",
+      "license": null,
+      "qualification": "fixture-specific evidence only; see docs/B4_REPORT.md"
+    },
+    {
+      "family": "3.8",
+      "revision": "8b4844bd4b193ba9e54487ed397a777993cbad56",
+      "identity": "spine-ts source",
+      "sourceCommit": "8b4844bd4b193ba9e54487ed397a777993cbad56",
+      "backend": "official spine-ts WebGL",
+      "embeddedImplemented": true,
+      "binaryImplemented": true,
+      "capabilities": [
+        "VERSION_RECOGNIZED",
+        "SKELETON_LOAD_SUPPORTED",
+        "ANIMATION_EVALUATION_SUPPORTED",
+        "RENDERING_SUPPORTED",
+        "BINARY_LOAD_SUPPORTED",
+        "HEADLESS_CAPTURE_SUPPORTED"
+      ],
+      "availability": "requires built local viewer",
+      "license": "docs/licenses/Spine-3.8.txt",
+      "qualification": "fixture-specific evidence only; see docs/B4_REPORT.md"
+    },
+    {
+      "family": "4.0",
+      "revision": "4.0.31",
+      "identity": "@esotericsoftware/spine-webgl",
+      "sourceCommit": "a6491f31bcd973e1a640d786913bf8f8cac1ae3c",
+      "backend": "official spine-ts WebGL",
+      "embeddedImplemented": true,
+      "binaryImplemented": true,
+      "capabilities": [
+        "VERSION_RECOGNIZED",
+        "SKELETON_LOAD_SUPPORTED",
+        "ANIMATION_EVALUATION_SUPPORTED",
+        "RENDERING_SUPPORTED",
+        "BINARY_LOAD_SUPPORTED",
+        "HEADLESS_CAPTURE_SUPPORTED"
+      ],
+      "availability": "requires built local viewer",
+      "license": "docs/licenses/Spine-4.0.txt",
+      "qualification": "fixture-specific evidence only; see docs/B4_REPORT.md"
+    },
+    {
+      "family": "4.1",
+      "revision": "4.1.56",
+      "identity": "@esotericsoftware/spine-webgl",
+      "sourceCommit": "e27e6dacfdf7d9b04de7dce48fd857f7b5ead9ca",
+      "backend": "official spine-ts WebGL",
+      "embeddedImplemented": true,
+      "binaryImplemented": true,
+      "capabilities": [
+        "VERSION_RECOGNIZED",
+        "SKELETON_LOAD_SUPPORTED",
+        "ANIMATION_EVALUATION_SUPPORTED",
+        "RENDERING_SUPPORTED",
+        "BINARY_LOAD_SUPPORTED",
+        "HEADLESS_CAPTURE_SUPPORTED"
+      ],
+      "availability": "requires built local viewer",
+      "license": "docs/licenses/Spine-4.1.txt",
+      "qualification": "fixture-specific evidence only; see docs/B4_REPORT.md"
+    },
+    {
+      "family": "4.2",
+      "revision": "4.2.43",
+      "identity": "@esotericsoftware/spine-webgl",
+      "sourceCommit": "8bca84f46e00d1d0d29ab0dc2406bef3b1248e17",
+      "backend": "official spine-ts WebGL",
+      "embeddedImplemented": true,
+      "binaryImplemented": true,
+      "capabilities": [
+        "VERSION_RECOGNIZED",
+        "SKELETON_LOAD_SUPPORTED",
+        "ANIMATION_EVALUATION_SUPPORTED",
+        "RENDERING_SUPPORTED",
+        "BINARY_LOAD_SUPPORTED",
+        "HEADLESS_CAPTURE_SUPPORTED"
+      ],
+      "availability": "requires built local viewer",
+      "license": "docs/licenses/Spine-4.2.txt",
+      "qualification": "fixture-specific evidence only; see docs/B4_REPORT.md"
+    },
+    {
+      "family": "4.3",
+      "revision": "4.3.13",
+      "identity": "@esotericsoftware/spine-webgl",
+      "sourceCommit": "b7beb2ccbbce667a12c02f44d070644f59b04968",
+      "backend": "official spine-ts WebGL",
+      "embeddedImplemented": true,
+      "binaryImplemented": true,
+      "capabilities": [
+        "VERSION_RECOGNIZED",
+        "SKELETON_LOAD_SUPPORTED",
+        "ANIMATION_EVALUATION_SUPPORTED",
+        "RENDERING_SUPPORTED",
+        "BINARY_LOAD_SUPPORTED",
+        "HEADLESS_CAPTURE_SUPPORTED"
+      ],
+      "availability": "requires built local viewer",
+      "license": "docs/licenses/Spine-4.3.txt",
+      "qualification": "fixture-specific evidence only; see docs/B4_REPORT.md"
+    }
+  ]
+}

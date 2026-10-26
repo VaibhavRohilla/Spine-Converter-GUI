@@ -1,0 +1,62 @@
+{
+  "info": {
+    "state": "READY",
+    "family": "4.2",
+    "revision": "4.2.43",
+    "exportVersion": "4.2.22",
+    "animations": [
+      {
+        "name": "animation",
+        "duration": 2.6666998863220215
+      }
+    ],
+    "skins": [
+      "default"
+    ],
+    "animation": "animation",
+    "time": 0,
+    "animationTime": 0,
+    "duration": 2.6666998863220215,
+    "progress": 0,
+    "loop": true,
+    "speed": 1,
+    "camera": {
+      "x": 74.12720051191346,
+      "y": 0.5,
+      "width": 521.2425772956657,
+      "height": 450.9126907348631,
+      "zoom": 1
+    },
+    "statistics": {
+      "loadMs": 14,
+      "textureUploadMs": 0.7000000476837158,
+      "textureCount": 1,
+      "texturePixels": 1048576,
+      "frames": 3,
+      "updateMs": 0.5,
+      "renderMs": 0.10000014305114746
+    },
+    "limitations": [
+      "single animation track control",
+      "seek discards mixing history",
+      "deterministic results scoped to runtime, fixture and fixed-step policy",
+      "GPU timing and heap ownership not inferred from frame timing"
+    ]
+  },
+  "samples": [
+    {
+      "animation": "animation",
+      "duration": 2.6666998863220215,
+      "hash": "1fc31f79d12a89df65b73db21b87bb26236810d36676c686145411860ff0fe22",
+      "constraints": [],
+      "attachmentTypes": [
+        "region",
+        "clipping"
+      ]
+    }
+  ],
+  "skins": [
+    "default"
+  ],
+  "visuallyVerified": false
+}

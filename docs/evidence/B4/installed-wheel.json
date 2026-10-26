@@ -1,0 +1,8 @@
+{
+  "status": "PASSED",
+  "isolatedEnvironment": true,
+  "importFromSitePackages": true,
+  "fixture": "official 4.2 Spineboy JSON",
+  "exportVersion": "4.2.22",
+  "wheel": "fnx_spine_forge-0.2.0-py3-none-any.whl"
+}

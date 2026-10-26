@@ -1,0 +1,67 @@
+{
+  "info": {
+    "state": "READY",
+    "family": "4.2",
+    "revision": "4.2.43",
+    "exportVersion": "4.2.22",
+    "animations": [
+      {
+        "name": "walk",
+        "duration": 1
+      }
+    ],
+    "skins": [
+      "default",
+      "goblin",
+      "goblingirl"
+    ],
+    "animation": "walk",
+    "time": 0,
+    "animationTime": 0,
+    "duration": 1,
+    "progress": 0,
+    "loop": true,
+    "speed": 1,
+    "camera": {
+      "x": -0.6408832188752456,
+      "y": 171.54081788866992,
+      "width": 306.97571586839933,
+      "height": 402.05389991102817,
+      "zoom": 1
+    },
+    "statistics": {
+      "loadMs": 12.400000095367432,
+      "textureUploadMs": 0,
+      "textureCount": 1,
+      "texturePixels": 131072,
+      "frames": 3,
+      "updateMs": 0.40000009536743164,
+      "renderMs": 0.10000014305114746
+    },
+    "limitations": [
+      "single animation track control",
+      "seek discards mixing history",
+      "deterministic results scoped to runtime, fixture and fixed-step policy",
+      "GPU timing and heap ownership not inferred from frame timing"
+    ]
+  },
+  "samples": [
+    {
+      "animation": "walk",
+      "duration": 1,
+      "hash": "f1e8a19a0868643ede7da2eb78222bd398b210c72cdcd651bab411895b40716e",
+      "constraints": [],
+      "attachmentTypes": [
+        null,
+        "mesh",
+        "region"
+      ]
+    }
+  ],
+  "skins": [
+    "default",
+    "goblin",
+    "goblingirl"
+  ],
+  "visuallyVerified": false
+}

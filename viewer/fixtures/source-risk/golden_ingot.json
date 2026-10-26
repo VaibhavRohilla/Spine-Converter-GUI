@@ -1,0 +1,133 @@
+{
+"skeleton": {
+	"hash": "O+nC1+Sd8Qwy7kYdsr7Engzfxxg",
+	"spine": "3.8.75",
+	"x": -620.15,
+	"y": -627.68,
+	"width": 1232.79,
+	"height": 1232.79,
+	"images": "./images/",
+	"audio": ""
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "main", "parent": "root", "y": -53.23 },
+	{ "name": "02_Gold_Ingot_Foreground", "parent": "main", "y": 57.81, "scaleX": 4.0904, "scaleY": 4.0904 },
+	{ "name": "02_Gold_Ingot_Foreground2", "parent": "main", "y": 57.81, "scaleX": 4.0904, "scaleY": 4.0904 },
+	{ "name": "fx_00000", "parent": "main", "y": 54.47 }
+],
+"slots": [
+	{ "name": "01_Rotating_Disc_No_Text", "bone": "root", "attachment": "Wheel" },
+	{ "name": "01_Jade_Medallion_Background", "bone": "root", "attachment": "01_Jade_Medallion_Background" },
+	{ "name": "fx_00000", "bone": "fx_00000", "attachment": "fx_00000", "blend": "additive" },
+	{ "name": "fx_0", "bone": "fx_00000", "attachment": "fx_00000", "blend": "additive" },
+	{ "name": "02_Gold_Ingot_Foreground", "bone": "02_Gold_Ingot_Foreground", "attachment": "02_Gold_Ingot_Foreground" },
+	{ "name": "02_Gold_Ingot_Foreground2", "bone": "02_Gold_Ingot_Foreground2", "color": "ffffff00", "attachment": "02_Gold_Ingot_Foreground", "blend": "additive" },
+	{ "name": "02_Static_Outer_Frame", "bone": "root", "attachment": "WheelHolder" },
+	{ "name": "04_Top_Pointer (1)", "bone": "root", "attachment": "04_Top_Pointer (1)" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"fx_00000": {
+				"fx_00000": { "x": -0.72, "y": -2.58, "scaleX": 1.8529, "scaleY": 1.8529, "width": 128, "height": 88 }
+			},
+			"01_Rotating_Disc_No_Text": {
+				"Wheel": { "y": 2, "scaleX": 1.7587, "scaleY": 1.7587, "width": 635, "height": 620 }
+			},
+			"fx_0": {
+				"fx_00000": { "x": -0.72, "y": -2.58, "scaleX": 1.8529, "scaleY": 1.8529, "width": 128, "height": 88 }
+			},
+			"02_Static_Outer_Frame": {
+				"WheelHolder": { "x": -3.76, "y": -11.28, "scaleX": 1.9662, "scaleY": 1.9662, "width": 627, "height": 627 }
+			},
+			"02_Gold_Ingot_Foreground": {
+				"02_Gold_Ingot_Foreground": { "y": -1.24, "scaleX": 0.0987, "scaleY": 0.0987, "width": 480, "height": 277 }
+			},
+			"01_Jade_Medallion_Background": {
+				"01_Jade_Medallion_Background": { "scaleX": 0.7276, "scaleY": 0.7276, "width": 528, "height": 512 }
+			},
+			"02_Gold_Ingot_Foreground2": {
+				"02_Gold_Ingot_Foreground": { "y": -1.24, "scaleX": 0.0987, "scaleY": 0.0987, "width": 480, "height": 277 }
+			},
+			"04_Top_Pointer (1)": {
+				"04_Top_Pointer (1)": { "y": 470.9, "scaleX": 0.7382, "scaleY": 0.7382, "width": 345, "height": 325 }
+			}
+		}
+	}
+],
+"animations": {
+	"idle": {
+		"slots": {
+			"02_Gold_Ingot_Foreground2": {
+				"color": [
+					{ "color": "ffffff0a", "curve": 0.378, "c2": 0.61, "c3": 0.722 },
+					{ "time": 1, "color": "ffffff2b", "curve": 0.242, "c3": 0.671, "c4": 0.68 },
+					{ "time": 2, "color": "ffffff0a" }
+				]
+			}
+		},
+		"bones": {
+			"main": {
+				"rotate": [
+					{ "angle": 1.53, "curve": 0.378, "c2": 0.52, "c3": 0.748 },
+					{ "time": 0.2333, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.7333, "angle": 3.35, "curve": 0.25, "c3": 0.75 },
+					{ "time": 1.2333, "angle": -1.94, "curve": 0.25, "c3": 0.75 },
+					{ "time": 1.7333, "angle": 3.35, "curve": 0.248, "c3": 0.628, "c4": 0.52 },
+					{ "time": 2, "angle": 1.53 }
+				]
+			}
+		}
+	},
+	"winning": {
+		"slots": {
+			"02_Gold_Ingot_Foreground2": {
+				"color": [
+					{ "color": "ffffff00", "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.7333, "color": "ffffff30", "curve": 0.25, "c3": 0.75 },
+					{ "time": 1, "color": "ffffff12", "curve": 0.25, "c3": 0.75 },
+					{ "time": 1.3333, "color": "ffffff30", "curve": 0.25, "c3": 0.75 },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"main": {
+				"rotate": [
+					{ "angle": 1.53, "curve": 0.378, "c2": 0.52, "c3": 0.748 },
+					{ "time": 0.2333, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.7333, "angle": 3.35, "curve": 0.25, "c3": 0.75 },
+					{ "time": 1.2333, "angle": -1.94, "curve": 0.25, "c3": 0.75 },
+					{ "time": 1.7333, "angle": 3.35, "curve": 0.248, "c3": 0.628, "c4": 0.52 },
+					{ "time": 2, "angle": 1.53 }
+				],
+				"scale": [
+					{ "time": 0.2333, "curve": 0.25, "c3": 0.75 },
+					{
+						"time": 0.7333,
+						"x": 0.989,
+						"y": 0.862,
+						"curve": 0.325,
+						"c2": 0.3,
+						"c3": 0.659,
+						"c4": 0.64
+					},
+					{ "time": 0.9, "x": 0.989, "y": 1.218, "curve": 0.25, "c3": 0.75 },
+					{
+						"time": 1.1,
+						"x": 0.997,
+						"y": 0.885,
+						"curve": 0.325,
+						"c2": 0.3,
+						"c3": 0.659,
+						"c4": 0.64
+					},
+					{ "time": 1.3333 }
+				]
+			}
+		}
+	}
+}
+}

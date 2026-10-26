@@ -56,7 +56,7 @@ def _attachment_refs(skins: JSONValue) -> tuple[str, ...]:
                 kind = str(definition.get("type", "region")).lower()
                 if kind not in IMAGE_ATTACHMENT_TYPES:
                     continue
-                path = definition.get("path") or attachment_name
+                path = definition.get("path") or definition.get("name") or attachment_name
                 if isinstance(path, str) and path:
                     refs.append(path)
     return tuple(sorted(set(refs)))

@@ -1,0 +1,71 @@
+{
+  "info": {
+    "state": "READY",
+    "family": "4.3",
+    "revision": "4.3.13",
+    "exportVersion": "4.3.75-beta",
+    "animations": [
+      {
+        "name": "grow",
+        "duration": 11.433333396911621
+      }
+    ],
+    "skins": [
+      "default"
+    ],
+    "animation": "grow",
+    "time": 0,
+    "animationTime": 0,
+    "duration": 11.433333396911621,
+    "progress": 0,
+    "loop": true,
+    "speed": 1,
+    "camera": {
+      "x": 26.127003206622717,
+      "y": 418.8278068792748,
+      "width": 261.79020604757307,
+      "height": 967.2540471486993,
+      "zoom": 1
+    },
+    "statistics": {
+      "loadMs": 12,
+      "textureUploadMs": 0.20000004768371582,
+      "textureCount": 1,
+      "texturePixels": 131072,
+      "frames": 3,
+      "updateMs": 0.39999985694885254,
+      "renderMs": 0.19999980926513672
+    },
+    "limitations": [
+      "single animation track control",
+      "seek discards mixing history",
+      "deterministic results scoped to runtime, fixture and fixed-step policy",
+      "GPU timing and heap ownership not inferred from frame timing"
+    ]
+  },
+  "samples": [
+    {
+      "animation": "grow",
+      "duration": 11.433333396911621,
+      "hash": "c019315d1fd20cfa749b0c9a3e689331bc8900d53dfe55b77f3e6dc46067ebe7",
+      "constraints": [
+        {
+          "name": "vine-path",
+          "type": "path",
+          "values": {
+            "position": 0,
+            "spacing": 0
+          }
+        }
+      ],
+      "attachmentTypes": [
+        "path",
+        "mesh"
+      ]
+    }
+  ],
+  "skins": [
+    "default"
+  ],
+  "visuallyVerified": false
+}

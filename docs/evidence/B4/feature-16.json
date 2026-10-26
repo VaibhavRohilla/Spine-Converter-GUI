@@ -1,0 +1,487 @@
+{
+  "info": {
+    "state": "READY",
+    "family": "4.2",
+    "revision": "4.2.43",
+    "exportVersion": "4.2.22",
+    "animations": [
+      {
+        "name": "gun-grab",
+        "duration": 0.666700005531311
+      },
+      {
+        "name": "gun-holster",
+        "duration": 0.666700005531311
+      },
+      {
+        "name": "jump",
+        "duration": 1.5333000421524048
+      },
+      {
+        "name": "roar",
+        "duration": 2.1333000659942627
+      },
+      {
+        "name": "walk",
+        "duration": 1.266700029373169
+      }
+    ],
+    "skins": [
+      "default"
+    ],
+    "animation": "gun-grab",
+    "time": 0,
+    "animationTime": 0,
+    "duration": 0.666700005531311,
+    "progress": 0,
+    "loop": true,
+    "speed": 1,
+    "camera": {
+      "x": -165.34376025433937,
+      "y": 446.1831615414199,
+      "width": 1480.7592042247065,
+      "height": 1195.3604616350228,
+      "zoom": 1
+    },
+    "statistics": {
+      "loadMs": 18.200000047683716,
+      "textureUploadMs": 0.39999985694885254,
+      "textureCount": 1,
+      "texturePixels": 524288,
+      "frames": 3,
+      "updateMs": 0.40000009536743164,
+      "renderMs": 0.19999980926513672
+    },
+    "limitations": [
+      "single animation track control",
+      "seek discards mixing history",
+      "deterministic results scoped to runtime, fixture and fixed-step policy",
+      "GPU timing and heap ownership not inferred from frame timing"
+    ]
+  },
+  "samples": [
+    {
+      "animation": "gun-grab",
+      "duration": 0.666700005531311,
+      "hash": "1b6792d24cac5010f48fd5937296b54f70a52b4c1a9dbe6950e22ccca22318f4",
+      "constraints": [
+        {
+          "name": "back-foot-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": 1
+          }
+        },
+        {
+          "name": "back-leg-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": -1
+          }
+        },
+        {
+          "name": "front-foot-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": 1
+          }
+        },
+        {
+          "name": "front-leg-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": -1
+          }
+        },
+        {
+          "name": "spineboy-back-arm-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": -1
+          }
+        },
+        {
+          "name": "spineboy-back-leg-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": -1
+          }
+        },
+        {
+          "name": "spineboy-front-arm-ik",
+          "type": "ik",
+          "values": {
+            "mix": 0,
+            "bendDirection": 1
+          }
+        },
+        {
+          "name": "spineboy-front-leg-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": -1
+          }
+        },
+        {
+          "name": "stirrup",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": -1
+          }
+        }
+      ],
+      "attachmentTypes": [
+        "region",
+        "mesh",
+        null
+      ]
+    },
+    {
+      "animation": "gun-holster",
+      "duration": 0.666700005531311,
+      "hash": "70f8f8397e74fafcc805ad951fa30dbea11ab673784c196b3f6de24173545577",
+      "constraints": [
+        {
+          "name": "back-foot-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": 1
+          }
+        },
+        {
+          "name": "back-leg-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": -1
+          }
+        },
+        {
+          "name": "front-foot-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": 1
+          }
+        },
+        {
+          "name": "front-leg-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": -1
+          }
+        },
+        {
+          "name": "spineboy-back-arm-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": -1
+          }
+        },
+        {
+          "name": "spineboy-back-leg-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": -1
+          }
+        },
+        {
+          "name": "spineboy-front-arm-ik",
+          "type": "ik",
+          "values": {
+            "mix": 0,
+            "bendDirection": 1
+          }
+        },
+        {
+          "name": "spineboy-front-leg-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": -1
+          }
+        },
+        {
+          "name": "stirrup",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": -1
+          }
+        }
+      ],
+      "attachmentTypes": [
+        "region",
+        "mesh",
+        null
+      ]
+    },
+    {
+      "animation": "jump",
+      "duration": 1.5333000421524048,
+      "hash": "4bda30ae71a9f8d75fb36d5af38f478998520d8e79ed6863393287ce6956d5cc",
+      "constraints": [
+        {
+          "name": "back-foot-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": 1
+          }
+        },
+        {
+          "name": "back-leg-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": -1
+          }
+        },
+        {
+          "name": "front-foot-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": 1
+          }
+        },
+        {
+          "name": "front-leg-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": -1
+          }
+        },
+        {
+          "name": "spineboy-back-arm-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": 1
+          }
+        },
+        {
+          "name": "spineboy-back-leg-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": -1
+          }
+        },
+        {
+          "name": "spineboy-front-arm-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": 1
+          }
+        },
+        {
+          "name": "spineboy-front-leg-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": -1
+          }
+        },
+        {
+          "name": "stirrup",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": -1
+          }
+        }
+      ],
+      "attachmentTypes": [
+        "region",
+        "mesh",
+        null
+      ]
+    },
+    {
+      "animation": "roar",
+      "duration": 2.1333000659942627,
+      "hash": "459f6537e73fbe50900fc09c9307f8ef95880d2959ad3b7222d5fae0caa05bf1",
+      "constraints": [
+        {
+          "name": "back-foot-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": 1
+          }
+        },
+        {
+          "name": "back-leg-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": -1
+          }
+        },
+        {
+          "name": "front-foot-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": 1
+          }
+        },
+        {
+          "name": "front-leg-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": -1
+          }
+        },
+        {
+          "name": "spineboy-back-arm-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": 1
+          }
+        },
+        {
+          "name": "spineboy-back-leg-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": -1
+          }
+        },
+        {
+          "name": "spineboy-front-arm-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": 1
+          }
+        },
+        {
+          "name": "spineboy-front-leg-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": -1
+          }
+        },
+        {
+          "name": "stirrup",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": -1
+          }
+        }
+      ],
+      "attachmentTypes": [
+        "region",
+        "mesh",
+        null
+      ]
+    },
+    {
+      "animation": "walk",
+      "duration": 1.266700029373169,
+      "hash": "74438edd307a74b4da4ac0bc8ef39e6ca6e598bf7b0d989bbd6083400c119ed0",
+      "constraints": [
+        {
+          "name": "back-foot-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": 1
+          }
+        },
+        {
+          "name": "back-leg-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": -1
+          }
+        },
+        {
+          "name": "front-foot-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": 1
+          }
+        },
+        {
+          "name": "front-leg-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": -1
+          }
+        },
+        {
+          "name": "spineboy-back-arm-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": 1
+          }
+        },
+        {
+          "name": "spineboy-back-leg-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": -1
+          }
+        },
+        {
+          "name": "spineboy-front-arm-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": 1
+          }
+        },
+        {
+          "name": "spineboy-front-leg-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": -1
+          }
+        },
+        {
+          "name": "stirrup",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": -1
+          }
+        }
+      ],
+      "attachmentTypes": [
+        "region",
+        "mesh"
+      ]
+    }
+  ],
+  "skins": [
+    "default"
+  ],
+  "visuallyVerified": false
+}
