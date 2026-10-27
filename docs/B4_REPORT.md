@@ -1,42 +1,148 @@
 # B4 qualification report
 
-## Final closure checkpoint — 2026-10-27
+## Final publication — 2026-10-27
 
-**B4 PARTIAL; restricted engineering qualification pending the fresh extended soak.**
+**Restricted engineering checkpoint: QUALIFIED. Full B4: PARTIAL.**
 
-The incoming implementation and evidence were preserved in
-`evidence/B4/closure-20261027/incoming-snapshot.tar.gz` before edits. No runtime
-adapter was removed or rewritten. The final verification script passes 465 Python
-and 146 TypeScript/browser tests, Ruff, strict mypy, typecheck, lint, wheel/sdist,
-viewer build and diff checks. Real Qt capture/disposal passes. Installed-wheel
-verification and the fresh 200-cycle / 1800-second controlled soak are being recorded
-in this closure directory. This checkpoint does not claim their completion.
+Implementation checkpoint: `ca81353421b17f2d9a5019dbabef7f6bbba52ce0` on
+`codex/b3-production-hardening`. This report and its evidence are published in the
+following report commit (obtain the exact publication SHA with `git rev-parse HEAD`).
+The existing full-freeze contract still requires independently accepted rendering
+references. No full B4 freeze tag, production certification or visual-equivalence
+claim is made. No critical unresolved correctness/security defect was identified
+within this restricted qualification scope.
 
-Narrow closure changes gate explicit binary selections before inspection even with
-renamed extensions, expose the manifest-derived typed `APPROVED_BINARY_ONLY`
-capability to Python and TypeScript hosts, and add missing soak accounting without
-changing budgets, the late-cycle fitting window or exclusions. CLI folder/ZIP
-rejection was verified before server startup. B1/B3 inspection inside the viewer
-is behind this admission gate; standalone experimental B3 codecs remain separately
-unqualified and are not covered by a claim of general untrusted-binary safety.
+### Final checks
 
-All 44 candidate source/frame identities and regressions, plus six intentionally
-broken render cases, were checked. The [review queue](B4_VISUAL_REVIEW.md) and
-`evidence/B4/closure-20261027/visual-review-manifest.json` provide per-frame criteria,
-normalization, exact hashes, measured comparisons and empty reviewer records.
-Status remains **CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED**. The existing freeze contract
-requires independent acceptance, so no full B4 production or visual freeze is made.
+| Check against final implementation | Result |
+|---|---|
+| `bash scripts/verify_b4.sh` | PASS: 465 Python tests, Ruff, strict mypy (59 files), wheel/sdist, TypeScript typecheck, lint, viewer build, 146 TypeScript/browser tests, diff check |
+| Fresh installed wheel, isolated Python `-I` fixture server | PASS: all 146 tests; service imported from isolated site-packages |
+| Qt WebEngine 6.10.3 capture/bridge/disposal | PASS: real 1024×1024 DPR2 capture; DISPOSE acknowledged; no sandbox overrides |
+| Binary rejection | PASS: Python pre-inspection admission, folder/ZIP and renamed explicit selection; browser forged metadata/actual bytes; CLI folder/ZIP rejection before server startup |
+| Runtime selection, animation, frame/pose capture, cleanup | PASS across declared 3.8/4.0/4.1/4.2/4.3 adapters in the suite |
+| Visual regressions | PASS: 44 retained candidates and six deliberately broken rendering cases detected |
+| Controlled extended stability | PASS: 200 real load/dispose cycles plus 1809.414 seconds sustained paired 3.8/4.3 playback |
+| Final source/build identity check | PASS: pinned manifest, trust policy, lockfile and built viewer hashes unchanged throughout soak |
 
-Everything below is historical evidence; its counts, pending work and Git state
-refer to those earlier checkpoints, not this closure attempt.
+Evidence: [closure summary](evidence/B4/closure-20261027/closure.json),
+[verification log](evidence/B4/closure-20261027/verify.log),
+[installed-wheel log](evidence/B4/closure-20261027/installed-wheel-browser.log),
+[Qt record](evidence/B4/closure-20261027/qt/embedding.json), and
+[build/dependency identities](evidence/B4/closure-20261027/identities.json).
+Two newly added browser tests initially read state before initialization; the test
+wait was corrected, then the full suite and installed-wheel suite passed. Failed
+logs are retained. Incoming files and complete diff were preserved before edits in
+`incoming-snapshot.tar.gz`; log trailing whitespace was normalized for diff checks.
+
+### Controlled extended stability
+
+Command: `B4_SOAK_SECONDS=1800 B4_SOAK_CYCLES=200
+B4_SOAK_OUTPUT=docs/evidence/B4/closure-20261027/soak-awake
+caffeinate -i -s node viewer/scripts/soak.mjs`.
+No heavy build/test workload was launched alongside it. Sleep-prevention assertions
+were confirmed. Total duration: 1823.100s; playback samples:
+180; maximum sample interval: 10.146s.
+The two sessions rendered 108726 / 108725
+frames. Each interval advanced both renderers. The cycle phase exercised real
+animation, skins, seek, frame/pose capture, stop and disposal across runtime families.
+
+| Measurement | Observed |
+|---|---:|
+| Late-cycle heap growth | 392156 bytes |
+| Late-cycle RSS growth | -44352 KiB |
+| Late-cycle heap slope | 2938.27 bytes/cycle |
+| Late-cycle RSS slope | -837.86 KiB/cycle |
+| Playback heap growth | 210608 bytes |
+| Playback RSS growth | 12480 KiB |
+| Playback heap/RSS fitted slopes | 53.64 bytes/s / -4.15 KiB/s |
+
+Original budgets and cycle window (samples at cycle >=50) are unchanged: load
+<=10s, heap growth <=64 MiB, RSS growth <=512 MiB, late slopes <=262144 bytes/cycle
+and <=2048 KiB/cycle. No exclusions were added. Zero budget failures. Per-PID
+Node/Python/browser-tree RSS and post-GC JS heap are retained in every sample.
+RSS includes the transient `ps` sampler (classified among descendants), is an
+aggregate host observation, and does not isolate GPU-driver memory or enforce a cap.
+
+Final allocations/deletions balance: textures 213/213, buffers 404/404, programs
+404/404, shaders 808/808; framebuffers and renderbuffers 0/0. Both sessions are
+DISPOSED; active viewer sessions, live GPU objects, tracked listeners, schedulers
+and subscribers are zero. Lifecycle acknowledgments completed; server exit 0,
+no kill signal, no runtime errors or runtime warnings. Four browser WebGL
+`GPU stall due to ReadPixels` performance warnings are recorded. Listener accounting
+covers context-loss/restoration and visibility listeners, not every browser listener.
+A finite passing soak does not prove leak-free behavior.
+
+[Full result](evidence/B4/closure-20261027/soak-awake/result.json).
+The earlier fresh run reported harness PASS but contained 88.874s and 603.371s
+sampling gaps with little rendering; it is **not accepted as sustained playback**.
+Its raw result and [continuity review](evidence/B4/closure-20261027/soak-continuity-review.json)
+are preserved alongside all earlier failing and passing evidence. Suspected host
+sleep/suspension was addressed with sleep prevention, not threshold changes.
+
+### Binary trust and B5 contract
+
+Only the five packaged official fixture identities are admitted by actual SHA256,
+exact byte length and export version. Admission occurs before B1/B3 inspection in
+`ViewerService`, including `.skel` siblings and explicit binary selections with
+renamed extensions; folder/ZIP source controls remain canonical. The browser
+independently hashes bytes before the official binary reader. Forged transport
+hashes, modified headers/lengths and version claims cannot grant approval. A false
+JSON format claim selects the JSON parser and cannot select the binary reader.
+The viewer CLI routes through the same service and exposes no explicit binary
+selection flag. Standalone B3 codec commands remain separately experimental;
+this policy does not claim to sandbox them or qualify their custom codec.
+
+B5 can query `RuntimeFeature.APPROVED_BINARY_ONLY` in Python or exported
+`runtimeCapabilities[family]` in TypeScript without attempting a load. Both derive
+from the existing manifest. No new decoder, adapter layer or alternative renderer
+was introduced. Untrusted binary support and OS-enforced memory containment remain
+unqualified on every platform. B3 decoding/encoding/conversion fidelity and
+source-to-converted visual equivalence remain unqualified.
+
+B5 must use immutable service snapshots, validate descriptors and protocol messages,
+keep the capability-token server local, forward ordered lifecycle states and await
+DISPOSED acknowledgment, dispose viewers/subscriptions and close the server.
+Capture pauses playback; explicitly resume when appropriate. Retain the byte,
+texture and session limits and report binary restrictions before user selection.
+The final B5 desktop application is outside this checkpoint.
+
+### Visual review, supported scope and remaining blocker
+
+[Visual review queue](B4_VISUAL_REVIEW.md) and its linked machine-readable manifest
+bind all 44 candidates to verified source/frame hashes, pinned runtime revision,
+animation/time/skin, camera/viewport/DPR, explicit background/alpha policy, expected
+features, thresholds and actual comparisons. The six negative regression results
+are included. Reviewer identity/date, evaluated criteria, decision and exclusions
+remain pending. No reviewer or approval was fabricated. Status is
+**CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED**. Repeatability, artistic acceptance and
+source-to-converted equivalence are separate decisions.
+
+Supported embedded families: 3.8 (revision
+`8b4844bd4b193ba9e54487ed397a777993cbad56`), 4.0.31, 4.1.56, 4.2.43 and 4.3.13
+runtime builds. These are fixture/feature-scoped results, not universal export
+support. Families 3.5–3.7 are recognized but unsupported; other undeclared families
+are unsupported. PNG-only textures and existing animation/camera restrictions remain.
+
+Verified host: macOS 26.6.2 / Darwin 25.6.0 arm64, Mac16,13, 16 GiB RAM,
+Python 3.12.15, Node 24.21.0, Chromium 156.0.8078.4. Chromium uses **ANGLE SwiftShader
+software WebGL**. Qt has real local capture/disposal evidence but no separately
+recorded hardware-renderer identity. Hardware GPU, Linux and Windows qualification
+are not claimed. Dependency/build identities are recorded; no runtime dependency
+upgrade was made. Python packaging declares some version ranges; the tested tool
+versions are recorded rather than claiming those declarations are exact locks.
+
+**Remaining full-B4 release blocker: independent visual acceptance by an authorized
+reviewer of the exact candidate references and documented criteria/exclusions.**
+Hardware/cross-platform qualification and B3 custom binary fidelity remain outside
+this restricted engineering checkpoint, not silently certified by it.
 
 ---
 
+## Historical evidence — not current release status
 
-**Decision: B4 PARTIAL — PLAYBACK CORE VERIFIED.**
-
-Actual embedded official WebGL playback, pose/frame capture and independent sessions are implemented and tested for **3.8, 4.0, 4.1, 4.2 and 4.3**. This is not a production freeze: accepted rendering references remain unavailable. Untrusted binary is now disabled; the retained extended soak passed its declared host budgets. See the current qualification below; subsequent sections retain historical evidence. No conversion route or custom binary codec is promoted by this work. No source-to-converted visual equivalence is certified.
-
+The sections below retain earlier counts, Git states and pending gates as history.
+The final publication above supersedes their release-status statements.
 
 ## Historical boundary and lifecycle hardening follow-up — 2026-10-27
 

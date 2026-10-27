@@ -73,5 +73,13 @@
   "hardware": [
     "Mac16,13",
     "17179869184"
-  ]
+  ],
+  "qualifiedImplementationCommit": "ca81353421b17f2d9a5019dbabef7f6bbba52ce0",
+  "artifactHashes": {
+    "dist/fnx_spine_forge-0.1.0-py3-none-any.whl": "5496a1e14a29b120f18372f8d4aad78fce599712ec584706bb047b4758e27d40",
+    "dist/fnx_spine_forge-0.1.0.tar.gz": "74c283dc43ec51bf6e14dca7622df99ab529e079e19588fd9046dd4bdc6c3c54",
+    "dist/fnx_spine_forge-0.2.0-py3-none-any.whl": "0e24ae9bfa4060b179eb4ec659e38ef5c9d8a32f48f076a48376af8d4087eeea",
+    "dist/fnx_spine_forge-0.2.0.tar.gz": "ce2a14bd9d6403a01f8db2ea9bb5c6652e14f3b7da2f34bab731f599401489bf"
+  },
+  "note": "Editable pip freeze recorded starting Git HEAD; source/build hashes and implementation commit identify the tested candidate. Python tool versions are recorded, npm dependencies remain lockfile-pinned."
 }
