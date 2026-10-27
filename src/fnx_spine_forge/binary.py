@@ -15,8 +15,9 @@ from dataclasses import dataclass, replace
 from enum import StrEnum
 from typing import cast
 
+from .binary_schema import ANIMATED_42_PROFILE, BinaryProfile
 from .json_types import JSONDocument, JSONValue
-from .versions import BINARY_HIERARCHY_VERSION
+from .versions import BINARY_EXPORT_VERSION
 
 
 class BinaryFeature(StrEnum):
@@ -85,11 +86,19 @@ class BinaryLimits:
     max_bytes: int = 32 * 1024 * 1024
     max_string_bytes: int = 65536
     max_count: int = 10000
+    max_total_items: int = 160000
+    max_depth: int = 32
 
     def __post_init__(self) -> None:
         if any(
             type(value) is not int or value < 1
-            for value in (self.max_bytes, self.max_string_bytes, self.max_count)
+            for value in (
+                self.max_bytes,
+                self.max_string_bytes,
+                self.max_count,
+                self.max_total_items,
+                self.max_depth,
+            )
         ):
             raise ValueError("Binary limits must be positive integers")
 
@@ -136,7 +145,7 @@ class BinaryReader:
     def count(self) -> int:
         value = self.varint()
         self._declared_items += value
-        if value > self.limits.max_count or self._declared_items > self.limits.max_count * 16:
+        if value > self.limits.max_count or self._declared_items > self.limits.max_total_items:
             raise BinaryError(
                 BinaryErrorCode.COUNT_LIMIT, "Collection count exceeds limit", self.offset
             )
@@ -216,6 +225,7 @@ class BinaryCapability:
     fixture_evidence: tuple[str, ...]
     structurally_verified: bool
     semantically_qualified: bool
+    profile: BinaryProfile
     runtime_qualified: bool = False
 
     def to_dict(self) -> JSONDocument:
@@ -233,36 +243,29 @@ class BinaryCapability:
             "structurally_verified": self.structurally_verified,
             "semantically_qualified": self.semantically_qualified,
             "runtime_qualified": self.runtime_qualified,
-            "input_formats": ("json", "binary"),
-            "output_formats": ("json", "binary"),
-            "experimental": not self.semantically_qualified,
-            "supported_attachments": ("region", "mesh", "linkedmesh"),
-            "supported_bone_timelines": (
-                "rotate",
-                "translate",
-                "translatex",
-                "translatey",
-                "scale",
-                "scalex",
-                "scaley",
-                "shear",
-                "shearx",
-                "sheary",
+            "input_formats": tuple(
+                name
+                for name, enabled in (("json", self.encode), ("binary", self.decode))
+                if enabled
             ),
-            "supported_slot_timelines": ("attachment", "rgba"),
-            "supported_attachment_timelines": ("deform",),
-            "supported_global_timelines": ("drawOrder",),
-            "supported_constraints": ("one_or_two_bone_ik_setup_without_skin_requirement",),
-            "interpolation": ("linear", "stepped", "bezier_per_channel"),
+            "output_formats": tuple(
+                name
+                for name, enabled in (("json", self.decode), ("binary", self.encode))
+                if enabled
+            ),
+            "experimental": not self.semantically_qualified,
+            "supported_attachments": tuple(kind.value for kind in self.profile.attachments),
+            "supported_bone_timelines": tuple(
+                kind.name.lower() for kind in self.profile.bone_timelines
+            ),
+            "supported_slot_timelines": tuple(kind.value for kind in self.profile.slot_timelines),
+            "supported_attachment_timelines": self.profile.attachment_timelines,
+            "supported_global_timelines": self.profile.global_timelines,
+            "supported_constraints": self.profile.constraints,
+            "interpolation": self.profile.interpolation,
             "decoder_qualification": "unqualified: authentic animated binary evidence missing",
             "encoder_qualification": "experimental: specified-fixture official runtime comparisons",
-            "restrictions": (
-                "exact export version 4.2.43 only; runtime package version is separate",
-                "no composed migration route promotion; B2 qualification unchanged",
-                "no events, constraint timelines, physics, paths or sequences",
-                "nonessential fields require explicit metadata; no hash truncation",
-                "B4 production binary admission remains approved-fixture-only",
-            ),
+            "restrictions": self.profile.restrictions,
         }
 
 
@@ -270,7 +273,7 @@ class BinaryCodecRegistry:
     def capabilities(self) -> tuple[BinaryCapability, ...]:
         return (
             BinaryCapability(
-                BINARY_HIERARCHY_VERSION,
+                BINARY_EXPORT_VERSION,
                 True,
                 True,
                 (
@@ -305,6 +308,7 @@ class BinaryCodecRegistry:
                 ),
                 True,
                 False,
+                ANIMATED_42_PROFILE,
             ),
         )
 
@@ -475,7 +479,7 @@ class BinarySkeletonCodec:
         while stack:
             value, depth = stack.pop()
             visited += 1
-            if depth > 32 or visited > self.limits.max_count * 16:
+            if depth > self.limits.max_depth or visited > self.limits.max_total_items:
                 raise BinaryError(BinaryErrorCode.COUNT_LIMIT, "Document complexity exceeds limit")
             if isinstance(value, dict):
                 if len(value) > self.limits.max_count:

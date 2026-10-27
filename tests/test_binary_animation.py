@@ -220,3 +220,61 @@ def test_bounded_collections():
         BinaryCodecRegistry().codec(
             "4.2.43", experimental=True, limits=BinaryLimits(max_count=2)
         ).encode(document())
+
+
+def test_directional_capabilities_report_only_executable_formats():
+    from dataclasses import replace
+
+    capability = BinaryCodecRegistry().capabilities()[0]
+    decoder = replace(capability, encode=False).to_dict()
+    assert decoder["input_formats"] == ("binary",)
+    assert decoder["output_formats"] == ("json",)
+    encoder = replace(capability, decode=False).to_dict()
+    assert encoder["input_formats"] == ("json",)
+    assert encoder["output_formats"] == ("binary",)
+    disabled = replace(capability, decode=False, encode=False).to_dict()
+    assert disabled["input_formats"] == disabled["output_formats"] == ()
+
+
+def test_schema_profile_cannot_be_forged():
+    from dataclasses import replace
+
+    from fnx_spine_forge.binary import BinarySkeletonCodec
+
+    capability = BinaryCodecRegistry().capabilities()[0]
+    forged = replace(capability, profile=replace(capability.profile, attachments=()))
+    with pytest.raises(BinaryError, match="registered evidence"):
+        BinarySkeletonCodec(forged, experimental=True)
+
+
+def test_json_timeline_names_are_case_sensitive():
+    doc = document()
+    timelines = doc["animations"]["pulse"]["bones"]["symbol"]
+    timelines["ROTATE"] = timelines.pop("rotate")
+    with pytest.raises(BinaryError, match="Unsupported bone timeline"):
+        codec().encode(doc)
+
+
+def test_configurable_complexity_limits():
+    from fnx_spine_forge.binary import BinaryReader
+
+    with pytest.raises(ValueError):
+        BinaryLimits(max_depth=False)
+    with pytest.raises(ValueError):
+        BinaryLimits(max_total_items=0)
+    reader = BinaryReader(b"\x03\x03", BinaryLimits(max_count=5, max_total_items=5))
+    assert reader.count() == 3
+    with pytest.raises(BinaryError, match="count exceeds"):
+        reader.count()
+    limited = BinaryCodecRegistry().codec(
+        "4.2.43", experimental=True, limits=BinaryLimits(max_depth=2)
+    )
+    with pytest.raises(BinaryError, match="complexity"):
+        limited.encode(document())
+
+
+def test_negative_reference_is_not_python_reverse_indexing():
+    from fnx_spine_forge.binary_animation import index
+
+    with pytest.raises(BinaryError, match="Invalid"):
+        index(-1, ["root"], "bone")

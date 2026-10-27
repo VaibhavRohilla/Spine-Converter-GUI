@@ -34,5 +34,5 @@ class VersionRegistry:
         return tuple(self._definitions[k] for k in sorted(self._definitions))
 
 
-# Exact wire schema implemented by the restricted B3 hierarchy codec.
-BINARY_HIERARCHY_VERSION = "4.2.43"
+# Exact wire schema implemented by the restricted B3 animated codec.
+BINARY_EXPORT_VERSION = "4.2.43"

@@ -17,7 +17,7 @@ from fnx_spine_forge.binary import (
 from fnx_spine_forge.bundle import BundleService
 from fnx_spine_forge.bundle_models import BundleRequest, SkeletonFormat
 from fnx_spine_forge.inspection import InspectionService
-from fnx_spine_forge.versions import BINARY_HIERARCHY_VERSION
+from fnx_spine_forge.versions import BINARY_EXPORT_VERSION
 
 FIXTURE = Path(__file__).parent / "fixtures/binary/hierarchy_4_2_43.hex"
 
@@ -27,7 +27,7 @@ def vector():
 
 
 def codec():
-    return BinaryCodecRegistry().codec(BINARY_HIERARCHY_VERSION, experimental=True)
+    return BinaryCodecRegistry().codec(BINARY_EXPORT_VERSION, experimental=True)
 
 
 def test_independent_wire_vector_decode():

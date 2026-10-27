@@ -1,5 +1,8 @@
 # FNX Spine Forge — B3 qualification report
 
+> Latest maintenance: [binary typing and contract hardening](B3_BINARY_HARDENING_REPORT.md)
+> records the 2026-10-28 cleanup and 494 Python / 146 browser regression results.
+
 > Current binary update (2026-10-27): **B3 PARTIAL — BINARY UNQUALIFIED**.
 > Animated 4.2.43 experimental encoding/decoding now exists, with independent
 > official-runtime encoder comparisons. Authentic decoder qualification and

@@ -9,10 +9,10 @@ from __future__ import annotations
 
 import struct
 from dataclasses import dataclass
-from enum import IntEnum
-from typing import cast
+from typing import Literal, Never, cast
 
 from .binary import BinaryError, BinaryErrorCode, BinaryLimits, BinaryReader, _Writer
+from .binary_schema import ANIMATED_42_PROFILE, BoneTimelineKind
 from .conversion.document import require_array, require_number, require_object, require_text
 from .json_types import JSONDocument, JSONValue
 
@@ -25,7 +25,7 @@ def frame_time(value: JSONValue) -> float:
         raise BinaryError(BinaryErrorCode.TIMELINE, "Time exceeds float32") from exc
 
 
-def reject(message: str) -> None:
+def reject(message: str) -> Never:
     raise BinaryError(BinaryErrorCode.FEATURE_UNSUPPORTED, message)
 
 
@@ -36,7 +36,7 @@ def fields(record: JSONDocument, allowed: set[str], context: str) -> None:
 
 
 def index(value: int, names: list[str], context: str) -> str:
-    if value >= len(names):
+    if not 0 <= value < len(names):
         raise BinaryError(BinaryErrorCode.REFERENCE, f"Invalid {context} index")
     return names[value]
 
@@ -72,42 +72,43 @@ def color(value: JSONValue, size: int = 4) -> bytes:
     return result
 
 
-class BoneTimelineKind(IntEnum):
-    ROTATE = 0
-    TRANSLATE = 1
-    TRANSLATEX = 2
-    TRANSLATEY = 3
-    SCALE = 4
-    SCALEX = 5
-    SCALEY = 6
-    SHEAR = 7
-    SHEARX = 8
-    SHEARY = 9
+@dataclass(frozen=True, slots=True)
+class BezierCurve:
+    channels: tuple[tuple[float, float, float, float], ...]
 
-    @property
-    def dimensions(self) -> tuple[str, ...]:
-        return ("x", "y") if self in (self.TRANSLATE, self.SCALE, self.SHEAR) else ("value",)
+    @classmethod
+    def parse(cls, value: JSONValue, dimensions: int) -> BezierCurve:
+        controls = require_array(value, "curve")
+        if len(controls) != dimensions * 4:
+            raise BinaryError(BinaryErrorCode.TIMELINE, "Curve dimension mismatch")
+        return cls(
+            tuple(
+                (
+                    require_number(controls[i], "cx1"),
+                    require_number(controls[i + 1], "cy1"),
+                    require_number(controls[i + 2], "cx2"),
+                    require_number(controls[i + 3], "cy2"),
+                )
+                for i in range(0, len(controls), 4)
+            )
+        )
 
-    @property
-    def default(self) -> float:
-        return 1.0 if self in (self.SCALE, self.SCALEX, self.SCALEY) else 0.0
 
-
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class Keyframe:
     time: float
     values: tuple[float, ...]
-    curve: str | tuple[float, ...] | None
+    curve: Literal["stepped"] | BezierCurve | None
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class BoneTimeline:
     bone: int
     kind: BoneTimelineKind
     frames: tuple[Keyframe, ...]
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class RegionAttachment:
     name: str
     path: str
@@ -158,6 +159,7 @@ class TailWriter:
         self.writer = _Writer(limits)
         self.nonessential = nonessential
         self.strings: list[str] = []
+        self._string_indices: dict[str, int] = {}
         self.bones = [
             require_text(require_object(b, "bone").get("name"), "bone name")
             for b in require_array(document.get("bones", []), "bones")
@@ -178,11 +180,12 @@ class TailWriter:
         name = require_text(value, "string reference")
         if not name:
             raise BinaryError(BinaryErrorCode.STRING_TABLE, "Empty referenced string")
-        if name not in self.strings:
+        if name not in self._string_indices:
             if len(self.strings) >= self.writer.limits.max_count:
                 raise BinaryError(BinaryErrorCode.COUNT_LIMIT, "String table exceeds limit")
             self.strings.append(name)
-        self.writer.varint(self.strings.index(name) + 1)
+            self._string_indices[name] = len(self.strings)
+        self.writer.varint(self._string_indices[name])
 
     def encode(self) -> bytes:
         w = self.writer
@@ -491,10 +494,11 @@ class TailWriter:
             bone = named(bone_name, self.bones, "timeline bone")
             for name, frames_value in require_object(value, "bone timelines").items():
                 try:
-                    kind = BoneTimelineKind[name.upper()]
-                except KeyError:
+                    kind = next(
+                        k for k in ANIMATED_42_PROFILE.bone_timelines if k.name.lower() == name
+                    )
+                except StopIteration:
                     reject(f"Unsupported bone timeline: {name}")
-                    raise AssertionError
                 frames: list[Keyframe] = []
                 for item in require_array(frames_value, "frames"):
                     frame = require_object(item, "keyframe")
@@ -503,14 +507,11 @@ class TailWriter:
                     if time < 0 or (frames and time <= frames[-1].time):
                         raise BinaryError(BinaryErrorCode.TIMELINE, "Frames must increase strictly")
                     curve = frame.get("curve")
-                    parsed: str | tuple[float, ...] | None = None
+                    parsed: Literal["stepped"] | BezierCurve | None = None
                     if curve == "stepped":
                         parsed = "stepped"
                     elif curve is not None:
-                        values = require_array(curve, "curve")
-                        if len(values) != len(kind.dimensions) * 4:
-                            raise BinaryError(BinaryErrorCode.TIMELINE, "Curve dimension mismatch")
-                        parsed = tuple(require_number(v, "curve") for v in values)
+                        parsed = BezierCurve.parse(curve, len(kind.dimensions))
                     frames.append(
                         Keyframe(
                             time,
@@ -557,7 +558,7 @@ class TailWriter:
                     sum(
                         len(timeline.kind.dimensions)
                         for f in timeline.frames
-                        if isinstance(f.curve, tuple)
+                        if isinstance(f.curve, BezierCurve)
                     )
                 )
                 for i, keyframe in enumerate(timeline.frames):
@@ -565,15 +566,22 @@ class TailWriter:
                     for value in keyframe.values:
                         w.number(value)
                     if i:
-                        curve = timeline.frames[i - 1].curve
+                        interpolation = timeline.frames[i - 1].curve
                         w.put(
                             bytes(
-                                (1 if curve == "stepped" else 2 if isinstance(curve, tuple) else 0,)
+                                (
+                                    1
+                                    if interpolation == "stepped"
+                                    else 2
+                                    if isinstance(interpolation, BezierCurve)
+                                    else 0,
+                                )
                             )
                         )
-                        if isinstance(curve, tuple):
-                            for value in curve:
-                                w.number(value)
+                        if isinstance(interpolation, BezierCurve):
+                            for channel in interpolation.channels:
+                                for value in channel:
+                                    w.number(value)
         w.put(bytes(4))  # IK, transform, path, physics timelines.
         self.deforms(deform_groups)
         self.draw_order(draw_frames)
@@ -679,7 +687,7 @@ class TailWriter:
             timelines = require_object(value, "slot timelines")
             self.count(len(timelines))
             for kind, value in timelines.items():
-                if kind not in ("attachment", "rgba"):
+                if kind not in ANIMATED_42_PROFILE.slot_timelines:
                     reject(f"Unsupported slot timeline: {kind}")
                 frames = [require_object(f, "frame") for f in require_array(value, "frames")]
                 if not frames:

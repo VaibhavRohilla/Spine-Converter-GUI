@@ -66,6 +66,7 @@ def main() -> None:
         "b2_qualification_modified": False,
         "sources": {name: sha((ROOT / name).read_bytes()) for name in (
             "src/fnx_spine_forge/binary.py", "src/fnx_spine_forge/binary_animation.py",
+            "src/fnx_spine_forge/binary_schema.py",
             "scripts/qualify_binary42.mjs", "scripts/qualify_b3_binary.py")},
     }
     (output / "qualification.json").write_text(json.dumps(report, indent=2) + "\n")
