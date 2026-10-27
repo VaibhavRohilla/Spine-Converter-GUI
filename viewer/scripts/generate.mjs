@@ -107,3 +107,44 @@ await writeFile(
       .join(",\n") +
     "\n} satisfies Record<Family, () => Promise<{ createKernel: KernelFactory }>>;\n",
 );
+
+// Trust is a reviewed build artifact, never an inbound descriptor option.
+const { z } = await import("zod");
+const binaryPolicy = z
+  .record(
+    z.string().regex(/^[a-f0-9]{64}$/),
+    z
+      .object({
+        version: z.string().min(1),
+        bytes: z
+          .number()
+          .int()
+          .positive()
+          .max(32 * 1024 * 1024),
+        source: z.string().url(),
+      })
+      .strict(),
+  )
+  .parse(
+    JSON.parse(
+      await readFile("src/fnx_spine_forge/viewer/trusted_binary.json", "utf8"),
+    ),
+  );
+await writeFile(
+  "viewer/src/generated/binaryPolicy.ts",
+  "export const trustedBinaries = " +
+    JSON.stringify(
+      Object.entries(binaryPolicy).map(([sha256, record]) => ({
+        sha256,
+        ...record,
+      })),
+      null,
+      2,
+    ) +
+    " as const;\n",
+);
+
+await writeFile(
+  "viewer/src/generated/capabilities.ts",
+  "export const runtimeCapabilities = " + JSON.stringify(Object.fromEntries(manifest.runtimes.map(r => [r.family, r.capabilities])), null, 2) + " as const;\n",
+);

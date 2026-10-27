@@ -273,7 +273,7 @@ test("non-finite world transforms reject initialization", async ({ page }) => {
     .toBe("FAILED");
   await expect(page.locator("#diagnostics")).toContainText("NON_FINITE_POSE");
 });
-test("malformed binary is rejected by actual official reader", async ({
+test("malformed binary is rejected before official reader", async ({
   page,
 }) => {
   const bytes = Buffer.from([0, 0, 0, 0]);
@@ -292,7 +292,7 @@ test("malformed binary is rejected by actual official reader", async ({
     .poll(() => page.evaluate(() => window.fnxViewer?.state))
     .toBe("FAILED");
   await expect(page.locator("#diagnostics")).toContainText(
-    "SKELETON_PARSE_FAILED",
+    "UNTRUSTED_BINARY_DISABLED",
   );
 });
 test("dispose at the asset initialization boundary cannot publish READY", async ({
@@ -315,3 +315,102 @@ test("dispose at the asset initialization boundary cannot publish READY", async 
   await page.waitForTimeout(300);
   expect(await page.evaluate(() => window.fnxViewer.state)).toBe("DISPOSED");
 });
+
+for (const mutation of [
+  "truncated",
+  "counts",
+  "strings",
+  "indices",
+  "geometry",
+  "offsets",
+] as const)
+  test(`binary ${mutation}: forged transport approval fails, JSON session survives`, async ({
+    page,
+    context,
+  }) => {
+    const control = await context.newPage();
+    await control.goto(`${transport.url}frame.html?index=6`);
+    await control.waitForFunction(() => window.fnxViewer?.state === "READY");
+    await control.evaluate(() => window.fnxViewer.play());
+    let changed = Buffer.alloc(0);
+    await page.route("**/launch/7.json", async (route) => {
+      const response = await route.fetch();
+      const assets = assetsSchema.parse(await response.json());
+      const original = await page.request.get(
+        new URL(assets.skeleton, transport.url).href,
+      );
+      changed = Buffer.from(await original.body());
+      // Minimal hostile 4.2 header layout follows the pinned official reader:
+      // hash (8), version string, five floats, nonessential flag, string table.
+      const version = Buffer.from("4.2.22");
+      const floats = Buffer.alloc(20);
+      floats.writeFloatBE(1, 8);
+      floats.writeFloatBE(1, 12);
+      floats.writeFloatBE(100, 16);
+      const header = Buffer.concat([
+        Buffer.alloc(8),
+        Buffer.from([version.length + 1]),
+        version,
+        floats,
+        Buffer.from([0]),
+      ]);
+      const excessive = Buffer.from([255, 255, 255, 255, 7]); // 2^31-1 varint
+      switch (mutation) {
+        case "truncated":
+          changed = changed.subarray(0, 12);
+          break;
+        case "counts":
+          changed = Buffer.concat([header, excessive]);
+          break;
+        case "strings":
+          changed = Buffer.concat([header, Buffer.from([1]), excessive]);
+          break;
+        case "indices": {
+          const transform = Buffer.alloc(32);
+          transform.writeFloatBE(1, 12);
+          transform.writeFloatBE(1, 16);
+          changed = Buffer.concat([
+            header,
+            Buffer.from([0, 2, 5]),
+            Buffer.from("root"),
+            transform,
+            Buffer.from([0, 0, 6]),
+            Buffer.from("child"),
+            excessive,
+          ]);
+          break;
+        }
+        case "geometry":
+          changed.writeFloatBE(NaN, 8 + 1 + version.length);
+          break;
+        case "offsets":
+          changed = header.subarray(0, header.length - 3);
+          break;
+      }
+      assets.resourceHashes[assets.skeleton] = createHash("sha256")
+        .update(changed)
+        .digest("hex");
+      await route.fulfill({ response, json: assets });
+    });
+    await page.route("**/asset/7/spineboy-pro.skel", (route) =>
+      route.fulfill({ body: changed }),
+    );
+    for (let attempt = 0; attempt < 3; attempt++) {
+      await page.goto(`${transport.url}frame.html?index=7`);
+      await expect
+        .poll(() => page.evaluate(() => window.fnxViewer?.state))
+        .toBe("FAILED");
+      await expect(page.locator("#diagnostics")).toContainText(
+        "UNTRUSTED_BINARY_DISABLED",
+      );
+      expect(
+        await page.evaluate(() => window.fnxViewer.info().statistics),
+      ).toBeNull();
+      await page.evaluate(() => window.fnxViewer.dispose());
+      expect(await control.evaluate(() => window.fnxViewer.state)).toBe(
+        "PLAYING",
+      );
+    }
+    await control.evaluate(() => window.fnxViewer.dispose());
+    await control.close();
+  });

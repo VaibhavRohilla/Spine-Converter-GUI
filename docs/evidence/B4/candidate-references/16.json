@@ -1,0 +1,47 @@
+{
+  "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+  "createdAt": "2026-10-27T06:15:03.355Z",
+  "sha256": "5d162a2493e23a8ae10f4a756a7a4a0584cd02fba7249da2f1756b1c44daefa0",
+  "normalization": "{\"camera\":{\"x\":-165.34376025433937,\"y\":446.1831615414199,\"width\":1480.7592042247065,\"height\":1480.7592042247065,\"zoom\":1},\"width\":640,\"height\":640,\"dpr\":1,\"background\":[0,0,0,0],\"animation\":\"walk\",\"time\":0.31667500734329224,\"skin\":null,\"runtime\":\"4.2@4.2.43\",\"version\":\"4.2.22\"}",
+  "sources": "{\"original\":{\"raptor-pma.atlas\":\"29d34ec75707024ce1d8e102862603ae527b58d8e5a6fd647f46458a7ab2cc6b\",\"raptor-pma.png\":\"a27e9d776fc1637f5ff87f6cd8dd513400e9228b82f9373558ecbe6c33dc7478\",\"raptor-pro.json\":\"b4dfddb8f288da8be49b7b95956355293e7339b93e8f909283cb102181f8a8a0\"},\"renderedSkeleton\":\"b4dfddb8f288da8be49b7b95956355293e7339b93e8f909283cb102181f8a8a0\"}",
+  "sourceSkeleton": "raptor-pro.json",
+  "sourceVersion": "4.2.22",
+  "runtimeRevision": "4.2.43",
+  "animation": "walk",
+  "timestamp": 0.31667500734329224,
+  "skin": null,
+  "viewport": {
+    "width": 640,
+    "height": 640,
+    "dpr": 1
+  },
+  "camera": {
+    "x": -165.34376025433937,
+    "y": 446.1831615414199,
+    "width": 1480.7592042247065,
+    "height": 1480.7592042247065,
+    "zoom": 1
+  },
+  "background": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "alphaPolicy": "RGBA transparent; authored atlas PMA",
+  "browser": "156.0.8078.4",
+  "graphics": {
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver)",
+    "version": "WebGL 1.0 (OpenGL ES 2.0 Chromium)"
+  },
+  "tolerance": {
+    "channel": 2,
+    "changedFraction": 0.001,
+    "meanAbsoluteError": 0.1,
+    "alphaMeanError": 0.1,
+    "maximumChannelError": 8
+  },
+  "provenance": "viewer/fixtures/provenance.json and features/physics provenance.json; index 11 private authorized converted asset, no conversion equivalence",
+  "acceptance": "UNVERIFIED",
+  "conversionEquivalence": "UNVERIFIED"
+}

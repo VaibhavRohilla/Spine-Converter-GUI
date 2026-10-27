@@ -63,11 +63,12 @@
         "ANIMATION_EVALUATION_SUPPORTED",
         "RENDERING_SUPPORTED",
         "BINARY_LOAD_SUPPORTED",
-        "HEADLESS_CAPTURE_SUPPORTED"
+        "HEADLESS_CAPTURE_SUPPORTED",
+        "APPROVED_BINARY_ONLY"
       ],
       "availability": "requires built local viewer",
       "license": "docs/licenses/Spine-3.8.txt",
-      "qualification": "fixture-specific evidence only; see docs/B4_REPORT.md"
+      "qualification": "Fixture-specific playback; binary restricted to packaged approved SHA256 identities; untrusted binary disabled on all platforms; independent visual acceptance UNVERIFIED; see docs/B4_REPORT.md"
     },
     {
       "family": "4.0",
@@ -83,11 +84,12 @@
         "ANIMATION_EVALUATION_SUPPORTED",
         "RENDERING_SUPPORTED",
         "BINARY_LOAD_SUPPORTED",
-        "HEADLESS_CAPTURE_SUPPORTED"
+        "HEADLESS_CAPTURE_SUPPORTED",
+        "APPROVED_BINARY_ONLY"
       ],
       "availability": "requires built local viewer",
       "license": "docs/licenses/Spine-4.0.txt",
-      "qualification": "fixture-specific evidence only; see docs/B4_REPORT.md"
+      "qualification": "Fixture-specific playback; binary restricted to packaged approved SHA256 identities; untrusted binary disabled on all platforms; independent visual acceptance UNVERIFIED; see docs/B4_REPORT.md"
     },
     {
       "family": "4.1",
@@ -103,11 +105,12 @@
         "ANIMATION_EVALUATION_SUPPORTED",
         "RENDERING_SUPPORTED",
         "BINARY_LOAD_SUPPORTED",
-        "HEADLESS_CAPTURE_SUPPORTED"
+        "HEADLESS_CAPTURE_SUPPORTED",
+        "APPROVED_BINARY_ONLY"
       ],
       "availability": "requires built local viewer",
       "license": "docs/licenses/Spine-4.1.txt",
-      "qualification": "fixture-specific evidence only; see docs/B4_REPORT.md"
+      "qualification": "Fixture-specific playback; binary restricted to packaged approved SHA256 identities; untrusted binary disabled on all platforms; independent visual acceptance UNVERIFIED; see docs/B4_REPORT.md"
     },
     {
       "family": "4.2",
@@ -123,11 +126,12 @@
         "ANIMATION_EVALUATION_SUPPORTED",
         "RENDERING_SUPPORTED",
         "BINARY_LOAD_SUPPORTED",
-        "HEADLESS_CAPTURE_SUPPORTED"
+        "HEADLESS_CAPTURE_SUPPORTED",
+        "APPROVED_BINARY_ONLY"
       ],
       "availability": "requires built local viewer",
       "license": "docs/licenses/Spine-4.2.txt",
-      "qualification": "fixture-specific evidence only; see docs/B4_REPORT.md"
+      "qualification": "Fixture-specific playback; binary restricted to packaged approved SHA256 identities; untrusted binary disabled on all platforms; independent visual acceptance UNVERIFIED; see docs/B4_REPORT.md"
     },
     {
       "family": "4.3",
@@ -143,11 +147,12 @@
         "ANIMATION_EVALUATION_SUPPORTED",
         "RENDERING_SUPPORTED",
         "BINARY_LOAD_SUPPORTED",
-        "HEADLESS_CAPTURE_SUPPORTED"
+        "HEADLESS_CAPTURE_SUPPORTED",
+        "APPROVED_BINARY_ONLY"
       ],
       "availability": "requires built local viewer",
       "license": "docs/licenses/Spine-4.3.txt",
-      "qualification": "fixture-specific evidence only; see docs/B4_REPORT.md"
+      "qualification": "Fixture-specific playback; binary restricted to packaged approved SHA256 identities; untrusted binary disabled on all platforms; independent visual acceptance UNVERIFIED; see docs/B4_REPORT.md"
     }
   ]
 }

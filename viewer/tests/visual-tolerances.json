@@ -1,0 +1,39 @@
+{
+  "default": {
+    "channel": 2,
+    "changedFraction": 0.001,
+    "meanAbsoluteError": 0.1,
+    "alphaMeanError": 0.1,
+    "maximumChannelError": 8
+  },
+  "fixtures": {
+    "12": {
+      "channel": 2,
+      "changedFraction": 0.0005,
+      "meanAbsoluteError": 0.05,
+      "alphaMeanError": 0.1,
+      "maximumChannelError": 8
+    },
+    "13": {
+      "channel": 2,
+      "changedFraction": 0.0005,
+      "meanAbsoluteError": 0.05,
+      "alphaMeanError": 0.1,
+      "maximumChannelError": 8
+    },
+    "22": {
+      "channel": 2,
+      "changedFraction": 0.0005,
+      "meanAbsoluteError": 0.05,
+      "alphaMeanError": 0.1,
+      "maximumChannelError": 8
+    },
+    "23": {
+      "channel": 2,
+      "changedFraction": 0.0005,
+      "meanAbsoluteError": 0.05,
+      "alphaMeanError": 0.1,
+      "maximumChannelError": 8
+    }
+  }
+}

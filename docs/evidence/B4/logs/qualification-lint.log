@@ -1,0 +1,3 @@
+
+> fnx-spine-forge-viewer@0.1.0 lint
+> eslint viewer/src --ignore-pattern generated

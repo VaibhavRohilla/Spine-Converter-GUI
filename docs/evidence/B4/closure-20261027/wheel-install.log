@@ -1,0 +1,10 @@
+Processing ./dist/fnx_spine_forge-0.2.0-py3-none-any.whl
+Collecting Pillow==12.3.0
+  Using cached pillow-12.3.0-cp312-cp312-macosx_11_0_arm64.whl.metadata (9.1 kB)
+Using cached pillow-12.3.0-cp312-cp312-macosx_11_0_arm64.whl (4.8 MB)
+Installing collected packages: Pillow, fnx-spine-forge
+
+Successfully installed Pillow-12.3.0 fnx-spine-forge-0.2.0
+
+[notice] A new release of pip is available: 26.2.1 -> 26.2.2
+[notice] To update, run: /private/tmp/fnx-b4-closure-wheel-20261027/bin/python -m pip install --upgrade pip

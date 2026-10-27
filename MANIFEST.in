@@ -10,3 +10,4 @@ prune viewer/test-results
 prune viewer/viewer
 prune viewer/src/generated
 recursive-include docs/licenses *.txt
+recursive-include docs/evidence/B4/candidate-references *.png

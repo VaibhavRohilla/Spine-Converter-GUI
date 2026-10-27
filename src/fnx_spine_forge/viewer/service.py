@@ -18,6 +18,7 @@ from ..progress import CancellationToken
 from ..source import AssetSource, SourceSelection
 from ..texture import TextureLimits, validate_png
 from .admission import admit_render_document
+from .binary_policy import MAX_BINARY_BYTES, admit_binary
 from .registry import RuntimeCapability, RuntimeRegistry
 
 
@@ -107,7 +108,17 @@ class ViewerService:
             total = 0
             for name in reader.names():
                 check()
-                data = reader.read(name)
+                is_binary_file = Path(name).suffix.lower() == ".skel" or (
+                    binary is not None and name == bundle_id
+                )
+                if is_binary_file and reader.size(name) > MAX_BINARY_BYTES:
+                    raise ValueError("VIEWER_RESOURCE_LIMIT_EXCEEDED: binary exceeds 32 MiB")
+                data = reader.read(name, MAX_BINARY_BYTES if is_binary_file else None)
+                if is_binary_file:
+                    # Before B1 inspection, including unselected binary siblings.
+                    admit_binary(
+                        data, binary.export_version if binary and name == bundle_id else None
+                    )
                 total += len(data)
                 if total > self.max_bytes:
                     raise ValueError("VIEWER_RESOURCE_LIMIT_EXCEEDED")

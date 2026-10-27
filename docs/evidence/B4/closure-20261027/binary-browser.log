@@ -1,0 +1,10 @@
+
+Running 3 tests using 1 worker
+
+(node:21433) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 viewer/tests/binary-policy.spec.ts:11:1 › B5 can query the approved-binary-only capability without loading (4ms)
+  ✓  2 viewer/tests/binary-policy.spec.ts:17:3 › renamed binary and forged metadata cannot bypass admission: binary=true (233ms)
+  ✓  3 viewer/tests/binary-policy.spec.ts:17:3 › renamed binary and forged metadata cannot bypass admission: binary=false (181ms)
+
+  3 passed (2.3s)

@@ -1,0 +1,47 @@
+{
+  "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+  "createdAt": "2026-10-27T06:15:02.347Z",
+  "sha256": "82bf0c14ce7390de8b53ae5472635ba451bbffd38f468c55461e3c1e604a7dfa",
+  "normalization": "{\"camera\":{\"x\":20.590089234748177,\"y\":335.16358232442997,\"width\":789.1292091722601,\"height\":789.1292091722601,\"zoom\":1},\"width\":640,\"height\":640,\"dpr\":1,\"background\":[0,0,0,0],\"animation\":\"walk\",\"time\":0.25,\"skin\":null,\"runtime\":\"4.3@4.3.13\",\"version\":\"4.3.75-beta\"}",
+  "sources": "{\"original\":{\"spineboy-pro.json\":\"24ccffc13e334e721dfd427ee2b8aea05c25b59167b5fb0bb0f9685e11d2a7d3\",\"spineboy.atlas\":\"fbd452640df513d637e0a34d21c1d3ea4edb27f57bd1856ffd5530b16ee83d00\",\"spineboy.png\":\"ab874448a224f8a92188e133735062c86e5f93eb7286b0fc37c5d39864e6569f\"},\"renderedSkeleton\":\"24ccffc13e334e721dfd427ee2b8aea05c25b59167b5fb0bb0f9685e11d2a7d3\"}",
+  "sourceSkeleton": "spineboy-pro.json",
+  "sourceVersion": "4.3.75-beta",
+  "runtimeRevision": "4.3.13",
+  "animation": "walk",
+  "timestamp": 0.25,
+  "skin": null,
+  "viewport": {
+    "width": 640,
+    "height": 640,
+    "dpr": 1
+  },
+  "camera": {
+    "x": 20.590089234748177,
+    "y": 335.16358232442997,
+    "width": 789.1292091722601,
+    "height": 789.1292091722601,
+    "zoom": 1
+  },
+  "background": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "alphaPolicy": "RGBA transparent; authored atlas PMA",
+  "browser": "156.0.8078.4",
+  "graphics": {
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver)",
+    "version": "WebGL 1.0 (OpenGL ES 2.0 Chromium)"
+  },
+  "tolerance": {
+    "channel": 2,
+    "changedFraction": 0.001,
+    "meanAbsoluteError": 0.1,
+    "alphaMeanError": 0.1,
+    "maximumChannelError": 8
+  },
+  "provenance": "viewer/fixtures/provenance.json and features/physics provenance.json; index 11 private authorized converted asset, no conversion equivalence",
+  "acceptance": "UNVERIFIED",
+  "conversionEquivalence": "UNVERIFIED"
+}

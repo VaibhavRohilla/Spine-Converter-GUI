@@ -1,0 +1,47 @@
+{
+  "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+  "createdAt": "2026-10-27T06:15:02.740Z",
+  "sha256": "29b1db45b68d42de874665a86b02b637eacde083b7ca85115cfb24481a495824",
+  "normalization": "{\"camera\":{\"x\":74.12720051191346,\"y\":0.5,\"width\":521.2425772956657,\"height\":521.2425772956657,\"zoom\":1},\"width\":640,\"height\":640,\"dpr\":1,\"background\":[0,0,0,0],\"animation\":\"animation\",\"time\":0.6666749715805054,\"skin\":null,\"runtime\":\"4.2@4.2.43\",\"version\":\"4.2.22\"}",
+  "sources": "{\"original\":{\"coin-pma.atlas\":\"76f2fb5f8c24edd8cd3b0a42a210c865718f9495e6ffbc74f707dc747c220163\",\"coin-pma.png\":\"1c5a5ce66318dce35513a204350da1a08cf778252276e07e99ff75334cd3b9d3\",\"coin-pro.json\":\"cc9b13d9a2fc4af455dac45c538ced90713939696433bf87b564b60d39f16008\"},\"renderedSkeleton\":\"cc9b13d9a2fc4af455dac45c538ced90713939696433bf87b564b60d39f16008\"}",
+  "sourceSkeleton": "coin-pro.json",
+  "sourceVersion": "4.2.22",
+  "runtimeRevision": "4.2.43",
+  "animation": "animation",
+  "timestamp": 0.6666749715805054,
+  "skin": null,
+  "viewport": {
+    "width": 640,
+    "height": 640,
+    "dpr": 1
+  },
+  "camera": {
+    "x": 74.12720051191346,
+    "y": 0.5,
+    "width": 521.2425772956657,
+    "height": 521.2425772956657,
+    "zoom": 1
+  },
+  "background": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "alphaPolicy": "RGBA transparent; authored atlas PMA",
+  "browser": "156.0.8078.4",
+  "graphics": {
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver)",
+    "version": "WebGL 1.0 (OpenGL ES 2.0 Chromium)"
+  },
+  "tolerance": {
+    "channel": 2,
+    "changedFraction": 0.001,
+    "meanAbsoluteError": 0.1,
+    "alphaMeanError": 0.1,
+    "maximumChannelError": 8
+  },
+  "provenance": "viewer/fixtures/provenance.json and features/physics provenance.json; index 11 private authorized converted asset, no conversion equivalence",
+  "acceptance": "UNVERIFIED",
+  "conversionEquivalence": "UNVERIFIED"
+}

@@ -1,0 +1,17 @@
+{
+  "status": "PASSED",
+  "runtime": "3.8@8b4844bd4b193ba9e54487ed397a777993cbad56",
+  "animation": "walk",
+  "duration": 0.8666999936103821,
+  "seek": "reset and fixed-step replay; mixing history intentionally discarded",
+  "physics": "same-history replay only; no random-access equivalence claim",
+  "checks": [
+    "start/end",
+    "loop wrap",
+    "repeated seek equality",
+    "mix interruption",
+    "skin during playback",
+    "step",
+    "pending callback disposal"
+  ]
+}

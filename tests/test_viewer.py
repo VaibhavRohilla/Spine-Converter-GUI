@@ -368,8 +368,12 @@ def test_render_capability_and_allocation_admission():
 @pytest.mark.parametrize(
     "mutation",
     [
-        "duplicate_family", "unknown_capability", "duplicate_capability",
-        "missing_identity", "binary_conflict", "unsupported_embedded",
+        "duplicate_family",
+        "unknown_capability",
+        "duplicate_capability",
+        "missing_identity",
+        "binary_conflict",
+        "unsupported_embedded",
     ],
 )
 def test_runtime_manifest_rejects_contradictory_capabilities(
@@ -395,3 +399,44 @@ def test_runtime_manifest_rejects_contradictory_capabilities(
     monkeypatch.setattr(registry, "files", lambda package: tmp_path)
     with pytest.raises(ValueError):
         registry.RuntimeRegistry()
+
+
+@pytest.mark.parametrize(
+    "payload",
+    [
+        b"",
+        b"\x00" * 4,
+        b"\xff" * 32,
+        b"\x08" + b"4.2.22" + b"\xff" * 20,
+        b"\xff\xff\xff\xff\x7f" * 100,
+        b"x" * 65536,
+    ],
+)
+def test_untrusted_binary_rejected_before_inspection(tmp_path, monkeypatch, payload):
+    from fnx_spine_forge.bundle import BundleService
+
+    def forbidden(*args, **kwargs):
+        pytest.fail("Untrusted binary reached inspection")
+
+    monkeypatch.setattr(BundleService, "inspect_source", forbidden)
+    (tmp_path / "hostile.SKEL").write_bytes(payload)
+    for _ in range(3):
+        with pytest.raises(ValueError, match="UNTRUSTED_BINARY_DISABLED"):
+            ViewerService().prepare(
+                tmp_path, "hostile.SKEL", binary=BinarySelection("4.2.22", "missing.atlas")
+            )
+
+
+def test_binary_policy_rejects_mutation_version_and_budget():
+    from fnx_spine_forge.viewer.binary_policy import MAX_BINARY_BYTES, admit_binary
+
+    payload = (FIXTURES / "4.2/spineboy-pro.skel").read_bytes()
+    admit_binary(payload, "4.2.22")
+    with pytest.raises(ValueError, match="RUNTIME_VERSION_MISMATCH"):
+        admit_binary(payload, "4.2.43")
+    for mutated in (payload[:-1], payload + b"\x00", b"\xff" + payload[1:]):
+        with pytest.raises(ValueError, match="UNTRUSTED_BINARY_DISABLED"):
+            admit_binary(mutated, "4.2.22")
+    with pytest.raises(ValueError, match="VIEWER_RESOURCE_LIMIT_EXCEEDED"):
+        admit_binary(bytes(MAX_BINARY_BYTES + 1))
+    admit_binary(payload, "4.2.22")

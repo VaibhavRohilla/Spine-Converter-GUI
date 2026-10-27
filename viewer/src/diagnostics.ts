@@ -1,5 +1,6 @@
 import type { Assets, Diagnostic } from "./contracts";
 export const diagnosticCodes = [
+  "UNTRUSTED_BINARY_DISABLED",
   "RUNTIME_NOT_INSTALLED",
   "RUNTIME_VERSION_MISMATCH",
   "UNSUPPORTED_SKELETON_FORMAT",

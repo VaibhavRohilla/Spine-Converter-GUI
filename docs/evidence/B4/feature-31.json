@@ -28,7 +28,7 @@
       "zoom": 1
     },
     "statistics": {
-      "loadMs": 12,
+      "loadMs": 11.100000143051147,
       "textureUploadMs": 0.20000004768371582,
       "textureCount": 1,
       "texturePixels": 131072,

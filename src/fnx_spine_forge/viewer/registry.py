@@ -15,6 +15,7 @@ class RuntimeFeature(StrEnum):
     SKELETON_LOAD_SUPPORTED = "SKELETON_LOAD_SUPPORTED"
     ANIMATION_EVALUATION_SUPPORTED = "ANIMATION_EVALUATION_SUPPORTED"
     RENDERING_SUPPORTED = "RENDERING_SUPPORTED"
+    APPROVED_BINARY_ONLY = "APPROVED_BINARY_ONLY"
     BINARY_LOAD_SUPPORTED = "BINARY_LOAD_SUPPORTED"
     HEADLESS_CAPTURE_SUPPORTED = "HEADLESS_CAPTURE_SUPPORTED"
     EXTERNAL_VIEWER_ONLY = "EXTERNAL_VIEWER_ONLY"
@@ -103,6 +104,8 @@ class RuntimeRegistry:
                 names.append(feature)
             if (RuntimeFeature.BINARY_LOAD_SUPPORTED in names) != binary:
                 raise ValueError("Binary capability contradicts implementation")
+            if (RuntimeFeature.APPROVED_BINARY_ONLY in names) != binary:
+                raise ValueError("Binary trust restriction contradicts implementation")
             if embedded and RuntimeFeature.UNSUPPORTED in names:
                 raise ValueError("Embedded runtime cannot be unsupported")
             entries.append(

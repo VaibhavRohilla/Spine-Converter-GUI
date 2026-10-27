@@ -1,0 +1,17 @@
+{
+  "status": "PASSED",
+  "runtime": "4.3@4.3.13",
+  "animation": "playing-in-the-rain",
+  "duration": 4.666666030883789,
+  "seek": "reset and fixed-step replay; mixing history intentionally discarded",
+  "physics": "same-history replay only; no random-access equivalence claim",
+  "checks": [
+    "start/end",
+    "loop wrap",
+    "repeated seek equality",
+    "mix interruption",
+    "skin during playback",
+    "step",
+    "pending callback disposal"
+  ]
+}

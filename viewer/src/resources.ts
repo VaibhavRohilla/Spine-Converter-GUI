@@ -1,5 +1,14 @@
 import { ViewerError, cancelled } from "./diagnostics";
 const MAX = 128 * 1024 * 1024;
+async function cancelDownload(
+  owner: Pick<ReadableStreamDefaultReader<Uint8Array>, "cancel">,
+): Promise<void> {
+  try {
+    await owner.cancel();
+  } catch {
+    // Cleanup must not replace the original transport, limit or cancellation error.
+  }
+}
 export async function sha256(bytes: Uint8Array<ArrayBuffer>): Promise<string> {
   return Array.from(
     new Uint8Array(await crypto.subtle.digest("SHA-256", bytes)),
@@ -10,7 +19,13 @@ export async function fetchBytes(
   url: string,
   signal: AbortSignal,
   expectedHash: string,
+  maxBytes: number = MAX,
 ): Promise<Uint8Array<ArrayBuffer>> {
+  if (!Number.isSafeInteger(maxBytes) || maxBytes <= 0 || maxBytes > MAX)
+    throw new ViewerError(
+      "VIEWER_RESOURCE_LIMIT_EXCEEDED",
+      "Invalid resource byte limit.",
+    );
   const parsed = new URL(url, location.href);
   if (parsed.origin !== location.origin)
     throw new ViewerError(
@@ -30,18 +45,22 @@ export async function fetchBytes(
     cancelled(signal);
     throw new ViewerError("ASSET_TRANSPORT_FAILED", String(e), url);
   }
-  if (!response.ok)
+  if (!response.ok) {
+    if (response.body) await cancelDownload(response.body);
     throw new ViewerError(
       "ASSET_TRANSPORT_FAILED",
       `HTTP ${response.status}`,
       url,
     );
-  if (Number(response.headers.get("content-length")) > MAX)
+  }
+  if (Number(response.headers.get("content-length")) > maxBytes) {
+    if (response.body) await cancelDownload(response.body);
     throw new ViewerError(
       "VIEWER_RESOURCE_LIMIT_EXCEEDED",
       "Resource exceeds byte limit.",
       url,
     );
+  }
   const reader = response.body?.getReader();
   if (!reader)
     throw new ViewerError("ASSET_TRANSPORT_FAILED", "No response stream.", url);
@@ -52,13 +71,17 @@ export async function fetchBytes(
       const item = await reader.read();
       if (item.done) break;
       size += item.value.length;
-      if (size > MAX) throw new ViewerError("VIEWER_RESOURCE_LIMIT_EXCEEDED");
+      if (size > maxBytes)
+        throw new ViewerError("VIEWER_RESOURCE_LIMIT_EXCEEDED");
       chunks.push(item.value);
     }
   } catch (e) {
-    await reader.cancel();
+    await cancelDownload(reader);
     cancelled(signal);
-    throw e;
+    if (e instanceof ViewerError) throw e;
+    throw new ViewerError("ASSET_TRANSPORT_FAILED", String(e), url);
+  } finally {
+    reader.releaseLock();
   }
   const result = new Uint8Array(size);
   let offset = 0;

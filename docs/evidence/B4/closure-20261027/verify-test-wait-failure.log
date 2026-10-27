@@ -1,0 +1,1069 @@
+........................................................................ [ 15%]
+........................................................................ [ 30%]
+........................................................................ [ 46%]
+........................................................................ [ 61%]
+........................................................................ [ 77%]
+........................................................................ [ 92%]
+.................................                                        [100%]
+465 passed in 6.74s
+All checks passed!
+Success: no issues found in 59 source files
+* Creating isolated environment: venv+pip...
+* Installing packages in isolated environment:
+  - setuptools>=68
+  - wheel
+* Getting build dependencies for sdist...
+running egg_info
+writing src/fnx_spine_forge.egg-info/PKG-INFO
+writing dependency_links to src/fnx_spine_forge.egg-info/dependency_links.txt
+writing entry points to src/fnx_spine_forge.egg-info/entry_points.txt
+writing requirements to src/fnx_spine_forge.egg-info/requires.txt
+writing top-level names to src/fnx_spine_forge.egg-info/top_level.txt
+reading manifest file 'src/fnx_spine_forge.egg-info/SOURCES.txt'
+reading manifest template 'MANIFEST.in'
+no previously-included directories found matching 'viewer/node_modules'
+writing manifest file 'src/fnx_spine_forge.egg-info/SOURCES.txt'
+* Installed build dependency versions:
+  - setuptools==84.2.1
+  - wheel==0.48.0
+* Building sdist...
+running sdist
+running egg_info
+writing src/fnx_spine_forge.egg-info/PKG-INFO
+writing dependency_links to src/fnx_spine_forge.egg-info/dependency_links.txt
+writing entry points to src/fnx_spine_forge.egg-info/entry_points.txt
+writing requirements to src/fnx_spine_forge.egg-info/requires.txt
+writing top-level names to src/fnx_spine_forge.egg-info/top_level.txt
+reading manifest file 'src/fnx_spine_forge.egg-info/SOURCES.txt'
+reading manifest template 'MANIFEST.in'
+no previously-included directories found matching 'viewer/node_modules'
+writing manifest file 'src/fnx_spine_forge.egg-info/SOURCES.txt'
+running check
+creating fnx_spine_forge-0.2.0
+creating fnx_spine_forge-0.2.0/docs
+creating fnx_spine_forge-0.2.0/docs/evidence
+creating fnx_spine_forge-0.2.0/docs/evidence/B4
+creating fnx_spine_forge-0.2.0/docs/evidence/B4/animation
+creating fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+creating fnx_spine_forge-0.2.0/docs/evidence/B4/qt
+creating fnx_spine_forge-0.2.0/docs/evidence/B4/qt-final
+creating fnx_spine_forge-0.2.0/docs/evidence/B4/qt-final-current
+creating fnx_spine_forge-0.2.0/docs/evidence/B4/qt-final/capture
+creating fnx_spine_forge-0.2.0/docs/evidence/B4/qt-hardening
+creating fnx_spine_forge-0.2.0/docs/evidence/B4/qt-hardening/capture
+creating fnx_spine_forge-0.2.0/docs/evidence/B4/qt-qualification
+creating fnx_spine_forge-0.2.0/docs/evidence/B4/qt-qualification/capture
+creating fnx_spine_forge-0.2.0/docs/evidence/B4/qt-typed
+creating fnx_spine_forge-0.2.0/docs/evidence/B4/qt-typed/capture
+creating fnx_spine_forge-0.2.0/docs/evidence/B4/qt/capture
+creating fnx_spine_forge-0.2.0/docs/evidence/B4/soak
+creating fnx_spine_forge-0.2.0/docs/evidence/B4/soak-final-diagnostic
+creating fnx_spine_forge-0.2.0/docs/evidence/B4/soak-hardening
+creating fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+creating fnx_spine_forge-0.2.0/docs/licenses
+creating fnx_spine_forge-0.2.0/scripts
+creating fnx_spine_forge-0.2.0/src/fnx_spine_forge
+creating fnx_spine_forge-0.2.0/src/fnx_spine_forge.egg-info
+creating fnx_spine_forge-0.2.0/src/fnx_spine_forge/conversion
+creating fnx_spine_forge-0.2.0/src/fnx_spine_forge/viewer
+creating fnx_spine_forge-0.2.0/tests
+creating fnx_spine_forge-0.2.0/tests/fixtures/b2_semantic
+creating fnx_spine_forge-0.2.0/tests/fixtures/binary
+creating fnx_spine_forge-0.2.0/tests/fixtures/spine38
+creating fnx_spine_forge-0.2.0/viewer
+creating fnx_spine_forge-0.2.0/viewer/fixtures
+creating fnx_spine_forge-0.2.0/viewer/fixtures/3.8
+creating fnx_spine_forge-0.2.0/viewer/fixtures/4.0
+creating fnx_spine_forge-0.2.0/viewer/fixtures/4.1
+creating fnx_spine_forge-0.2.0/viewer/fixtures/4.2
+creating fnx_spine_forge-0.2.0/viewer/fixtures/4.3
+creating fnx_spine_forge-0.2.0/viewer/fixtures/features
+creating fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-coin
+creating fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-goblins
+creating fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-raptor
+creating fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-tank
+creating fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-vine
+creating fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-windmill
+creating fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-coin
+creating fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-goblins
+creating fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-raptor
+creating fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-tank
+creating fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-vine
+creating fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-windmill
+creating fnx_spine_forge-0.2.0/viewer/fixtures/physics
+creating fnx_spine_forge-0.2.0/viewer/fixtures/physics/4.2
+creating fnx_spine_forge-0.2.0/viewer/fixtures/physics/4.3
+creating fnx_spine_forge-0.2.0/viewer/fixtures/production
+creating fnx_spine_forge-0.2.0/viewer/fixtures/production/golden42
+creating fnx_spine_forge-0.2.0/viewer/fixtures/production/merged43
+creating fnx_spine_forge-0.2.0/viewer/fixtures/source-risk
+creating fnx_spine_forge-0.2.0/viewer/scripts
+creating fnx_spine_forge-0.2.0/viewer/src
+creating fnx_spine_forge-0.2.0/viewer/tests
+copying files to fnx_spine_forge-0.2.0...
+copying DESIGN.md -> fnx_spine_forge-0.2.0
+copying MANIFEST.in -> fnx_spine_forge-0.2.0
+copying README.md -> fnx_spine_forge-0.2.0
+copying eslint.config.mjs -> fnx_spine_forge-0.2.0
+copying package-lock.json -> fnx_spine_forge-0.2.0
+copying package.json -> fnx_spine_forge-0.2.0
+copying pyproject.toml -> fnx_spine_forge-0.2.0
+copying docs/B1_REPORT.md -> fnx_spine_forge-0.2.0/docs
+copying docs/B2_REPORT.md -> fnx_spine_forge-0.2.0/docs
+copying docs/B3_HARDENING_REPORT.md -> fnx_spine_forge-0.2.0/docs
+copying docs/B3_REPORT.md -> fnx_spine_forge-0.2.0/docs
+copying docs/B4_LICENSES.md -> fnx_spine_forge-0.2.0/docs
+copying docs/B4_REPORT.md -> fnx_spine_forge-0.2.0/docs
+copying docs/REVAMP_PLAN.md -> fnx_spine_forge-0.2.0/docs
+copying docs/architecture.md -> fnx_spine_forge-0.2.0/docs
+copying docs/manifest-schema.md -> fnx_spine_forge-0.2.0/docs
+copying docs/version-registry.md -> fnx_spine_forge-0.2.0/docs
+copying docs/evidence/B3_hardening_qualification.json -> fnx_spine_forge-0.2.0/docs/evidence
+copying docs/evidence/B3_qualification.json -> fnx_spine_forge-0.2.0/docs/evidence
+copying docs/evidence/B4/browser-results.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/feature-12.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/feature-13.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/feature-14.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/feature-15.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/feature-16.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/feature-17.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/feature-18.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/feature-19.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/feature-20.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/feature-21.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/feature-22.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/feature-23.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/feature-24.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/feature-25.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/feature-26.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/feature-27.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/feature-28.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/feature-29.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/feature-30.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/feature-31.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/fixture-0.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/fixture-1.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/fixture-10.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/fixture-11.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/fixture-2.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/fixture-3.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/fixture-4.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/fixture-5.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/fixture-6.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/fixture-7.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/fixture-8.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/fixture-9.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/installed-wheel.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/performance.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/physics-33.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/physics-34.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/pma-metrics.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/ui-static-audit.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/viewer-build.json -> fnx_spine_forge-0.2.0/docs/evidence/B4
+copying docs/evidence/B4/animation/0.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/animation
+copying docs/evidence/B4/animation/2.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/animation
+copying docs/evidence/B4/animation/33.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/animation
+copying docs/evidence/B4/animation/34.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/animation
+copying docs/evidence/B4/animation/4.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/animation
+copying docs/evidence/B4/animation/6.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/animation
+copying docs/evidence/B4/animation/8.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/animation
+copying docs/evidence/B4/animation/event-boundaries.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/animation
+copying docs/evidence/B4/candidate-references/0.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/0.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/11.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/11.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/12.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/12.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/13.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/13.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/14.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/14.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/15.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/15.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/16.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/16.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/17.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/17.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/18.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/18.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/19.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/19.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/2.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/2.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/20.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/20.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/21.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/21.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/22.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/22.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/23.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/23.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/24.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/24.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/25.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/25.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/26.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/26.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/27.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/27.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/28.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/28.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/29.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/29.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/30.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/30.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/31.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/31.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/33.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/33.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/34.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/34.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/4.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/4.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/6.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/6.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/8.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/8.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/derived-blend-12-additive.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/derived-blend-12-additive.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/derived-blend-12-multiply.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/derived-blend-12-multiply.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/derived-blend-12-normal.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/derived-blend-12-normal.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/derived-blend-12-screen.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/derived-blend-12-screen.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/derived-blend-13-additive.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/derived-blend-13-additive.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/derived-blend-13-multiply.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/derived-blend-13-multiply.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/derived-blend-13-normal.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/derived-blend-13-normal.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/derived-blend-13-screen.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/derived-blend-13-screen.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/derived-blend-22-additive.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/derived-blend-22-additive.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/derived-blend-22-multiply.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/derived-blend-22-multiply.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/derived-blend-22-normal.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/derived-blend-22-normal.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/derived-blend-22-screen.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/derived-blend-22-screen.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/derived-blend-23-additive.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/derived-blend-23-additive.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/derived-blend-23-multiply.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/derived-blend-23-multiply.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/derived-blend-23-normal.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/derived-blend-23-normal.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/derived-blend-23-screen.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/candidate-references/derived-blend-23-screen.png -> fnx_spine_forge-0.2.0/docs/evidence/B4/candidate-references
+copying docs/evidence/B4/qt/embedding.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/qt
+copying docs/evidence/B4/qt-final/embedding.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/qt-final
+copying docs/evidence/B4/qt-final-current/embedding.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/qt-final-current
+copying docs/evidence/B4/qt-final/capture/report.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/qt-final/capture
+copying docs/evidence/B4/qt-hardening/embedding.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/qt-hardening
+copying docs/evidence/B4/qt-hardening/capture/report.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/qt-hardening/capture
+copying docs/evidence/B4/qt-qualification/embedding.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/qt-qualification
+copying docs/evidence/B4/qt-qualification/capture/report.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/qt-qualification/capture
+copying docs/evidence/B4/qt-typed/embedding.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/qt-typed
+copying docs/evidence/B4/qt-typed/capture/report.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/qt-typed/capture
+copying docs/evidence/B4/qt/capture/report.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/qt/capture
+copying docs/evidence/B4/soak/budgets.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/soak
+copying docs/evidence/B4/soak/progress.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/soak
+copying docs/evidence/B4/soak/result.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/soak
+copying docs/evidence/B4/soak-final-diagnostic/budgets.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/soak-final-diagnostic
+copying docs/evidence/B4/soak-final-diagnostic/progress.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/soak-final-diagnostic
+copying docs/evidence/B4/soak-final-diagnostic/result.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/soak-final-diagnostic
+copying docs/evidence/B4/soak-hardening/budgets.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/soak-hardening
+copying docs/evidence/B4/soak-hardening/progress.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/soak-hardening
+copying docs/evidence/B4/soak-hardening/result.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/soak-hardening
+copying docs/evidence/B4/visual-comparisons/0.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/11.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/12.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/13.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/14.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/15.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/16.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/17.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/18.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/19.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/2.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/20.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/21.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/22.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/23.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/24.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/25.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/26.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/27.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/28.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/29.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/30.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/31.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/33.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/34.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/4.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/6.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/8.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/derived-blend-12-additive.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/derived-blend-12-multiply.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/derived-blend-12-normal.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/derived-blend-12-screen.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/derived-blend-13-additive.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/derived-blend-13-multiply.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/derived-blend-13-normal.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/derived-blend-13-screen.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/derived-blend-22-additive.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/derived-blend-22-multiply.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/derived-blend-22-normal.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/derived-blend-22-screen.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/derived-blend-23-additive.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/derived-blend-23-multiply.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/derived-blend-23-normal.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/derived-blend-23-screen.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/negative-alpha.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/negative-atlas.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/negative-blend.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/negative-clipping.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/negative-order.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/evidence/B4/visual-comparisons/negative-uv.json -> fnx_spine_forge-0.2.0/docs/evidence/B4/visual-comparisons
+copying docs/licenses/Spine-3.8.txt -> fnx_spine_forge-0.2.0/docs/licenses
+copying docs/licenses/Spine-4.0.txt -> fnx_spine_forge-0.2.0/docs/licenses
+copying docs/licenses/Spine-4.1.txt -> fnx_spine_forge-0.2.0/docs/licenses
+copying docs/licenses/Spine-4.2.txt -> fnx_spine_forge-0.2.0/docs/licenses
+copying docs/licenses/Spine-4.3.txt -> fnx_spine_forge-0.2.0/docs/licenses
+copying scripts/verify_binary_reference.mjs -> fnx_spine_forge-0.2.0/scripts
+copying src/fnx_spine_forge/__init__.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge
+copying src/fnx_spine_forge/__main__.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge
+copying src/fnx_spine_forge/atomic_io.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge
+copying src/fnx_spine_forge/binary.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge
+copying src/fnx_spine_forge/bundle.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge
+copying src/fnx_spine_forge/bundle_models.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge
+copying src/fnx_spine_forge/cli.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge
+copying src/fnx_spine_forge/config.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge
+copying src/fnx_spine_forge/dependencies.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge
+copying src/fnx_spine_forge/detection.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge
+copying src/fnx_spine_forge/inspection.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge
+copying src/fnx_spine_forge/json_types.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge
+copying src/fnx_spine_forge/models.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge
+copying src/fnx_spine_forge/packaging.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge
+copying src/fnx_spine_forge/parsers.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge
+copying src/fnx_spine_forge/progress.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge
+copying src/fnx_spine_forge/py.typed -> fnx_spine_forge-0.2.0/src/fnx_spine_forge
+copying src/fnx_spine_forge/source.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge
+copying src/fnx_spine_forge/texture.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge
+copying src/fnx_spine_forge/versions.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge
+copying src/fnx_spine_forge.egg-info/PKG-INFO -> fnx_spine_forge-0.2.0/src/fnx_spine_forge.egg-info
+copying src/fnx_spine_forge.egg-info/SOURCES.txt -> fnx_spine_forge-0.2.0/src/fnx_spine_forge.egg-info
+copying src/fnx_spine_forge.egg-info/dependency_links.txt -> fnx_spine_forge-0.2.0/src/fnx_spine_forge.egg-info
+copying src/fnx_spine_forge.egg-info/entry_points.txt -> fnx_spine_forge-0.2.0/src/fnx_spine_forge.egg-info
+copying src/fnx_spine_forge.egg-info/requires.txt -> fnx_spine_forge-0.2.0/src/fnx_spine_forge.egg-info
+copying src/fnx_spine_forge.egg-info/top_level.txt -> fnx_spine_forge-0.2.0/src/fnx_spine_forge.egg-info
+copying src/fnx_spine_forge/conversion/__init__.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/asset_set.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/atlas.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/curves.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/document.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/errors.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/executor.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/migrate_35_to_36.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/migrate_36_to_35.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/migrate_36_to_37.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/migrate_37_to_36.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/migrate_37_to_38.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/migrate_38_to_4x.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/migrate_38_to_legacy.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/migrate_40_to_38.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/migrate_40_to_41.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/migrate_41_to_40.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/migrate_41_to_42.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/migrate_42_to_41.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/migrate_42_to_43.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/migrate_43_to_42.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/models.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/planner.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/qualification.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/qualification_evidence.json -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/registry.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/runtime.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/runtime_extension_loader.mjs -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/runtime_smoke.mjs -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/schema.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/semantic.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/skeleton.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/viewer/__init__.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/viewer
+copying src/fnx_spine_forge/viewer/admission.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/viewer
+copying src/fnx_spine_forge/viewer/binary_policy.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/viewer
+copying src/fnx_spine_forge/viewer/protocol.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/viewer
+copying src/fnx_spine_forge/viewer/registry.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/viewer
+copying src/fnx_spine_forge/viewer/runtime_manifest.json -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/viewer
+copying src/fnx_spine_forge/viewer/server.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/viewer
+copying src/fnx_spine_forge/viewer/service.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/viewer
+copying src/fnx_spine_forge/viewer/session.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/viewer
+copying src/fnx_spine_forge/viewer/trusted_binary.json -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/viewer
+copying src/fnx_spine_forge/viewer/verification.py -> fnx_spine_forge-0.2.0/src/fnx_spine_forge/viewer
+copying tests/test_b1_contracts.py -> fnx_spine_forge-0.2.0/tests
+copying tests/test_b1_hardening.py -> fnx_spine_forge-0.2.0/tests
+copying tests/test_b2_semantic_qualification.py -> fnx_spine_forge-0.2.0/tests
+copying tests/test_b3_hardening.py -> fnx_spine_forge-0.2.0/tests
+copying tests/test_binary.py -> fnx_spine_forge-0.2.0/tests
+copying tests/test_bundle.py -> fnx_spine_forge-0.2.0/tests
+copying tests/test_conversion.py -> fnx_spine_forge-0.2.0/tests
+copying tests/test_foundation.py -> fnx_spine_forge-0.2.0/tests
+copying tests/test_production_contracts.py -> fnx_spine_forge-0.2.0/tests
+copying tests/test_rc1_qualification.py -> fnx_spine_forge-0.2.0/tests
+copying tests/test_viewer.py -> fnx_spine_forge-0.2.0/tests
+copying tests/test_viewer_binary_policy.py -> fnx_spine_forge-0.2.0/tests
+copying tests/fixtures/b2_semantic/spine_3_5_51.json -> fnx_spine_forge-0.2.0/tests/fixtures/b2_semantic
+copying tests/fixtures/b2_semantic/spine_3_6_53.json -> fnx_spine_forge-0.2.0/tests/fixtures/b2_semantic
+copying tests/fixtures/b2_semantic/spine_3_7_94.json -> fnx_spine_forge-0.2.0/tests/fixtures/b2_semantic
+copying tests/fixtures/b2_semantic/spine_3_8_99.json -> fnx_spine_forge-0.2.0/tests/fixtures/b2_semantic
+copying tests/fixtures/b2_semantic/spine_4_1_56.json -> fnx_spine_forge-0.2.0/tests/fixtures/b2_semantic
+copying tests/fixtures/b2_semantic/spine_4_2_43.json -> fnx_spine_forge-0.2.0/tests/fixtures/b2_semantic
+copying tests/fixtures/b2_semantic/spine_4_3_13.json -> fnx_spine_forge-0.2.0/tests/fixtures/b2_semantic
+copying tests/fixtures/binary/README.md -> fnx_spine_forge-0.2.0/tests/fixtures/binary
+copying tests/fixtures/binary/hierarchy_4_2_43.expected.json -> fnx_spine_forge-0.2.0/tests/fixtures/binary
+copying tests/fixtures/binary/hierarchy_4_2_43.hex -> fnx_spine_forge-0.2.0/tests/fixtures/binary
+copying tests/fixtures/spine38/golden_ingot.atlas -> fnx_spine_forge-0.2.0/tests/fixtures/spine38
+copying tests/fixtures/spine38/golden_ingot.json -> fnx_spine_forge-0.2.0/tests/fixtures/spine38
+copying tests/fixtures/spine38/golden_ingot.png -> fnx_spine_forge-0.2.0/tests/fixtures/spine38
+copying viewer/README.md -> fnx_spine_forge-0.2.0/viewer
+copying viewer/frame.html -> fnx_spine_forge-0.2.0/viewer
+copying viewer/index.html -> fnx_spine_forge-0.2.0/viewer
+copying viewer/playwright.config.ts -> fnx_spine_forge-0.2.0/viewer
+copying viewer/tsconfig.json -> fnx_spine_forge-0.2.0/viewer
+copying viewer/viewer.css -> fnx_spine_forge-0.2.0/viewer
+copying viewer/fixtures/provenance.json -> fnx_spine_forge-0.2.0/viewer/fixtures
+copying viewer/fixtures/3.8/LICENSE -> fnx_spine_forge-0.2.0/viewer/fixtures/3.8
+copying viewer/fixtures/3.8/spineboy-pro.json -> fnx_spine_forge-0.2.0/viewer/fixtures/3.8
+copying viewer/fixtures/3.8/spineboy-pro.skel -> fnx_spine_forge-0.2.0/viewer/fixtures/3.8
+copying viewer/fixtures/3.8/spineboy.atlas -> fnx_spine_forge-0.2.0/viewer/fixtures/3.8
+copying viewer/fixtures/3.8/spineboy.png -> fnx_spine_forge-0.2.0/viewer/fixtures/3.8
+copying viewer/fixtures/4.0/LICENSE -> fnx_spine_forge-0.2.0/viewer/fixtures/4.0
+copying viewer/fixtures/4.0/spineboy-pro.json -> fnx_spine_forge-0.2.0/viewer/fixtures/4.0
+copying viewer/fixtures/4.0/spineboy-pro.skel -> fnx_spine_forge-0.2.0/viewer/fixtures/4.0
+copying viewer/fixtures/4.0/spineboy.atlas -> fnx_spine_forge-0.2.0/viewer/fixtures/4.0
+copying viewer/fixtures/4.0/spineboy.png -> fnx_spine_forge-0.2.0/viewer/fixtures/4.0
+copying viewer/fixtures/4.1/LICENSE -> fnx_spine_forge-0.2.0/viewer/fixtures/4.1
+copying viewer/fixtures/4.1/spineboy-pro.json -> fnx_spine_forge-0.2.0/viewer/fixtures/4.1
+copying viewer/fixtures/4.1/spineboy-pro.skel -> fnx_spine_forge-0.2.0/viewer/fixtures/4.1
+copying viewer/fixtures/4.1/spineboy.atlas -> fnx_spine_forge-0.2.0/viewer/fixtures/4.1
+copying viewer/fixtures/4.1/spineboy.png -> fnx_spine_forge-0.2.0/viewer/fixtures/4.1
+copying viewer/fixtures/4.2/LICENSE -> fnx_spine_forge-0.2.0/viewer/fixtures/4.2
+copying viewer/fixtures/4.2/spineboy-pro.json -> fnx_spine_forge-0.2.0/viewer/fixtures/4.2
+copying viewer/fixtures/4.2/spineboy-pro.skel -> fnx_spine_forge-0.2.0/viewer/fixtures/4.2
+copying viewer/fixtures/4.2/spineboy.atlas -> fnx_spine_forge-0.2.0/viewer/fixtures/4.2
+copying viewer/fixtures/4.2/spineboy.png -> fnx_spine_forge-0.2.0/viewer/fixtures/4.2
+copying viewer/fixtures/4.3/LICENSE -> fnx_spine_forge-0.2.0/viewer/fixtures/4.3
+copying viewer/fixtures/4.3/spineboy-pro.json -> fnx_spine_forge-0.2.0/viewer/fixtures/4.3
+copying viewer/fixtures/4.3/spineboy-pro.skel -> fnx_spine_forge-0.2.0/viewer/fixtures/4.3
+copying viewer/fixtures/4.3/spineboy.atlas -> fnx_spine_forge-0.2.0/viewer/fixtures/4.3
+copying viewer/fixtures/4.3/spineboy.png -> fnx_spine_forge-0.2.0/viewer/fixtures/4.3
+copying viewer/fixtures/features/provenance.json -> fnx_spine_forge-0.2.0/viewer/fixtures/features
+copying viewer/fixtures/features/4.2-coin/LICENSE -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-coin
+copying viewer/fixtures/features/4.2-coin/coin-pma.atlas -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-coin
+copying viewer/fixtures/features/4.2-coin/coin-pma.png -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-coin
+copying viewer/fixtures/features/4.2-coin/coin-pro.json -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-coin
+copying viewer/fixtures/features/4.2-coin/coin.atlas -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-coin
+copying viewer/fixtures/features/4.2-coin/coin.png -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-coin
+copying viewer/fixtures/features/4.2-goblins/LICENSE -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-goblins
+copying viewer/fixtures/features/4.2-goblins/goblins-pma.atlas -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-goblins
+copying viewer/fixtures/features/4.2-goblins/goblins-pma.png -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-goblins
+copying viewer/fixtures/features/4.2-goblins/goblins-pro.json -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-goblins
+copying viewer/fixtures/features/4.2-goblins/goblins.atlas -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-goblins
+copying viewer/fixtures/features/4.2-goblins/goblins.png -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-goblins
+copying viewer/fixtures/features/4.2-raptor/LICENSE -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-raptor
+copying viewer/fixtures/features/4.2-raptor/raptor-pma.atlas -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-raptor
+copying viewer/fixtures/features/4.2-raptor/raptor-pma.png -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-raptor
+copying viewer/fixtures/features/4.2-raptor/raptor-pro.json -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-raptor
+copying viewer/fixtures/features/4.2-raptor/raptor.atlas -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-raptor
+copying viewer/fixtures/features/4.2-raptor/raptor.png -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-raptor
+copying viewer/fixtures/features/4.2-tank/LICENSE -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-tank
+copying viewer/fixtures/features/4.2-tank/tank-pma.atlas -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-tank
+copying viewer/fixtures/features/4.2-tank/tank-pma.png -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-tank
+copying viewer/fixtures/features/4.2-tank/tank-pro.json -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-tank
+copying viewer/fixtures/features/4.2-tank/tank.atlas -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-tank
+copying viewer/fixtures/features/4.2-tank/tank.png -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-tank
+copying viewer/fixtures/features/4.2-vine/LICENSE -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-vine
+copying viewer/fixtures/features/4.2-vine/vine-pma.atlas -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-vine
+copying viewer/fixtures/features/4.2-vine/vine-pma.png -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-vine
+copying viewer/fixtures/features/4.2-vine/vine-pro.json -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-vine
+copying viewer/fixtures/features/4.2-vine/vine.atlas -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-vine
+copying viewer/fixtures/features/4.2-vine/vine.png -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-vine
+copying viewer/fixtures/features/4.2-windmill/LICENSE -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-windmill
+copying viewer/fixtures/features/4.2-windmill/windmill-pma.atlas -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-windmill
+copying viewer/fixtures/features/4.2-windmill/windmill-pma.png -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-windmill
+copying viewer/fixtures/features/4.2-windmill/windmill.atlas -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-windmill
+copying viewer/fixtures/features/4.2-windmill/windmill.png -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.2-windmill
+copying viewer/fixtures/features/4.3-coin/LICENSE -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-coin
+copying viewer/fixtures/features/4.3-coin/coin-pma.atlas -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-coin
+copying viewer/fixtures/features/4.3-coin/coin-pma.png -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-coin
+copying viewer/fixtures/features/4.3-coin/coin-pro.json -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-coin
+copying viewer/fixtures/features/4.3-coin/coin.atlas -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-coin
+copying viewer/fixtures/features/4.3-coin/coin.png -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-coin
+copying viewer/fixtures/features/4.3-goblins/LICENSE -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-goblins
+copying viewer/fixtures/features/4.3-goblins/goblins-pma.atlas -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-goblins
+copying viewer/fixtures/features/4.3-goblins/goblins-pma.png -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-goblins
+copying viewer/fixtures/features/4.3-goblins/goblins-pro.json -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-goblins
+copying viewer/fixtures/features/4.3-goblins/goblins.atlas -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-goblins
+copying viewer/fixtures/features/4.3-goblins/goblins.png -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-goblins
+copying viewer/fixtures/features/4.3-raptor/LICENSE -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-raptor
+copying viewer/fixtures/features/4.3-raptor/raptor-pma.atlas -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-raptor
+copying viewer/fixtures/features/4.3-raptor/raptor-pma.png -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-raptor
+copying viewer/fixtures/features/4.3-raptor/raptor-pro.json -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-raptor
+copying viewer/fixtures/features/4.3-raptor/raptor.atlas -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-raptor
+copying viewer/fixtures/features/4.3-raptor/raptor.png -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-raptor
+copying viewer/fixtures/features/4.3-tank/LICENSE -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-tank
+copying viewer/fixtures/features/4.3-tank/tank-pma.atlas -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-tank
+copying viewer/fixtures/features/4.3-tank/tank-pma.png -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-tank
+copying viewer/fixtures/features/4.3-tank/tank-pro.json -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-tank
+copying viewer/fixtures/features/4.3-tank/tank.atlas -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-tank
+copying viewer/fixtures/features/4.3-tank/tank.png -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-tank
+copying viewer/fixtures/features/4.3-vine/LICENSE -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-vine
+copying viewer/fixtures/features/4.3-vine/vine-pma.atlas -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-vine
+copying viewer/fixtures/features/4.3-vine/vine-pma.png -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-vine
+copying viewer/fixtures/features/4.3-vine/vine-pro.json -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-vine
+copying viewer/fixtures/features/4.3-vine/vine.atlas -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-vine
+copying viewer/fixtures/features/4.3-vine/vine.png -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-vine
+copying viewer/fixtures/features/4.3-windmill/LICENSE -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-windmill
+copying viewer/fixtures/features/4.3-windmill/windmill-pma.atlas -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-windmill
+copying viewer/fixtures/features/4.3-windmill/windmill-pma.png -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-windmill
+copying viewer/fixtures/features/4.3-windmill/windmill.atlas -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-windmill
+copying viewer/fixtures/features/4.3-windmill/windmill.png -> fnx_spine_forge-0.2.0/viewer/fixtures/features/4.3-windmill
+copying viewer/fixtures/physics/provenance.json -> fnx_spine_forge-0.2.0/viewer/fixtures/physics
+copying viewer/fixtures/physics/4.2/LICENSE -> fnx_spine_forge-0.2.0/viewer/fixtures/physics/4.2
+copying viewer/fixtures/physics/4.2/cloud-pot.atlas -> fnx_spine_forge-0.2.0/viewer/fixtures/physics/4.2
+copying viewer/fixtures/physics/4.2/cloud-pot.json -> fnx_spine_forge-0.2.0/viewer/fixtures/physics/4.2
+copying viewer/fixtures/physics/4.2/cloud-pot.png -> fnx_spine_forge-0.2.0/viewer/fixtures/physics/4.2
+copying viewer/fixtures/physics/4.3/LICENSE -> fnx_spine_forge-0.2.0/viewer/fixtures/physics/4.3
+copying viewer/fixtures/physics/4.3/cloud-pot.atlas -> fnx_spine_forge-0.2.0/viewer/fixtures/physics/4.3
+copying viewer/fixtures/physics/4.3/cloud-pot.json -> fnx_spine_forge-0.2.0/viewer/fixtures/physics/4.3
+copying viewer/fixtures/physics/4.3/cloud-pot.png -> fnx_spine_forge-0.2.0/viewer/fixtures/physics/4.3
+copying viewer/fixtures/production/provenance.json -> fnx_spine_forge-0.2.0/viewer/fixtures/production
+copying viewer/fixtures/production/golden42/golden_ingot.atlas -> fnx_spine_forge-0.2.0/viewer/fixtures/production/golden42
+copying viewer/fixtures/production/golden42/golden_ingot.json -> fnx_spine_forge-0.2.0/viewer/fixtures/production/golden42
+copying viewer/fixtures/production/golden42/golden_ingot.png -> fnx_spine_forge-0.2.0/viewer/fixtures/production/golden42
+copying viewer/fixtures/production/merged43/merged_multi.atlas -> fnx_spine_forge-0.2.0/viewer/fixtures/production/merged43
+copying viewer/fixtures/production/merged43/merged_multi.json -> fnx_spine_forge-0.2.0/viewer/fixtures/production/merged43
+copying viewer/fixtures/production/merged43/merged_multi.png -> fnx_spine_forge-0.2.0/viewer/fixtures/production/merged43
+copying viewer/fixtures/production/merged43/merged_multi2.png -> fnx_spine_forge-0.2.0/viewer/fixtures/production/merged43
+copying viewer/fixtures/source-risk/golden_ingot.atlas -> fnx_spine_forge-0.2.0/viewer/fixtures/source-risk
+copying viewer/fixtures/source-risk/golden_ingot.json -> fnx_spine_forge-0.2.0/viewer/fixtures/source-risk
+copying viewer/fixtures/source-risk/golden_ingot.png -> fnx_spine_forge-0.2.0/viewer/fixtures/source-risk
+copying viewer/scripts/build.mjs -> fnx_spine_forge-0.2.0/viewer/scripts
+copying viewer/scripts/fixtures.mjs -> fnx_spine_forge-0.2.0/viewer/scripts
+copying viewer/scripts/generate.mjs -> fnx_spine_forge-0.2.0/viewer/scripts
+copying viewer/scripts/prepare38.mjs -> fnx_spine_forge-0.2.0/viewer/scripts
+copying viewer/scripts/qt_smoke.py -> fnx_spine_forge-0.2.0/viewer/scripts
+copying viewer/scripts/soak.mjs -> fnx_spine_forge-0.2.0/viewer/scripts
+copying viewer/scripts/test_server.py -> fnx_spine_forge-0.2.0/viewer/scripts
+copying viewer/src/binaryPolicy.ts -> fnx_spine_forge-0.2.0/viewer/src
+copying viewer/src/bridge.ts -> fnx_spine_forge-0.2.0/viewer/src
+copying viewer/src/clock.ts -> fnx_spine_forge-0.2.0/viewer/src
+copying viewer/src/comparison.ts -> fnx_spine_forge-0.2.0/viewer/src
+copying viewer/src/component.ts -> fnx_spine_forge-0.2.0/viewer/src
+copying viewer/src/contracts.ts -> fnx_spine_forge-0.2.0/viewer/src
+copying viewer/src/diagnostics.ts -> fnx_spine_forge-0.2.0/viewer/src
+copying viewer/src/frame.ts -> fnx_spine_forge-0.2.0/viewer/src
+copying viewer/src/host.ts -> fnx_spine_forge-0.2.0/viewer/src
+copying viewer/src/kernel.template -> fnx_spine_forge-0.2.0/viewer/src
+copying viewer/src/protocol.ts -> fnx_spine_forge-0.2.0/viewer/src
+copying viewer/src/resources.ts -> fnx_spine_forge-0.2.0/viewer/src
+copying viewer/src/viewer.ts -> fnx_spine_forge-0.2.0/viewer/src
+copying viewer/tests/animation.spec.ts -> fnx_spine_forge-0.2.0/viewer/tests
+copying viewer/tests/binary-policy.spec.ts -> fnx_spine_forge-0.2.0/viewer/tests
+copying viewer/tests/browser.spec.ts -> fnx_spine_forge-0.2.0/viewer/tests
+copying viewer/tests/hostile.spec.ts -> fnx_spine_forge-0.2.0/viewer/tests
+copying viewer/tests/resources.spec.ts -> fnx_spine_forge-0.2.0/viewer/tests
+copying viewer/tests/server.spec.ts -> fnx_spine_forge-0.2.0/viewer/tests
+copying viewer/tests/server.ts -> fnx_spine_forge-0.2.0/viewer/tests
+copying viewer/tests/unit.spec.ts -> fnx_spine_forge-0.2.0/viewer/tests
+copying viewer/tests/visual-tolerances.json -> fnx_spine_forge-0.2.0/viewer/tests
+copying viewer/tests/visual.spec.ts -> fnx_spine_forge-0.2.0/viewer/tests
+Writing fnx_spine_forge-0.2.0/setup.cfg
+Creating tar archive
+removing 'fnx_spine_forge-0.2.0' (and everything under it)
+* Building wheel from sdist
+* Creating isolated environment: venv+pip...
+* Installing packages in isolated environment:
+  - setuptools>=68
+  - wheel
+* Getting build dependencies for wheel...
+running egg_info
+writing src/fnx_spine_forge.egg-info/PKG-INFO
+writing dependency_links to src/fnx_spine_forge.egg-info/dependency_links.txt
+writing entry points to src/fnx_spine_forge.egg-info/entry_points.txt
+writing requirements to src/fnx_spine_forge.egg-info/requires.txt
+writing top-level names to src/fnx_spine_forge.egg-info/top_level.txt
+reading manifest file 'src/fnx_spine_forge.egg-info/SOURCES.txt'
+reading manifest template 'MANIFEST.in'
+no previously-included directories found matching 'viewer/node_modules'
+no previously-included directories found matching 'viewer/dist'
+no previously-included directories found matching 'viewer/.runtime'
+no previously-included directories found matching 'viewer/test-results'
+no previously-included directories found matching 'viewer/viewer'
+no previously-included directories found matching 'viewer/src/generated'
+writing manifest file 'src/fnx_spine_forge.egg-info/SOURCES.txt'
+* Installed build dependency versions:
+  - setuptools==84.2.1
+  - wheel==0.48.0
+* Building wheel...
+running bdist_wheel
+running build
+running build_py
+creating build/lib/fnx_spine_forge
+copying src/fnx_spine_forge/bundle.py -> build/lib/fnx_spine_forge
+copying src/fnx_spine_forge/binary.py -> build/lib/fnx_spine_forge
+copying src/fnx_spine_forge/detection.py -> build/lib/fnx_spine_forge
+copying src/fnx_spine_forge/config.py -> build/lib/fnx_spine_forge
+copying src/fnx_spine_forge/models.py -> build/lib/fnx_spine_forge
+copying src/fnx_spine_forge/json_types.py -> build/lib/fnx_spine_forge
+copying src/fnx_spine_forge/bundle_models.py -> build/lib/fnx_spine_forge
+copying src/fnx_spine_forge/__init__.py -> build/lib/fnx_spine_forge
+copying src/fnx_spine_forge/parsers.py -> build/lib/fnx_spine_forge
+copying src/fnx_spine_forge/inspection.py -> build/lib/fnx_spine_forge
+copying src/fnx_spine_forge/cli.py -> build/lib/fnx_spine_forge
+copying src/fnx_spine_forge/packaging.py -> build/lib/fnx_spine_forge
+copying src/fnx_spine_forge/texture.py -> build/lib/fnx_spine_forge
+copying src/fnx_spine_forge/versions.py -> build/lib/fnx_spine_forge
+copying src/fnx_spine_forge/progress.py -> build/lib/fnx_spine_forge
+copying src/fnx_spine_forge/atomic_io.py -> build/lib/fnx_spine_forge
+copying src/fnx_spine_forge/source.py -> build/lib/fnx_spine_forge
+copying src/fnx_spine_forge/__main__.py -> build/lib/fnx_spine_forge
+copying src/fnx_spine_forge/dependencies.py -> build/lib/fnx_spine_forge
+creating build/lib/fnx_spine_forge/viewer
+copying src/fnx_spine_forge/viewer/service.py -> build/lib/fnx_spine_forge/viewer
+copying src/fnx_spine_forge/viewer/server.py -> build/lib/fnx_spine_forge/viewer
+copying src/fnx_spine_forge/viewer/verification.py -> build/lib/fnx_spine_forge/viewer
+copying src/fnx_spine_forge/viewer/registry.py -> build/lib/fnx_spine_forge/viewer
+copying src/fnx_spine_forge/viewer/protocol.py -> build/lib/fnx_spine_forge/viewer
+copying src/fnx_spine_forge/viewer/session.py -> build/lib/fnx_spine_forge/viewer
+copying src/fnx_spine_forge/viewer/__init__.py -> build/lib/fnx_spine_forge/viewer
+copying src/fnx_spine_forge/viewer/binary_policy.py -> build/lib/fnx_spine_forge/viewer
+copying src/fnx_spine_forge/viewer/admission.py -> build/lib/fnx_spine_forge/viewer
+creating build/lib/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/migrate_37_to_38.py -> build/lib/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/migrate_40_to_38.py -> build/lib/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/planner.py -> build/lib/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/migrate_38_to_legacy.py -> build/lib/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/semantic.py -> build/lib/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/models.py -> build/lib/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/migrate_42_to_41.py -> build/lib/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/skeleton.py -> build/lib/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/registry.py -> build/lib/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/asset_set.py -> build/lib/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/migrate_37_to_36.py -> build/lib/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/migrate_41_to_42.py -> build/lib/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/migrate_36_to_37.py -> build/lib/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/__init__.py -> build/lib/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/runtime.py -> build/lib/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/migrate_40_to_41.py -> build/lib/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/migrate_38_to_4x.py -> build/lib/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/qualification.py -> build/lib/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/document.py -> build/lib/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/migrate_36_to_35.py -> build/lib/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/migrate_41_to_40.py -> build/lib/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/curves.py -> build/lib/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/errors.py -> build/lib/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/atlas.py -> build/lib/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/migrate_43_to_42.py -> build/lib/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/migrate_35_to_36.py -> build/lib/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/migrate_42_to_43.py -> build/lib/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/executor.py -> build/lib/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/schema.py -> build/lib/fnx_spine_forge/conversion
+running egg_info
+writing src/fnx_spine_forge.egg-info/PKG-INFO
+writing dependency_links to src/fnx_spine_forge.egg-info/dependency_links.txt
+writing entry points to src/fnx_spine_forge.egg-info/entry_points.txt
+writing requirements to src/fnx_spine_forge.egg-info/requires.txt
+writing top-level names to src/fnx_spine_forge.egg-info/top_level.txt
+reading manifest file 'src/fnx_spine_forge.egg-info/SOURCES.txt'
+reading manifest template 'MANIFEST.in'
+no previously-included directories found matching 'viewer/node_modules'
+no previously-included directories found matching 'viewer/dist'
+no previously-included directories found matching 'viewer/.runtime'
+no previously-included directories found matching 'viewer/test-results'
+no previously-included directories found matching 'viewer/viewer'
+no previously-included directories found matching 'viewer/src/generated'
+writing manifest file 'src/fnx_spine_forge.egg-info/SOURCES.txt'
+copying src/fnx_spine_forge/py.typed -> build/lib/fnx_spine_forge
+copying src/fnx_spine_forge/conversion/runtime_smoke.mjs -> build/lib/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/runtime_extension_loader.mjs -> build/lib/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/conversion/qualification_evidence.json -> build/lib/fnx_spine_forge/conversion
+copying src/fnx_spine_forge/viewer/trusted_binary.json -> build/lib/fnx_spine_forge/viewer
+copying src/fnx_spine_forge/viewer/runtime_manifest.json -> build/lib/fnx_spine_forge/viewer
+installing to build/bdist.macosx-26.0-arm64/wheel
+running install
+running install_lib
+creating build/bdist.macosx-26.0-arm64/wheel
+creating build/bdist.macosx-26.0-arm64/wheel/fnx_spine_forge
+copying build/lib/fnx_spine_forge/bundle.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge
+copying build/lib/fnx_spine_forge/binary.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge
+copying build/lib/fnx_spine_forge/detection.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge
+copying build/lib/fnx_spine_forge/config.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge
+copying build/lib/fnx_spine_forge/models.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge
+copying build/lib/fnx_spine_forge/json_types.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge
+copying build/lib/fnx_spine_forge/bundle_models.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge
+copying build/lib/fnx_spine_forge/__init__.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge
+copying build/lib/fnx_spine_forge/parsers.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge
+copying build/lib/fnx_spine_forge/inspection.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge
+creating build/bdist.macosx-26.0-arm64/wheel/fnx_spine_forge/viewer
+copying build/lib/fnx_spine_forge/viewer/trusted_binary.json -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/viewer
+copying build/lib/fnx_spine_forge/viewer/service.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/viewer
+copying build/lib/fnx_spine_forge/viewer/server.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/viewer
+copying build/lib/fnx_spine_forge/viewer/verification.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/viewer
+copying build/lib/fnx_spine_forge/viewer/registry.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/viewer
+copying build/lib/fnx_spine_forge/viewer/protocol.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/viewer
+copying build/lib/fnx_spine_forge/viewer/session.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/viewer
+copying build/lib/fnx_spine_forge/viewer/__init__.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/viewer
+copying build/lib/fnx_spine_forge/viewer/runtime_manifest.json -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/viewer
+copying build/lib/fnx_spine_forge/viewer/binary_policy.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/viewer
+copying build/lib/fnx_spine_forge/viewer/admission.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/viewer
+copying build/lib/fnx_spine_forge/cli.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge
+copying build/lib/fnx_spine_forge/packaging.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge
+copying build/lib/fnx_spine_forge/texture.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge
+creating build/bdist.macosx-26.0-arm64/wheel/fnx_spine_forge/conversion
+copying build/lib/fnx_spine_forge/conversion/migrate_37_to_38.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/conversion
+copying build/lib/fnx_spine_forge/conversion/migrate_40_to_38.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/conversion
+copying build/lib/fnx_spine_forge/conversion/planner.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/conversion
+copying build/lib/fnx_spine_forge/conversion/qualification_evidence.json -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/conversion
+copying build/lib/fnx_spine_forge/conversion/runtime_smoke.mjs -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/conversion
+copying build/lib/fnx_spine_forge/conversion/migrate_38_to_legacy.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/conversion
+copying build/lib/fnx_spine_forge/conversion/semantic.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/conversion
+copying build/lib/fnx_spine_forge/conversion/models.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/conversion
+copying build/lib/fnx_spine_forge/conversion/migrate_42_to_41.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/conversion
+copying build/lib/fnx_spine_forge/conversion/skeleton.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/conversion
+copying build/lib/fnx_spine_forge/conversion/runtime_extension_loader.mjs -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/conversion
+copying build/lib/fnx_spine_forge/conversion/registry.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/conversion
+copying build/lib/fnx_spine_forge/conversion/asset_set.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/conversion
+copying build/lib/fnx_spine_forge/conversion/migrate_37_to_36.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/conversion
+copying build/lib/fnx_spine_forge/conversion/migrate_41_to_42.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/conversion
+copying build/lib/fnx_spine_forge/conversion/migrate_36_to_37.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/conversion
+copying build/lib/fnx_spine_forge/conversion/__init__.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/conversion
+copying build/lib/fnx_spine_forge/conversion/runtime.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/conversion
+copying build/lib/fnx_spine_forge/conversion/migrate_40_to_41.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/conversion
+copying build/lib/fnx_spine_forge/conversion/migrate_38_to_4x.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/conversion
+copying build/lib/fnx_spine_forge/conversion/qualification.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/conversion
+copying build/lib/fnx_spine_forge/conversion/document.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/conversion
+copying build/lib/fnx_spine_forge/conversion/migrate_36_to_35.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/conversion
+copying build/lib/fnx_spine_forge/conversion/migrate_41_to_40.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/conversion
+copying build/lib/fnx_spine_forge/conversion/curves.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/conversion
+copying build/lib/fnx_spine_forge/conversion/errors.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/conversion
+copying build/lib/fnx_spine_forge/conversion/atlas.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/conversion
+copying build/lib/fnx_spine_forge/conversion/migrate_43_to_42.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/conversion
+copying build/lib/fnx_spine_forge/conversion/migrate_35_to_36.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/conversion
+copying build/lib/fnx_spine_forge/conversion/migrate_42_to_43.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/conversion
+copying build/lib/fnx_spine_forge/conversion/executor.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/conversion
+copying build/lib/fnx_spine_forge/conversion/schema.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge/conversion
+copying build/lib/fnx_spine_forge/py.typed -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge
+copying build/lib/fnx_spine_forge/versions.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge
+copying build/lib/fnx_spine_forge/progress.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge
+copying build/lib/fnx_spine_forge/atomic_io.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge
+copying build/lib/fnx_spine_forge/source.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge
+copying build/lib/fnx_spine_forge/__main__.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge
+copying build/lib/fnx_spine_forge/dependencies.py -> build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge
+running install_egg_info
+Copying src/fnx_spine_forge.egg-info to build/bdist.macosx-26.0-arm64/wheel/./fnx_spine_forge-0.2.0-py3.12.egg-info
+running install_scripts
+creating build/bdist.macosx-26.0-arm64/wheel/fnx_spine_forge-0.2.0.dist-info/WHEEL
+creating '/Users/fenix/WorkHub/Spine/fnx-spine-forge-starter/dist/.tmp-w2o8t_mv/fnx_spine_forge-0.2.0-py3-none-any.whl' and adding 'build/bdist.macosx-26.0-arm64/wheel' to it
+adding 'fnx_spine_forge/__init__.py'
+adding 'fnx_spine_forge/__main__.py'
+adding 'fnx_spine_forge/atomic_io.py'
+adding 'fnx_spine_forge/binary.py'
+adding 'fnx_spine_forge/bundle.py'
+adding 'fnx_spine_forge/bundle_models.py'
+adding 'fnx_spine_forge/cli.py'
+adding 'fnx_spine_forge/config.py'
+adding 'fnx_spine_forge/dependencies.py'
+adding 'fnx_spine_forge/detection.py'
+adding 'fnx_spine_forge/inspection.py'
+adding 'fnx_spine_forge/json_types.py'
+adding 'fnx_spine_forge/models.py'
+adding 'fnx_spine_forge/packaging.py'
+adding 'fnx_spine_forge/parsers.py'
+adding 'fnx_spine_forge/progress.py'
+adding 'fnx_spine_forge/py.typed'
+adding 'fnx_spine_forge/source.py'
+adding 'fnx_spine_forge/texture.py'
+adding 'fnx_spine_forge/versions.py'
+adding 'fnx_spine_forge/conversion/__init__.py'
+adding 'fnx_spine_forge/conversion/asset_set.py'
+adding 'fnx_spine_forge/conversion/atlas.py'
+adding 'fnx_spine_forge/conversion/curves.py'
+adding 'fnx_spine_forge/conversion/document.py'
+adding 'fnx_spine_forge/conversion/errors.py'
+adding 'fnx_spine_forge/conversion/executor.py'
+adding 'fnx_spine_forge/conversion/migrate_35_to_36.py'
+adding 'fnx_spine_forge/conversion/migrate_36_to_35.py'
+adding 'fnx_spine_forge/conversion/migrate_36_to_37.py'
+adding 'fnx_spine_forge/conversion/migrate_37_to_36.py'
+adding 'fnx_spine_forge/conversion/migrate_37_to_38.py'
+adding 'fnx_spine_forge/conversion/migrate_38_to_4x.py'
+adding 'fnx_spine_forge/conversion/migrate_38_to_legacy.py'
+adding 'fnx_spine_forge/conversion/migrate_40_to_38.py'
+adding 'fnx_spine_forge/conversion/migrate_40_to_41.py'
+adding 'fnx_spine_forge/conversion/migrate_41_to_40.py'
+adding 'fnx_spine_forge/conversion/migrate_41_to_42.py'
+adding 'fnx_spine_forge/conversion/migrate_42_to_41.py'
+adding 'fnx_spine_forge/conversion/migrate_42_to_43.py'
+adding 'fnx_spine_forge/conversion/migrate_43_to_42.py'
+adding 'fnx_spine_forge/conversion/models.py'
+adding 'fnx_spine_forge/conversion/planner.py'
+adding 'fnx_spine_forge/conversion/qualification.py'
+adding 'fnx_spine_forge/conversion/qualification_evidence.json'
+adding 'fnx_spine_forge/conversion/registry.py'
+adding 'fnx_spine_forge/conversion/runtime.py'
+adding 'fnx_spine_forge/conversion/runtime_extension_loader.mjs'
+adding 'fnx_spine_forge/conversion/runtime_smoke.mjs'
+adding 'fnx_spine_forge/conversion/schema.py'
+adding 'fnx_spine_forge/conversion/semantic.py'
+adding 'fnx_spine_forge/conversion/skeleton.py'
+adding 'fnx_spine_forge/viewer/__init__.py'
+adding 'fnx_spine_forge/viewer/admission.py'
+adding 'fnx_spine_forge/viewer/binary_policy.py'
+adding 'fnx_spine_forge/viewer/protocol.py'
+adding 'fnx_spine_forge/viewer/registry.py'
+adding 'fnx_spine_forge/viewer/runtime_manifest.json'
+adding 'fnx_spine_forge/viewer/server.py'
+adding 'fnx_spine_forge/viewer/service.py'
+adding 'fnx_spine_forge/viewer/session.py'
+adding 'fnx_spine_forge/viewer/trusted_binary.json'
+adding 'fnx_spine_forge/viewer/verification.py'
+adding 'fnx_spine_forge-0.2.0.dist-info/METADATA'
+adding 'fnx_spine_forge-0.2.0.dist-info/WHEEL'
+adding 'fnx_spine_forge-0.2.0.dist-info/entry_points.txt'
+adding 'fnx_spine_forge-0.2.0.dist-info/top_level.txt'
+adding 'fnx_spine_forge-0.2.0.dist-info/RECORD'
+removing build/bdist.macosx-26.0-arm64/wheel
+Successfully built fnx_spine_forge-0.2.0.tar.gz and fnx_spine_forge-0.2.0-py3-none-any.whl
+
+> fnx-spine-forge-viewer@0.1.0 typecheck
+> node viewer/scripts/generate.mjs && tsc -p viewer/tsconfig.json
+
+
+> fnx-spine-forge-viewer@0.1.0 lint
+> eslint viewer/src --ignore-pattern generated
+
+
+> fnx-spine-forge-viewer@0.1.0 build
+> node viewer/scripts/generate.mjs && node viewer/scripts/build.mjs
+
+
+> fnx-spine-forge-viewer@0.1.0 test
+> playwright test -c viewer/playwright.config.ts
+
+
+Running 146 tests using 1 worker
+
+(node:20371) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    1 viewer/tests/animation.spec.ts:23:3 › real adapter 0: boundaries, interrupted mix, repeated seek and disposal (623ms)
+  ✓    2 viewer/tests/animation.spec.ts:23:3 › real adapter 2: boundaries, interrupted mix, repeated seek and disposal (279ms)
+  ✓    3 viewer/tests/animation.spec.ts:23:3 › real adapter 4: boundaries, interrupted mix, repeated seek and disposal (260ms)
+  ✓    4 viewer/tests/animation.spec.ts:23:3 › real adapter 6: boundaries, interrupted mix, repeated seek and disposal (264ms)
+  ✓    5 viewer/tests/animation.spec.ts:23:3 › real adapter 8: boundaries, interrupted mix, repeated seek and disposal (262ms)
+  ✓    6 viewer/tests/animation.spec.ts:23:3 › real adapter 33: boundaries, interrupted mix, repeated seek and disposal (232ms)
+  ✓    7 viewer/tests/animation.spec.ts:23:3 › real adapter 34: boundaries, interrupted mix, repeated seek and disposal (230ms)
+  ✓    8 viewer/tests/animation.spec.ts:127:1 › official event keyframe boundary ordering across step partitions (14ms)
+  ✓    9 viewer/tests/binary-policy.spec.ts:11:1 › B5 can query the approved-binary-only capability without loading (0ms)
+  ✘   10 viewer/tests/binary-policy.spec.ts:17:3 › renamed binary and forged metadata cannot bypass admission: binary=true (67ms)
+(node:20464) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   11 viewer/tests/binary-policy.spec.ts:17:3 › renamed binary and forged metadata cannot bypass admission: binary=false (77ms)
+(node:20470) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   12 viewer/tests/browser.spec.ts:60:3 › official renderer fixture 0: pixels, evaluation, fixed capture, pause (669ms)
+  ✓   13 viewer/tests/browser.spec.ts:60:3 › official renderer fixture 1: pixels, evaluation, fixed capture, pause (665ms)
+  ✓   14 viewer/tests/browser.spec.ts:60:3 › official renderer fixture 2: pixels, evaluation, fixed capture, pause (715ms)
+  ✓   15 viewer/tests/browser.spec.ts:60:3 › official renderer fixture 3: pixels, evaluation, fixed capture, pause (662ms)
+  ✓   16 viewer/tests/browser.spec.ts:60:3 › official renderer fixture 4: pixels, evaluation, fixed capture, pause (655ms)
+  ✓   17 viewer/tests/browser.spec.ts:60:3 › official renderer fixture 5: pixels, evaluation, fixed capture, pause (658ms)
+  ✓   18 viewer/tests/browser.spec.ts:60:3 › official renderer fixture 6: pixels, evaluation, fixed capture, pause (646ms)
+  ✓   19 viewer/tests/browser.spec.ts:60:3 › official renderer fixture 7: pixels, evaluation, fixed capture, pause (639ms)
+  ✓   20 viewer/tests/browser.spec.ts:60:3 › official renderer fixture 8: pixels, evaluation, fixed capture, pause (643ms)
+  ✓   21 viewer/tests/browser.spec.ts:60:3 › official renderer fixture 9: pixels, evaluation, fixed capture, pause (641ms)
+  ✓   22 viewer/tests/browser.spec.ts:60:3 › official renderer fixture 10: pixels, evaluation, fixed capture, pause (737ms)
+  ✓   23 viewer/tests/browser.spec.ts:60:3 › official renderer fixture 11: pixels, evaluation, fixed capture, pause (796ms)
+  ✓   24 viewer/tests/browser.spec.ts:141:1 › two runtime documents stay isolated during play, camera and disposal (332ms)
+  ✓   25 viewer/tests/browser.spec.ts:178:1 › protocol, missing animation and skin reject without false verification (131ms)
+  ✓   26 viewer/tests/browser.spec.ts:207:1 › events suppressed on seek, bounded clock, end state and frame stepping (940ms)
+  ✓   27 viewer/tests/browser.spec.ts:243:1 › context loss fails closed and explicit retry restores (426ms)
+  ✓   28 viewer/tests/browser.spec.ts:262:1 › cancellation during pending texture transport never revives session (481ms)
+  ✓   29 viewer/tests/browser.spec.ts:277:1 › disposed capture and seek reject, repeated reload releases resources (396ms)
+  ✓   30 viewer/tests/browser.spec.ts:313:1 › camera, debug and high DPI alter real frames with reset behavior (256ms)
+  ✓   31 viewer/tests/browser.spec.ts:346:3 › feature fixture 12: all animations, skins, constraints and deterministic frames (188ms)
+  ✓   32 viewer/tests/browser.spec.ts:346:3 › feature fixture 13: all animations, skins, constraints and deterministic frames (182ms)
+  ✓   33 viewer/tests/browser.spec.ts:346:3 › feature fixture 14: all animations, skins, constraints and deterministic frames (198ms)
+  ✓   34 viewer/tests/browser.spec.ts:346:3 › feature fixture 15: all animations, skins, constraints and deterministic frames (198ms)
+  ✓   35 viewer/tests/browser.spec.ts:346:3 › feature fixture 16: all animations, skins, constraints and deterministic frames (572ms)
+  ✓   36 viewer/tests/browser.spec.ts:346:3 › feature fixture 17: all animations, skins, constraints and deterministic frames (575ms)
+  ✓   37 viewer/tests/browser.spec.ts:346:3 › feature fixture 18: all animations, skins, constraints and deterministic frames (366ms)
+  ✓   38 viewer/tests/browser.spec.ts:346:3 › feature fixture 19: all animations, skins, constraints and deterministic frames (347ms)
+  ✓   39 viewer/tests/browser.spec.ts:346:3 › feature fixture 20: all animations, skins, constraints and deterministic frames (213ms)
+  ✓   40 viewer/tests/browser.spec.ts:346:3 › feature fixture 21: all animations, skins, constraints and deterministic frames (199ms)
+  ✓   41 viewer/tests/browser.spec.ts:346:3 › feature fixture 22: all animations, skins, constraints and deterministic frames (176ms)
+  ✓   42 viewer/tests/browser.spec.ts:346:3 › feature fixture 23: all animations, skins, constraints and deterministic frames (177ms)
+  ✓   43 viewer/tests/browser.spec.ts:346:3 › feature fixture 24: all animations, skins, constraints and deterministic frames (207ms)
+  ✓   44 viewer/tests/browser.spec.ts:346:3 › feature fixture 25: all animations, skins, constraints and deterministic frames (203ms)
+  ✓   45 viewer/tests/browser.spec.ts:346:3 › feature fixture 26: all animations, skins, constraints and deterministic frames (604ms)
+  ✓   46 viewer/tests/browser.spec.ts:346:3 › feature fixture 27: all animations, skins, constraints and deterministic frames (603ms)
+  ✓   47 viewer/tests/browser.spec.ts:346:3 › feature fixture 28: all animations, skins, constraints and deterministic frames (360ms)
+  ✓   48 viewer/tests/browser.spec.ts:346:3 › feature fixture 29: all animations, skins, constraints and deterministic frames (348ms)
+  ✓   49 viewer/tests/browser.spec.ts:346:3 › feature fixture 30: all animations, skins, constraints and deterministic frames (186ms)
+  ✓   50 viewer/tests/browser.spec.ts:346:3 › feature fixture 31: all animations, skins, constraints and deterministic frames (187ms)
+  ✓   51 viewer/tests/browser.spec.ts:403:1 › controlled pair records duration mismatch, pose correspondence and pixel difference without certification (402ms)
+  ✓   52 viewer/tests/browser.spec.ts:428:1 › official straight and PMA exports have close rendered colors (228ms)
+  ✓   53 viewer/tests/browser.spec.ts:462:3 › physics fixture 33 resets and simulates deterministically (239ms)
+  ✓   54 viewer/tests/browser.spec.ts:462:3 › physics fixture 34 resets and simulates deterministically (236ms)
+  ✓   55 viewer/tests/browser.spec.ts:509:1 › keyboard camera and narrow developer controls stay usable (260ms)
+  ✓   56 viewer/tests/browser.spec.ts:534:1 › production looping records measured budgets and environment (2.2s)
+  ✓   57 viewer/tests/browser.spec.ts:605:1 › paired sampled playback synchronizes normalized time without equating durations (665ms)
+  ✓   58 viewer/tests/browser.spec.ts:635:1 › typed subscriptions detach and bridge includes captured-frame metadata (173ms)
+  ✓   59 viewer/tests/browser.spec.ts:663:1 › host observer failures do not corrupt capture or disposal (132ms)
+  ✓   60 viewer/tests/hostile.spec.ts:23:3 › cancel during skeleton delivery (387ms)
+  ✓   61 viewer/tests/hostile.spec.ts:23:3 › cancel during atlas delivery (396ms)
+  ✓   62 viewer/tests/hostile.spec.ts:23:3 › cancel during texture delivery (395ms)
+  ✓   63 viewer/tests/hostile.spec.ts:52:3 › corrupt skeleton with admitted transport hash fails visibly (185ms)
+  ✓   64 viewer/tests/hostile.spec.ts:52:3 › corrupt atlas with admitted transport hash fails visibly (170ms)
+  ✓   65 viewer/tests/hostile.spec.ts:52:3 › corrupt texture with admitted transport hash fails visibly (175ms)
+  ✓   66 viewer/tests/hostile.spec.ts:88:1 › hash mismatch prevents modified resource from reaching parser (175ms)
+  ✓   67 viewer/tests/hostile.spec.ts:102:1 › failed asset transport produces typed failure (170ms)
+  ✓   68 viewer/tests/hostile.spec.ts:114:1 › runtime identity mismatch rejects before asset loading (174ms)
+  ✓   69 viewer/tests/hostile.spec.ts:131:1 › genuine 3.8.75 source remains rejected by official runtime without rewriting (172ms)
+  ✓   70 viewer/tests/hostile.spec.ts:145:1 › dispose during long deterministic simulation cancels before completion (124ms)
+  ✓   71 viewer/tests/hostile.spec.ts:164:1 › GPU allocations are released on dispose (176ms)
+  ✓   72 viewer/tests/hostile.spec.ts:248:1 › non-finite world transforms reject initialization (172ms)
+  ✓   73 viewer/tests/hostile.spec.ts:276:1 › malformed binary is rejected before official reader (169ms)
+  ✓   74 viewer/tests/hostile.spec.ts:298:1 › dispose at the asset initialization boundary cannot publish READY (391ms)
+  ✓   75 viewer/tests/hostile.spec.ts:327:3 › binary truncated: forged transport approval fails, JSON session survives (577ms)
+  ✓   76 viewer/tests/hostile.spec.ts:327:3 › binary counts: forged transport approval fails, JSON session survives (562ms)
+  ✓   77 viewer/tests/hostile.spec.ts:327:3 › binary strings: forged transport approval fails, JSON session survives (576ms)
+  ✓   78 viewer/tests/hostile.spec.ts:327:3 › binary indices: forged transport approval fails, JSON session survives (561ms)
+  ✓   79 viewer/tests/hostile.spec.ts:327:3 › binary geometry: forged transport approval fails, JSON session survives (566ms)
+  ✓   80 viewer/tests/hostile.spec.ts:327:3 › binary offsets: forged transport approval fails, JSON session survives (558ms)
+  ✓   81 viewer/tests/resources.spec.ts:24:3 › rejected response 200 cancels its body without losing diagnostic (2ms)
+  ✓   82 viewer/tests/resources.spec.ts:24:3 › rejected response 503 cancels its body without losing diagnostic (0ms)
+  ✓   83 viewer/tests/resources.spec.ts:48:1 › stream failure remains a typed transport failure and releases reader (2ms)
+  ✓   84 viewer/tests/resources.spec.ts:61:1 › streamed overflow cancels and unlocks even when cancel rejects (0ms)
+  ✓   85 viewer/tests/resources.spec.ts:80:1 › bounded successful download retains integrity checking and unlocks (1ms)
+  ✓   86 viewer/tests/resources.spec.ts:90:1 › invalid byte budgets fail before invoking fetch (0ms)
+  ✓   87 viewer/tests/server.spec.ts:4:1 › server spawn failure rejects promptly without unhandled error (1ms)
+  ✓   88 viewer/tests/server.spec.ts:15:1 › real server shutdown is safe concurrently and after completion (1.4s)
+  ✓   89 viewer/tests/server.spec.ts:24:3 › server shutdown handles child behavior: exit (375ms)
+  ✓   90 viewer/tests/server.spec.ts:24:3 › server shutdown handles child behavior: ignore-interrupt (5.3s)
+  ✓   91 viewer/tests/unit.spec.ts:15:1 › clock bounds suspension and resets without a jump (0ms)
+  ✓   92 viewer/tests/unit.spec.ts:23:1 › fixed clock retains fractional remainder and rejects excessive work (1ms)
+  ✓   93 viewer/tests/unit.spec.ts:29:1 › protocol rejects arbitrary commands, surplus keys and non-finite data (1ms)
+  ✓   94 viewer/tests/unit.spec.ts:43:1 › image metrics retain alpha differences and configurable tolerance (2ms)
+  ✓   95 viewer/tests/unit.spec.ts:53:1 › pose comparison does not compare bones with different parents (0ms)
+  ✓   96 viewer/tests/unit.spec.ts:83:1 › real official runtime updates a synthetic no-attachment animation (2ms)
+  ✓   97 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 0 (264ms)
+  ✓   98 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 2 (218ms)
+  ✓   99 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 4 (225ms)
+  ✓  100 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 6 (219ms)
+  ✓  101 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 8 (209ms)
+  ✓  102 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 11 (279ms)
+  ✓  103 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 12 (202ms)
+  ✓  104 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 13 (204ms)
+  ✓  105 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 14 (190ms)
+  ✓  106 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 15 (189ms)
+  ✓  107 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 16 (222ms)
+  ✓  108 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 17 (226ms)
+  ✓  109 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 18 (221ms)
+  ✓  110 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 19 (222ms)
+  ✓  111 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 20 (195ms)
+  ✓  112 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 21 (196ms)
+  ✓  113 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 22 (193ms)
+  ✓  114 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 23 (190ms)
+  ✓  115 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 24 (192ms)
+  ✓  116 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 25 (186ms)
+  ✓  117 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 26 (228ms)
+  ✓  118 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 27 (222ms)
+  ✓  119 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 28 (223ms)
+  ✓  120 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 29 (223ms)
+  ✓  121 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 30 (193ms)
+  ✓  122 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 31 (194ms)
+  ✓  123 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 33 (199ms)
+  ✓  124 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 34 (207ms)
+  ✓  125 viewer/tests/visual.spec.ts:291:3 › visual negative: broken uv fails candidate comparison (341ms)
+  ✓  126 viewer/tests/visual.spec.ts:291:3 › visual negative: broken clipping fails candidate comparison (312ms)
+  ✓  127 viewer/tests/visual.spec.ts:291:3 › visual negative: broken order fails candidate comparison (334ms)
+  ✓  128 viewer/tests/visual.spec.ts:291:3 › visual negative: broken blend fails candidate comparison (322ms)
+  ✓  129 viewer/tests/visual.spec.ts:291:3 › visual negative: broken alpha fails candidate comparison (289ms)
+  ✓  130 viewer/tests/visual.spec.ts:291:3 › visual negative: broken atlas fails candidate comparison (323ms)
+  ✓  131 viewer/tests/visual.spec.ts:350:5 › candidate blend 12 normal (194ms)
+  ✓  132 viewer/tests/visual.spec.ts:350:5 › candidate blend 12 additive (193ms)
+  ✓  133 viewer/tests/visual.spec.ts:350:5 › candidate blend 12 multiply (190ms)
+  ✓  134 viewer/tests/visual.spec.ts:350:5 › candidate blend 12 screen (187ms)
+  ✓  135 viewer/tests/visual.spec.ts:350:5 › candidate blend 13 normal (190ms)
+  ✓  136 viewer/tests/visual.spec.ts:350:5 › candidate blend 13 additive (194ms)
+  ✓  137 viewer/tests/visual.spec.ts:350:5 › candidate blend 13 multiply (190ms)
+  ✓  138 viewer/tests/visual.spec.ts:350:5 › candidate blend 13 screen (188ms)
+  ✓  139 viewer/tests/visual.spec.ts:350:5 › candidate blend 22 normal (193ms)
+  ✓  140 viewer/tests/visual.spec.ts:350:5 › candidate blend 22 additive (188ms)
+  ✓  141 viewer/tests/visual.spec.ts:350:5 › candidate blend 22 multiply (199ms)
+  ✓  142 viewer/tests/visual.spec.ts:350:5 › candidate blend 22 screen (192ms)
+  ✓  143 viewer/tests/visual.spec.ts:350:5 › candidate blend 23 normal (195ms)
+  ✓  144 viewer/tests/visual.spec.ts:350:5 › candidate blend 23 additive (193ms)
+  ✓  145 viewer/tests/visual.spec.ts:350:5 › candidate blend 23 multiply (191ms)
+  ✓  146 viewer/tests/visual.spec.ts:350:5 › candidate blend 23 screen (229ms)
+
+
+  1) viewer/tests/binary-policy.spec.ts:17:3 › renamed binary and forged metadata cannot bypass admission: binary=true
+
+    Error: page.evaluate: TypeError: Cannot read properties of undefined (reading 'state')
+        at eval (eval at evaluate (:370:30), <anonymous>:1:24)
+        at UtilityScript.evaluate (<anonymous>:372:16)
+        at UtilityScript.<anonymous> (<anonymous>:1:44)
+        at eval (eval at evaluate (:370:30), <anonymous>:1:24)
+        at UtilityScript.evaluate (<anonymous>:372:16)
+        at UtilityScript.<anonymous> (<anonymous>:1:44)
+        at /Users/fenix/WorkHub/Spine/fnx-spine-forge-starter/viewer/tests/binary-policy.spec.ts:29:34
+        at /Users/fenix/WorkHub/Spine/fnx-spine-forge-starter/viewer/tests/binary-policy.spec.ts:29:5
+
+    Error: apiResponse.json: Response has been disposed
+
+      19 |     await page.route("**/launch/7.json", async route => {
+      20 |       const response = await route.fetch();
+    > 21 |       const assets = assetsSchema.parse(await response.json());
+         |                                                        ^
+      22 |       assets.skeleton = "/renamed.json";
+      23 |       assets.binary = binary;
+      24 |       assets.resourceHashes[assets.skeleton] = createHash("sha256").update(bytes).digest("hex");
+        at /Users/fenix/WorkHub/Spine/fnx-spine-forge-starter/viewer/tests/binary-policy.spec.ts:21:56
+
+    Error Context: viewer/test-results/binary-policy-renamed-bina-f53a5-ypass-admission-binary-true/error-context.md
+
+    Error Context: viewer/test-results/binary-policy-renamed-bina-f53a5-ypass-admission-binary-true/error-context.md
+
+  2) viewer/tests/binary-policy.spec.ts:17:3 › renamed binary and forged metadata cannot bypass admission: binary=false
+
+    Error: page.evaluate: TypeError: Cannot read properties of undefined (reading 'state')
+        at eval (eval at evaluate (:370:30), <anonymous>:1:24)
+        at UtilityScript.evaluate (<anonymous>:372:16)
+        at UtilityScript.<anonymous> (<anonymous>:1:44)
+        at eval (eval at evaluate (:370:30), <anonymous>:1:24)
+        at UtilityScript.evaluate (<anonymous>:372:16)
+        at UtilityScript.<anonymous> (<anonymous>:1:44)
+        at /Users/fenix/WorkHub/Spine/fnx-spine-forge-starter/viewer/tests/binary-policy.spec.ts:29:34
+        at /Users/fenix/WorkHub/Spine/fnx-spine-forge-starter/viewer/tests/binary-policy.spec.ts:29:5
+
+    Error: apiResponse.json: Response has been disposed
+
+      19 |     await page.route("**/launch/7.json", async route => {
+      20 |       const response = await route.fetch();
+    > 21 |       const assets = assetsSchema.parse(await response.json());
+         |                                                        ^
+      22 |       assets.skeleton = "/renamed.json";
+      23 |       assets.binary = binary;
+      24 |       assets.resourceHashes[assets.skeleton] = createHash("sha256").update(bytes).digest("hex");
+        at /Users/fenix/WorkHub/Spine/fnx-spine-forge-starter/viewer/tests/binary-policy.spec.ts:21:56
+
+    Error Context: viewer/test-results/binary-policy-renamed-bina-390f1-pass-admission-binary-false/error-context.md
+
+    Error Context: viewer/test-results/binary-policy-renamed-bina-390f1-pass-admission-binary-false/error-context.md
+
+  2 failed
+    viewer/tests/binary-policy.spec.ts:17:3 › renamed binary and forged metadata cannot bypass admission: binary=true
+    viewer/tests/binary-policy.spec.ts:17:3 › renamed binary and forged metadata cannot bypass admission: binary=false
+  144 passed (59.1s)

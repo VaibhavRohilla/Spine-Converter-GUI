@@ -1,8 +1,243 @@
 # B4 qualification report
 
+## Final closure checkpoint — 2026-10-27
+
+**B4 PARTIAL; restricted engineering qualification pending the fresh extended soak.**
+
+The incoming implementation and evidence were preserved in
+`evidence/B4/closure-20261027/incoming-snapshot.tar.gz` before edits. No runtime
+adapter was removed or rewritten. The final verification script passes 465 Python
+and 146 TypeScript/browser tests, Ruff, strict mypy, typecheck, lint, wheel/sdist,
+viewer build and diff checks. Real Qt capture/disposal passes. Installed-wheel
+verification and the fresh 200-cycle / 1800-second controlled soak are being recorded
+in this closure directory. This checkpoint does not claim their completion.
+
+Narrow closure changes gate explicit binary selections before inspection even with
+renamed extensions, expose the manifest-derived typed `APPROVED_BINARY_ONLY`
+capability to Python and TypeScript hosts, and add missing soak accounting without
+changing budgets, the late-cycle fitting window or exclusions. CLI folder/ZIP
+rejection was verified before server startup. B1/B3 inspection inside the viewer
+is behind this admission gate; standalone experimental B3 codecs remain separately
+unqualified and are not covered by a claim of general untrusted-binary safety.
+
+All 44 candidate source/frame identities and regressions, plus six intentionally
+broken render cases, were checked. The [review queue](B4_VISUAL_REVIEW.md) and
+`evidence/B4/closure-20261027/visual-review-manifest.json` provide per-frame criteria,
+normalization, exact hashes, measured comparisons and empty reviewer records.
+Status remains **CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED**. The existing freeze contract
+requires independent acceptance, so no full B4 production or visual freeze is made.
+
+Everything below is historical evidence; its counts, pending work and Git state
+refer to those earlier checkpoints, not this closure attempt.
+
+---
+
+
 **Decision: B4 PARTIAL — PLAYBACK CORE VERIFIED.**
 
-Actual embedded official WebGL playback, pose/frame capture and independent sessions are implemented and tested for **3.8, 4.0, 4.1, 4.2 and 4.3**. This is not a complete production freeze: hostile binary allocation containment, exhaustive rendering-reference checks and extended stability qualification remain incomplete. No conversion route or custom binary codec is promoted by this work. No source-to-converted visual equivalence is certified.
+Actual embedded official WebGL playback, pose/frame capture and independent sessions are implemented and tested for **3.8, 4.0, 4.1, 4.2 and 4.3**. This is not a production freeze: accepted rendering references remain unavailable. Untrusted binary is now disabled; the retained extended soak passed its declared host budgets. See the current qualification below; subsequent sections retain historical evidence. No conversion route or custom binary codec is promoted by this work. No source-to-converted visual equivalence is certified.
+
+
+## Historical boundary and lifecycle hardening follow-up — 2026-10-27
+
+The following changes extend the current uncommitted candidate without changing
+runtime adapters, the B5 API, rendering algorithms or conversion qualification:
+
+- Python binary approvals are immutable `ApprovedBinary` domain records. The full
+  packaged policy is validated before admission: lowercase SHA256, exact keys,
+  bounded integer length (booleans rejected), valid version syntax and HTTPS
+  provenance without credentials. Malformed unrelated records fail the policy;
+  raw recursive JSON values do not escape into binary admission logic.
+- Resource downloads validate byte budgets before network access, cancel rejected
+  HTTP bodies, release reader locks on success/failure, normalize read failures to
+  ASSET_TRANSPORT_FAILED and retain the original typed diagnostic if cancellation
+  itself throws. No cleanup error replaces a resource-limit failure.
+- The typed browser-test server owner observes process close before startup,
+  handles spawn errors, bounds captured stderr, makes close idempotent and sends
+  SIGKILL after a five-second graceful shutdown deadline. Real subprocess tests
+  cover missing executable, already-exited child, repeated/concurrent shutdown and
+  a child ignoring SIGINT. This is harness lifecycle proof, not binary sandboxing.
+- Soak startup failures now enter cleanup/reporting; browser-close failure cannot
+  skip server cleanup. Trend-sample admission occurs before arithmetic, nonfinite
+  measurements fail, and budget failures identify metric/value/limit. Unused
+  allocation-map and Performance-domain instrumentation were removed.
+- The Python fixture server derives embedded runtime families from RuntimeRegistry;
+  its duplicate five-family list was removed. Required historical-version adapters
+  remain legitimate implementations.
+
+Fresh `bash scripts/verify_b4.sh` passed **454 Python tests**, Ruff, strict mypy
+(59 source files), Python wheel/sdist, TypeScript typecheck, lint, build, and the
+then-current **141 browser tests**. Two additional real-process shutdown tests
+subsequently passed; typecheck and lint passed again. The final rebuilt viewer
+then passed all **143 browser tests** against the freshly reinstalled wheel via
+`B4_VIEWER_PYTHON=/tmp/fnx-b4-wheel-final/bin/python npm test`. See
+`evidence/B4/logs/hardening-installed-wheel-browser.log`. A fresh real Qt smoke
+also passed capture and DISPOSE acknowledgment with no sandbox overrides; see
+`evidence/B4/qt-hardening/embedding.json`. Its capture hash remains
+`596ac66302b259c7933e8ea5102c003078154e97c110c23ddda04bff48bd42e8`. See
+`evidence/B4/logs/hardening-verification.log`.
+
+The fresh `B4_SOAK_SECONDS=120 B4_SOAK_CYCLES=200
+B4_SOAK_OUTPUT=docs/evidence/B4/soak-hardening node viewer/scripts/soak.mjs`
+completed as **DIAGNOSTIC_PASSED** in 134.545 seconds with unchanged budgets.
+Late-cycle heap growth was 392536 bytes; RSS growth 43856 KiB; slopes were
+2932.31 bytes/cycle and -7.31 KiB/cycle. Playback heap growth was 91672 bytes,
+RSS growth -64288 KiB. There were no budget failures or runtime errors. Both
+sessions disposed; tracked GPU objects, schedulers, listeners and subscribers
+were zero; server exit was zero. The full verification suite ran concurrently,
+so this is observed shared-host diagnostic evidence, not a controlled timing
+benchmark. The earlier 30-cycle failure is retained. Longer-cycle measurements
+do not demonstrate continuing RSS growth, but a fresh 30-minute final-candidate
+soak remains outstanding. See `evidence/B4/soak-hardening/result.json`.
+
+**Decision remains B4 PARTIAL.** No accepted visual baseline, hardware-GPU proof,
+new extended qualification, commit, clean-tree claim or freeze was manufactured.
+
+## Historical qualification — 2026-10-27
+
+### A. Security policy and process containment
+
+The actual starting HEAD was `b729bedfb7311ca9f64cf3c3862421a1fa031157`, on
+`codex/b3-production-hardening`. Contrary to the supplied clean-tree baseline, the
+binary policy, animation/visual tests and soak evidence were already uncommitted.
+They were preserved and reviewed, not attributed to a newly created commit.
+
+Untrusted binary parsing is **disabled on every platform**. Python admission runs
+before B1 inspection, including binary siblings; the browser independently hashes
+actual bytes before creating WebGL resources or calling the official binary reader.
+The packaged trust manifest admits exactly five official Spineboy binaries by
+SHA256, length and export version. The 32 MiB read/stream cap is enforced before
+parsing. Transport hashes and caller-supplied version claims cannot grant trust.
+Changed headers, truncations, strings, declared counts, indices and geometry fail
+approval rather than reaching a speculative second binary decoder. Trusted-local
+mode is not safe arbitrary-upload mode. Runtime manifest warnings document this
+restriction. No source version metadata or Chromium/Qt sandbox setting is changed.
+
+A disposable browser process alone does not establish a memory ceiling. Evaluated
+platform mechanisms:
+
+- Linux [cgroup v2](https://www.kernel.org/doc/html/latest/admin-guide/cgroup-v2.html):
+  memory.max and group OOM handling are relevant, but delegation, renderer-child
+  membership, external deadlines and recovery were not implemented or tested here.
+- Windows [Job Objects](https://learn.microsoft.com/en-us/windows/win32/procthread/job-objects)
+  and [job memory limits](https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-jobobject_extended_limit_information):
+  job-wide committed memory and tree termination are relevant; no Windows host or
+  validated sandbox-compatible assignment was available.
+- macOS [setrlimit documentation](https://developer.apple.com/library/archive/documentation/System/Conceptual/ManPages_iPhoneOS/man2/setrlimit.2.html)
+  describes RSS pressure behavior, not evidence of an enforced browser-tree ceiling.
+  No suitable process containment has been qualified on this host.
+
+Consequently no untrusted worker is launched. Worker timeout, forced worker death,
+worker crash recovery and OS memory-budget enforcement are **not qualified**.
+Hostile tests instead prove rejection before parsing, no false READY, repeated
+rejection and a surviving JSON session. This satisfies the restricted admission
+alternative, not the worker-containment alternative. Oversized HTTP responses now
+explicitly cancel their body streams before returning the resource-limit diagnostic.
+
+### B. Rendering evidence
+
+The fresh browser suite passes candidate comparisons for 44 captures, including
+16 explicitly derived Coin blend-mode cases. Metadata records source hashes,
+export/runtime identity, animation/time/skin, viewport/camera/DPR, background,
+image hash and **CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED** status. Tolerances are
+fixture-specific; comparisons emit pixel/alpha/mean/maximum deviations, masks and
+overlays in `evidence/B4/visual-comparisons`. Six negative cases detect deliberately
+broken rendering. Official feature/physics fixtures exercise alpha, atlas geometry,
+mesh/deform, clipping, skins and constraints through the original official adapters.
+
+These are regression candidates, not accepted references. No independent reviewer
+or authoritative expected-image set was supplied. Required accepted-reference
+coverage therefore remains OPEN, including complete per-feature visual fidelity.
+Capture success, candidate repeatability and original-to-converted equivalence
+remain separate; the latter is unverified. No baseline was automatically accepted.
+Only Chromium ANGLE SwiftShader software WebGL is qualified by these comparisons;
+hardware GPU and other operating systems remain unqualified.
+
+### C. Stability evidence and limits
+
+The pre-existing `evidence/B4/soak/result.json` records PASSED: 200 load/dispose
+cycles and 1800 seconds requested paired 3.8/4.3 physics playback, 1821.016 seconds
+total, on Darwin 25.6.0 arm64 / Chromium 156.0.8078.4 / SwiftShader. This evidence
+was inspected in this pass, not rerun as a fresh 30-minute execution.
+
+Budgets were recorded before execution: load <10 seconds, heap growth <=64 MiB,
+process-tree RSS growth <=512 MiB, late-cycle heap slope <=262144 bytes/cycle,
+RSS slope <=2048 KiB/cycle, no runtime errors and zero tracked live GPU objects.
+Measured late-cycle growth: heap 346608 bytes, RSS 159408 KiB; slopes 2612.61
+bytes/cycle and 1052.90 KiB/cycle. Playback heap grew 234424 bytes and RSS fell
+557824 KiB. Both sessions ended DISPOSED; GPU objects, tracked listeners,
+schedulers and subscribers were zero; server exit was zero; errors were empty.
+
+Positive cycle RSS slope is explicitly retained: passing this finite host budget
+does not prove asymptotically leak-free operation. RSS includes the Node/browser/
+server process tree and is not a ceiling or isolated GPU-memory measurement.
+Load/animation/skin/seek/capture/disposal work uses real official adapters.
+Context-loss/retry and cancellation are separately covered by browser tests.
+The harness now refuses insufficient trend samples and labels workloads below
+200 cycles or 1800 seconds DIAGNOSTIC_PASSED, never an extended-gate pass.
+No new extended-soak claim is made for that reporting-only harness change. A fresh
+30-cycle / 20-second diagnostic FAILED the stability budget; see
+`evidence/B4/soak-final-diagnostic/result.json`. Its late-cycle RSS slope was
+2755.31 KiB/cycle against the 2048 KiB/cycle limit.
+Tracked GPU objects, schedulers, listeners and subscribers were nevertheless zero
+after disposal and server exit was zero. This short cold-start workload does not
+replace the retained 200-cycle soak, but its failure is retained without widening
+budgets. Fresh extended stability confirmation remains outstanding.
+
+### D. Animation and typed-contract audit
+
+The added real-adapter tests cover start/end, loop wrap, repeated seek, interrupted
+mix, playback skin changes, stepping, pending-callback disposal and 4.2/4.3 physics.
+An official 4.2 runtime test compares event ordering at exact keyframe boundaries
+across update partitions. Runtime evaluation remains authoritative. Seeking resets
+mixing history and fixed-step replays physics; arbitrary random-access equivalence
+is not claimed. See `evidence/B4/animation` and `viewer/tests/animation.spec.ts`.
+
+Application type/lint gates pass. Canonical runtime registration and all five
+version-specific implementations remain intact. No unconstrained Any domain
+contract, compatibility shim or second renderer was introduced. No genuinely dead
+adapter was identified for removal. Existing literal `as const` declarations are
+not treated as unsafe external-data conversions. Existing validated protocol,
+cancellation generations, host callback isolation and typed event contracts remain.
+
+### E. Qt and B3/B5 boundaries
+
+A fresh real PySide6 6.10.3 smoke passed with an off-record profile, no sandbox
+overrides, asynchronous replies, a 1024x1024 DPR2 capture and DISPOSE acknowledgment.
+See `evidence/B4/qt-final-current/embedding.json`; capture SHA256 is
+`596ac66302b259c7933e8ea5102c003078154e97c110c23ddda04bff48bd42e8`.
+This is macOS embedding evidence, not cross-platform desktop qualification.
+B5 remains unstarted. The five approved binary fixtures test official loading only;
+FNX custom binary decoding, encoding and cross-version conversion remain unqualified.
+
+### F. Fresh verification and Git
+
+`bash scripts/verify_b4.sh` executed the requested pytest, Ruff, strict mypy,
+Python wheel/sdist build, npm typecheck/lint/build/test and diff checks. Results:
+**435 Python tests, 133 TypeScript/browser tests, all passed**; mypy checked 59 files.
+Full output: `evidence/B4/logs/final-verification.log`. The initial sandboxed run
+could not bind local sockets. The first unrestricted run also exposed relocated
+virtualenv entrypoints/editable metadata referencing the old workspace; reinstalling
+this checkout and repairing those local entrypoints resolved the failures without
+weakening tests. Typecheck/lint/build were rerun after the stream-cleanup edit.
+
+Installed-wheel verification also passed all **133 browser tests** after the final
+stream-cleanup edit: `B4_VIEWER_PYTHON=/tmp/fnx-b4-wheel-final/bin/python npm test`.
+The wheel was installed without dependencies into a fresh system-site-packages
+virtualenv; `python -I` confirmed the service module came from that environment's
+site-packages, and the packaged trust policy admitted the approved 4.2 fixture.
+Log: `evidence/B4/logs/final-installed-wheel-browser.log`.
+
+Current implementation and report changes are **uncommitted**. HEAD remains the
+verified baseline above; no report commit or freeze tag was created. The working
+tree is **dirty**, including preserved incoming work. Historical commit identifiers
+below do not describe this candidate. No clean-tree or release publication claim is
+made. Accepted-reference review and clean publication remain prerequisites for any
+restricted freeze. Decision: **B4 PARTIAL — PLAYBACK CORE VERIFIED**.
+
+---
+
+The following sections describe earlier implementation and qualification history.
 
 ## A. Architecture and baseline
 

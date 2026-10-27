@@ -1,5 +1,5 @@
 import { build } from "esbuild";
-import { mkdir, copyFile, rm } from "node:fs/promises";
+import { mkdir, copyFile, rm, readFile } from "node:fs/promises";
 // Generated output only: remove obsolete hashed chunks before reproducible build.
 await rm("viewer/dist", { recursive: true, force: true });
 await mkdir("viewer/dist", { recursive: true });
@@ -18,11 +18,18 @@ await build({
 });
 for (const file of ["index.html", "frame.html", "viewer.css"])
   await copyFile(`viewer/${file}`, `viewer/dist/${file}`);
-for (const family of ["40", "41", "42", "43"])
+const manifest = JSON.parse(
+  await readFile("src/fnx_spine_forge/viewer/runtime_manifest.json", "utf8"),
+);
+for (const { family: dottedFamily } of manifest.runtimes.filter(
+  (r) => r.embeddedImplemented && r.family !== "3.8",
+)) {
+  const family = dottedFamily.replace(".", "");
   await copyFile(
     `node_modules/spine${family}/LICENSE`,
     `viewer/dist/LICENSE-spine${family}.txt`,
   );
+}
 await copyFile("viewer/.runtime/LICENSE", "viewer/dist/LICENSE-spine38.txt");
 
 await copyFile(

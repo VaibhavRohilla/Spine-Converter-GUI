@@ -1,0 +1,47 @@
+{
+  "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+  "createdAt": "2026-10-27T06:15:06.093Z",
+  "sha256": "ae99d350b83b37ddc8b40f642b82d5b3d2c631cc4bff620d7fd166078392e829",
+  "normalization": "{\"camera\":{\"x\":32.99996412927135,\"y\":531.9999999999998,\"width\":1262.6999999999994,\"height\":1262.6999999999994,\"zoom\":1},\"width\":640,\"height\":640,\"dpr\":1,\"background\":[0,0,0,0],\"animation\":\"playing-in-the-rain\",\"time\":1.1666665077209473,\"skin\":null,\"runtime\":\"4.3@4.3.13\",\"version\":\"4.3.75-beta\"}",
+  "sources": "{\"original\":{\"cloud-pot.atlas\":\"d659c6eb9df5c423aafa7ebce56a3974a119addf932ab98cff848443afcd6351\",\"cloud-pot.json\":\"b0ff731b48d65628d90f04b1596770d84352b014757116a0aad5f59421152f8c\",\"cloud-pot.png\":\"6f4597b532d357b739cb5ce8dcf9ee8a2d53b3f1c487c85c397b011ec33bd5f4\"},\"renderedSkeleton\":\"b0ff731b48d65628d90f04b1596770d84352b014757116a0aad5f59421152f8c\"}",
+  "sourceSkeleton": "cloud-pot.json",
+  "sourceVersion": "4.3.75-beta",
+  "runtimeRevision": "4.3.13",
+  "animation": "playing-in-the-rain",
+  "timestamp": 1.1666665077209473,
+  "skin": null,
+  "viewport": {
+    "width": 640,
+    "height": 640,
+    "dpr": 1
+  },
+  "camera": {
+    "x": 32.99996412927135,
+    "y": 531.9999999999998,
+    "width": 1262.6999999999994,
+    "height": 1262.6999999999994,
+    "zoom": 1
+  },
+  "background": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "alphaPolicy": "RGBA transparent; authored atlas PMA",
+  "browser": "156.0.8078.4",
+  "graphics": {
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver)",
+    "version": "WebGL 1.0 (OpenGL ES 2.0 Chromium)"
+  },
+  "tolerance": {
+    "channel": 2,
+    "changedFraction": 0.001,
+    "meanAbsoluteError": 0.1,
+    "alphaMeanError": 0.1,
+    "maximumChannelError": 8
+  },
+  "provenance": "viewer/fixtures/provenance.json and features/physics provenance.json; index 11 private authorized converted asset, no conversion equivalence",
+  "acceptance": "UNVERIFIED",
+  "conversionEquivalence": "UNVERIFIED"
+}

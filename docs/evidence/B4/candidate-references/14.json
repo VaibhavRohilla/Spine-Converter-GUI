@@ -1,0 +1,47 @@
+{
+  "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+  "createdAt": "2026-10-27T06:15:03.032Z",
+  "sha256": "2f161859dd486d0675ec48ae49d1edaa4358ecbc5669465037c51d38dbc986cd",
+  "normalization": "{\"camera\":{\"x\":-0.6408832188752456,\"y\":171.54081788866992,\"width\":402.05389991102817,\"height\":402.05389991102817,\"zoom\":1},\"width\":640,\"height\":640,\"dpr\":1,\"background\":[0,0,0,0],\"animation\":\"walk\",\"time\":0.25,\"skin\":null,\"runtime\":\"4.2@4.2.43\",\"version\":\"4.2.22\"}",
+  "sources": "{\"original\":{\"goblins-pma.atlas\":\"ab9aeed383e26c32bde8a0eaa364f43296daad6e97e58e62369eb1779e52e639\",\"goblins-pma.png\":\"f08018e231657bd00d854e6e6b7d8693d45963d9654ad412ca1a4d58311f11bf\",\"goblins-pro.json\":\"64321cf1cc5864d9c23bb92bc355b9f7f80f61710de413a2bf65e94c734a3472\"},\"renderedSkeleton\":\"64321cf1cc5864d9c23bb92bc355b9f7f80f61710de413a2bf65e94c734a3472\"}",
+  "sourceSkeleton": "goblins-pro.json",
+  "sourceVersion": "4.2.22",
+  "runtimeRevision": "4.2.43",
+  "animation": "walk",
+  "timestamp": 0.25,
+  "skin": null,
+  "viewport": {
+    "width": 640,
+    "height": 640,
+    "dpr": 1
+  },
+  "camera": {
+    "x": -0.6408832188752456,
+    "y": 171.54081788866992,
+    "width": 402.05389991102817,
+    "height": 402.05389991102817,
+    "zoom": 1
+  },
+  "background": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "alphaPolicy": "RGBA transparent; authored atlas PMA",
+  "browser": "156.0.8078.4",
+  "graphics": {
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver)",
+    "version": "WebGL 1.0 (OpenGL ES 2.0 Chromium)"
+  },
+  "tolerance": {
+    "channel": 2,
+    "changedFraction": 0.001,
+    "meanAbsoluteError": 0.1,
+    "alphaMeanError": 0.1,
+    "maximumChannelError": 8
+  },
+  "provenance": "viewer/fixtures/provenance.json and features/physics provenance.json; index 11 private authorized converted asset, no conversion equivalence",
+  "acceptance": "UNVERIFIED",
+  "conversionEquivalence": "UNVERIFIED"
+}

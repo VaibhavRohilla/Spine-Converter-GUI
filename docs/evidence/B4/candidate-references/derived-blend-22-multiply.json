@@ -1,0 +1,47 @@
+{
+  "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+  "createdAt": "2026-10-27T06:15:10.081Z",
+  "sha256": "3d78a9de9d38e1164c6937f23fa4cadf53613c9ed06dbcaa895924a0a8371947",
+  "normalization": "{\"camera\":{\"x\":74.1294250338153,\"y\":0.5,\"width\":521.24769369604,\"height\":521.24769369604,\"zoom\":1},\"width\":640,\"height\":640,\"dpr\":1,\"background\":[0.2,0.3,0.4,1],\"animation\":\"animation\",\"time\":0.6666667461395264,\"skin\":null,\"runtime\":\"4.3@4.3.13\",\"version\":\"4.3.75-beta\"}",
+  "sources": "{\"original\":{\"coin-pma.atlas\":\"e444eb249bb138660267cbdabcf691e880edafe5c8d79b43f577c22f3db53f8c\",\"coin-pma.png\":\"c56a15cef462016a6e45489905414ffdcfc3ea4f50d609295039e4b486f400ef\",\"coin-pro.json\":\"9e76b564681db8908529ef9af9be1822437bc788c20c0ca54fe3f59792d269b6\"},\"renderedSkeleton\":\"3b7ff2396dd7d8b7ed1a8029535f2b58907232c3c4d53c1e0d62646341894157\"}",
+  "sourceSkeleton": "coin-pro.json",
+  "sourceVersion": "4.3.75-beta",
+  "runtimeRevision": "4.3.13",
+  "animation": "animation",
+  "timestamp": 0.6666667461395264,
+  "skin": null,
+  "viewport": {
+    "width": 640,
+    "height": 640,
+    "dpr": 1
+  },
+  "camera": {
+    "x": 74.1294250338153,
+    "y": 0.5,
+    "width": 521.24769369604,
+    "height": 521.24769369604,
+    "zoom": 1
+  },
+  "background": [
+    0.2,
+    0.3,
+    0.4,
+    1
+  ],
+  "alphaPolicy": "RGBA transparent; authored atlas PMA",
+  "browser": "156.0.8078.4",
+  "graphics": {
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver)",
+    "version": "WebGL 1.0 (OpenGL ES 2.0 Chromium)"
+  },
+  "tolerance": {
+    "channel": 2,
+    "changedFraction": 0.001,
+    "meanAbsoluteError": 0.1,
+    "alphaMeanError": 0.1,
+    "maximumChannelError": 8
+  },
+  "provenance": "viewer/fixtures/provenance.json and features/physics provenance.json; index 11 private authorized converted asset, no conversion equivalence",
+  "acceptance": "UNVERIFIED",
+  "conversionEquivalence": "UNVERIFIED"
+}

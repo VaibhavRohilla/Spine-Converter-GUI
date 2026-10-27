@@ -1,0 +1,3 @@
+
+> fnx-spine-forge-viewer@0.1.0 build
+> node viewer/scripts/generate.mjs && node viewer/scripts/build.mjs

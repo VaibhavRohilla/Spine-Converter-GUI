@@ -1,14 +1,17 @@
 """Start all authentic fixture sessions; stdout contains only the capability URL."""
 from pathlib import Path
 from fnx_spine_forge.viewer.server import ViewerServer
+from fnx_spine_forge.viewer.registry import RuntimeRegistry
 from fnx_spine_forge.bundle_models import DependencyMappings
 from fnx_spine_forge.viewer.service import BinarySelection, ViewerService
 from fnx_spine_forge.json_types import decode_json_object
 
 service = ViewerService()
 assets = []
-for family in ('3.8', '4.0', '4.1', '4.2', '4.3'):
-    root = Path('viewer/fixtures') / family
+for runtime in RuntimeRegistry().entries():
+    if not runtime.embedded:
+        continue
+    root = Path('viewer/fixtures') / runtime.family
     asset = service.prepare(root, 'spineboy-pro.json')
     assets.append(asset)
     assets.append(service.prepare(root, 'spineboy-pro.skel', binary=BinarySelection(asset.export_version, 'spineboy.atlas')))

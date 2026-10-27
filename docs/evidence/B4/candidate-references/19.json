@@ -1,0 +1,47 @@
+{
+  "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+  "createdAt": "2026-10-27T06:15:03.899Z",
+  "sha256": "19b8d7c197d8f280663609253f620c8bc69098358f518f7488d284e7222a4cab",
+  "normalization": "{\"camera\":{\"x\":-2251.344966711847,\"y\":300.94500107476466,\"width\":8283.001352193549,\"height\":8283.001352193549,\"zoom\":1},\"width\":640,\"height\":640,\"dpr\":1,\"background\":[0,0,0,0],\"animation\":\"drive\",\"time\":1.4249999523162842,\"skin\":null,\"runtime\":\"4.2@4.2.43\",\"version\":\"4.2.22\"}",
+  "sources": "{\"original\":{\"tank-pro.json\":\"5035512282471b046711f6bd4d853fd7376321b9bca6cc35588554515af3558c\",\"tank.atlas\":\"bcaafa241f51c58db0172734b3257def51fe8000673101b1363d098e42862b51\",\"tank.png\":\"a0e6136583054ef86c8221ffebde45e33903b1814ab8bb78e4c021a830992a8b\"},\"renderedSkeleton\":\"5035512282471b046711f6bd4d853fd7376321b9bca6cc35588554515af3558c\"}",
+  "sourceSkeleton": "tank-pro.json",
+  "sourceVersion": "4.2.22",
+  "runtimeRevision": "4.2.43",
+  "animation": "drive",
+  "timestamp": 1.4249999523162842,
+  "skin": null,
+  "viewport": {
+    "width": 640,
+    "height": 640,
+    "dpr": 1
+  },
+  "camera": {
+    "x": -2251.344966711847,
+    "y": 300.94500107476466,
+    "width": 8283.001352193549,
+    "height": 8283.001352193549,
+    "zoom": 1
+  },
+  "background": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "alphaPolicy": "RGBA transparent; authored atlas PMA",
+  "browser": "156.0.8078.4",
+  "graphics": {
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver)",
+    "version": "WebGL 1.0 (OpenGL ES 2.0 Chromium)"
+  },
+  "tolerance": {
+    "channel": 2,
+    "changedFraction": 0.001,
+    "meanAbsoluteError": 0.1,
+    "alphaMeanError": 0.1,
+    "maximumChannelError": 8
+  },
+  "provenance": "viewer/fixtures/provenance.json and features/physics provenance.json; index 11 private authorized converted asset, no conversion equivalence",
+  "acceptance": "UNVERIFIED",
+  "conversionEquivalence": "UNVERIFIED"
+}

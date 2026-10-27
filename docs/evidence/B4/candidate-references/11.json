@@ -1,0 +1,47 @@
+{
+  "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+  "createdAt": "2026-10-27T06:15:02.583Z",
+  "sha256": "8d343b03c1299546bfac131d056fe2283134613751e30e0a8806f7ce89be6340",
+  "normalization": "{\"camera\":{\"x\":5.019805678698731,\"y\":287.03387399999974,\"width\":2914.8656051795087,\"height\":2914.8656051795087,\"zoom\":1},\"width\":640,\"height\":640,\"dpr\":1,\"background\":[0,0,0,0],\"animation\":\"TOTAL_WIN_entry\",\"time\":0.33332499861717224,\"skin\":null,\"runtime\":\"4.3@4.3.13\",\"version\":\"4.3.13\"}",
+  "sources": "{\"original\":{\"merged_multi.atlas\":\"f0951d40420a4f2a45f47217e038f8cf0b48abb6bb5871e638efd856f356c06d\",\"merged_multi.json\":\"473d08abc8b1631e1e70fcc1543f0a1691f591b6eca8627a58c1678165e5f5dc\",\"merged_multi.png\":\"54a1cddeea2dbca8bdff33af90c2dbab22344c03cc37194ab5a9c52ad958ee93\",\"merged_multi2.png\":\"1d1b7176417f7a692ee7147d0f2e5aa2f9a6017afabc35b7f54937c538cb5835\"},\"renderedSkeleton\":\"473d08abc8b1631e1e70fcc1543f0a1691f591b6eca8627a58c1678165e5f5dc\"}",
+  "sourceSkeleton": "merged_multi.json",
+  "sourceVersion": "4.3.13",
+  "runtimeRevision": "4.3.13",
+  "animation": "TOTAL_WIN_entry",
+  "timestamp": 0.33332499861717224,
+  "skin": null,
+  "viewport": {
+    "width": 640,
+    "height": 640,
+    "dpr": 1
+  },
+  "camera": {
+    "x": 5.019805678698731,
+    "y": 287.03387399999974,
+    "width": 2914.8656051795087,
+    "height": 2914.8656051795087,
+    "zoom": 1
+  },
+  "background": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "alphaPolicy": "RGBA transparent; authored atlas PMA",
+  "browser": "156.0.8078.4",
+  "graphics": {
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver)",
+    "version": "WebGL 1.0 (OpenGL ES 2.0 Chromium)"
+  },
+  "tolerance": {
+    "channel": 2,
+    "changedFraction": 0.001,
+    "meanAbsoluteError": 0.1,
+    "alphaMeanError": 0.1,
+    "maximumChannelError": 8
+  },
+  "provenance": "viewer/fixtures/provenance.json and features/physics provenance.json; index 11 private authorized converted asset, no conversion equivalence",
+  "acceptance": "UNVERIFIED",
+  "conversionEquivalence": "UNVERIFIED"
+}

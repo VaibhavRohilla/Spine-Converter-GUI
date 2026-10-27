@@ -1,0 +1,219 @@
+
+> fnx-spine-forge-viewer@0.1.0 test
+> playwright test -c viewer/playwright.config.ts
+
+
+Running 146 tests using 1 worker
+
+(node:21178) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    1 viewer/tests/animation.spec.ts:23:3 › real adapter 0: boundaries, interrupted mix, repeated seek and disposal (313ms)
+  ✓    2 viewer/tests/animation.spec.ts:23:3 › real adapter 2: boundaries, interrupted mix, repeated seek and disposal (294ms)
+  ✓    3 viewer/tests/animation.spec.ts:23:3 › real adapter 4: boundaries, interrupted mix, repeated seek and disposal (267ms)
+  ✓    4 viewer/tests/animation.spec.ts:23:3 › real adapter 6: boundaries, interrupted mix, repeated seek and disposal (260ms)
+  ✓    5 viewer/tests/animation.spec.ts:23:3 › real adapter 8: boundaries, interrupted mix, repeated seek and disposal (259ms)
+  ✓    6 viewer/tests/animation.spec.ts:23:3 › real adapter 33: boundaries, interrupted mix, repeated seek and disposal (227ms)
+  ✓    7 viewer/tests/animation.spec.ts:23:3 › real adapter 34: boundaries, interrupted mix, repeated seek and disposal (225ms)
+  ✓    8 viewer/tests/animation.spec.ts:127:1 › official event keyframe boundary ordering across step partitions (14ms)
+  ✓    9 viewer/tests/binary-policy.spec.ts:11:1 › B5 can query the approved-binary-only capability without loading (0ms)
+  ✘   10 viewer/tests/binary-policy.spec.ts:17:3 › renamed binary and forged metadata cannot bypass admission: binary=true (64ms)
+(node:21267) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   11 viewer/tests/binary-policy.spec.ts:17:3 › renamed binary and forged metadata cannot bypass admission: binary=false (77ms)
+(node:21305) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   12 viewer/tests/browser.spec.ts:60:3 › official renderer fixture 0: pixels, evaluation, fixed capture, pause (676ms)
+  ✓   13 viewer/tests/browser.spec.ts:60:3 › official renderer fixture 1: pixels, evaluation, fixed capture, pause (656ms)
+  ✓   14 viewer/tests/browser.spec.ts:60:3 › official renderer fixture 2: pixels, evaluation, fixed capture, pause (661ms)
+  ✓   15 viewer/tests/browser.spec.ts:60:3 › official renderer fixture 3: pixels, evaluation, fixed capture, pause (675ms)
+  ✓   16 viewer/tests/browser.spec.ts:60:3 › official renderer fixture 4: pixels, evaluation, fixed capture, pause (650ms)
+  ✓   17 viewer/tests/browser.spec.ts:60:3 › official renderer fixture 5: pixels, evaluation, fixed capture, pause (655ms)
+  ✓   18 viewer/tests/browser.spec.ts:60:3 › official renderer fixture 6: pixels, evaluation, fixed capture, pause (650ms)
+  ✓   19 viewer/tests/browser.spec.ts:60:3 › official renderer fixture 7: pixels, evaluation, fixed capture, pause (636ms)
+  ✓   20 viewer/tests/browser.spec.ts:60:3 › official renderer fixture 8: pixels, evaluation, fixed capture, pause (677ms)
+  ✓   21 viewer/tests/browser.spec.ts:60:3 › official renderer fixture 9: pixels, evaluation, fixed capture, pause (644ms)
+  ✓   22 viewer/tests/browser.spec.ts:60:3 › official renderer fixture 10: pixels, evaluation, fixed capture, pause (728ms)
+  ✓   23 viewer/tests/browser.spec.ts:60:3 › official renderer fixture 11: pixels, evaluation, fixed capture, pause (793ms)
+  ✓   24 viewer/tests/browser.spec.ts:141:1 › two runtime documents stay isolated during play, camera and disposal (321ms)
+  ✓   25 viewer/tests/browser.spec.ts:178:1 › protocol, missing animation and skin reject without false verification (124ms)
+  ✓   26 viewer/tests/browser.spec.ts:207:1 › events suppressed on seek, bounded clock, end state and frame stepping (945ms)
+  ✓   27 viewer/tests/browser.spec.ts:243:1 › context loss fails closed and explicit retry restores (489ms)
+  ✓   28 viewer/tests/browser.spec.ts:262:1 › cancellation during pending texture transport never revives session (481ms)
+  ✓   29 viewer/tests/browser.spec.ts:277:1 › disposed capture and seek reject, repeated reload releases resources (387ms)
+  ✓   30 viewer/tests/browser.spec.ts:313:1 › camera, debug and high DPI alter real frames with reset behavior (269ms)
+  ✓   31 viewer/tests/browser.spec.ts:346:3 › feature fixture 12: all animations, skins, constraints and deterministic frames (199ms)
+  ✓   32 viewer/tests/browser.spec.ts:346:3 › feature fixture 13: all animations, skins, constraints and deterministic frames (192ms)
+  ✓   33 viewer/tests/browser.spec.ts:346:3 › feature fixture 14: all animations, skins, constraints and deterministic frames (204ms)
+  ✓   34 viewer/tests/browser.spec.ts:346:3 › feature fixture 15: all animations, skins, constraints and deterministic frames (219ms)
+  ✓   35 viewer/tests/browser.spec.ts:346:3 › feature fixture 16: all animations, skins, constraints and deterministic frames (812ms)
+  ✓   36 viewer/tests/browser.spec.ts:346:3 › feature fixture 17: all animations, skins, constraints and deterministic frames (661ms)
+  ✓   37 viewer/tests/browser.spec.ts:346:3 › feature fixture 18: all animations, skins, constraints and deterministic frames (358ms)
+  ✓   38 viewer/tests/browser.spec.ts:346:3 › feature fixture 19: all animations, skins, constraints and deterministic frames (361ms)
+  ✓   39 viewer/tests/browser.spec.ts:346:3 › feature fixture 20: all animations, skins, constraints and deterministic frames (186ms)
+  ✓   40 viewer/tests/browser.spec.ts:346:3 › feature fixture 21: all animations, skins, constraints and deterministic frames (196ms)
+  ✓   41 viewer/tests/browser.spec.ts:346:3 › feature fixture 22: all animations, skins, constraints and deterministic frames (194ms)
+  ✓   42 viewer/tests/browser.spec.ts:346:3 › feature fixture 23: all animations, skins, constraints and deterministic frames (192ms)
+  ✓   43 viewer/tests/browser.spec.ts:346:3 › feature fixture 24: all animations, skins, constraints and deterministic frames (199ms)
+  ✓   44 viewer/tests/browser.spec.ts:346:3 › feature fixture 25: all animations, skins, constraints and deterministic frames (196ms)
+  ✓   45 viewer/tests/browser.spec.ts:346:3 › feature fixture 26: all animations, skins, constraints and deterministic frames (581ms)
+  ✓   46 viewer/tests/browser.spec.ts:346:3 › feature fixture 27: all animations, skins, constraints and deterministic frames (589ms)
+  ✓   47 viewer/tests/browser.spec.ts:346:3 › feature fixture 28: all animations, skins, constraints and deterministic frames (341ms)
+  ✓   48 viewer/tests/browser.spec.ts:346:3 › feature fixture 29: all animations, skins, constraints and deterministic frames (340ms)
+  ✓   49 viewer/tests/browser.spec.ts:346:3 › feature fixture 30: all animations, skins, constraints and deterministic frames (183ms)
+  ✓   50 viewer/tests/browser.spec.ts:346:3 › feature fixture 31: all animations, skins, constraints and deterministic frames (181ms)
+  ✓   51 viewer/tests/browser.spec.ts:403:1 › controlled pair records duration mismatch, pose correspondence and pixel difference without certification (390ms)
+  ✓   52 viewer/tests/browser.spec.ts:428:1 › official straight and PMA exports have close rendered colors (224ms)
+  ✓   53 viewer/tests/browser.spec.ts:462:3 › physics fixture 33 resets and simulates deterministically (238ms)
+  ✓   54 viewer/tests/browser.spec.ts:462:3 › physics fixture 34 resets and simulates deterministically (235ms)
+  ✓   55 viewer/tests/browser.spec.ts:509:1 › keyboard camera and narrow developer controls stay usable (258ms)
+  ✓   56 viewer/tests/browser.spec.ts:534:1 › production looping records measured budgets and environment (2.2s)
+  ✓   57 viewer/tests/browser.spec.ts:605:1 › paired sampled playback synchronizes normalized time without equating durations (665ms)
+  ✓   58 viewer/tests/browser.spec.ts:635:1 › typed subscriptions detach and bridge includes captured-frame metadata (170ms)
+  ✓   59 viewer/tests/browser.spec.ts:663:1 › host observer failures do not corrupt capture or disposal (129ms)
+  ✓   60 viewer/tests/hostile.spec.ts:23:3 › cancel during skeleton delivery (378ms)
+  ✓   61 viewer/tests/hostile.spec.ts:23:3 › cancel during atlas delivery (375ms)
+  ✓   62 viewer/tests/hostile.spec.ts:23:3 › cancel during texture delivery (379ms)
+  ✓   63 viewer/tests/hostile.spec.ts:52:3 › corrupt skeleton with admitted transport hash fails visibly (191ms)
+  ✓   64 viewer/tests/hostile.spec.ts:52:3 › corrupt atlas with admitted transport hash fails visibly (173ms)
+  ✓   65 viewer/tests/hostile.spec.ts:52:3 › corrupt texture with admitted transport hash fails visibly (185ms)
+  ✓   66 viewer/tests/hostile.spec.ts:88:1 › hash mismatch prevents modified resource from reaching parser (169ms)
+  ✓   67 viewer/tests/hostile.spec.ts:102:1 › failed asset transport produces typed failure (169ms)
+  ✓   68 viewer/tests/hostile.spec.ts:114:1 › runtime identity mismatch rejects before asset loading (169ms)
+  ✓   69 viewer/tests/hostile.spec.ts:131:1 › genuine 3.8.75 source remains rejected by official runtime without rewriting (172ms)
+  ✓   70 viewer/tests/hostile.spec.ts:145:1 › dispose during long deterministic simulation cancels before completion (122ms)
+  ✓   71 viewer/tests/hostile.spec.ts:164:1 › GPU allocations are released on dispose (175ms)
+  ✓   72 viewer/tests/hostile.spec.ts:248:1 › non-finite world transforms reject initialization (166ms)
+  ✓   73 viewer/tests/hostile.spec.ts:276:1 › malformed binary is rejected before official reader (168ms)
+  ✓   74 viewer/tests/hostile.spec.ts:298:1 › dispose at the asset initialization boundary cannot publish READY (386ms)
+  ✓   75 viewer/tests/hostile.spec.ts:327:3 › binary truncated: forged transport approval fails, JSON session survives (567ms)
+  ✓   76 viewer/tests/hostile.spec.ts:327:3 › binary counts: forged transport approval fails, JSON session survives (554ms)
+  ✓   77 viewer/tests/hostile.spec.ts:327:3 › binary strings: forged transport approval fails, JSON session survives (550ms)
+  ✓   78 viewer/tests/hostile.spec.ts:327:3 › binary indices: forged transport approval fails, JSON session survives (553ms)
+  ✓   79 viewer/tests/hostile.spec.ts:327:3 › binary geometry: forged transport approval fails, JSON session survives (557ms)
+  ✓   80 viewer/tests/hostile.spec.ts:327:3 › binary offsets: forged transport approval fails, JSON session survives (582ms)
+  ✓   81 viewer/tests/resources.spec.ts:24:3 › rejected response 200 cancels its body without losing diagnostic (1ms)
+  ✓   82 viewer/tests/resources.spec.ts:24:3 › rejected response 503 cancels its body without losing diagnostic (0ms)
+  ✓   83 viewer/tests/resources.spec.ts:48:1 › stream failure remains a typed transport failure and releases reader (2ms)
+  ✓   84 viewer/tests/resources.spec.ts:61:1 › streamed overflow cancels and unlocks even when cancel rejects (0ms)
+  ✓   85 viewer/tests/resources.spec.ts:80:1 › bounded successful download retains integrity checking and unlocks (1ms)
+  ✓   86 viewer/tests/resources.spec.ts:90:1 › invalid byte budgets fail before invoking fetch (0ms)
+  ✓   87 viewer/tests/server.spec.ts:4:1 › server spawn failure rejects promptly without unhandled error (3ms)
+  ✓   88 viewer/tests/server.spec.ts:15:1 › real server shutdown is safe concurrently and after completion (1.4s)
+  ✓   89 viewer/tests/server.spec.ts:24:3 › server shutdown handles child behavior: exit (343ms)
+  ✓   90 viewer/tests/server.spec.ts:24:3 › server shutdown handles child behavior: ignore-interrupt (5.2s)
+  ✓   91 viewer/tests/unit.spec.ts:15:1 › clock bounds suspension and resets without a jump (2ms)
+  ✓   92 viewer/tests/unit.spec.ts:23:1 › fixed clock retains fractional remainder and rejects excessive work (1ms)
+  ✓   93 viewer/tests/unit.spec.ts:29:1 › protocol rejects arbitrary commands, surplus keys and non-finite data (3ms)
+  ✓   94 viewer/tests/unit.spec.ts:43:1 › image metrics retain alpha differences and configurable tolerance (2ms)
+  ✓   95 viewer/tests/unit.spec.ts:53:1 › pose comparison does not compare bones with different parents (0ms)
+  ✓   96 viewer/tests/unit.spec.ts:83:1 › real official runtime updates a synthetic no-attachment animation (2ms)
+  ✓   97 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 0 (229ms)
+  ✓   98 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 2 (227ms)
+  ✓   99 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 4 (230ms)
+  ✓  100 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 6 (227ms)
+  ✓  101 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 8 (233ms)
+  ✓  102 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 11 (310ms)
+  ✓  103 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 12 (220ms)
+  ✓  104 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 13 (202ms)
+  ✓  105 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 14 (189ms)
+  ✓  106 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 15 (200ms)
+  ✓  107 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 16 (228ms)
+  ✓  108 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 17 (230ms)
+  ✓  109 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 18 (225ms)
+  ✓  110 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 19 (235ms)
+  ✓  111 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 20 (203ms)
+  ✓  112 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 21 (207ms)
+  ✓  113 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 22 (199ms)
+  ✓  114 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 23 (207ms)
+  ✓  115 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 24 (204ms)
+  ✓  116 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 25 (200ms)
+  ✓  117 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 26 (240ms)
+  ✓  118 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 27 (228ms)
+  ✓  119 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 28 (239ms)
+  ✓  120 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 29 (237ms)
+  ✓  121 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 30 (196ms)
+  ✓  122 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 31 (216ms)
+  ✓  123 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 33 (227ms)
+  ✓  124 viewer/tests/visual.spec.ts:231:3 › candidate rendering regression fixture 34 (230ms)
+  ✓  125 viewer/tests/visual.spec.ts:291:3 › visual negative: broken uv fails candidate comparison (400ms)
+  ✓  126 viewer/tests/visual.spec.ts:291:3 › visual negative: broken clipping fails candidate comparison (304ms)
+  ✓  127 viewer/tests/visual.spec.ts:291:3 › visual negative: broken order fails candidate comparison (363ms)
+  ✓  128 viewer/tests/visual.spec.ts:291:3 › visual negative: broken blend fails candidate comparison (329ms)
+  ✓  129 viewer/tests/visual.spec.ts:291:3 › visual negative: broken alpha fails candidate comparison (315ms)
+  ✓  130 viewer/tests/visual.spec.ts:291:3 › visual negative: broken atlas fails candidate comparison (324ms)
+  ✓  131 viewer/tests/visual.spec.ts:350:5 › candidate blend 12 normal (211ms)
+  ✓  132 viewer/tests/visual.spec.ts:350:5 › candidate blend 12 additive (209ms)
+  ✓  133 viewer/tests/visual.spec.ts:350:5 › candidate blend 12 multiply (213ms)
+  ✓  134 viewer/tests/visual.spec.ts:350:5 › candidate blend 12 screen (216ms)
+  ✓  135 viewer/tests/visual.spec.ts:350:5 › candidate blend 13 normal (201ms)
+  ✓  136 viewer/tests/visual.spec.ts:350:5 › candidate blend 13 additive (189ms)
+  ✓  137 viewer/tests/visual.spec.ts:350:5 › candidate blend 13 multiply (202ms)
+  ✓  138 viewer/tests/visual.spec.ts:350:5 › candidate blend 13 screen (215ms)
+  ✓  139 viewer/tests/visual.spec.ts:350:5 › candidate blend 22 normal (201ms)
+  ✓  140 viewer/tests/visual.spec.ts:350:5 › candidate blend 22 additive (191ms)
+  ✓  141 viewer/tests/visual.spec.ts:350:5 › candidate blend 22 multiply (221ms)
+  ✓  142 viewer/tests/visual.spec.ts:350:5 › candidate blend 22 screen (219ms)
+  ✓  143 viewer/tests/visual.spec.ts:350:5 › candidate blend 23 normal (197ms)
+  ✓  144 viewer/tests/visual.spec.ts:350:5 › candidate blend 23 additive (193ms)
+  ✓  145 viewer/tests/visual.spec.ts:350:5 › candidate blend 23 multiply (224ms)
+  ✓  146 viewer/tests/visual.spec.ts:350:5 › candidate blend 23 screen (209ms)
+
+
+  1) viewer/tests/binary-policy.spec.ts:17:3 › renamed binary and forged metadata cannot bypass admission: binary=true
+
+    Error: page.evaluate: TypeError: Cannot read properties of undefined (reading 'state')
+        at eval (eval at evaluate (:370:30), <anonymous>:1:24)
+        at UtilityScript.evaluate (<anonymous>:372:16)
+        at UtilityScript.<anonymous> (<anonymous>:1:44)
+        at eval (eval at evaluate (:370:30), <anonymous>:1:24)
+        at UtilityScript.evaluate (<anonymous>:372:16)
+        at UtilityScript.<anonymous> (<anonymous>:1:44)
+        at /Users/fenix/WorkHub/Spine/fnx-spine-forge-starter/viewer/tests/binary-policy.spec.ts:29:34
+        at /Users/fenix/WorkHub/Spine/fnx-spine-forge-starter/viewer/tests/binary-policy.spec.ts:29:5
+
+    Error: apiResponse.json: Response has been disposed
+
+      19 |     await page.route("**/launch/7.json", async route => {
+      20 |       const response = await route.fetch();
+    > 21 |       const assets = assetsSchema.parse(await response.json());
+         |                                                        ^
+      22 |       assets.skeleton = "/renamed.json";
+      23 |       assets.binary = binary;
+      24 |       assets.resourceHashes[assets.skeleton] = createHash("sha256").update(bytes).digest("hex");
+        at /Users/fenix/WorkHub/Spine/fnx-spine-forge-starter/viewer/tests/binary-policy.spec.ts:21:56
+
+    Error Context: viewer/test-results/binary-policy-renamed-bina-f53a5-ypass-admission-binary-true/error-context.md
+
+    Error Context: viewer/test-results/binary-policy-renamed-bina-f53a5-ypass-admission-binary-true/error-context.md
+
+  2) viewer/tests/binary-policy.spec.ts:17:3 › renamed binary and forged metadata cannot bypass admission: binary=false
+
+    Error: page.evaluate: TypeError: Cannot read properties of undefined (reading 'state')
+        at eval (eval at evaluate (:370:30), <anonymous>:1:24)
+        at UtilityScript.evaluate (<anonymous>:372:16)
+        at UtilityScript.<anonymous> (<anonymous>:1:44)
+        at eval (eval at evaluate (:370:30), <anonymous>:1:24)
+        at UtilityScript.evaluate (<anonymous>:372:16)
+        at UtilityScript.<anonymous> (<anonymous>:1:44)
+        at /Users/fenix/WorkHub/Spine/fnx-spine-forge-starter/viewer/tests/binary-policy.spec.ts:29:34
+        at /Users/fenix/WorkHub/Spine/fnx-spine-forge-starter/viewer/tests/binary-policy.spec.ts:29:5
+
+    Error: apiResponse.json: Response has been disposed
+
+      19 |     await page.route("**/launch/7.json", async route => {
+      20 |       const response = await route.fetch();
+    > 21 |       const assets = assetsSchema.parse(await response.json());
+         |                                                        ^
+      22 |       assets.skeleton = "/renamed.json";
+      23 |       assets.binary = binary;
+      24 |       assets.resourceHashes[assets.skeleton] = createHash("sha256").update(bytes).digest("hex");
+        at /Users/fenix/WorkHub/Spine/fnx-spine-forge-starter/viewer/tests/binary-policy.spec.ts:21:56
+
+    Error Context: viewer/test-results/binary-policy-renamed-bina-390f1-pass-admission-binary-false/error-context.md
+
+    Error Context: viewer/test-results/binary-policy-renamed-bina-390f1-pass-admission-binary-false/error-context.md
+
+  2 failed
+    viewer/tests/binary-policy.spec.ts:17:3 › renamed binary and forged metadata cannot bypass admission: binary=true
+    viewer/tests/binary-policy.spec.ts:17:3 › renamed binary and forged metadata cannot bypass admission: binary=false
+  144 passed (59.3s)

@@ -1,0 +1,14 @@
+[
+  {
+    "input": "folder",
+    "exit": 1,
+    "diagnostic": "UNTRUSTED_BINARY_DISABLED",
+    "serverStarted": false
+  },
+  {
+    "input": "ZIP",
+    "exit": 1,
+    "diagnostic": "UNTRUSTED_BINARY_DISABLED",
+    "serverStarted": false
+  }
+]

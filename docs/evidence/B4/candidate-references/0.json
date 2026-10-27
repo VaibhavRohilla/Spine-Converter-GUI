@@ -1,0 +1,47 @@
+{
+  "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+  "createdAt": "2026-10-27T06:15:01.664Z",
+  "sha256": "8bafd10b9fd63facecf577d6830cfb336757517ecc723a81f1b671587ef58090",
+  "normalization": "{\"camera\":{\"x\":19.27123348099883,\"y\":335.0477434262858,\"width\":788.9930995223026,\"height\":788.9930995223026,\"zoom\":1},\"width\":640,\"height\":640,\"dpr\":1,\"background\":[0,0,0,0],\"animation\":\"walk\",\"time\":0.21667499840259552,\"skin\":null,\"runtime\":\"3.8@8b4844bd4b193ba9e54487ed397a777993cbad56\",\"version\":\"3.8.55\"}",
+  "sources": "{\"original\":{\"spineboy-pro.json\":\"d794ae5ecc8f245929fef6b6f5212ce511990fc7ffdbc3ed77422db72ab3b14c\",\"spineboy.atlas\":\"2a504910a91f8541d0fb1f83d80c07236edc80888c95901953009e86e53a8147\",\"spineboy.png\":\"42e3d9411f5ca02146908fd22081968267419e048d66fcc5c721315146e114f6\"},\"renderedSkeleton\":\"d794ae5ecc8f245929fef6b6f5212ce511990fc7ffdbc3ed77422db72ab3b14c\"}",
+  "sourceSkeleton": "spineboy-pro.json",
+  "sourceVersion": "3.8.55",
+  "runtimeRevision": "8b4844bd4b193ba9e54487ed397a777993cbad56",
+  "animation": "walk",
+  "timestamp": 0.21667499840259552,
+  "skin": null,
+  "viewport": {
+    "width": 640,
+    "height": 640,
+    "dpr": 1
+  },
+  "camera": {
+    "x": 19.27123348099883,
+    "y": 335.0477434262858,
+    "width": 788.9930995223026,
+    "height": 788.9930995223026,
+    "zoom": 1
+  },
+  "background": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "alphaPolicy": "RGBA transparent; authored atlas PMA",
+  "browser": "156.0.8078.4",
+  "graphics": {
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver)",
+    "version": "WebGL 1.0 (OpenGL ES 2.0 Chromium)"
+  },
+  "tolerance": {
+    "channel": 2,
+    "changedFraction": 0.001,
+    "meanAbsoluteError": 0.1,
+    "alphaMeanError": 0.1,
+    "maximumChannelError": 8
+  },
+  "provenance": "viewer/fixtures/provenance.json and features/physics provenance.json; index 11 private authorized converted asset, no conversion equivalence",
+  "acceptance": "UNVERIFIED",
+  "conversionEquivalence": "UNVERIFIED"
+}

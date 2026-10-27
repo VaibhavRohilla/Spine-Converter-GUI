@@ -1,0 +1,4186 @@
+{
+  "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+  "candidates": [
+    {
+      "id": "0",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "8bafd10b9fd63facecf577d6830cfb336757517ecc723a81f1b671587ef58090",
+      "sourceAssets": {
+        "spineboy-pro.json": {
+          "sha256": "d794ae5ecc8f245929fef6b6f5212ce511990fc7ffdbc3ed77422db72ab3b14c",
+          "matchingFixturePaths": [
+            "viewer/fixtures/3.8/spineboy-pro.json"
+          ]
+        },
+        "spineboy.atlas": {
+          "sha256": "2a504910a91f8541d0fb1f83d80c07236edc80888c95901953009e86e53a8147",
+          "matchingFixturePaths": [
+            "viewer/fixtures/3.8/spineboy.atlas"
+          ]
+        },
+        "spineboy.png": {
+          "sha256": "42e3d9411f5ca02146908fd22081968267419e048d66fcc5c721315146e114f6",
+          "matchingFixturePaths": [
+            "viewer/fixtures/3.8/spineboy.png"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "d794ae5ecc8f245929fef6b6f5212ce511990fc7ffdbc3ed77422db72ab3b14c",
+      "runtimeRevision": "8b4844bd4b193ba9e54487ed397a777993cbad56",
+      "exportVersion": "3.8.55",
+      "animation": "walk",
+      "sampledTime": 0.21667499840259552,
+      "skin": null,
+      "camera": {
+        "x": 19.27123348099883,
+        "y": 335.0477434262858,
+        "width": 788.9930995223026,
+        "height": 788.9930995223026,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Silhouette, pose, mesh deformation, atlas orientation and attachment order",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "8bafd10b9fd63facecf577d6830cfb336757517ecc723a81f1b671587ef58090",
+        "candidateSha256": "8bafd10b9fd63facecf577d6830cfb336757517ecc723a81f1b671587ef58090"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "8bafd10b9fd63facecf577d6830cfb336757517ecc723a81f1b671587ef58090",
+        "exactAssetHashes": {
+          "spineboy-pro.json": "d794ae5ecc8f245929fef6b6f5212ce511990fc7ffdbc3ed77422db72ab3b14c",
+          "spineboy.atlas": "2a504910a91f8541d0fb1f83d80c07236edc80888c95901953009e86e53a8147",
+          "spineboy.png": "42e3d9411f5ca02146908fd22081968267419e048d66fcc5c721315146e114f6"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "11",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "8d343b03c1299546bfac131d056fe2283134613751e30e0a8806f7ce89be6340",
+      "sourceAssets": {
+        "merged_multi.atlas": {
+          "sha256": "f0951d40420a4f2a45f47217e038f8cf0b48abb6bb5871e638efd856f356c06d",
+          "matchingFixturePaths": [
+            "viewer/fixtures/production/merged43/merged_multi.atlas"
+          ]
+        },
+        "merged_multi.json": {
+          "sha256": "473d08abc8b1631e1e70fcc1543f0a1691f591b6eca8627a58c1678165e5f5dc",
+          "matchingFixturePaths": [
+            "viewer/fixtures/production/merged43/merged_multi.json"
+          ]
+        },
+        "merged_multi.png": {
+          "sha256": "54a1cddeea2dbca8bdff33af90c2dbab22344c03cc37194ab5a9c52ad958ee93",
+          "matchingFixturePaths": [
+            "viewer/fixtures/production/merged43/merged_multi.png"
+          ]
+        },
+        "merged_multi2.png": {
+          "sha256": "1d1b7176417f7a692ee7147d0f2e5aa2f9a6017afabc35b7f54937c538cb5835",
+          "matchingFixturePaths": [
+            "viewer/fixtures/production/merged43/merged_multi2.png"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "473d08abc8b1631e1e70fcc1543f0a1691f591b6eca8627a58c1678165e5f5dc",
+      "runtimeRevision": "4.3.13",
+      "exportVersion": "4.3.13",
+      "animation": "TOTAL_WIN_entry",
+      "sampledTime": 0.33332499861717224,
+      "skin": null,
+      "camera": {
+        "x": 5.019805678698731,
+        "y": 287.03387399999974,
+        "width": 2914.8656051795087,
+        "height": 2914.8656051795087,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Authored pose, alpha edges, layering and texture placement",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "8d343b03c1299546bfac131d056fe2283134613751e30e0a8806f7ce89be6340",
+        "candidateSha256": "8d343b03c1299546bfac131d056fe2283134613751e30e0a8806f7ce89be6340"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "8d343b03c1299546bfac131d056fe2283134613751e30e0a8806f7ce89be6340",
+        "exactAssetHashes": {
+          "merged_multi.atlas": "f0951d40420a4f2a45f47217e038f8cf0b48abb6bb5871e638efd856f356c06d",
+          "merged_multi.json": "473d08abc8b1631e1e70fcc1543f0a1691f591b6eca8627a58c1678165e5f5dc",
+          "merged_multi.png": "54a1cddeea2dbca8bdff33af90c2dbab22344c03cc37194ab5a9c52ad958ee93",
+          "merged_multi2.png": "1d1b7176417f7a692ee7147d0f2e5aa2f9a6017afabc35b7f54937c538cb5835"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "12",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "29b1db45b68d42de874665a86b02b637eacde083b7ca85115cfb24481a495824",
+      "sourceAssets": {
+        "coin-pma.atlas": {
+          "sha256": "76f2fb5f8c24edd8cd3b0a42a210c865718f9495e6ffbc74f707dc747c220163",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-coin/coin-pma.atlas"
+          ]
+        },
+        "coin-pma.png": {
+          "sha256": "1c5a5ce66318dce35513a204350da1a08cf778252276e07e99ff75334cd3b9d3",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-coin/coin-pma.png"
+          ]
+        },
+        "coin-pro.json": {
+          "sha256": "cc9b13d9a2fc4af455dac45c538ced90713939696433bf87b564b60d39f16008",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-coin/coin-pro.json"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "cc9b13d9a2fc4af455dac45c538ced90713939696433bf87b564b60d39f16008",
+      "runtimeRevision": "4.2.43",
+      "exportVersion": "4.2.22",
+      "animation": "animation",
+      "sampledTime": 0.6666749715805054,
+      "skin": null,
+      "camera": {
+        "x": 74.12720051191346,
+        "y": 0.5,
+        "width": 521.2425772956657,
+        "height": 521.2425772956657,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Clipping boundary, alpha edges, atlas orientation and authored blend response",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.0005,
+        "meanAbsoluteError": 0.05,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.0005,
+          "meanAbsoluteError": 0.05,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "29b1db45b68d42de874665a86b02b637eacde083b7ca85115cfb24481a495824",
+        "candidateSha256": "29b1db45b68d42de874665a86b02b637eacde083b7ca85115cfb24481a495824"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "29b1db45b68d42de874665a86b02b637eacde083b7ca85115cfb24481a495824",
+        "exactAssetHashes": {
+          "coin-pma.atlas": "76f2fb5f8c24edd8cd3b0a42a210c865718f9495e6ffbc74f707dc747c220163",
+          "coin-pma.png": "1c5a5ce66318dce35513a204350da1a08cf778252276e07e99ff75334cd3b9d3",
+          "coin-pro.json": "cc9b13d9a2fc4af455dac45c538ced90713939696433bf87b564b60d39f16008"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "13",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "ebb0ac682f2ebf6f5a90813c71cb79e5dff75df0d01526d41be04a02a2cbd452",
+      "sourceAssets": {
+        "coin-pro.json": {
+          "sha256": "cc9b13d9a2fc4af455dac45c538ced90713939696433bf87b564b60d39f16008",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-coin/coin-pro.json"
+          ]
+        },
+        "coin.atlas": {
+          "sha256": "9b394c85aef916a4cdaf95b7abfb714e2c2def9b71568db7d546e90f7bebc092",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-coin/coin.atlas"
+          ]
+        },
+        "coin.png": {
+          "sha256": "a8672983ade9a0b360125dda63f0d2a0166fc2d7b909044d01ae744918fb4c14",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-coin/coin.png"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "cc9b13d9a2fc4af455dac45c538ced90713939696433bf87b564b60d39f16008",
+      "runtimeRevision": "4.2.43",
+      "exportVersion": "4.2.22",
+      "animation": "animation",
+      "sampledTime": 0.6666749715805054,
+      "skin": null,
+      "camera": {
+        "x": 74.12720051191346,
+        "y": 0.5,
+        "width": 521.2425772956657,
+        "height": 521.2425772956657,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Clipping boundary, alpha edges, atlas orientation and authored blend response",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.0005,
+        "meanAbsoluteError": 0.05,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.0005,
+          "meanAbsoluteError": 0.05,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "ebb0ac682f2ebf6f5a90813c71cb79e5dff75df0d01526d41be04a02a2cbd452",
+        "candidateSha256": "ebb0ac682f2ebf6f5a90813c71cb79e5dff75df0d01526d41be04a02a2cbd452"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "ebb0ac682f2ebf6f5a90813c71cb79e5dff75df0d01526d41be04a02a2cbd452",
+        "exactAssetHashes": {
+          "coin-pro.json": "cc9b13d9a2fc4af455dac45c538ced90713939696433bf87b564b60d39f16008",
+          "coin.atlas": "9b394c85aef916a4cdaf95b7abfb714e2c2def9b71568db7d546e90f7bebc092",
+          "coin.png": "a8672983ade9a0b360125dda63f0d2a0166fc2d7b909044d01ae744918fb4c14"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "14",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "2f161859dd486d0675ec48ae49d1edaa4358ecbc5669465037c51d38dbc986cd",
+      "sourceAssets": {
+        "goblins-pma.atlas": {
+          "sha256": "ab9aeed383e26c32bde8a0eaa364f43296daad6e97e58e62369eb1779e52e639",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-goblins/goblins-pma.atlas"
+          ]
+        },
+        "goblins-pma.png": {
+          "sha256": "f08018e231657bd00d854e6e6b7d8693d45963d9654ad412ca1a4d58311f11bf",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-goblins/goblins-pma.png"
+          ]
+        },
+        "goblins-pro.json": {
+          "sha256": "64321cf1cc5864d9c23bb92bc355b9f7f80f61710de413a2bf65e94c734a3472",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-goblins/goblins-pro.json"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "64321cf1cc5864d9c23bb92bc355b9f7f80f61710de413a2bf65e94c734a3472",
+      "runtimeRevision": "4.2.43",
+      "exportVersion": "4.2.22",
+      "animation": "walk",
+      "sampledTime": 0.25,
+      "skin": null,
+      "camera": {
+        "x": -0.6408832188752456,
+        "y": 171.54081788866992,
+        "width": 402.05389991102817,
+        "height": 402.05389991102817,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Skin attachments, mesh deformation and draw order",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "2f161859dd486d0675ec48ae49d1edaa4358ecbc5669465037c51d38dbc986cd",
+        "candidateSha256": "2f161859dd486d0675ec48ae49d1edaa4358ecbc5669465037c51d38dbc986cd"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "2f161859dd486d0675ec48ae49d1edaa4358ecbc5669465037c51d38dbc986cd",
+        "exactAssetHashes": {
+          "goblins-pma.atlas": "ab9aeed383e26c32bde8a0eaa364f43296daad6e97e58e62369eb1779e52e639",
+          "goblins-pma.png": "f08018e231657bd00d854e6e6b7d8693d45963d9654ad412ca1a4d58311f11bf",
+          "goblins-pro.json": "64321cf1cc5864d9c23bb92bc355b9f7f80f61710de413a2bf65e94c734a3472"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "15",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "307c61078d464d2f3d0230f3f70b1b40b6f486650254184f3459957ec85924b4",
+      "sourceAssets": {
+        "goblins-pro.json": {
+          "sha256": "64321cf1cc5864d9c23bb92bc355b9f7f80f61710de413a2bf65e94c734a3472",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-goblins/goblins-pro.json"
+          ]
+        },
+        "goblins.atlas": {
+          "sha256": "61223fbbf73a0b4118d8aa65db4a9b76b6989cc2f25a174a98a8c47ffa815191",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-goblins/goblins.atlas"
+          ]
+        },
+        "goblins.png": {
+          "sha256": "76edbd78ee10fa487121d53dbb100e2647c096162f72eb493299e542da38952c",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-goblins/goblins.png"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "64321cf1cc5864d9c23bb92bc355b9f7f80f61710de413a2bf65e94c734a3472",
+      "runtimeRevision": "4.2.43",
+      "exportVersion": "4.2.22",
+      "animation": "walk",
+      "sampledTime": 0.25,
+      "skin": null,
+      "camera": {
+        "x": -0.6408832188752456,
+        "y": 171.54081788866992,
+        "width": 402.05389991102817,
+        "height": 402.05389991102817,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Skin attachments, mesh deformation and draw order",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "307c61078d464d2f3d0230f3f70b1b40b6f486650254184f3459957ec85924b4",
+        "candidateSha256": "307c61078d464d2f3d0230f3f70b1b40b6f486650254184f3459957ec85924b4"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "307c61078d464d2f3d0230f3f70b1b40b6f486650254184f3459957ec85924b4",
+        "exactAssetHashes": {
+          "goblins-pro.json": "64321cf1cc5864d9c23bb92bc355b9f7f80f61710de413a2bf65e94c734a3472",
+          "goblins.atlas": "61223fbbf73a0b4118d8aa65db4a9b76b6989cc2f25a174a98a8c47ffa815191",
+          "goblins.png": "76edbd78ee10fa487121d53dbb100e2647c096162f72eb493299e542da38952c"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "16",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "5d162a2493e23a8ae10f4a756a7a4a0584cd02fba7249da2f1756b1c44daefa0",
+      "sourceAssets": {
+        "raptor-pma.atlas": {
+          "sha256": "29d34ec75707024ce1d8e102862603ae527b58d8e5a6fd647f46458a7ab2cc6b",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-raptor/raptor-pma.atlas"
+          ]
+        },
+        "raptor-pma.png": {
+          "sha256": "a27e9d776fc1637f5ff87f6cd8dd513400e9228b82f9373558ecbe6c33dc7478",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-raptor/raptor-pma.png"
+          ]
+        },
+        "raptor-pro.json": {
+          "sha256": "b4dfddb8f288da8be49b7b95956355293e7339b93e8f909283cb102181f8a8a0",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-raptor/raptor-pro.json"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "b4dfddb8f288da8be49b7b95956355293e7339b93e8f909283cb102181f8a8a0",
+      "runtimeRevision": "4.2.43",
+      "exportVersion": "4.2.22",
+      "animation": "walk",
+      "sampledTime": 0.31667500734329224,
+      "skin": null,
+      "camera": {
+        "x": -165.34376025433937,
+        "y": 446.1831615414199,
+        "width": 1480.7592042247065,
+        "height": 1480.7592042247065,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Mesh deformation, layering and atlas edges",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "5d162a2493e23a8ae10f4a756a7a4a0584cd02fba7249da2f1756b1c44daefa0",
+        "candidateSha256": "5d162a2493e23a8ae10f4a756a7a4a0584cd02fba7249da2f1756b1c44daefa0"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "5d162a2493e23a8ae10f4a756a7a4a0584cd02fba7249da2f1756b1c44daefa0",
+        "exactAssetHashes": {
+          "raptor-pma.atlas": "29d34ec75707024ce1d8e102862603ae527b58d8e5a6fd647f46458a7ab2cc6b",
+          "raptor-pma.png": "a27e9d776fc1637f5ff87f6cd8dd513400e9228b82f9373558ecbe6c33dc7478",
+          "raptor-pro.json": "b4dfddb8f288da8be49b7b95956355293e7339b93e8f909283cb102181f8a8a0"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "17",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "fcfcd2a47ba0bb2835e3210b668b295a458bf5dd72124512c9656641ce09b0fa",
+      "sourceAssets": {
+        "raptor-pro.json": {
+          "sha256": "b4dfddb8f288da8be49b7b95956355293e7339b93e8f909283cb102181f8a8a0",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-raptor/raptor-pro.json"
+          ]
+        },
+        "raptor.atlas": {
+          "sha256": "60499dd637481439aa6ce89003358e69e9f558b4d8f305537c34ab44857e3056",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-raptor/raptor.atlas"
+          ]
+        },
+        "raptor.png": {
+          "sha256": "a8131da0a9132540962082dfdb95c44c10612862448b69ba2c87318353f6fbca",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-raptor/raptor.png"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "b4dfddb8f288da8be49b7b95956355293e7339b93e8f909283cb102181f8a8a0",
+      "runtimeRevision": "4.2.43",
+      "exportVersion": "4.2.22",
+      "animation": "walk",
+      "sampledTime": 0.31667500734329224,
+      "skin": null,
+      "camera": {
+        "x": -165.34376025433937,
+        "y": 446.1831615414199,
+        "width": 1480.7592042247065,
+        "height": 1480.7592042247065,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Mesh deformation, layering and atlas edges",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "fcfcd2a47ba0bb2835e3210b668b295a458bf5dd72124512c9656641ce09b0fa",
+        "candidateSha256": "fcfcd2a47ba0bb2835e3210b668b295a458bf5dd72124512c9656641ce09b0fa"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "fcfcd2a47ba0bb2835e3210b668b295a458bf5dd72124512c9656641ce09b0fa",
+        "exactAssetHashes": {
+          "raptor-pro.json": "b4dfddb8f288da8be49b7b95956355293e7339b93e8f909283cb102181f8a8a0",
+          "raptor.atlas": "60499dd637481439aa6ce89003358e69e9f558b4d8f305537c34ab44857e3056",
+          "raptor.png": "a8131da0a9132540962082dfdb95c44c10612862448b69ba2c87318353f6fbca"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "18",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "9423f8bf4d1d90fb96ba96bd50629a4feca7d4fb34d11d5f3ba0df157c5c4cd2",
+      "sourceAssets": {
+        "tank-pma.atlas": {
+          "sha256": "5f2dace9944f23be35cac4af6c90cbcda19ea820301ee96623dfe5df4e91d7ed",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-tank/tank-pma.atlas"
+          ]
+        },
+        "tank-pma.png": {
+          "sha256": "4059265a08629adb50a1ca6729be3f28af99fd1cdccbf5a17117e4b563f7840c",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-tank/tank-pma.png"
+          ]
+        },
+        "tank-pro.json": {
+          "sha256": "5035512282471b046711f6bd4d853fd7376321b9bca6cc35588554515af3558c",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-tank/tank-pro.json"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "5035512282471b046711f6bd4d853fd7376321b9bca6cc35588554515af3558c",
+      "runtimeRevision": "4.2.43",
+      "exportVersion": "4.2.22",
+      "animation": "drive",
+      "sampledTime": 1.4249999523162842,
+      "skin": null,
+      "camera": {
+        "x": -2251.344966711847,
+        "y": 300.94500107476466,
+        "width": 8283.001352193549,
+        "height": 8283.001352193549,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Layering, mesh deformation and attachment order",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "9423f8bf4d1d90fb96ba96bd50629a4feca7d4fb34d11d5f3ba0df157c5c4cd2",
+        "candidateSha256": "9423f8bf4d1d90fb96ba96bd50629a4feca7d4fb34d11d5f3ba0df157c5c4cd2"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "9423f8bf4d1d90fb96ba96bd50629a4feca7d4fb34d11d5f3ba0df157c5c4cd2",
+        "exactAssetHashes": {
+          "tank-pma.atlas": "5f2dace9944f23be35cac4af6c90cbcda19ea820301ee96623dfe5df4e91d7ed",
+          "tank-pma.png": "4059265a08629adb50a1ca6729be3f28af99fd1cdccbf5a17117e4b563f7840c",
+          "tank-pro.json": "5035512282471b046711f6bd4d853fd7376321b9bca6cc35588554515af3558c"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "19",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "19b8d7c197d8f280663609253f620c8bc69098358f518f7488d284e7222a4cab",
+      "sourceAssets": {
+        "tank-pro.json": {
+          "sha256": "5035512282471b046711f6bd4d853fd7376321b9bca6cc35588554515af3558c",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-tank/tank-pro.json"
+          ]
+        },
+        "tank.atlas": {
+          "sha256": "bcaafa241f51c58db0172734b3257def51fe8000673101b1363d098e42862b51",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-tank/tank.atlas"
+          ]
+        },
+        "tank.png": {
+          "sha256": "a0e6136583054ef86c8221ffebde45e33903b1814ab8bb78e4c021a830992a8b",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-tank/tank.png"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "5035512282471b046711f6bd4d853fd7376321b9bca6cc35588554515af3558c",
+      "runtimeRevision": "4.2.43",
+      "exportVersion": "4.2.22",
+      "animation": "drive",
+      "sampledTime": 1.4249999523162842,
+      "skin": null,
+      "camera": {
+        "x": -2251.344966711847,
+        "y": 300.94500107476466,
+        "width": 8283.001352193549,
+        "height": 8283.001352193549,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Layering, mesh deformation and attachment order",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "19b8d7c197d8f280663609253f620c8bc69098358f518f7488d284e7222a4cab",
+        "candidateSha256": "19b8d7c197d8f280663609253f620c8bc69098358f518f7488d284e7222a4cab"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "19b8d7c197d8f280663609253f620c8bc69098358f518f7488d284e7222a4cab",
+        "exactAssetHashes": {
+          "tank-pro.json": "5035512282471b046711f6bd4d853fd7376321b9bca6cc35588554515af3558c",
+          "tank.atlas": "bcaafa241f51c58db0172734b3257def51fe8000673101b1363d098e42862b51",
+          "tank.png": "a0e6136583054ef86c8221ffebde45e33903b1814ab8bb78e4c021a830992a8b"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "2",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "933e34e51085a9ebf732ca114698e54b938c7afddbb9fb39d86e2f352284ca69",
+      "sourceAssets": {
+        "spineboy-pro.json": {
+          "sha256": "30cb336cccf08ee909f9a5fa2b8b55b36df41e218828c185ddbba92b239e50a1",
+          "matchingFixturePaths": [
+            "viewer/fixtures/4.0/spineboy-pro.json"
+          ]
+        },
+        "spineboy.atlas": {
+          "sha256": "fdc4bbc4be5f1a638fa0ff384271007b1f2df72855dd80b4b239bcfe8a4ac31e",
+          "matchingFixturePaths": [
+            "viewer/fixtures/4.1/spineboy.atlas",
+            "viewer/fixtures/4.0/spineboy.atlas"
+          ]
+        },
+        "spineboy.png": {
+          "sha256": "0d9b45a631079e08973ef39799e5fffc6a57c8dae12421120bac1d559e564b96",
+          "matchingFixturePaths": [
+            "viewer/fixtures/4.0/spineboy.png"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "30cb336cccf08ee909f9a5fa2b8b55b36df41e218828c185ddbba92b239e50a1",
+      "runtimeRevision": "4.0.31",
+      "exportVersion": "4.0.31",
+      "animation": "walk",
+      "sampledTime": 0.25,
+      "skin": null,
+      "camera": {
+        "x": 20.565280947092447,
+        "y": 335.160650304442,
+        "width": 789.1285763982843,
+        "height": 789.1285763982843,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Silhouette, pose, mesh deformation, atlas orientation and attachment order",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "933e34e51085a9ebf732ca114698e54b938c7afddbb9fb39d86e2f352284ca69",
+        "candidateSha256": "933e34e51085a9ebf732ca114698e54b938c7afddbb9fb39d86e2f352284ca69"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "933e34e51085a9ebf732ca114698e54b938c7afddbb9fb39d86e2f352284ca69",
+        "exactAssetHashes": {
+          "spineboy-pro.json": "30cb336cccf08ee909f9a5fa2b8b55b36df41e218828c185ddbba92b239e50a1",
+          "spineboy.atlas": "fdc4bbc4be5f1a638fa0ff384271007b1f2df72855dd80b4b239bcfe8a4ac31e",
+          "spineboy.png": "0d9b45a631079e08973ef39799e5fffc6a57c8dae12421120bac1d559e564b96"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "20",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "de91a6f6b1ec1948c8216b70413360e0cda602fdb415010ab54c2e8d99a1d89e",
+      "sourceAssets": {
+        "vine-pma.atlas": {
+          "sha256": "922df9d8b2ff773beca0aef969045853f63599ec75bdf6e5bd861ceba08d066d",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-vine/vine-pma.atlas",
+            "viewer/fixtures/features/4.2-vine/vine-pma.atlas"
+          ]
+        },
+        "vine-pma.png": {
+          "sha256": "db424dd2fa9c4ca7ee93636f1b99c1b72b0c7b66e2d85fae0b79648e7dea7bd5",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-vine/vine-pma.png",
+            "viewer/fixtures/features/4.2-vine/vine-pma.png"
+          ]
+        },
+        "vine-pro.json": {
+          "sha256": "4186a992f79d73e79d677f25bfeb9db9bd26b97c288088f4530d7bedca497a6c",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-vine/vine-pro.json"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "4186a992f79d73e79d677f25bfeb9db9bd26b97c288088f4530d7bedca497a6c",
+      "runtimeRevision": "4.2.43",
+      "exportVersion": "4.2.22",
+      "animation": "grow",
+      "sampledTime": 2.8583250045776367,
+      "skin": null,
+      "camera": {
+        "x": 26.099827458361403,
+        "y": 418.82439551047554,
+        "width": 967.2538378010629,
+        "height": 967.2538378010629,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Path-constrained geometry and deformation",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "de91a6f6b1ec1948c8216b70413360e0cda602fdb415010ab54c2e8d99a1d89e",
+        "candidateSha256": "de91a6f6b1ec1948c8216b70413360e0cda602fdb415010ab54c2e8d99a1d89e"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "de91a6f6b1ec1948c8216b70413360e0cda602fdb415010ab54c2e8d99a1d89e",
+        "exactAssetHashes": {
+          "vine-pma.atlas": "922df9d8b2ff773beca0aef969045853f63599ec75bdf6e5bd861ceba08d066d",
+          "vine-pma.png": "db424dd2fa9c4ca7ee93636f1b99c1b72b0c7b66e2d85fae0b79648e7dea7bd5",
+          "vine-pro.json": "4186a992f79d73e79d677f25bfeb9db9bd26b97c288088f4530d7bedca497a6c"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "21",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "060aa936779cd442ef192006356713a307caa67ffb6dd5c01650aaabc1b52d95",
+      "sourceAssets": {
+        "vine-pro.json": {
+          "sha256": "4186a992f79d73e79d677f25bfeb9db9bd26b97c288088f4530d7bedca497a6c",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-vine/vine-pro.json"
+          ]
+        },
+        "vine.atlas": {
+          "sha256": "34dfdf9ef931040a15a89f005434062bef659db27a3a00116332a888a99dfa3c",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-vine/vine.atlas",
+            "viewer/fixtures/features/4.2-vine/vine.atlas"
+          ]
+        },
+        "vine.png": {
+          "sha256": "fd456093b11fd99fcc5d7380e1e49011579fd01cf46d85cb151bd5d58735bc6f",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-vine/vine.png",
+            "viewer/fixtures/features/4.2-vine/vine.png"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "4186a992f79d73e79d677f25bfeb9db9bd26b97c288088f4530d7bedca497a6c",
+      "runtimeRevision": "4.2.43",
+      "exportVersion": "4.2.22",
+      "animation": "grow",
+      "sampledTime": 2.8583250045776367,
+      "skin": null,
+      "camera": {
+        "x": 26.099827458361403,
+        "y": 418.82439551047554,
+        "width": 967.2538378010629,
+        "height": 967.2538378010629,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Path-constrained geometry and deformation",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "060aa936779cd442ef192006356713a307caa67ffb6dd5c01650aaabc1b52d95",
+        "candidateSha256": "060aa936779cd442ef192006356713a307caa67ffb6dd5c01650aaabc1b52d95"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "060aa936779cd442ef192006356713a307caa67ffb6dd5c01650aaabc1b52d95",
+        "exactAssetHashes": {
+          "vine-pro.json": "4186a992f79d73e79d677f25bfeb9db9bd26b97c288088f4530d7bedca497a6c",
+          "vine.atlas": "34dfdf9ef931040a15a89f005434062bef659db27a3a00116332a888a99dfa3c",
+          "vine.png": "fd456093b11fd99fcc5d7380e1e49011579fd01cf46d85cb151bd5d58735bc6f"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "22",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "3cd4c6dacd6a11475711272ab362e2fc92dfccfbc5b7e3fc102dd4a3dccd2510",
+      "sourceAssets": {
+        "coin-pma.atlas": {
+          "sha256": "e444eb249bb138660267cbdabcf691e880edafe5c8d79b43f577c22f3db53f8c",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-coin/coin-pma.atlas"
+          ]
+        },
+        "coin-pma.png": {
+          "sha256": "c56a15cef462016a6e45489905414ffdcfc3ea4f50d609295039e4b486f400ef",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-coin/coin-pma.png"
+          ]
+        },
+        "coin-pro.json": {
+          "sha256": "9e76b564681db8908529ef9af9be1822437bc788c20c0ca54fe3f59792d269b6",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-coin/coin-pro.json"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "9e76b564681db8908529ef9af9be1822437bc788c20c0ca54fe3f59792d269b6",
+      "runtimeRevision": "4.3.13",
+      "exportVersion": "4.3.75-beta",
+      "animation": "animation",
+      "sampledTime": 0.6666667461395264,
+      "skin": null,
+      "camera": {
+        "x": 74.1294250338153,
+        "y": 0.5,
+        "width": 521.24769369604,
+        "height": 521.24769369604,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Clipping boundary, alpha edges, atlas orientation and authored blend response",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.0005,
+        "meanAbsoluteError": 0.05,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.0005,
+          "meanAbsoluteError": 0.05,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "3cd4c6dacd6a11475711272ab362e2fc92dfccfbc5b7e3fc102dd4a3dccd2510",
+        "candidateSha256": "3cd4c6dacd6a11475711272ab362e2fc92dfccfbc5b7e3fc102dd4a3dccd2510"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "3cd4c6dacd6a11475711272ab362e2fc92dfccfbc5b7e3fc102dd4a3dccd2510",
+        "exactAssetHashes": {
+          "coin-pma.atlas": "e444eb249bb138660267cbdabcf691e880edafe5c8d79b43f577c22f3db53f8c",
+          "coin-pma.png": "c56a15cef462016a6e45489905414ffdcfc3ea4f50d609295039e4b486f400ef",
+          "coin-pro.json": "9e76b564681db8908529ef9af9be1822437bc788c20c0ca54fe3f59792d269b6"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "23",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "e0576d9fc62507808e7b7d411cc8f0aa4f3897fc403b7febde9bec15307e7826",
+      "sourceAssets": {
+        "coin-pro.json": {
+          "sha256": "9e76b564681db8908529ef9af9be1822437bc788c20c0ca54fe3f59792d269b6",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-coin/coin-pro.json"
+          ]
+        },
+        "coin.atlas": {
+          "sha256": "661de942a6b4873697aa56dc5ffe489675f1310c56cb65b5fff7649d5adb157f",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-coin/coin.atlas"
+          ]
+        },
+        "coin.png": {
+          "sha256": "a299ecc5936018891c79c9e25d5783672e8e711aeb8fedf82164054698127e7f",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-coin/coin.png"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "9e76b564681db8908529ef9af9be1822437bc788c20c0ca54fe3f59792d269b6",
+      "runtimeRevision": "4.3.13",
+      "exportVersion": "4.3.75-beta",
+      "animation": "animation",
+      "sampledTime": 0.6666667461395264,
+      "skin": null,
+      "camera": {
+        "x": 74.1294250338153,
+        "y": 0.5,
+        "width": 521.24769369604,
+        "height": 521.24769369604,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Clipping boundary, alpha edges, atlas orientation and authored blend response",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.0005,
+        "meanAbsoluteError": 0.05,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.0005,
+          "meanAbsoluteError": 0.05,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "e0576d9fc62507808e7b7d411cc8f0aa4f3897fc403b7febde9bec15307e7826",
+        "candidateSha256": "e0576d9fc62507808e7b7d411cc8f0aa4f3897fc403b7febde9bec15307e7826"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "e0576d9fc62507808e7b7d411cc8f0aa4f3897fc403b7febde9bec15307e7826",
+        "exactAssetHashes": {
+          "coin-pro.json": "9e76b564681db8908529ef9af9be1822437bc788c20c0ca54fe3f59792d269b6",
+          "coin.atlas": "661de942a6b4873697aa56dc5ffe489675f1310c56cb65b5fff7649d5adb157f",
+          "coin.png": "a299ecc5936018891c79c9e25d5783672e8e711aeb8fedf82164054698127e7f"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "24",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "ccec3afdf3e955b5d0e104b60c92cfbdb1ce72a31aa287f780a2064c7e728d28",
+      "sourceAssets": {
+        "goblins-pma.atlas": {
+          "sha256": "7d5de5f104f912eb62dcc37c87132cd2ac34cc262ac961f59bdcb2c85794503b",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-goblins/goblins-pma.atlas"
+          ]
+        },
+        "goblins-pma.png": {
+          "sha256": "cdd19ddf831cb7d86e3adca1b8096334e112bc0f2c6b1a6f161142875ef75d1f",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-goblins/goblins-pma.png"
+          ]
+        },
+        "goblins-pro.json": {
+          "sha256": "f45b7a36097c60692e78fef20626103eab0532e3e40701fb29438e9d75dfa057",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-goblins/goblins-pro.json"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "f45b7a36097c60692e78fef20626103eab0532e3e40701fb29438e9d75dfa057",
+      "runtimeRevision": "4.3.13",
+      "exportVersion": "4.3.75-beta",
+      "animation": "walk",
+      "sampledTime": 0.25,
+      "skin": null,
+      "camera": {
+        "x": -0.6502773201961247,
+        "y": 171.5262619105944,
+        "width": 402.0432769062733,
+        "height": 402.0432769062733,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Skin attachments, mesh deformation and draw order",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "ccec3afdf3e955b5d0e104b60c92cfbdb1ce72a31aa287f780a2064c7e728d28",
+        "candidateSha256": "ccec3afdf3e955b5d0e104b60c92cfbdb1ce72a31aa287f780a2064c7e728d28"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "ccec3afdf3e955b5d0e104b60c92cfbdb1ce72a31aa287f780a2064c7e728d28",
+        "exactAssetHashes": {
+          "goblins-pma.atlas": "7d5de5f104f912eb62dcc37c87132cd2ac34cc262ac961f59bdcb2c85794503b",
+          "goblins-pma.png": "cdd19ddf831cb7d86e3adca1b8096334e112bc0f2c6b1a6f161142875ef75d1f",
+          "goblins-pro.json": "f45b7a36097c60692e78fef20626103eab0532e3e40701fb29438e9d75dfa057"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "25",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "cec57a31eb437169a6fdd27802abfbdb221352d86ac72f70d23becf1f08f0549",
+      "sourceAssets": {
+        "goblins-pro.json": {
+          "sha256": "f45b7a36097c60692e78fef20626103eab0532e3e40701fb29438e9d75dfa057",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-goblins/goblins-pro.json"
+          ]
+        },
+        "goblins.atlas": {
+          "sha256": "7245bf918b1d661d9502bf35aff39ae73541b27285fab1df983bd8e6cda5dc0a",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-goblins/goblins.atlas"
+          ]
+        },
+        "goblins.png": {
+          "sha256": "bfdd68e30d633094ba2292d15df604f4acd168d236be3ca35f69505e591b5ba3",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-goblins/goblins.png"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "f45b7a36097c60692e78fef20626103eab0532e3e40701fb29438e9d75dfa057",
+      "runtimeRevision": "4.3.13",
+      "exportVersion": "4.3.75-beta",
+      "animation": "walk",
+      "sampledTime": 0.25,
+      "skin": null,
+      "camera": {
+        "x": -0.6502773201961247,
+        "y": 171.5262619105944,
+        "width": 402.0432769062733,
+        "height": 402.0432769062733,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Skin attachments, mesh deformation and draw order",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "cec57a31eb437169a6fdd27802abfbdb221352d86ac72f70d23becf1f08f0549",
+        "candidateSha256": "cec57a31eb437169a6fdd27802abfbdb221352d86ac72f70d23becf1f08f0549"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "cec57a31eb437169a6fdd27802abfbdb221352d86ac72f70d23becf1f08f0549",
+        "exactAssetHashes": {
+          "goblins-pro.json": "f45b7a36097c60692e78fef20626103eab0532e3e40701fb29438e9d75dfa057",
+          "goblins.atlas": "7245bf918b1d661d9502bf35aff39ae73541b27285fab1df983bd8e6cda5dc0a",
+          "goblins.png": "bfdd68e30d633094ba2292d15df604f4acd168d236be3ca35f69505e591b5ba3"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "26",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "2cd065c99e2a57e50ee5dcda3cdc780ff46ae24984c3ad2072c106b28ae49aac",
+      "sourceAssets": {
+        "raptor-pma.atlas": {
+          "sha256": "9bb6a53df3d0e5e18f119069c148055385ae5682d2222560deb70f43167c2f9c",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-raptor/raptor-pma.atlas"
+          ]
+        },
+        "raptor-pma.png": {
+          "sha256": "6b4a5ef3316aadb79b79bd569fc91fc8c6b387b2811aec8a2530c2255de1d94f",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-raptor/raptor-pma.png"
+          ]
+        },
+        "raptor-pro.json": {
+          "sha256": "2ba9fe06007bc7b44d412bdb5722b1cd8b5fbcd0f7a263ae1aa957a555e9742a",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-raptor/raptor-pro.json"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "2ba9fe06007bc7b44d412bdb5722b1cd8b5fbcd0f7a263ae1aa957a555e9742a",
+      "runtimeRevision": "4.3.13",
+      "exportVersion": "4.3.75-beta",
+      "animation": "walk",
+      "sampledTime": 0.3166666626930237,
+      "skin": null,
+      "camera": {
+        "x": -165.34009397363002,
+        "y": 446.18234381428545,
+        "width": 1480.7884853848732,
+        "height": 1480.7884853848732,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Mesh deformation, layering and atlas edges",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "2cd065c99e2a57e50ee5dcda3cdc780ff46ae24984c3ad2072c106b28ae49aac",
+        "candidateSha256": "2cd065c99e2a57e50ee5dcda3cdc780ff46ae24984c3ad2072c106b28ae49aac"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "2cd065c99e2a57e50ee5dcda3cdc780ff46ae24984c3ad2072c106b28ae49aac",
+        "exactAssetHashes": {
+          "raptor-pma.atlas": "9bb6a53df3d0e5e18f119069c148055385ae5682d2222560deb70f43167c2f9c",
+          "raptor-pma.png": "6b4a5ef3316aadb79b79bd569fc91fc8c6b387b2811aec8a2530c2255de1d94f",
+          "raptor-pro.json": "2ba9fe06007bc7b44d412bdb5722b1cd8b5fbcd0f7a263ae1aa957a555e9742a"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "27",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "f33808352467abecbdc3461ffe3c964823c0754b380c17c2fa974867510a7eb4",
+      "sourceAssets": {
+        "raptor-pro.json": {
+          "sha256": "2ba9fe06007bc7b44d412bdb5722b1cd8b5fbcd0f7a263ae1aa957a555e9742a",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-raptor/raptor-pro.json"
+          ]
+        },
+        "raptor.atlas": {
+          "sha256": "fb6e8532cb7665542b54ab661d0cadffe0171fcfe6b192595cd6ab622b08d8e6",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-raptor/raptor.atlas"
+          ]
+        },
+        "raptor.png": {
+          "sha256": "c2fcb6ac6c363f5b37f622feb727aed64fbd0205897a7ba8b6b45f8a091ab125",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-raptor/raptor.png"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "2ba9fe06007bc7b44d412bdb5722b1cd8b5fbcd0f7a263ae1aa957a555e9742a",
+      "runtimeRevision": "4.3.13",
+      "exportVersion": "4.3.75-beta",
+      "animation": "walk",
+      "sampledTime": 0.3166666626930237,
+      "skin": null,
+      "camera": {
+        "x": -165.34009397363002,
+        "y": 446.18234381428545,
+        "width": 1480.7884853848732,
+        "height": 1480.7884853848732,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Mesh deformation, layering and atlas edges",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "f33808352467abecbdc3461ffe3c964823c0754b380c17c2fa974867510a7eb4",
+        "candidateSha256": "f33808352467abecbdc3461ffe3c964823c0754b380c17c2fa974867510a7eb4"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "f33808352467abecbdc3461ffe3c964823c0754b380c17c2fa974867510a7eb4",
+        "exactAssetHashes": {
+          "raptor-pro.json": "2ba9fe06007bc7b44d412bdb5722b1cd8b5fbcd0f7a263ae1aa957a555e9742a",
+          "raptor.atlas": "fb6e8532cb7665542b54ab661d0cadffe0171fcfe6b192595cd6ab622b08d8e6",
+          "raptor.png": "c2fcb6ac6c363f5b37f622feb727aed64fbd0205897a7ba8b6b45f8a091ab125"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "28",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "b9fb48b222a9e62fd88a683c49f316ad3284e100481aed0df3da854b9fe5fc51",
+      "sourceAssets": {
+        "tank-pma.atlas": {
+          "sha256": "4cdc8fe71a6477dec3e603858a3055aad1c116cdec47f29bd01ef0131f9ce275",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-tank/tank-pma.atlas"
+          ]
+        },
+        "tank-pma.png": {
+          "sha256": "65a41752ae26da65c45337728e019b171e335b9e58fac70d2ac8c8fb18e64bc5",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-tank/tank-pma.png"
+          ]
+        },
+        "tank-pro.json": {
+          "sha256": "93916fbb35825b14ba4dbf3823a126d847f7980a4f7dcfec22004d898e9eadd5",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-tank/tank-pro.json"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "93916fbb35825b14ba4dbf3823a126d847f7980a4f7dcfec22004d898e9eadd5",
+      "runtimeRevision": "4.3.13",
+      "exportVersion": "4.3.75-beta",
+      "animation": "drive",
+      "sampledTime": 1.4249999523162842,
+      "skin": null,
+      "camera": {
+        "x": -2251.343196008722,
+        "y": 300.93982607476465,
+        "width": 8283.001049420112,
+        "height": 8283.001049420112,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Layering, mesh deformation and attachment order",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "b9fb48b222a9e62fd88a683c49f316ad3284e100481aed0df3da854b9fe5fc51",
+        "candidateSha256": "b9fb48b222a9e62fd88a683c49f316ad3284e100481aed0df3da854b9fe5fc51"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "b9fb48b222a9e62fd88a683c49f316ad3284e100481aed0df3da854b9fe5fc51",
+        "exactAssetHashes": {
+          "tank-pma.atlas": "4cdc8fe71a6477dec3e603858a3055aad1c116cdec47f29bd01ef0131f9ce275",
+          "tank-pma.png": "65a41752ae26da65c45337728e019b171e335b9e58fac70d2ac8c8fb18e64bc5",
+          "tank-pro.json": "93916fbb35825b14ba4dbf3823a126d847f7980a4f7dcfec22004d898e9eadd5"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "29",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "44f1eded786bbe304d466150a46599c058f500403b9fb120b0338de95d561374",
+      "sourceAssets": {
+        "tank-pro.json": {
+          "sha256": "93916fbb35825b14ba4dbf3823a126d847f7980a4f7dcfec22004d898e9eadd5",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-tank/tank-pro.json"
+          ]
+        },
+        "tank.atlas": {
+          "sha256": "003a119ec915ae5130582ba9100aa1ca37049727050d18c334261299f5d81cc5",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-tank/tank.atlas"
+          ]
+        },
+        "tank.png": {
+          "sha256": "52d92e423b47152c4611fac5c54ee07593a710cb6342fa2dd3ec72ee9b70576d",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-tank/tank.png"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "93916fbb35825b14ba4dbf3823a126d847f7980a4f7dcfec22004d898e9eadd5",
+      "runtimeRevision": "4.3.13",
+      "exportVersion": "4.3.75-beta",
+      "animation": "drive",
+      "sampledTime": 1.4249999523162842,
+      "skin": null,
+      "camera": {
+        "x": -2251.343196008722,
+        "y": 300.93982607476465,
+        "width": 8283.001049420112,
+        "height": 8283.001049420112,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Layering, mesh deformation and attachment order",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "44f1eded786bbe304d466150a46599c058f500403b9fb120b0338de95d561374",
+        "candidateSha256": "44f1eded786bbe304d466150a46599c058f500403b9fb120b0338de95d561374"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "44f1eded786bbe304d466150a46599c058f500403b9fb120b0338de95d561374",
+        "exactAssetHashes": {
+          "tank-pro.json": "93916fbb35825b14ba4dbf3823a126d847f7980a4f7dcfec22004d898e9eadd5",
+          "tank.atlas": "003a119ec915ae5130582ba9100aa1ca37049727050d18c334261299f5d81cc5",
+          "tank.png": "52d92e423b47152c4611fac5c54ee07593a710cb6342fa2dd3ec72ee9b70576d"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "30",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "b851e3fb71091bf88f330e15f210c8ac9b0659189ad347b2a96d6de3fcdb61bf",
+      "sourceAssets": {
+        "vine-pma.atlas": {
+          "sha256": "922df9d8b2ff773beca0aef969045853f63599ec75bdf6e5bd861ceba08d066d",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-vine/vine-pma.atlas",
+            "viewer/fixtures/features/4.2-vine/vine-pma.atlas"
+          ]
+        },
+        "vine-pma.png": {
+          "sha256": "db424dd2fa9c4ca7ee93636f1b99c1b72b0c7b66e2d85fae0b79648e7dea7bd5",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-vine/vine-pma.png",
+            "viewer/fixtures/features/4.2-vine/vine-pma.png"
+          ]
+        },
+        "vine-pro.json": {
+          "sha256": "cfb7b608a784eb9e5d0167691236b5a536e03872ed8b01293400d554f0847fc7",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-vine/vine-pro.json"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "cfb7b608a784eb9e5d0167691236b5a536e03872ed8b01293400d554f0847fc7",
+      "runtimeRevision": "4.3.13",
+      "exportVersion": "4.3.75-beta",
+      "animation": "grow",
+      "sampledTime": 2.8583333492279053,
+      "skin": null,
+      "camera": {
+        "x": 26.127003206622717,
+        "y": 418.8278068792748,
+        "width": 967.2540471486993,
+        "height": 967.2540471486993,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Path-constrained geometry and deformation",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "b851e3fb71091bf88f330e15f210c8ac9b0659189ad347b2a96d6de3fcdb61bf",
+        "candidateSha256": "b851e3fb71091bf88f330e15f210c8ac9b0659189ad347b2a96d6de3fcdb61bf"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "b851e3fb71091bf88f330e15f210c8ac9b0659189ad347b2a96d6de3fcdb61bf",
+        "exactAssetHashes": {
+          "vine-pma.atlas": "922df9d8b2ff773beca0aef969045853f63599ec75bdf6e5bd861ceba08d066d",
+          "vine-pma.png": "db424dd2fa9c4ca7ee93636f1b99c1b72b0c7b66e2d85fae0b79648e7dea7bd5",
+          "vine-pro.json": "cfb7b608a784eb9e5d0167691236b5a536e03872ed8b01293400d554f0847fc7"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "31",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "b3f0a9f461e9fc966d3a704e60b85fa035d4429215372b3b64a07e6f19c4f2d3",
+      "sourceAssets": {
+        "vine-pro.json": {
+          "sha256": "cfb7b608a784eb9e5d0167691236b5a536e03872ed8b01293400d554f0847fc7",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-vine/vine-pro.json"
+          ]
+        },
+        "vine.atlas": {
+          "sha256": "34dfdf9ef931040a15a89f005434062bef659db27a3a00116332a888a99dfa3c",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-vine/vine.atlas",
+            "viewer/fixtures/features/4.2-vine/vine.atlas"
+          ]
+        },
+        "vine.png": {
+          "sha256": "fd456093b11fd99fcc5d7380e1e49011579fd01cf46d85cb151bd5d58735bc6f",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-vine/vine.png",
+            "viewer/fixtures/features/4.2-vine/vine.png"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "cfb7b608a784eb9e5d0167691236b5a536e03872ed8b01293400d554f0847fc7",
+      "runtimeRevision": "4.3.13",
+      "exportVersion": "4.3.75-beta",
+      "animation": "grow",
+      "sampledTime": 2.8583333492279053,
+      "skin": null,
+      "camera": {
+        "x": 26.127003206622717,
+        "y": 418.8278068792748,
+        "width": 967.2540471486993,
+        "height": 967.2540471486993,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Path-constrained geometry and deformation",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "b3f0a9f461e9fc966d3a704e60b85fa035d4429215372b3b64a07e6f19c4f2d3",
+        "candidateSha256": "b3f0a9f461e9fc966d3a704e60b85fa035d4429215372b3b64a07e6f19c4f2d3"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "b3f0a9f461e9fc966d3a704e60b85fa035d4429215372b3b64a07e6f19c4f2d3",
+        "exactAssetHashes": {
+          "vine-pro.json": "cfb7b608a784eb9e5d0167691236b5a536e03872ed8b01293400d554f0847fc7",
+          "vine.atlas": "34dfdf9ef931040a15a89f005434062bef659db27a3a00116332a888a99dfa3c",
+          "vine.png": "fd456093b11fd99fcc5d7380e1e49011579fd01cf46d85cb151bd5d58735bc6f"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "33",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "da2dbebb6801929319b67d8d8ce08ab971598d4adb261bded377ebe602c605f4",
+      "sourceAssets": {
+        "cloud-pot.atlas": {
+          "sha256": "0fa5e25e321d99ae607c374d29950080e351517c8b874c858d69e0c56669a0e3",
+          "matchingFixturePaths": [
+            "viewer/fixtures/physics/4.2/cloud-pot.atlas"
+          ]
+        },
+        "cloud-pot.json": {
+          "sha256": "5b138843568507c1ef53fa23bfa6c198432e1499d678ba5d6b30c5dda2363274",
+          "matchingFixturePaths": [
+            "viewer/fixtures/physics/4.2/cloud-pot.json"
+          ]
+        },
+        "cloud-pot.png": {
+          "sha256": "4d7120a1bd0d3525ccc7f21a059202009e13e7e963bc5322862496fcc282f145",
+          "matchingFixturePaths": [
+            "viewer/fixtures/physics/4.2/cloud-pot.png"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "5b138843568507c1ef53fa23bfa6c198432e1499d678ba5d6b30c5dda2363274",
+      "runtimeRevision": "4.2.43",
+      "exportVersion": "4.2.22",
+      "animation": "playing-in-the-rain",
+      "sampledTime": 1.1666749715805054,
+      "skin": null,
+      "camera": {
+        "x": 32.99996081818301,
+        "y": 531.9999999999997,
+        "width": 1262.6999999999991,
+        "height": 1262.6999999999991,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Authored pose, alpha edges, layering and texture placement",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "da2dbebb6801929319b67d8d8ce08ab971598d4adb261bded377ebe602c605f4",
+        "candidateSha256": "da2dbebb6801929319b67d8d8ce08ab971598d4adb261bded377ebe602c605f4"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "da2dbebb6801929319b67d8d8ce08ab971598d4adb261bded377ebe602c605f4",
+        "exactAssetHashes": {
+          "cloud-pot.atlas": "0fa5e25e321d99ae607c374d29950080e351517c8b874c858d69e0c56669a0e3",
+          "cloud-pot.json": "5b138843568507c1ef53fa23bfa6c198432e1499d678ba5d6b30c5dda2363274",
+          "cloud-pot.png": "4d7120a1bd0d3525ccc7f21a059202009e13e7e963bc5322862496fcc282f145"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "34",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "ae99d350b83b37ddc8b40f642b82d5b3d2c631cc4bff620d7fd166078392e829",
+      "sourceAssets": {
+        "cloud-pot.atlas": {
+          "sha256": "d659c6eb9df5c423aafa7ebce56a3974a119addf932ab98cff848443afcd6351",
+          "matchingFixturePaths": [
+            "viewer/fixtures/physics/4.3/cloud-pot.atlas"
+          ]
+        },
+        "cloud-pot.json": {
+          "sha256": "b0ff731b48d65628d90f04b1596770d84352b014757116a0aad5f59421152f8c",
+          "matchingFixturePaths": [
+            "viewer/fixtures/physics/4.3/cloud-pot.json"
+          ]
+        },
+        "cloud-pot.png": {
+          "sha256": "6f4597b532d357b739cb5ce8dcf9ee8a2d53b3f1c487c85c397b011ec33bd5f4",
+          "matchingFixturePaths": [
+            "viewer/fixtures/physics/4.3/cloud-pot.png"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "b0ff731b48d65628d90f04b1596770d84352b014757116a0aad5f59421152f8c",
+      "runtimeRevision": "4.3.13",
+      "exportVersion": "4.3.75-beta",
+      "animation": "playing-in-the-rain",
+      "sampledTime": 1.1666665077209473,
+      "skin": null,
+      "camera": {
+        "x": 32.99996412927135,
+        "y": 531.9999999999998,
+        "width": 1262.6999999999994,
+        "height": 1262.6999999999994,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Authored pose, alpha edges, layering and texture placement",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "ae99d350b83b37ddc8b40f642b82d5b3d2c631cc4bff620d7fd166078392e829",
+        "candidateSha256": "ae99d350b83b37ddc8b40f642b82d5b3d2c631cc4bff620d7fd166078392e829"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "ae99d350b83b37ddc8b40f642b82d5b3d2c631cc4bff620d7fd166078392e829",
+        "exactAssetHashes": {
+          "cloud-pot.atlas": "d659c6eb9df5c423aafa7ebce56a3974a119addf932ab98cff848443afcd6351",
+          "cloud-pot.json": "b0ff731b48d65628d90f04b1596770d84352b014757116a0aad5f59421152f8c",
+          "cloud-pot.png": "6f4597b532d357b739cb5ce8dcf9ee8a2d53b3f1c487c85c397b011ec33bd5f4"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "4",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "54c13114080354929b81adb39e8425e0cf4cde14d855560a27dd10f936411c9c",
+      "sourceAssets": {
+        "spineboy-pro.json": {
+          "sha256": "b7222ce40837f30ca08b05e5d5b2d00927f306fe2526a64db353e34df699b179",
+          "matchingFixturePaths": [
+            "viewer/fixtures/4.1/spineboy-pro.json"
+          ]
+        },
+        "spineboy.atlas": {
+          "sha256": "fdc4bbc4be5f1a638fa0ff384271007b1f2df72855dd80b4b239bcfe8a4ac31e",
+          "matchingFixturePaths": [
+            "viewer/fixtures/4.1/spineboy.atlas",
+            "viewer/fixtures/4.0/spineboy.atlas"
+          ]
+        },
+        "spineboy.png": {
+          "sha256": "96c55a06237f1b7475cd1287a26ebc71644324f42984ac0ccd2d112c43bd135a",
+          "matchingFixturePaths": [
+            "viewer/fixtures/4.1/spineboy.png"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "b7222ce40837f30ca08b05e5d5b2d00927f306fe2526a64db353e34df699b179",
+      "runtimeRevision": "4.1.56",
+      "exportVersion": "4.1.17",
+      "animation": "walk",
+      "sampledTime": 0.25,
+      "skin": null,
+      "camera": {
+        "x": 20.565280947092447,
+        "y": 335.160650304442,
+        "width": 789.1285763982843,
+        "height": 789.1285763982843,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Silhouette, pose, mesh deformation, atlas orientation and attachment order",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "54c13114080354929b81adb39e8425e0cf4cde14d855560a27dd10f936411c9c",
+        "candidateSha256": "54c13114080354929b81adb39e8425e0cf4cde14d855560a27dd10f936411c9c"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "54c13114080354929b81adb39e8425e0cf4cde14d855560a27dd10f936411c9c",
+        "exactAssetHashes": {
+          "spineboy-pro.json": "b7222ce40837f30ca08b05e5d5b2d00927f306fe2526a64db353e34df699b179",
+          "spineboy.atlas": "fdc4bbc4be5f1a638fa0ff384271007b1f2df72855dd80b4b239bcfe8a4ac31e",
+          "spineboy.png": "96c55a06237f1b7475cd1287a26ebc71644324f42984ac0ccd2d112c43bd135a"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "6",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "cb7292eb7bd4276c3d1f910154d6bd6e7bc6dbcbda3e61887af0eb1a2ab51d4a",
+      "sourceAssets": {
+        "spineboy-pro.json": {
+          "sha256": "488face411ddfad77ee3239b29431deb574d73f4feca7eca541452ad24bb6bfc",
+          "matchingFixturePaths": [
+            "viewer/fixtures/4.2/spineboy-pro.json"
+          ]
+        },
+        "spineboy.atlas": {
+          "sha256": "fc90c2a604c14bb3ae1a81f9c950660863a41654cb29c869423a86e127fa75ae",
+          "matchingFixturePaths": [
+            "viewer/fixtures/4.2/spineboy.atlas"
+          ]
+        },
+        "spineboy.png": {
+          "sha256": "071a6adec73378eebd802a047d274deefe11abee3ce689a1e71acb4cb41e331e",
+          "matchingFixturePaths": [
+            "viewer/fixtures/4.2/spineboy.png"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "488face411ddfad77ee3239b29431deb574d73f4feca7eca541452ad24bb6bfc",
+      "runtimeRevision": "4.2.43",
+      "exportVersion": "4.2.22",
+      "animation": "walk",
+      "sampledTime": 0.25,
+      "skin": null,
+      "camera": {
+        "x": 20.56528680631658,
+        "y": 335.160650304442,
+        "width": 789.1285763982843,
+        "height": 789.1285763982843,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Silhouette, pose, mesh deformation, atlas orientation and attachment order",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "cb7292eb7bd4276c3d1f910154d6bd6e7bc6dbcbda3e61887af0eb1a2ab51d4a",
+        "candidateSha256": "cb7292eb7bd4276c3d1f910154d6bd6e7bc6dbcbda3e61887af0eb1a2ab51d4a"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "cb7292eb7bd4276c3d1f910154d6bd6e7bc6dbcbda3e61887af0eb1a2ab51d4a",
+        "exactAssetHashes": {
+          "spineboy-pro.json": "488face411ddfad77ee3239b29431deb574d73f4feca7eca541452ad24bb6bfc",
+          "spineboy.atlas": "fc90c2a604c14bb3ae1a81f9c950660863a41654cb29c869423a86e127fa75ae",
+          "spineboy.png": "071a6adec73378eebd802a047d274deefe11abee3ce689a1e71acb4cb41e331e"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "8",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "82bf0c14ce7390de8b53ae5472635ba451bbffd38f468c55461e3c1e604a7dfa",
+      "sourceAssets": {
+        "spineboy-pro.json": {
+          "sha256": "24ccffc13e334e721dfd427ee2b8aea05c25b59167b5fb0bb0f9685e11d2a7d3",
+          "matchingFixturePaths": [
+            "viewer/fixtures/4.3/spineboy-pro.json"
+          ]
+        },
+        "spineboy.atlas": {
+          "sha256": "fbd452640df513d637e0a34d21c1d3ea4edb27f57bd1856ffd5530b16ee83d00",
+          "matchingFixturePaths": [
+            "viewer/fixtures/4.3/spineboy.atlas"
+          ]
+        },
+        "spineboy.png": {
+          "sha256": "ab874448a224f8a92188e133735062c86e5f93eb7286b0fc37c5d39864e6569f",
+          "matchingFixturePaths": [
+            "viewer/fixtures/4.3/spineboy.png"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "24ccffc13e334e721dfd427ee2b8aea05c25b59167b5fb0bb0f9685e11d2a7d3",
+      "runtimeRevision": "4.3.13",
+      "exportVersion": "4.3.75-beta",
+      "animation": "walk",
+      "sampledTime": 0.25,
+      "skin": null,
+      "camera": {
+        "x": 20.590089234748177,
+        "y": 335.16358232442997,
+        "width": 789.1292091722601,
+        "height": 789.1292091722601,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Silhouette, pose, mesh deformation, atlas orientation and attachment order",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "82bf0c14ce7390de8b53ae5472635ba451bbffd38f468c55461e3c1e604a7dfa",
+        "candidateSha256": "82bf0c14ce7390de8b53ae5472635ba451bbffd38f468c55461e3c1e604a7dfa"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "82bf0c14ce7390de8b53ae5472635ba451bbffd38f468c55461e3c1e604a7dfa",
+        "exactAssetHashes": {
+          "spineboy-pro.json": "24ccffc13e334e721dfd427ee2b8aea05c25b59167b5fb0bb0f9685e11d2a7d3",
+          "spineboy.atlas": "fbd452640df513d637e0a34d21c1d3ea4edb27f57bd1856ffd5530b16ee83d00",
+          "spineboy.png": "ab874448a224f8a92188e133735062c86e5f93eb7286b0fc37c5d39864e6569f"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "derived-blend-12-additive",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "6064202cf21e466f8c6a5d4730f70dad8eb8999fcd89734f289b326e7dab913c",
+      "sourceAssets": {
+        "coin-pma.atlas": {
+          "sha256": "76f2fb5f8c24edd8cd3b0a42a210c865718f9495e6ffbc74f707dc747c220163",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-coin/coin-pma.atlas"
+          ]
+        },
+        "coin-pma.png": {
+          "sha256": "1c5a5ce66318dce35513a204350da1a08cf778252276e07e99ff75334cd3b9d3",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-coin/coin-pma.png"
+          ]
+        },
+        "coin-pro.json": {
+          "sha256": "cc9b13d9a2fc4af455dac45c538ced90713939696433bf87b564b60d39f16008",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-coin/coin-pro.json"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "ec5a12d853b6ee74bfa8a4d735e055c929edfd711617ad079c8ab7f2c83d9431",
+      "runtimeRevision": "4.2.43",
+      "exportVersion": "4.2.22",
+      "animation": "animation",
+      "sampledTime": 0.6666749715805054,
+      "skin": null,
+      "camera": {
+        "x": 74.12720051191346,
+        "y": 0.5,
+        "width": 521.2425772956657,
+        "height": 521.2425772956657,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0.2,
+        0.3,
+        0.4,
+        1
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Derived additive blend on opaque [0.2, 0.3, 0.4, 1] background; clipping and alpha edges",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "6064202cf21e466f8c6a5d4730f70dad8eb8999fcd89734f289b326e7dab913c",
+        "candidateSha256": "6064202cf21e466f8c6a5d4730f70dad8eb8999fcd89734f289b326e7dab913c"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "6064202cf21e466f8c6a5d4730f70dad8eb8999fcd89734f289b326e7dab913c",
+        "exactAssetHashes": {
+          "coin-pma.atlas": "76f2fb5f8c24edd8cd3b0a42a210c865718f9495e6ffbc74f707dc747c220163",
+          "coin-pma.png": "1c5a5ce66318dce35513a204350da1a08cf778252276e07e99ff75334cd3b9d3",
+          "coin-pro.json": "cc9b13d9a2fc4af455dac45c538ced90713939696433bf87b564b60d39f16008"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "derived-blend-12-multiply",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "316b85fc3f619e5f44a7e4087ad229d0016587ab3e9d592ad0467db135279921",
+      "sourceAssets": {
+        "coin-pma.atlas": {
+          "sha256": "76f2fb5f8c24edd8cd3b0a42a210c865718f9495e6ffbc74f707dc747c220163",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-coin/coin-pma.atlas"
+          ]
+        },
+        "coin-pma.png": {
+          "sha256": "1c5a5ce66318dce35513a204350da1a08cf778252276e07e99ff75334cd3b9d3",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-coin/coin-pma.png"
+          ]
+        },
+        "coin-pro.json": {
+          "sha256": "cc9b13d9a2fc4af455dac45c538ced90713939696433bf87b564b60d39f16008",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-coin/coin-pro.json"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "57da0ff6f34e6f288d89e2d2bab860a3c5b79eeae5ded2639ef99f1dd0760519",
+      "runtimeRevision": "4.2.43",
+      "exportVersion": "4.2.22",
+      "animation": "animation",
+      "sampledTime": 0.6666749715805054,
+      "skin": null,
+      "camera": {
+        "x": 74.12720051191346,
+        "y": 0.5,
+        "width": 521.2425772956657,
+        "height": 521.2425772956657,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0.2,
+        0.3,
+        0.4,
+        1
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Derived multiply blend on opaque [0.2, 0.3, 0.4, 1] background; clipping and alpha edges",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "316b85fc3f619e5f44a7e4087ad229d0016587ab3e9d592ad0467db135279921",
+        "candidateSha256": "316b85fc3f619e5f44a7e4087ad229d0016587ab3e9d592ad0467db135279921"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "316b85fc3f619e5f44a7e4087ad229d0016587ab3e9d592ad0467db135279921",
+        "exactAssetHashes": {
+          "coin-pma.atlas": "76f2fb5f8c24edd8cd3b0a42a210c865718f9495e6ffbc74f707dc747c220163",
+          "coin-pma.png": "1c5a5ce66318dce35513a204350da1a08cf778252276e07e99ff75334cd3b9d3",
+          "coin-pro.json": "cc9b13d9a2fc4af455dac45c538ced90713939696433bf87b564b60d39f16008"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "derived-blend-12-normal",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "76dc2b0d4027c529a83d04f8bf0366f55921794128ce6b103930207c3e05936c",
+      "sourceAssets": {
+        "coin-pma.atlas": {
+          "sha256": "76f2fb5f8c24edd8cd3b0a42a210c865718f9495e6ffbc74f707dc747c220163",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-coin/coin-pma.atlas"
+          ]
+        },
+        "coin-pma.png": {
+          "sha256": "1c5a5ce66318dce35513a204350da1a08cf778252276e07e99ff75334cd3b9d3",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-coin/coin-pma.png"
+          ]
+        },
+        "coin-pro.json": {
+          "sha256": "cc9b13d9a2fc4af455dac45c538ced90713939696433bf87b564b60d39f16008",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-coin/coin-pro.json"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "6cdaac9bb47182f115106a99251635e8fad2f0554a0e6b1b76157527754ecf97",
+      "runtimeRevision": "4.2.43",
+      "exportVersion": "4.2.22",
+      "animation": "animation",
+      "sampledTime": 0.6666749715805054,
+      "skin": null,
+      "camera": {
+        "x": 74.12720051191346,
+        "y": 0.5,
+        "width": 521.2425772956657,
+        "height": 521.2425772956657,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0.2,
+        0.3,
+        0.4,
+        1
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Derived normal blend on opaque [0.2, 0.3, 0.4, 1] background; clipping and alpha edges",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "76dc2b0d4027c529a83d04f8bf0366f55921794128ce6b103930207c3e05936c",
+        "candidateSha256": "76dc2b0d4027c529a83d04f8bf0366f55921794128ce6b103930207c3e05936c"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "76dc2b0d4027c529a83d04f8bf0366f55921794128ce6b103930207c3e05936c",
+        "exactAssetHashes": {
+          "coin-pma.atlas": "76f2fb5f8c24edd8cd3b0a42a210c865718f9495e6ffbc74f707dc747c220163",
+          "coin-pma.png": "1c5a5ce66318dce35513a204350da1a08cf778252276e07e99ff75334cd3b9d3",
+          "coin-pro.json": "cc9b13d9a2fc4af455dac45c538ced90713939696433bf87b564b60d39f16008"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "derived-blend-12-screen",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "a4539fd5d43d3159f29cd9f526f640e525d56ffbb11a340726b40c7d9bd04b03",
+      "sourceAssets": {
+        "coin-pma.atlas": {
+          "sha256": "76f2fb5f8c24edd8cd3b0a42a210c865718f9495e6ffbc74f707dc747c220163",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-coin/coin-pma.atlas"
+          ]
+        },
+        "coin-pma.png": {
+          "sha256": "1c5a5ce66318dce35513a204350da1a08cf778252276e07e99ff75334cd3b9d3",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-coin/coin-pma.png"
+          ]
+        },
+        "coin-pro.json": {
+          "sha256": "cc9b13d9a2fc4af455dac45c538ced90713939696433bf87b564b60d39f16008",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-coin/coin-pro.json"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "a7d5db1a0855eb495f02f51a5f3eb521ed225e8ad839c0d7e01b0edbc46fd344",
+      "runtimeRevision": "4.2.43",
+      "exportVersion": "4.2.22",
+      "animation": "animation",
+      "sampledTime": 0.6666749715805054,
+      "skin": null,
+      "camera": {
+        "x": 74.12720051191346,
+        "y": 0.5,
+        "width": 521.2425772956657,
+        "height": 521.2425772956657,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0.2,
+        0.3,
+        0.4,
+        1
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Derived screen blend on opaque [0.2, 0.3, 0.4, 1] background; clipping and alpha edges",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "a4539fd5d43d3159f29cd9f526f640e525d56ffbb11a340726b40c7d9bd04b03",
+        "candidateSha256": "a4539fd5d43d3159f29cd9f526f640e525d56ffbb11a340726b40c7d9bd04b03"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "a4539fd5d43d3159f29cd9f526f640e525d56ffbb11a340726b40c7d9bd04b03",
+        "exactAssetHashes": {
+          "coin-pma.atlas": "76f2fb5f8c24edd8cd3b0a42a210c865718f9495e6ffbc74f707dc747c220163",
+          "coin-pma.png": "1c5a5ce66318dce35513a204350da1a08cf778252276e07e99ff75334cd3b9d3",
+          "coin-pro.json": "cc9b13d9a2fc4af455dac45c538ced90713939696433bf87b564b60d39f16008"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "derived-blend-13-additive",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "fd07c571d53671b2848cf11f2bd7dc4f8ec66ed48dcd456a3d34182cb753b47c",
+      "sourceAssets": {
+        "coin-pro.json": {
+          "sha256": "cc9b13d9a2fc4af455dac45c538ced90713939696433bf87b564b60d39f16008",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-coin/coin-pro.json"
+          ]
+        },
+        "coin.atlas": {
+          "sha256": "9b394c85aef916a4cdaf95b7abfb714e2c2def9b71568db7d546e90f7bebc092",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-coin/coin.atlas"
+          ]
+        },
+        "coin.png": {
+          "sha256": "a8672983ade9a0b360125dda63f0d2a0166fc2d7b909044d01ae744918fb4c14",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-coin/coin.png"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "ec5a12d853b6ee74bfa8a4d735e055c929edfd711617ad079c8ab7f2c83d9431",
+      "runtimeRevision": "4.2.43",
+      "exportVersion": "4.2.22",
+      "animation": "animation",
+      "sampledTime": 0.6666749715805054,
+      "skin": null,
+      "camera": {
+        "x": 74.12720051191346,
+        "y": 0.5,
+        "width": 521.2425772956657,
+        "height": 521.2425772956657,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0.2,
+        0.3,
+        0.4,
+        1
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Derived additive blend on opaque [0.2, 0.3, 0.4, 1] background; clipping and alpha edges",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "fd07c571d53671b2848cf11f2bd7dc4f8ec66ed48dcd456a3d34182cb753b47c",
+        "candidateSha256": "fd07c571d53671b2848cf11f2bd7dc4f8ec66ed48dcd456a3d34182cb753b47c"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "fd07c571d53671b2848cf11f2bd7dc4f8ec66ed48dcd456a3d34182cb753b47c",
+        "exactAssetHashes": {
+          "coin-pro.json": "cc9b13d9a2fc4af455dac45c538ced90713939696433bf87b564b60d39f16008",
+          "coin.atlas": "9b394c85aef916a4cdaf95b7abfb714e2c2def9b71568db7d546e90f7bebc092",
+          "coin.png": "a8672983ade9a0b360125dda63f0d2a0166fc2d7b909044d01ae744918fb4c14"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "derived-blend-13-multiply",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "be17660d526c4f57e1b860ccaad5f31da4d72f0987af4ede72b8fb405615a329",
+      "sourceAssets": {
+        "coin-pro.json": {
+          "sha256": "cc9b13d9a2fc4af455dac45c538ced90713939696433bf87b564b60d39f16008",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-coin/coin-pro.json"
+          ]
+        },
+        "coin.atlas": {
+          "sha256": "9b394c85aef916a4cdaf95b7abfb714e2c2def9b71568db7d546e90f7bebc092",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-coin/coin.atlas"
+          ]
+        },
+        "coin.png": {
+          "sha256": "a8672983ade9a0b360125dda63f0d2a0166fc2d7b909044d01ae744918fb4c14",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-coin/coin.png"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "57da0ff6f34e6f288d89e2d2bab860a3c5b79eeae5ded2639ef99f1dd0760519",
+      "runtimeRevision": "4.2.43",
+      "exportVersion": "4.2.22",
+      "animation": "animation",
+      "sampledTime": 0.6666749715805054,
+      "skin": null,
+      "camera": {
+        "x": 74.12720051191346,
+        "y": 0.5,
+        "width": 521.2425772956657,
+        "height": 521.2425772956657,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0.2,
+        0.3,
+        0.4,
+        1
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Derived multiply blend on opaque [0.2, 0.3, 0.4, 1] background; clipping and alpha edges",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "be17660d526c4f57e1b860ccaad5f31da4d72f0987af4ede72b8fb405615a329",
+        "candidateSha256": "be17660d526c4f57e1b860ccaad5f31da4d72f0987af4ede72b8fb405615a329"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "be17660d526c4f57e1b860ccaad5f31da4d72f0987af4ede72b8fb405615a329",
+        "exactAssetHashes": {
+          "coin-pro.json": "cc9b13d9a2fc4af455dac45c538ced90713939696433bf87b564b60d39f16008",
+          "coin.atlas": "9b394c85aef916a4cdaf95b7abfb714e2c2def9b71568db7d546e90f7bebc092",
+          "coin.png": "a8672983ade9a0b360125dda63f0d2a0166fc2d7b909044d01ae744918fb4c14"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "derived-blend-13-normal",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "76f2cb1947940b510e6207bc4585ee13e368cea1bb00e2af9e4704f8826bdb96",
+      "sourceAssets": {
+        "coin-pro.json": {
+          "sha256": "cc9b13d9a2fc4af455dac45c538ced90713939696433bf87b564b60d39f16008",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-coin/coin-pro.json"
+          ]
+        },
+        "coin.atlas": {
+          "sha256": "9b394c85aef916a4cdaf95b7abfb714e2c2def9b71568db7d546e90f7bebc092",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-coin/coin.atlas"
+          ]
+        },
+        "coin.png": {
+          "sha256": "a8672983ade9a0b360125dda63f0d2a0166fc2d7b909044d01ae744918fb4c14",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-coin/coin.png"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "6cdaac9bb47182f115106a99251635e8fad2f0554a0e6b1b76157527754ecf97",
+      "runtimeRevision": "4.2.43",
+      "exportVersion": "4.2.22",
+      "animation": "animation",
+      "sampledTime": 0.6666749715805054,
+      "skin": null,
+      "camera": {
+        "x": 74.12720051191346,
+        "y": 0.5,
+        "width": 521.2425772956657,
+        "height": 521.2425772956657,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0.2,
+        0.3,
+        0.4,
+        1
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Derived normal blend on opaque [0.2, 0.3, 0.4, 1] background; clipping and alpha edges",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "76f2cb1947940b510e6207bc4585ee13e368cea1bb00e2af9e4704f8826bdb96",
+        "candidateSha256": "76f2cb1947940b510e6207bc4585ee13e368cea1bb00e2af9e4704f8826bdb96"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "76f2cb1947940b510e6207bc4585ee13e368cea1bb00e2af9e4704f8826bdb96",
+        "exactAssetHashes": {
+          "coin-pro.json": "cc9b13d9a2fc4af455dac45c538ced90713939696433bf87b564b60d39f16008",
+          "coin.atlas": "9b394c85aef916a4cdaf95b7abfb714e2c2def9b71568db7d546e90f7bebc092",
+          "coin.png": "a8672983ade9a0b360125dda63f0d2a0166fc2d7b909044d01ae744918fb4c14"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "derived-blend-13-screen",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "3b16f4ef464c13219de456933c6edf9f3047ba1c0c4eab7599f1556ed5724464",
+      "sourceAssets": {
+        "coin-pro.json": {
+          "sha256": "cc9b13d9a2fc4af455dac45c538ced90713939696433bf87b564b60d39f16008",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-coin/coin-pro.json"
+          ]
+        },
+        "coin.atlas": {
+          "sha256": "9b394c85aef916a4cdaf95b7abfb714e2c2def9b71568db7d546e90f7bebc092",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-coin/coin.atlas"
+          ]
+        },
+        "coin.png": {
+          "sha256": "a8672983ade9a0b360125dda63f0d2a0166fc2d7b909044d01ae744918fb4c14",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.2-coin/coin.png"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "a7d5db1a0855eb495f02f51a5f3eb521ed225e8ad839c0d7e01b0edbc46fd344",
+      "runtimeRevision": "4.2.43",
+      "exportVersion": "4.2.22",
+      "animation": "animation",
+      "sampledTime": 0.6666749715805054,
+      "skin": null,
+      "camera": {
+        "x": 74.12720051191346,
+        "y": 0.5,
+        "width": 521.2425772956657,
+        "height": 521.2425772956657,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0.2,
+        0.3,
+        0.4,
+        1
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Derived screen blend on opaque [0.2, 0.3, 0.4, 1] background; clipping and alpha edges",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "3b16f4ef464c13219de456933c6edf9f3047ba1c0c4eab7599f1556ed5724464",
+        "candidateSha256": "3b16f4ef464c13219de456933c6edf9f3047ba1c0c4eab7599f1556ed5724464"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "3b16f4ef464c13219de456933c6edf9f3047ba1c0c4eab7599f1556ed5724464",
+        "exactAssetHashes": {
+          "coin-pro.json": "cc9b13d9a2fc4af455dac45c538ced90713939696433bf87b564b60d39f16008",
+          "coin.atlas": "9b394c85aef916a4cdaf95b7abfb714e2c2def9b71568db7d546e90f7bebc092",
+          "coin.png": "a8672983ade9a0b360125dda63f0d2a0166fc2d7b909044d01ae744918fb4c14"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "derived-blend-22-additive",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "63f5a6d7cc867372bd091896d9b8b62705e4bfcebdfd3ef2107ff966a2069fb8",
+      "sourceAssets": {
+        "coin-pma.atlas": {
+          "sha256": "e444eb249bb138660267cbdabcf691e880edafe5c8d79b43f577c22f3db53f8c",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-coin/coin-pma.atlas"
+          ]
+        },
+        "coin-pma.png": {
+          "sha256": "c56a15cef462016a6e45489905414ffdcfc3ea4f50d609295039e4b486f400ef",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-coin/coin-pma.png"
+          ]
+        },
+        "coin-pro.json": {
+          "sha256": "9e76b564681db8908529ef9af9be1822437bc788c20c0ca54fe3f59792d269b6",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-coin/coin-pro.json"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "e9bc65985a7a37a159422232487434aab4ced047afb6447f3961297fda47a39c",
+      "runtimeRevision": "4.3.13",
+      "exportVersion": "4.3.75-beta",
+      "animation": "animation",
+      "sampledTime": 0.6666667461395264,
+      "skin": null,
+      "camera": {
+        "x": 74.1294250338153,
+        "y": 0.5,
+        "width": 521.24769369604,
+        "height": 521.24769369604,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0.2,
+        0.3,
+        0.4,
+        1
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Derived additive blend on opaque [0.2, 0.3, 0.4, 1] background; clipping and alpha edges",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "63f5a6d7cc867372bd091896d9b8b62705e4bfcebdfd3ef2107ff966a2069fb8",
+        "candidateSha256": "63f5a6d7cc867372bd091896d9b8b62705e4bfcebdfd3ef2107ff966a2069fb8"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "63f5a6d7cc867372bd091896d9b8b62705e4bfcebdfd3ef2107ff966a2069fb8",
+        "exactAssetHashes": {
+          "coin-pma.atlas": "e444eb249bb138660267cbdabcf691e880edafe5c8d79b43f577c22f3db53f8c",
+          "coin-pma.png": "c56a15cef462016a6e45489905414ffdcfc3ea4f50d609295039e4b486f400ef",
+          "coin-pro.json": "9e76b564681db8908529ef9af9be1822437bc788c20c0ca54fe3f59792d269b6"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "derived-blend-22-multiply",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "3d78a9de9d38e1164c6937f23fa4cadf53613c9ed06dbcaa895924a0a8371947",
+      "sourceAssets": {
+        "coin-pma.atlas": {
+          "sha256": "e444eb249bb138660267cbdabcf691e880edafe5c8d79b43f577c22f3db53f8c",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-coin/coin-pma.atlas"
+          ]
+        },
+        "coin-pma.png": {
+          "sha256": "c56a15cef462016a6e45489905414ffdcfc3ea4f50d609295039e4b486f400ef",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-coin/coin-pma.png"
+          ]
+        },
+        "coin-pro.json": {
+          "sha256": "9e76b564681db8908529ef9af9be1822437bc788c20c0ca54fe3f59792d269b6",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-coin/coin-pro.json"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "3b7ff2396dd7d8b7ed1a8029535f2b58907232c3c4d53c1e0d62646341894157",
+      "runtimeRevision": "4.3.13",
+      "exportVersion": "4.3.75-beta",
+      "animation": "animation",
+      "sampledTime": 0.6666667461395264,
+      "skin": null,
+      "camera": {
+        "x": 74.1294250338153,
+        "y": 0.5,
+        "width": 521.24769369604,
+        "height": 521.24769369604,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0.2,
+        0.3,
+        0.4,
+        1
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Derived multiply blend on opaque [0.2, 0.3, 0.4, 1] background; clipping and alpha edges",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "3d78a9de9d38e1164c6937f23fa4cadf53613c9ed06dbcaa895924a0a8371947",
+        "candidateSha256": "3d78a9de9d38e1164c6937f23fa4cadf53613c9ed06dbcaa895924a0a8371947"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "3d78a9de9d38e1164c6937f23fa4cadf53613c9ed06dbcaa895924a0a8371947",
+        "exactAssetHashes": {
+          "coin-pma.atlas": "e444eb249bb138660267cbdabcf691e880edafe5c8d79b43f577c22f3db53f8c",
+          "coin-pma.png": "c56a15cef462016a6e45489905414ffdcfc3ea4f50d609295039e4b486f400ef",
+          "coin-pro.json": "9e76b564681db8908529ef9af9be1822437bc788c20c0ca54fe3f59792d269b6"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "derived-blend-22-normal",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "04ea2dd1d3f88ff675ab5d327975c0738e55dae19c2e54b158c2844a9a79faaa",
+      "sourceAssets": {
+        "coin-pma.atlas": {
+          "sha256": "e444eb249bb138660267cbdabcf691e880edafe5c8d79b43f577c22f3db53f8c",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-coin/coin-pma.atlas"
+          ]
+        },
+        "coin-pma.png": {
+          "sha256": "c56a15cef462016a6e45489905414ffdcfc3ea4f50d609295039e4b486f400ef",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-coin/coin-pma.png"
+          ]
+        },
+        "coin-pro.json": {
+          "sha256": "9e76b564681db8908529ef9af9be1822437bc788c20c0ca54fe3f59792d269b6",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-coin/coin-pro.json"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "310c1877243243ddbe9300ab7c0923770c1c97dd679deb57cc4a464228502864",
+      "runtimeRevision": "4.3.13",
+      "exportVersion": "4.3.75-beta",
+      "animation": "animation",
+      "sampledTime": 0.6666667461395264,
+      "skin": null,
+      "camera": {
+        "x": 74.1294250338153,
+        "y": 0.5,
+        "width": 521.24769369604,
+        "height": 521.24769369604,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0.2,
+        0.3,
+        0.4,
+        1
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Derived normal blend on opaque [0.2, 0.3, 0.4, 1] background; clipping and alpha edges",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "04ea2dd1d3f88ff675ab5d327975c0738e55dae19c2e54b158c2844a9a79faaa",
+        "candidateSha256": "04ea2dd1d3f88ff675ab5d327975c0738e55dae19c2e54b158c2844a9a79faaa"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "04ea2dd1d3f88ff675ab5d327975c0738e55dae19c2e54b158c2844a9a79faaa",
+        "exactAssetHashes": {
+          "coin-pma.atlas": "e444eb249bb138660267cbdabcf691e880edafe5c8d79b43f577c22f3db53f8c",
+          "coin-pma.png": "c56a15cef462016a6e45489905414ffdcfc3ea4f50d609295039e4b486f400ef",
+          "coin-pro.json": "9e76b564681db8908529ef9af9be1822437bc788c20c0ca54fe3f59792d269b6"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "derived-blend-22-screen",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "f6ad44f009a1599f87b215cbc98b031518735283cb4936f4652acea36b2a2d7d",
+      "sourceAssets": {
+        "coin-pma.atlas": {
+          "sha256": "e444eb249bb138660267cbdabcf691e880edafe5c8d79b43f577c22f3db53f8c",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-coin/coin-pma.atlas"
+          ]
+        },
+        "coin-pma.png": {
+          "sha256": "c56a15cef462016a6e45489905414ffdcfc3ea4f50d609295039e4b486f400ef",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-coin/coin-pma.png"
+          ]
+        },
+        "coin-pro.json": {
+          "sha256": "9e76b564681db8908529ef9af9be1822437bc788c20c0ca54fe3f59792d269b6",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-coin/coin-pro.json"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "e628fd860a6232e48d2c718379e0cce50b4ca6895ad40f4d60bd82d195f37b23",
+      "runtimeRevision": "4.3.13",
+      "exportVersion": "4.3.75-beta",
+      "animation": "animation",
+      "sampledTime": 0.6666667461395264,
+      "skin": null,
+      "camera": {
+        "x": 74.1294250338153,
+        "y": 0.5,
+        "width": 521.24769369604,
+        "height": 521.24769369604,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0.2,
+        0.3,
+        0.4,
+        1
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Derived screen blend on opaque [0.2, 0.3, 0.4, 1] background; clipping and alpha edges",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "f6ad44f009a1599f87b215cbc98b031518735283cb4936f4652acea36b2a2d7d",
+        "candidateSha256": "f6ad44f009a1599f87b215cbc98b031518735283cb4936f4652acea36b2a2d7d"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "f6ad44f009a1599f87b215cbc98b031518735283cb4936f4652acea36b2a2d7d",
+        "exactAssetHashes": {
+          "coin-pma.atlas": "e444eb249bb138660267cbdabcf691e880edafe5c8d79b43f577c22f3db53f8c",
+          "coin-pma.png": "c56a15cef462016a6e45489905414ffdcfc3ea4f50d609295039e4b486f400ef",
+          "coin-pro.json": "9e76b564681db8908529ef9af9be1822437bc788c20c0ca54fe3f59792d269b6"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "derived-blend-23-additive",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "ace796962459b8681315f75d20ec25cbf3b574668c0a8f3bef9d9cbf47dd5e6a",
+      "sourceAssets": {
+        "coin-pro.json": {
+          "sha256": "9e76b564681db8908529ef9af9be1822437bc788c20c0ca54fe3f59792d269b6",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-coin/coin-pro.json"
+          ]
+        },
+        "coin.atlas": {
+          "sha256": "661de942a6b4873697aa56dc5ffe489675f1310c56cb65b5fff7649d5adb157f",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-coin/coin.atlas"
+          ]
+        },
+        "coin.png": {
+          "sha256": "a299ecc5936018891c79c9e25d5783672e8e711aeb8fedf82164054698127e7f",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-coin/coin.png"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "e9bc65985a7a37a159422232487434aab4ced047afb6447f3961297fda47a39c",
+      "runtimeRevision": "4.3.13",
+      "exportVersion": "4.3.75-beta",
+      "animation": "animation",
+      "sampledTime": 0.6666667461395264,
+      "skin": null,
+      "camera": {
+        "x": 74.1294250338153,
+        "y": 0.5,
+        "width": 521.24769369604,
+        "height": 521.24769369604,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0.2,
+        0.3,
+        0.4,
+        1
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Derived additive blend on opaque [0.2, 0.3, 0.4, 1] background; clipping and alpha edges",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "ace796962459b8681315f75d20ec25cbf3b574668c0a8f3bef9d9cbf47dd5e6a",
+        "candidateSha256": "ace796962459b8681315f75d20ec25cbf3b574668c0a8f3bef9d9cbf47dd5e6a"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "ace796962459b8681315f75d20ec25cbf3b574668c0a8f3bef9d9cbf47dd5e6a",
+        "exactAssetHashes": {
+          "coin-pro.json": "9e76b564681db8908529ef9af9be1822437bc788c20c0ca54fe3f59792d269b6",
+          "coin.atlas": "661de942a6b4873697aa56dc5ffe489675f1310c56cb65b5fff7649d5adb157f",
+          "coin.png": "a299ecc5936018891c79c9e25d5783672e8e711aeb8fedf82164054698127e7f"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "derived-blend-23-multiply",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "f0d299f3f64508944fa2274be24772a9d5eb19e5244e5355b9d06c122cf0609c",
+      "sourceAssets": {
+        "coin-pro.json": {
+          "sha256": "9e76b564681db8908529ef9af9be1822437bc788c20c0ca54fe3f59792d269b6",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-coin/coin-pro.json"
+          ]
+        },
+        "coin.atlas": {
+          "sha256": "661de942a6b4873697aa56dc5ffe489675f1310c56cb65b5fff7649d5adb157f",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-coin/coin.atlas"
+          ]
+        },
+        "coin.png": {
+          "sha256": "a299ecc5936018891c79c9e25d5783672e8e711aeb8fedf82164054698127e7f",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-coin/coin.png"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "3b7ff2396dd7d8b7ed1a8029535f2b58907232c3c4d53c1e0d62646341894157",
+      "runtimeRevision": "4.3.13",
+      "exportVersion": "4.3.75-beta",
+      "animation": "animation",
+      "sampledTime": 0.6666667461395264,
+      "skin": null,
+      "camera": {
+        "x": 74.1294250338153,
+        "y": 0.5,
+        "width": 521.24769369604,
+        "height": 521.24769369604,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0.2,
+        0.3,
+        0.4,
+        1
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Derived multiply blend on opaque [0.2, 0.3, 0.4, 1] background; clipping and alpha edges",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "f0d299f3f64508944fa2274be24772a9d5eb19e5244e5355b9d06c122cf0609c",
+        "candidateSha256": "f0d299f3f64508944fa2274be24772a9d5eb19e5244e5355b9d06c122cf0609c"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "f0d299f3f64508944fa2274be24772a9d5eb19e5244e5355b9d06c122cf0609c",
+        "exactAssetHashes": {
+          "coin-pro.json": "9e76b564681db8908529ef9af9be1822437bc788c20c0ca54fe3f59792d269b6",
+          "coin.atlas": "661de942a6b4873697aa56dc5ffe489675f1310c56cb65b5fff7649d5adb157f",
+          "coin.png": "a299ecc5936018891c79c9e25d5783672e8e711aeb8fedf82164054698127e7f"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "derived-blend-23-normal",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "313aa0aae107b06f568f296dd52dfccff89299048700a18a46fb51c863c40694",
+      "sourceAssets": {
+        "coin-pro.json": {
+          "sha256": "9e76b564681db8908529ef9af9be1822437bc788c20c0ca54fe3f59792d269b6",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-coin/coin-pro.json"
+          ]
+        },
+        "coin.atlas": {
+          "sha256": "661de942a6b4873697aa56dc5ffe489675f1310c56cb65b5fff7649d5adb157f",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-coin/coin.atlas"
+          ]
+        },
+        "coin.png": {
+          "sha256": "a299ecc5936018891c79c9e25d5783672e8e711aeb8fedf82164054698127e7f",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-coin/coin.png"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "310c1877243243ddbe9300ab7c0923770c1c97dd679deb57cc4a464228502864",
+      "runtimeRevision": "4.3.13",
+      "exportVersion": "4.3.75-beta",
+      "animation": "animation",
+      "sampledTime": 0.6666667461395264,
+      "skin": null,
+      "camera": {
+        "x": 74.1294250338153,
+        "y": 0.5,
+        "width": 521.24769369604,
+        "height": 521.24769369604,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0.2,
+        0.3,
+        0.4,
+        1
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Derived normal blend on opaque [0.2, 0.3, 0.4, 1] background; clipping and alpha edges",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "313aa0aae107b06f568f296dd52dfccff89299048700a18a46fb51c863c40694",
+        "candidateSha256": "313aa0aae107b06f568f296dd52dfccff89299048700a18a46fb51c863c40694"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "313aa0aae107b06f568f296dd52dfccff89299048700a18a46fb51c863c40694",
+        "exactAssetHashes": {
+          "coin-pro.json": "9e76b564681db8908529ef9af9be1822437bc788c20c0ca54fe3f59792d269b6",
+          "coin.atlas": "661de942a6b4873697aa56dc5ffe489675f1310c56cb65b5fff7649d5adb157f",
+          "coin.png": "a299ecc5936018891c79c9e25d5783672e8e711aeb8fedf82164054698127e7f"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    },
+    {
+      "id": "derived-blend-23-screen",
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+      "frameSha256": "95c1402fccc909e24bf10c4f58d80035f8c1f06149f50393c5a425849d019038",
+      "sourceAssets": {
+        "coin-pro.json": {
+          "sha256": "9e76b564681db8908529ef9af9be1822437bc788c20c0ca54fe3f59792d269b6",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-coin/coin-pro.json"
+          ]
+        },
+        "coin.atlas": {
+          "sha256": "661de942a6b4873697aa56dc5ffe489675f1310c56cb65b5fff7649d5adb157f",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-coin/coin.atlas"
+          ]
+        },
+        "coin.png": {
+          "sha256": "a299ecc5936018891c79c9e25d5783672e8e711aeb8fedf82164054698127e7f",
+          "matchingFixturePaths": [
+            "viewer/fixtures/features/4.3-coin/coin.png"
+          ]
+        }
+      },
+      "renderedSkeletonSha256": "e628fd860a6232e48d2c718379e0cce50b4ca6895ad40f4d60bd82d195f37b23",
+      "runtimeRevision": "4.3.13",
+      "exportVersion": "4.3.75-beta",
+      "animation": "animation",
+      "sampledTime": 0.6666667461395264,
+      "skin": null,
+      "camera": {
+        "x": 74.1294250338153,
+        "y": 0.5,
+        "width": 521.24769369604,
+        "height": 521.24769369604,
+        "zoom": 1
+      },
+      "viewport": {
+        "width": 640,
+        "height": 640,
+        "dpr": 1
+      },
+      "background": [
+        0.2,
+        0.3,
+        0.4,
+        1
+      ],
+      "alphaPolicy": "RGBA capture; background is the explicit value above; authored atlas PMA",
+      "expectedVisualFeature": "Derived screen blend on opaque [0.2, 0.3, 0.4, 1] background; clipping and alpha edges",
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": {
+        "status": "CANDIDATE_REGRESSION_ONLY",
+        "independentAcceptance": "UNVERIFIED",
+        "metrics": {
+          "changedPixels": 0,
+          "changedFraction": 0,
+          "meanAbsoluteError": 0,
+          "maximumChannelError": 0,
+          "alphaChangedPixels": 0,
+          "alphaMeanError": 0
+        },
+        "tolerance": {
+          "channel": 2,
+          "changedFraction": 0.001,
+          "meanAbsoluteError": 0.1,
+          "alphaMeanError": 0.1,
+          "maximumChannelError": 8
+        },
+        "referenceSha256": "95c1402fccc909e24bf10c4f58d80035f8c1f06149f50393c5a425849d019038",
+        "candidateSha256": "95c1402fccc909e24bf10c4f58d80035f8c1f06149f50393c5a425849d019038"
+      },
+      "review": {
+        "reviewerIdentity": null,
+        "date": null,
+        "exactFrameSha256": "95c1402fccc909e24bf10c4f58d80035f8c1f06149f50393c5a425849d019038",
+        "exactAssetHashes": {
+          "coin-pro.json": "9e76b564681db8908529ef9af9be1822437bc788c20c0ca54fe3f59792d269b6",
+          "coin.atlas": "661de942a6b4873697aa56dc5ffe489675f1310c56cb65b5fff7649d5adb157f",
+          "coin.png": "a299ecc5936018891c79c9e25d5783672e8e711aeb8fedf82164054698127e7f"
+        },
+        "evaluatedCriteria": [],
+        "decision": "PENDING",
+        "documentedExclusions": []
+      }
+    }
+  ],
+  "negativeTests": [
+    {
+      "id": "negative-alpha",
+      "metrics": {
+        "changedPixels": 407,
+        "changedFraction": 0.00099365234375,
+        "meanAbsoluteError": 0.01921875,
+        "maximumChannelError": 223,
+        "alphaChangedPixels": 0,
+        "alphaMeanError": 0
+      },
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": "BROKEN_RENDERING_DETECTED"
+    },
+    {
+      "id": "negative-atlas",
+      "metrics": {
+        "changedPixels": 13957,
+        "changedFraction": 0.03407470703125,
+        "meanAbsoluteError": 2.0312493896484374,
+        "maximumChannelError": 255,
+        "alphaChangedPixels": 6607,
+        "alphaMeanError": 2.841484375
+      },
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": "BROKEN_RENDERING_DETECTED"
+    },
+    {
+      "id": "negative-blend",
+      "metrics": {
+        "changedPixels": 30769,
+        "changedFraction": 0.07511962890625,
+        "meanAbsoluteError": 3.4097265625,
+        "maximumChannelError": 242,
+        "alphaChangedPixels": 681,
+        "alphaMeanError": 0.03198974609375
+      },
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": "BROKEN_RENDERING_DETECTED"
+    },
+    {
+      "id": "negative-clipping",
+      "metrics": {
+        "changedPixels": 7674,
+        "changedFraction": 0.0187353515625,
+        "meanAbsoluteError": 3.65045166015625,
+        "maximumChannelError": 255,
+        "alphaChangedPixels": 7174,
+        "alphaMeanError": 0.2692626953125
+      },
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": "BROKEN_RENDERING_DETECTED"
+    },
+    {
+      "id": "negative-order",
+      "metrics": {
+        "changedPixels": 29769,
+        "changedFraction": 0.07267822265625,
+        "meanAbsoluteError": 2.230015869140625,
+        "maximumChannelError": 245,
+        "alphaChangedPixels": 0,
+        "alphaMeanError": 0.00052978515625
+      },
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": "BROKEN_RENDERING_DETECTED"
+    },
+    {
+      "id": "negative-uv",
+      "metrics": {
+        "changedPixels": 53618,
+        "changedFraction": 0.1309033203125,
+        "meanAbsoluteError": 12.22667724609375,
+        "maximumChannelError": 255,
+        "alphaChangedPixels": 27908,
+        "alphaMeanError": 13.3647265625
+      },
+      "threshold": {
+        "channel": 2,
+        "changedFraction": 0.001,
+        "meanAbsoluteError": 0.1,
+        "alphaMeanError": 0.1,
+        "maximumChannelError": 8
+      },
+      "actualRegression": "BROKEN_RENDERING_DETECTED"
+    }
+  ]
+}

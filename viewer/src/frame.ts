@@ -48,19 +48,21 @@ viewer.addEventListener("PLAYBACK_CHANGED", () => {
     });
 });
 
-for (const name of [
-  "RUNTIME_ERROR",
-  "RUNTIME_WARNING",
-  "ANIMATION_EVENT",
-  "ANIMATION_COMPLETE",
-  "SESSION_DISPOSED",
-])
-  viewer.addEventListener(name, (e) => {
-    const detail = (e as CustomEvent<object>).detail;
+viewer.subscribe(([name, detail]) => {
+  if (
+    [
+      "RUNTIME_ERROR",
+      "RUNTIME_WARNING",
+      "ANIMATION_EVENT",
+      "ANIMATION_COMPLETE",
+      "SESSION_DISPOSED",
+    ].includes(name)
+  ) {
     diagnostics.textContent = (
       (diagnostics.textContent ?? "") + `${name}: ${JSON.stringify(detail)}\n`
     ).slice(-32000);
-  });
+  }
+});
 const command = async (c: Command) => {
   const r: Request = {
     ...c,
