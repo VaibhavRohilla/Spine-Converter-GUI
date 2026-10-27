@@ -1,0 +1,12 @@
+page.png
+size: 64, 32
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+face
+  rotate: false
+  xy: 0, 0
+  size: 64, 32
+  orig: 64, 32
+  offset: 0, 0
+  index: -1

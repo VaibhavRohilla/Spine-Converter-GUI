@@ -1,8 +1,9 @@
 """Restricted exact-version binary serialization, independent of migration.
 
 The wire contract is referenced to @esotericsoftware/spine-core 4.2.43
-SkeletonBinary. Unsupported records are rejected, never skipped. No animation
-or attachment support is implied by the hierarchy codec. Registry evidence
+SkeletonBinary. Unsupported records are rejected, never skipped. The animated
+profile remains experimental until independent decoder and release evidence
+are complete. Registry evidence
 separates implemented operations from qualification.
 """
 
@@ -22,6 +23,13 @@ class BinaryFeature(StrEnum):
     HIERARCHY = "hierarchy_setup_transforms"
     INHERITANCE = "bone_inheritance"
     EDITOR_METADATA = "bone_editor_metadata"
+    REGIONS = "region_attachments"
+    WEIGHTED_MESH = "weighted_mesh_attachments"
+    LINKED_MESH = "linked_mesh_attachments"
+    BONE_TIMELINES = "bone_transform_timelines"
+    SLOT_TIMELINES = "slot_attachment_rgba_timelines"
+    IK_SETUP = "ik_setup_constraints"
+    DRAW_ORDER = "draw_order_timelines"
     SLOTS = "slots"
     ATTACHMENTS = "attachments"
     CONSTRAINTS = "constraints"
@@ -33,6 +41,9 @@ class BinaryFeature(StrEnum):
 
 
 class BinaryErrorCode(StrEnum):
+    GEOMETRY = "BINARY_GEOMETRY"
+    REFERENCE = "BINARY_REFERENCE"
+    TIMELINE = "BINARY_TIMELINE"
     CAPABILITY_INVALID = "BINARY_CAPABILITY_INVALID"
     METADATA_INCOMPLETE = "BINARY_METADATA_INCOMPLETE"
     BONES = "BINARY_BONES"
@@ -89,6 +100,7 @@ class BinaryReader:
         if len(data) > self.limits.max_bytes:
             raise BinaryError(BinaryErrorCode.SIZE_LIMIT, "Binary exceeds configured byte limit")
         self.data, self.offset = data, 0
+        self._declared_items = 0
 
     def take(self, count: int) -> bytes:
         if count < 0 or count > len(self.data) - self.offset:
@@ -123,7 +135,8 @@ class BinaryReader:
 
     def count(self) -> int:
         value = self.varint()
-        if value > self.limits.max_count:
+        self._declared_items += value
+        if value > self.limits.max_count or self._declared_items > self.limits.max_count * 16:
             raise BinaryError(
                 BinaryErrorCode.COUNT_LIMIT, "Collection count exceeds limit", self.offset
             )
@@ -220,6 +233,36 @@ class BinaryCapability:
             "structurally_verified": self.structurally_verified,
             "semantically_qualified": self.semantically_qualified,
             "runtime_qualified": self.runtime_qualified,
+            "input_formats": ("json", "binary"),
+            "output_formats": ("json", "binary"),
+            "experimental": not self.semantically_qualified,
+            "supported_attachments": ("region", "mesh", "linkedmesh"),
+            "supported_bone_timelines": (
+                "rotate",
+                "translate",
+                "translatex",
+                "translatey",
+                "scale",
+                "scalex",
+                "scaley",
+                "shear",
+                "shearx",
+                "sheary",
+            ),
+            "supported_slot_timelines": ("attachment", "rgba"),
+            "supported_attachment_timelines": ("deform",),
+            "supported_global_timelines": ("drawOrder",),
+            "supported_constraints": ("one_or_two_bone_ik_setup_without_skin_requirement",),
+            "interpolation": ("linear", "stepped", "bezier_per_channel"),
+            "decoder_qualification": "unqualified: authentic animated binary evidence missing",
+            "encoder_qualification": "experimental: specified-fixture official runtime comparisons",
+            "restrictions": (
+                "exact export version 4.2.43 only; runtime package version is separate",
+                "no composed migration route promotion; B2 qualification unchanged",
+                "no events, constraint timelines, physics, paths or sequences",
+                "nonessential fields require explicit metadata; no hash truncation",
+                "B4 production binary admission remains approved-fixture-only",
+            ),
         }
 
 
@@ -230,18 +273,31 @@ class BinaryCodecRegistry:
                 BINARY_HIERARCHY_VERSION,
                 True,
                 True,
-                (BinaryFeature.HIERARCHY, BinaryFeature.INHERITANCE, BinaryFeature.EDITOR_METADATA),
                 (
+                    BinaryFeature.HIERARCHY,
+                    BinaryFeature.INHERITANCE,
+                    BinaryFeature.EDITOR_METADATA,
                     BinaryFeature.SLOTS,
+                    BinaryFeature.REGIONS,
+                    BinaryFeature.MESH,
+                    BinaryFeature.WEIGHTED_MESH,
+                    BinaryFeature.LINKED_MESH,
+                    BinaryFeature.DEFORM,
+                    BinaryFeature.BONE_TIMELINES,
+                    BinaryFeature.SLOT_TIMELINES,
+                    BinaryFeature.IK_SETUP,
+                    BinaryFeature.DRAW_ORDER,
+                ),
+                (
                     BinaryFeature.ATTACHMENTS,
                     BinaryFeature.CONSTRAINTS,
                     BinaryFeature.ANIMATIONS,
-                    BinaryFeature.MESH,
-                    BinaryFeature.DEFORM,
                     BinaryFeature.EVENTS,
                     BinaryFeature.IMPLICIT_METADATA,
                 ),
                 (
+                    "docs/evidence/B3_binary/qualification.json: animated encoder fixtures",
+                    "tests/test_binary_animation.py: independent region/rotate decoder wire vector",
                     "decode: independent hand-authored wire vector; official reader parsed",
                     "encode: independent layout assertions and official reader parsed",
                     "wire SHA-256: 6e9dd66f7417a4c30415ba496331e5fff"
@@ -342,11 +398,14 @@ class BinarySkeletonCodec:
                 if value is not None:
                     metadata[metadata_name] = value
         # Even unused strings must be bounded and verified.
+        strings: list[str] = []
         for _ in range(reader.count()):
-            if not reader.string():
+            string = reader.string()
+            if not string:
                 raise BinaryError(
                     BinaryErrorCode.STRING_TABLE, "String table contains empty entry", reader.offset
                 )
+            strings.append(string)
         bones: list[JSONValue] = []
         names: list[str] = []
         seen_names: set[str] = set()
@@ -384,37 +443,76 @@ class BinarySkeletonCodec:
             seen_names.add(name)
         if not bones:
             raise BinaryError(BinaryErrorCode.BONES, "Skeleton requires a root bone", reader.offset)
-        for feature in (
-            "slots",
-            "ik",
-            "transform",
-            "path",
-            "physics",
-            "default_skin",
-            "skins",
-            "events",
-            "animations",
-        ):
-            if reader.count():
-                raise BinaryError(
-                    BinaryErrorCode.FEATURE_UNSUPPORTED,
-                    f"Unsupported binary {feature} records",
-                    reader.offset,
-                )
+        from .binary_animation import TailReader
+
+        tail = TailReader(reader, strings, names, nonessential).decode()
         if reader.offset != len(data):
             raise BinaryError(
                 BinaryErrorCode.TRAILING_DATA, "Unexpected trailing binary data", reader.offset
             )
-        return {"skeleton": metadata, "bones": bones, "slots": [], "skins": [], "animations": {}}
+        document = {"skeleton": metadata, "bones": bones, **tail}
+        self._validate_semantics(document)
+        return document
 
     def encode(self, document: JSONDocument) -> bytes:
         if not self.capability.encode:
             raise BinaryError(BinaryErrorCode.ENCODE_UNSUPPORTED, "Codec has no encoder")
         try:
-            return self._encode(document)
+            self._preflight(document)
+            encoded = self._encode(document)
+            self._validate_semantics(document)
+            return encoded
         except BinaryError:
             raise
         except (ValueError, UnicodeError, OverflowError) as exc:
+            raise BinaryError(BinaryErrorCode.INVALID_DOCUMENT, str(exc)) from exc
+
+    def _preflight(self, document: JSONDocument) -> None:
+        # Iterative, bounded admission also rejects cycles and hostile Python
+        # values supplied directly to the API, before constructing domain lists.
+        stack: list[tuple[JSONValue, int]] = [(document, 0)]
+        visited = 0
+        while stack:
+            value, depth = stack.pop()
+            visited += 1
+            if depth > 32 or visited > self.limits.max_count * 16:
+                raise BinaryError(BinaryErrorCode.COUNT_LIMIT, "Document complexity exceeds limit")
+            if isinstance(value, dict):
+                if len(value) > self.limits.max_count:
+                    raise BinaryError(BinaryErrorCode.COUNT_LIMIT, "Object exceeds limit")
+                for key, child in value.items():
+                    if not isinstance(key, str):
+                        raise BinaryError(BinaryErrorCode.INVALID_DOCUMENT, "Non-string object key")
+                    stack.append((child, depth + 1))
+            elif isinstance(value, list):
+                if len(value) > self.limits.max_count:
+                    raise BinaryError(BinaryErrorCode.COUNT_LIMIT, "Array exceeds limit")
+                stack.extend((child, depth + 1) for child in value)
+            elif isinstance(value, str):
+                if len(value.encode("utf-8")) > self.limits.max_string_bytes:
+                    raise BinaryError(BinaryErrorCode.STRING_LIMIT, "String exceeds limit")
+            elif value is not None and not isinstance(value, (int, float, bool)):
+                raise BinaryError(BinaryErrorCode.INVALID_DOCUMENT, "Non-JSON input")
+
+    def _validate_semantics(self, document: JSONDocument) -> None:
+        from .conversion.document import require_array, require_object
+        from .conversion.semantic import decode_semantic_skeleton
+
+        # B2 models runtime semantics; binary-only editor visibility remains in
+        # the original document and is validated by this codec.
+        projection = dict(document)
+        for category in ("bones", "slots"):
+            projection[category] = [
+                {k: v for k, v in require_object(row, category).items() if k != "visible"}
+                for row in require_array(document.get(category, []), category)
+            ]
+        projection["ik"] = [
+            {k: v for k, v in require_object(row, "ik").items() if k != "skin"}
+            for row in require_array(document.get("ik", []), "ik")
+        ]
+        try:
+            decode_semantic_skeleton(projection, self.capability.version)
+        except ValueError as exc:
             raise BinaryError(BinaryErrorCode.INVALID_DOCUMENT, str(exc)) from exc
 
     def _encode(self, document: JSONDocument) -> bytes:
@@ -433,27 +531,6 @@ class BinarySkeletonCodec:
             "events",
         }:
             raise BinaryError(BinaryErrorCode.FEATURE_UNSUPPORTED, "Unknown skeleton extensions")
-        for feature in (
-            "slots",
-            "skins",
-            "animations",
-            "ik",
-            "transform",
-            "path",
-            "physics",
-            "events",
-        ):
-            if feature not in document:
-                continue
-            value = document[feature]
-            if feature in ("animations", "events"):
-                require_object(value, feature)
-            else:
-                require_array(value, feature)
-            if value:
-                raise BinaryError(
-                    BinaryErrorCode.FEATURE_UNSUPPORTED, f"Unsupported binary {feature} records"
-                )
         metadata = require_object(document.get("skeleton", {}), "skeleton metadata")
         if metadata.get("spine") != self.capability.version:
             raise BinaryError(
@@ -510,7 +587,13 @@ class BinarySkeletonCodec:
             for name in ("images", "audio"):
                 value = metadata.get(name)
                 writer.string(require_text(value, name) if value is not None else None)
-        writer.varint(0)  # No referenced strings for the supported hierarchy subset.
+        from .binary_animation import TailWriter
+
+        tail_writer = TailWriter(document, self.limits, nonessential)
+        tail = tail_writer.encode()
+        writer.varint(len(tail_writer.strings))
+        for string in tail_writer.strings:
+            writer.string(string)
         writer.varint(len(records))
         name_indices: dict[str, int] = {}
         for index, bone in enumerate(records):
@@ -560,5 +643,5 @@ class BinarySkeletonCodec:
                 writer.string(require_text(icon, "bone icon") if icon is not None else None)
                 writer.put(bytes((int(visible),)))
             name_indices[name] = index
-        writer.put(bytes(9))  # Nine empty collections after hierarchy.
+        writer.put(tail)
         return bytes(writer.data)

@@ -1,5 +1,12 @@
 # FNX Spine Forge — B3 qualification report
 
+> Current binary update (2026-10-27): **B3 PARTIAL — BINARY UNQUALIFIED**.
+> Animated 4.2.43 experimental encoding/decoding now exists, with independent
+> official-runtime encoder comparisons. Authentic decoder qualification and
+> the full acceptance gates remain incomplete. See [B3_BINARY_REPORT.md](B3_BINARY_REPORT.md)
+> for the current feature matrix, tests, evidence and no-freeze decision.
+> The hierarchy-only statements below describe the historical checkpoint.
+
 > Historical checkpoint: this report records the schema-1 B3 implementation.
 > The current typed schema-2 contract, cleanup and test evidence are in
 > [B3_HARDENING_REPORT.md](B3_HARDENING_REPORT.md). Its API descriptions supersede
