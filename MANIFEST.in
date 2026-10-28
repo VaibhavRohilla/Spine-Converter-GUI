@@ -2,6 +2,8 @@ recursive-include tests/fixtures *
 recursive-include docs *.md *.json
 include scripts/verify_binary_reference.mjs
 include scripts/qualify_binary42.mjs scripts/qualify_b3_binary.py
+include scripts/compare_binary42.mts scripts/tsconfig.binary.json
+include scripts/qualify_authentic_binary.py scripts/verify_b3_installed.py
 include package.json package-lock.json eslint.config.mjs DESIGN.md
 recursive-include viewer *.md *.ts *.mjs *.py *.html *.css *.json *.template *.png *.atlas *.skel LICENSE
 prune viewer/node_modules

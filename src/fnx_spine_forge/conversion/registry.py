@@ -6,6 +6,8 @@ from dataclasses import dataclass
 from enum import StrEnum
 from typing import Literal
 
+from ..versions import BINARY_REFERENCE_EXPORT_VERSION
+
 
 class MigrationKind(StrEnum):
     SPINE_38_TO_LEGACY = "spine_38_to_legacy"
@@ -68,7 +70,7 @@ ROUTES_BY_PATCH: dict[tuple[str, str], MigrationRoute] = {
 EXACT_ROUTE_PAIRS: frozenset[tuple[str, str]] = frozenset(ROUTES_BY_PATCH)
 SUPPORTED_PATCH_VERSIONS: frozenset[str] = frozenset(
     version for route in MIGRATION_ROUTES for version in (route.source, route.target)
-)
+) | {BINARY_REFERENCE_EXPORT_VERSION}
 
 # Patch-scoped operational capabilities that are not route edges. Keep these
 # policy sets here so recognition, conversion, atlas handling, and CLI reports
@@ -93,7 +95,7 @@ def require_route(kind: MigrationKind, source_version: str, target_version: str)
     return route
 
 
-_BONE_INHERITANCE_PATCHES = frozenset({"4.2.43", "4.3.13"})
+_BONE_INHERITANCE_PATCHES = frozenset({BINARY_REFERENCE_EXPORT_VERSION, "4.2.43", "4.3.13"})
 
 
 def bone_mode_field(version: str) -> Literal["transform", "inherit"]:

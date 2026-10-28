@@ -36,3 +36,5 @@ class VersionRegistry:
 
 # Exact wire schema implemented by the restricted B3 animated codec.
 BINARY_EXPORT_VERSION = "4.2.43"
+# Authentic official example export; distinct from the runtime package patch.
+BINARY_REFERENCE_EXPORT_VERSION = "4.2.22"

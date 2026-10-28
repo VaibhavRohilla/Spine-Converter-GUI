@@ -1,5 +1,13 @@
 # FNX Spine Forge — B3 qualification report
 
+> **Current decision (2026-10-28): B3 PARTIAL — BINARY QUALIFICATION BLOCKED.**
+> Authentic 4.2.22 Powerup decoding now passes independent semantic and pose
+> comparisons. Unchanged official JSON encoding and the public binary bundle
+> path remain blocked by concrete metadata/qualification defects. No restricted
+> freeze and no B5 start. See [final decoder report](B3_DECODER_QUALIFICATION.md)
+> and [executed evidence](evidence/B3_decoder/qualification.json).
+> Earlier checkpoint decisions below are retained as history.
+
 > Latest maintenance: [binary typing and contract hardening](B3_BINARY_HARDENING_REPORT.md)
 > records the 2026-10-28 cleanup and 494 Python / 146 browser regression results.
 

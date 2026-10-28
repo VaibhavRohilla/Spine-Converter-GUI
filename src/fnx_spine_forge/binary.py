@@ -17,7 +17,7 @@ from typing import cast
 
 from .binary_schema import ANIMATED_42_PROFILE, BinaryProfile
 from .json_types import JSONDocument, JSONValue
-from .versions import BINARY_EXPORT_VERSION
+from .versions import BINARY_EXPORT_VERSION, BINARY_REFERENCE_EXPORT_VERSION
 
 
 class BinaryFeature(StrEnum):
@@ -263,17 +263,27 @@ class BinaryCapability:
             "supported_global_timelines": self.profile.global_timelines,
             "supported_constraints": self.profile.constraints,
             "interpolation": self.profile.interpolation,
-            "decoder_qualification": "unqualified: authentic animated binary evidence missing",
-            "encoder_qualification": "experimental: specified-fixture official runtime comparisons",
+            "decoder_qualification": (
+                "experimental: authentic Powerup 4.2.22 region/bone/RGBA comparisons; "
+                "unverified fields and release gates remain"
+                if self.version == BINARY_REFERENCE_EXPORT_VERSION
+                else "unqualified: authentic animated binary evidence missing"
+            ),
+            "encoder_qualification": (
+                "unqualified: unchanged authentic JSON rejected; binary-derived "
+                "input is not independent JSON encoder qualification"
+                if self.version == BINARY_REFERENCE_EXPORT_VERSION
+                else "experimental: specified-fixture official runtime comparisons"
+            ),
             "restrictions": self.profile.restrictions,
         }
 
 
 class BinaryCodecRegistry:
     def capabilities(self) -> tuple[BinaryCapability, ...]:
-        return (
+        return tuple(
             BinaryCapability(
-                BINARY_EXPORT_VERSION,
+                version,
                 True,
                 True,
                 (
@@ -299,6 +309,10 @@ class BinaryCodecRegistry:
                     BinaryFeature.IMPLICIT_METADATA,
                 ),
                 (
+                    "docs/evidence/B3_decoder/qualification.json: authentic Powerup decoder",
+                    "tests/fixtures/binary/official42/provenance.json: pinned unchanged sources",
+                    "scripts/compare_binary42.mts: official binary semantic reference",
+                ) if version == BINARY_REFERENCE_EXPORT_VERSION else (
                     "docs/evidence/B3_binary/qualification.json: animated encoder fixtures",
                     "tests/test_binary_animation.py: independent region/rotate decoder wire vector",
                     "decode: independent hand-authored wire vector; official reader parsed",
@@ -309,7 +323,8 @@ class BinaryCodecRegistry:
                 True,
                 False,
                 ANIMATED_42_PROFILE,
-            ),
+            )
+            for version in (BINARY_EXPORT_VERSION, BINARY_REFERENCE_EXPORT_VERSION)
         )
 
     def codec(

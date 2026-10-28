@@ -1,0 +1,93 @@
+{
+  "decision": "B3 PARTIAL \u2014 BINARY UNQUALIFIED",
+  "encoder_comparisons": [
+    {
+      "readerSuccess": true,
+      "animationEvaluation": true,
+      "runtime": "@esotericsoftware/spine-core@4.2.43",
+      "runtimeReaderSha256": "83efaec2af4cbc7538f83ca436f921741c027f26f3dd44c98fada3e5139ba250",
+      "jsonSha256": "4ab03fdfca8fd6e53e0674daa2f7bb48f3ba8c3c83582e06c26452b2843d7df4",
+      "binarySha256": "7ce8fb76919a59fff812fb0c2db12af6842703dfbe622973940b335b9d6304d4",
+      "atlasSha256": "0d6e264037da00c703e85f2185e4e8a4d7e817b59bb875244786ba659d6e512a",
+      "exportVersion": "4.2.43",
+      "animations": [
+        {
+          "name": "pulse",
+          "duration": 1,
+          "timelines": 5
+        }
+      ],
+      "samples": 42,
+      "comparisons": 1135,
+      "maximumError": 7.004193474102749e-07,
+      "fixture": "tests/fixtures/binary/animated_region_4_2_43.json",
+      "provenance": "independently specified JSON; not an authentic editor export",
+      "decoder_evidence": "self-roundtrip only for this fixture; not independent decoder qualification"
+    },
+    {
+      "readerSuccess": true,
+      "animationEvaluation": true,
+      "runtime": "@esotericsoftware/spine-core@4.2.43",
+      "runtimeReaderSha256": "83efaec2af4cbc7538f83ca436f921741c027f26f3dd44c98fada3e5139ba250",
+      "jsonSha256": "10c791763e93eefff5e5f4a9928dfc0faf62f8bf4fc3c0f89854de6458dd9ca1",
+      "binarySha256": "783070fa01aaf787e26791015b4b934942eac6303b4e307fcc3e25bac6b31454",
+      "atlasSha256": "0d6e264037da00c703e85f2185e4e8a4d7e817b59bb875244786ba659d6e512a",
+      "exportVersion": "4.2.43",
+      "animations": [
+        {
+          "name": "pulse",
+          "duration": 1,
+          "timelines": 7
+        }
+      ],
+      "samples": 84,
+      "comparisons": 3934,
+      "maximumError": 7.214701600588569e-07,
+      "fixture": "tests/fixtures/binary/animated_mesh_4_2_43.json",
+      "provenance": "independently specified JSON; not an authentic editor export",
+      "decoder_evidence": "self-roundtrip only for this fixture; not independent decoder qualification"
+    },
+    {
+      "readerSuccess": true,
+      "animationEvaluation": true,
+      "runtime": "@esotericsoftware/spine-core@4.2.43",
+      "runtimeReaderSha256": "83efaec2af4cbc7538f83ca436f921741c027f26f3dd44c98fada3e5139ba250",
+      "jsonSha256": "8ad8e4830558937f646cf16022011cdfff0a3f2aac121eea98b4d9bf2933a238",
+      "binarySha256": "ddb4d7d13133cd9e35f65e741ac38648f5a7582d1a2e11a6e1507e48fc0ceb4f",
+      "atlasSha256": "0d6e264037da00c703e85f2185e4e8a4d7e817b59bb875244786ba659d6e512a",
+      "exportVersion": "4.2.43",
+      "animations": [
+        {
+          "name": "pulse",
+          "duration": 1,
+          "timelines": 6
+        }
+      ],
+      "samples": 42,
+      "comparisons": 1387,
+      "maximumError": 2.611539802188645e-07,
+      "fixture": "tests/fixtures/binary/animated_ik_4_2_43.json",
+      "provenance": "independently specified JSON; not an authentic editor export",
+      "decoder_evidence": "self-roundtrip only for this fixture; not independent decoder qualification"
+    }
+  ],
+  "authentic_binary_admission": {
+    "fixture": "viewer/fixtures/4.2/spineboy-pro.skel",
+    "sha256": "1345de0e8e4729559f39060ed614429b21ab39bfc09ed2e1f58fcf054a8b5925",
+    "export_version": "4.2.22",
+    "result": {
+      "code": "BINARY_VERSION_UNSUPPORTED",
+      "message": "Codec and header versions differ",
+      "offset": 0
+    }
+  },
+  "production_binary_policy_modified": false,
+  "b2_qualification_modified": false,
+  "sources": {
+    "src/fnx_spine_forge/binary.py": "95ead9ebdce6765426d1b96f3b211722165bf30c16dbf10e4a02e1cf13d8098a",
+    "src/fnx_spine_forge/binary_animation.py": "5eb1e8e7b7c6510591698b5e7409055cb1c174ab5c1fced93613caf8f987d9c8",
+    "src/fnx_spine_forge/binary_schema.py": "b9bdc1dda26bbb34a6624763abf501f014f91e4fc56bba750b6df49c46437b57",
+    "scripts/qualify_binary42.mjs": "50ad04b427d056b17799a34033915f851c0bfb210a71a847cac41e5f2626b07f",
+    "scripts/qualify_b3_binary.py": "04e1e04764211afe0a3d1ff3fc551be56c52fe30d4e7f05f56a0c742571b740e"
+  }
+}

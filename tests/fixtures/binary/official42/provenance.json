@@ -1,0 +1,68 @@
+[
+  {
+    "path": "tests/fixtures/binary/official42/coin-pro.json",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/coin/export/coin-pro.json",
+    "sha256": "cc9b13d9a2fc4af455dac45c538ced90713939696433bf87b564b60d39f16008",
+    "bytes": 7812
+  },
+  {
+    "path": "tests/fixtures/binary/official42/coin-pro.skel",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/coin/export/coin-pro.skel",
+    "sha256": "8d412e8ab9e156bc78d9602cf32b9cd5b5d6fae7ea982feccb514f56352ed6f8",
+    "bytes": 2790
+  },
+  {
+    "path": "tests/fixtures/binary/official42/powerup-ess.json",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/powerup/export/powerup-ess.json",
+    "sha256": "6ff51b2fa2b47e339399391a11f1523896defbd7e62a7cb9f69f8021315e1785",
+    "bytes": 15163
+  },
+  {
+    "path": "tests/fixtures/binary/official42/powerup-ess.skel",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/powerup/export/powerup-ess.skel",
+    "sha256": "0e739e50f3e44e8bacd481649a8e9deee3ed3722c4813ba673f1a862dbc65d0b",
+    "bytes": 4381
+  },
+  {
+    "path": "tests/fixtures/binary/official42/powerup.atlas",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/powerup/export/powerup.atlas",
+    "sha256": "7e4c3a8a7a99a7d5e21f67010fb1ac6c25560ee4f4327489817356626edf7cb1",
+    "bytes": 143
+  },
+  {
+    "path": "tests/fixtures/binary/official42/powerup.png",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/powerup/export/powerup.png",
+    "sha256": "e53af73f5c60e38052903dd222c2e985fc46aedd67c6b545664afee4d634fa33",
+    "bytes": 59265
+  },
+  {
+    "path": "tests/fixtures/binary/official42/spineboy-ess.json",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/spineboy/export/spineboy-ess.json",
+    "sha256": "e2710415faa748ae8a183283453aa40164a8f92301440a27d2670d9f0236ef0e",
+    "bytes": 77843
+  },
+  {
+    "path": "tests/fixtures/binary/official42/spineboy-ess.skel",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/spineboy/export/spineboy-ess.skel",
+    "sha256": "39d05198a353e9525637b9c8a808a807a24f5d86d586c828d4673103d8bae4a2",
+    "bytes": 20246
+  },
+  {
+    "path": "tests/fixtures/binary/official42/vine-pro.json",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/vine/export/vine-pro.json",
+    "sha256": "4186a992f79d73e79d677f25bfeb9db9bd26b97c288088f4530d7bedca497a6c",
+    "bytes": 18418
+  },
+  {
+    "path": "tests/fixtures/binary/official42/vine-pro.skel",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/vine/export/vine-pro.skel",
+    "sha256": "d0e8aa8b891ec0465019d436e38997586dee1e5701a033f4e7a2109ff629dfa8",
+    "bytes": 7897
+  },
+  {
+    "path": "tests/fixtures/binary/official42/LICENSE",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/LICENSE",
+    "sha256": "24f517153a2b090abc002972d4ec13f6aec3ac002c88d764b9067f2da1457a7e",
+    "bytes": 1467
+  }
+]
