@@ -43,7 +43,11 @@ class SourceFeature(StrEnum):
     TRANSLATION = "translation"
     SCALE = "scale"
     SHEAR = "shear"
+    SEPARATE_AXIS = "separate_axis_bone_timelines"
     SLOTS = "slot_color_attachment"
+    SLOT_ATTACHMENT_TIMELINE = "slot_attachment_timelines"
+    OTHER_SLOT_COLOR_TIMELINE = "other_slot_color_timelines"
+    SLOT_BEZIER = "slot_bezier_channels"
     CONSTRAINTS = "constraints"
     EVENTS = "events_draw_order"
     BEZIER = "bezier_channels"
@@ -56,15 +60,28 @@ def inspect_features(
 ) -> frozenset[SourceFeature]:
     """Classify validated records; retain unknown raw extensions as blocking evidence."""
     found = {SourceFeature.HIERARCHY}
-    if any(bone.transform.mode is not None for bone in semantic.bones):
-        found.add(SourceFeature.BONE_INHERITANCE)
     if any(
-        bone.length is not None
-        or bone.skin is not None
-        or bone.skin_required is not None
-        or bone.editor_metadata
+        bone.transform.mode is not None
+        and (semantic.version != "4.2.22" or bone.transform.mode.value != "normal")
         for bone in semantic.bones
     ):
+        found.add(SourceFeature.BONE_INHERITANCE)
+    if semantic.version == "4.2.22":
+        has_bone_extensions = any(
+            (bone.length is not None and bone.length != 0)
+            or bone.skin is True
+            or bone.skin_required is True
+            for bone in semantic.bones
+        )
+    else:
+        has_bone_extensions = any(
+            bone.length is not None
+            or bone.skin is not None
+            or bone.skin_required is not None
+            or bone.editor_metadata
+            for bone in semantic.bones
+        )
+    if has_bone_extensions:
         found.add(SourceFeature.BONE_EXTENSIONS)
     metadata = document.get("skeleton", {})
     if isinstance(metadata, Mapping) and set(metadata) - {
@@ -74,6 +91,7 @@ def inspect_features(
         "y",
         "width",
         "height",
+        "referenceScale",
         "fps",
         "images",
         "audio",
@@ -118,19 +136,23 @@ def inspect_features(
         feature = {
             "rotate": SourceFeature.ROTATION,
             "translate": SourceFeature.TRANSLATION,
-            "translatex": SourceFeature.TRANSLATION,
-            "translatey": SourceFeature.TRANSLATION,
             "scale": SourceFeature.SCALE,
-            "scalex": SourceFeature.SCALE,
-            "scaley": SourceFeature.SCALE,
             "shear": SourceFeature.SHEAR,
-            "shearx": SourceFeature.SHEAR,
-            "sheary": SourceFeature.SHEAR,
         }.get(owner)
         if timeline.category == "bones":
-            found.add(feature or SourceFeature.UNKNOWN)
+            found.add(
+                SourceFeature.SEPARATE_AXIS
+                if owner in {"translatex", "translatey", "scalex", "scaley", "shearx", "sheary"}
+                else feature or SourceFeature.UNKNOWN
+            )
         elif timeline.category == "slots":
             found.add(SourceFeature.SLOTS)
+            if owner == "attachment":
+                found.add(SourceFeature.SLOT_ATTACHMENT_TIMELINE)
+            elif owner != "rgba":
+                found.add(SourceFeature.OTHER_SLOT_COLOR_TIMELINE)
+            if timeline.curves:
+                found.add(SourceFeature.SLOT_BEZIER)
         elif timeline.category in {"events", "draworder", "drawOrder"}:
             found.add(SourceFeature.EVENTS)
         elif timeline.category in {"deform", "attachments"}:
@@ -191,14 +213,20 @@ class QualificationRecord:
     def __post_init__(self) -> None:
         if type(self.schema_version) is not int or self.schema_version != 1:
             raise ValueError("Unsupported qualification contract version")
-        if (
+        identity_profile = (
+            self.source_version == self.target_version
+            and self.path == (self.source_version,)
+        )
+        if not identity_profile and (
             len(self.path) < 2
             or len(set(self.path)) != len(self.path)
             or self.path[0] != self.source_version
             or self.path[-1] != self.target_version
         ):
             raise ValueError("Qualification endpoints must match the complete migration path")
-        if any(edge not in EXACT_ROUTE_PAIRS for edge in zip(self.path, self.path[1:])):
+        if not identity_profile and any(
+            edge not in EXACT_ROUTE_PAIRS for edge in zip(self.path, self.path[1:])
+        ):
             raise ValueError("Qualification references an unregistered migration edge")
         if (
             self.supported_features & self.unsupported_features
@@ -348,13 +376,19 @@ class ConversionQualificationRegistry:
         from .registry import SUPPORTED_PATCH_VERSIONS
 
         planner = ConversionPlanner()
-        return tuple(
+        migration_records = tuple(
             self.record(path)
             for source in sorted(SUPPORTED_PATCH_VERSIONS)
             for target in sorted(SUPPORTED_PATCH_VERSIONS)
             if source != target
             for path in planner.candidate_routes(source, target)
         )
+        identity_profiles = tuple(
+            self._evidence[path]
+            for path in sorted(self._evidence)
+            if len(path) == 1 and path[0] in SUPPORTED_PATCH_VERSIONS
+        )
+        return (*migration_records, *identity_profiles)
 
     def record(self, path: tuple[str, ...]) -> QualificationRecord:
         if not path:
@@ -411,15 +445,20 @@ class QualificationService:
         *,
         experimental_structural: bool = False,
     ) -> QualificationResult:
-        valid = (
+        identity_profile = source_version == target_version and migration_path in {
+            (source_version,),
+            (source_version, source_version),
+        }
+        valid = bool(source_features) and (identity_profile or (
             len(migration_path) >= 2
             and bool(source_features)
             and len(set(migration_path)) == len(migration_path)
             and migration_path[0] == source_version
-            and (migration_path[-1] == target_version)
+            and migration_path[-1] == target_version
             and all(edge in EXACT_ROUTE_PAIRS for edge in zip(migration_path, migration_path[1:]))
-        )
-        record = self.registry.record(migration_path) if valid else None
+        ))
+        evidence_path = (source_version,) if identity_profile else migration_path
+        record = self.registry.record(evidence_path) if valid else None
         supported = record.supported_features if record else frozenset()
         missing = source_features - supported
         available = (

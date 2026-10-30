@@ -258,7 +258,41 @@ _BONE_KEYS = {
     "icon",
     "color",
 }
+_EDITOR_ONLY_BONE_FIELDS: dict[str, frozenset[str]] = {
+    # Spine 4.2.22 binary nonessential data exposes this editor visibility flag;
+    # it is not part of the B2 runtime semantic bone schema.
+    "4.2.22": frozenset({"visible"}),
+}
 _SLOT_KEYS = {"name", "bone", "attachment", "color", "dark", "blend", "visible"}
+
+
+def project_runtime_semantics(
+    document: JSONObject, version: str, *, binary_nonessential: bool = False
+) -> JSONObject:
+    """Return the version-aware B2 view while retaining the source document intact.
+
+    4.2.22's binary reader can expose nonessential bone visibility. Preserve it
+    in the caller's document, but omit it from runtime semantics because it is
+    editor-only and has no B2 bone field.
+    """
+    editor_fields = _EDITOR_ONLY_BONE_FIELDS.get(version, frozenset())
+    if binary_nonessential and version == "4.2.43":
+        editor_fields = frozenset({"visible"})
+    if not editor_fields:
+        return document
+    projected = dict(document)
+    raw_bones = document.get("bones")
+    if isinstance(raw_bones, list):
+        bones: list[JSONValue] = []
+        for index, row in enumerate(raw_bones):
+            if isinstance(row, Mapping):
+                if "visible" in row and type(row["visible"]) is not bool:
+                    raise ValueError(f"bones[{index}].visible must be a boolean")
+                bones.append({key: value for key, value in row.items() if key not in editor_fields})
+            else:
+                bones.append(row)
+        projected["bones"] = bones
+    return projected
 _ATTACHMENT_KEYS = {
     "type",
     "path",
@@ -414,7 +448,7 @@ def decode_semantic_skeleton(
     bones: list[BoneDefinition] = []
     for index, raw in enumerate(raw_bones):
         row = _mapping(raw, f"bones[{index}]")
-        unknown = set(row) - _BONE_KEYS
+        unknown = set(row) - _BONE_KEYS - _EDITOR_ONLY_BONE_FIELDS.get(version, frozenset())
         if unknown:
             raise ValueError(
                 f"Unknown semantic bone fields for {version}: {', '.join(sorted(unknown))}"
@@ -911,4 +945,5 @@ __all__ = (
     "TimelineDefinition",
     "decode_atlas_geometry",
     "decode_semantic_skeleton",
+    "project_runtime_semantics",
 )

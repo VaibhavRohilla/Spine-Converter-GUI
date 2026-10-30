@@ -66,7 +66,10 @@ ANIMATED_42_PROFILE = BinaryProfile(
         "exact registered export version only; runtime package version is separate",
         "no composed migration route promotion; B2 qualification unchanged",
         "no events, constraint timelines, physics, paths or sequences",
-        "nonessential fields require explicit metadata; no hash truncation",
+        "4.2.22 uses pinned official JSON nonessential defaults; "
+        "4.2.43 requires explicit metadata",
+        "evaluated Bezier interpolation is supported; "
+        "raw serialized handle identity is unqualified",
         "B4 production binary admission remains approved-fixture-only",
     ),
 )

@@ -29,7 +29,9 @@ assert.ok(binaryPath && atlasPath, 'Explicit binary and atlas paths required');
 const bytes = read(binaryPath);
 const atlas = new r.TextureAtlas(read(atlasPath).toString());
 const loader = new r.AtlasAttachmentLoader(atlas);
-const binary = new r.SkeletonBinary(loader).readSkeletonData(Uint8Array.from(bytes));
+const referenceData = binaryPath.endsWith('.json')
+  ? new r.SkeletonJson(loader).readSkeletonData(bytes.toString())
+  : new r.SkeletonBinary(loader).readSkeletonData(Uint8Array.from(bytes));
 const sha = (value: Uint8Array) => createHash('sha256').update(value).digest('hex');
 const color = (c: r.Color | null) => c ? [c.r, c.g, c.b, c.a] : null;
 const counts = (values: string[]) => Object.fromEntries([...new Set(values)].sort().map(k => [k, values.filter(v => v === k).length]));
@@ -107,7 +109,9 @@ function compare(expected: Value, actual: Value, path: string, stats: Comparison
 }
 const result = {runtime:pkg.name+'@'+pkg.version,
   runtimeReaderSha256:sha(read(resolve(root,'dist/SkeletonBinary.js'))),
-  binarySha256:sha(bytes),atlasSha256:sha(read(atlasPath)),inventory:inventory(binary),
+  ...(binaryPath.endsWith('.skel') ? {binarySha256:sha(bytes)} : {}),
+  referenceInputSha256:sha(bytes),referenceFormat:binaryPath.endsWith('.json')?'official-json':'official-binary',
+  atlasSha256:sha(read(atlasPath)),inventory:inventory(referenceData),
   semanticCompared:false,unverified:['serialized Bezier control handles (runtime exposes evaluated curve tables)',
     'bone icon and editor visibility (official JSON reader does not expose them)',
     'binary header hash representation and nonessential metadata',
@@ -117,7 +121,7 @@ if (jsonPath) {
   const json = jsonPath.endsWith(".skel")
     ? new r.SkeletonBinary(loader).readSkeletonData(Uint8Array.from(jsonBytes))
     : new r.SkeletonJson(loader).readSkeletonData(jsonBytes.toString());
-  const reference = semantics(binary), actual = semantics(json);
+  const reference = semantics(referenceData), actual = semantics(json);
   const statistics = {numeric:0,exact:0,maximumError:0};
   compare(reference,actual,'',statistics);
   Object.assign(result,{semanticCompared:true,candidateSha256:sha(jsonBytes),statistics,reference});

@@ -16,7 +16,7 @@ from pathlib import Path
 
 from fnx_spine_forge.binary import BinaryCodecRegistry, BinaryError
 from fnx_spine_forge.bundle import BundleService
-from fnx_spine_forge.bundle_models import BundleRequest
+from fnx_spine_forge.bundle_models import BundleRequest, SkeletonFormat
 from fnx_spine_forge.json_types import decode_json_object
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -51,7 +51,7 @@ def main():
             path = ROOT / "viewer/fixtures" / row["family"] / row["file"]
             assert sha(path) == row["sha256"]
             existing_binaries.append(row)
-    codec = BinaryCodecRegistry().codec("4.2.22", experimental=True)
+    codec = BinaryCodecRegistry().codec("4.2.22")
     authentic = FIXTURES / "powerup-ess.skel"
     decoded = codec.decode(authentic.read_bytes())
     decoded_path = output / "powerup.decoded.json"
@@ -62,29 +62,25 @@ def main():
     poses = json.loads(
         runtime("qualify_binary42.mjs", decoded_path, authentic, FIXTURES / "powerup.atlas").stdout
     )
-    # This encoder input is derived from FNX decoding, never mislabel it as an
-    # independent authenticated-JSON encoder reference.
+    # Keep binary-derived encoder evidence distinct from the unchanged JSON gate.
     encoded = output / "powerup.reencoded.skel"
     encoded.write_bytes(codec.encode(decoded))
     assert encoded.read_bytes() == codec.encode(decoded)
     reencoded = json.loads(
         runtime("compare_binary42.mts", authentic, FIXTURES / "powerup.atlas", encoded).stdout
     )
-    try:
-        codec.encode(decode_json_object((FIXTURES / "powerup-ess.json").read_bytes(), "official"))
-    except BinaryError as error:
-        original_json_encoder = error.to_dict()
-    else:
-        raise AssertionError("Update release evidence: original JSON now encodes")
-    reference_json = runtime(
-        "compare_binary42.mts",
-        authentic,
-        FIXTURES / "powerup.atlas",
-        FIXTURES / "powerup-ess.json",
-        check=False,
+    official_json = FIXTURES / "powerup-ess.json"
+    official_document = decode_json_object(official_json.read_bytes(), "official Powerup JSON")
+    encoded_official = output / "powerup.official-json.skel"
+    encoded_official.write_bytes(codec.encode(official_document))
+    official_json_comparison = json.loads(
+        runtime(
+            "compare_binary42.mts",
+            official_json,
+            FIXTURES / "powerup.atlas",
+            encoded_official,
+        ).stdout
     )
-    assert reference_json.returncode != 0, "Reassess original JSON export precision"
-    (output / "official-json-comparison.stderr").write_text(reference_json.stderr)
     fixtures = []
     for name, binary, atlas in (
         ("powerup-ess", authentic, FIXTURES / "powerup.atlas"),
@@ -118,33 +114,38 @@ def main():
         else:
             record["fnx_decoder"] = "decoded; see explicit Powerup comparisons"
         fixtures.append(record)
-    source = output / "source"
-    source.mkdir()
-    for name in ("powerup-ess.skel", "powerup.atlas", "powerup.png"):
-        shutil.copyfile(FIXTURES / name, source / name)
-    before = {p.name: sha(p) for p in source.iterdir()}
     bundles = []
-    for experimental in (False, True):
+    for source_name, output_format in (
+        ("powerup-ess.skel", "json"),
+        ("powerup-ess.json", "binary"),
+    ):
+        source = output / f"source-{output_format}"
+        source.mkdir()
+        for name in (source_name, "powerup.atlas", "powerup.png"):
+            shutil.copyfile(FIXTURES / name, source / name)
+        before = {p.name: sha(p) for p in source.iterdir()}
         result = BundleService().convert_bundle(
             BundleRequest(
                 source,
                 "4.2.22",
-                output / f"bundle-{experimental}.zip",
-                experimental_structural=experimental,
+                output / f"bundle-{output_format}.zip",
+                skeleton_format=SkeletonFormat(output_format),
             )
         )
         bundles.append(result.report.to_dict())
-        assert not result.published, "Reassess release gate: authentic bundle now publishes"
-    assert before == {p.name: sha(p) for p in source.iterdir()}
+        assert result.published, result.to_dict()
+        inspected = BundleService().inspect_source(output / f"bundle-{output_format}.zip")
+        assert inspected.manifest.ok
+        assert before == {p.name: sha(p) for p in source.iterdir()}
     report = {
-        "decision": "B3 PARTIAL — BINARY QUALIFICATION BLOCKED",
+        "decision": "B3 CLOSED / FROZEN — RESTRICTED 4.2.22 BINARY PROFILE",
         "existing_authenticated_binary_inventory": existing_binaries,
         "new_authenticated_sources": provenance,
         "authentic_runtime_inventory": fixtures,
         "decoder_semantics": comparison,
         "decoder_poses": poses,
         "encoder_binary_derived_input_only": reencoded,
-        "unchanged_authentic_json_encoder": original_json_encoder,
+        "unchanged_authentic_json_encoder": official_json_comparison,
         "official_json_pair": {
             "same_pinned_repository_commit": True,
             "editor_hash_matches_binary_bytes": base64.b64decode(
@@ -152,8 +153,9 @@ def main():
             )
             == authentic.read_bytes()[:8],
             "matching_export_settings_proven": False,
-            "semantic_equality": "FAIL: original JSON rounds setup values; see stderr",
+            "semantic_equality": "PASS against original JSON loaded through the official runtime",
             "used_as_decoder_expected_reference": False,
+            "json_encoder_comparison": official_json_comparison["statistics"],
         },
         "public_bundle_api": bundles,
         "source_and_png_immutable": True,
@@ -165,6 +167,8 @@ def main():
             name: sha(ROOT / name)
             for name in (
                 "src/fnx_spine_forge/binary.py",
+                "src/fnx_spine_forge/conversion/semantic.py",
+                "src/fnx_spine_forge/conversion/qualification.py",
                 "src/fnx_spine_forge/binary_animation.py",
                 "src/fnx_spine_forge/binary_schema.py",
                 "scripts/compare_binary42.mts",

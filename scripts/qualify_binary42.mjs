@@ -78,6 +78,37 @@ for (const skin of json.skins.length ? json.skins.map(s => s.name) : [null]) {
       compare(pose(json,skin,animation.name,time),pose(binary,skin,animation.name,time),animation.name+'/'+time);
       samples++;
     }
+    // Sample exact key boundaries, adjacent representable times, and segment
+    // midpoints in addition to the uniform pose grid above.
+    const keyTimes = new Set([0, animation.duration]);
+    for (const timeline of animation.timelines) {
+      const name = timeline.constructor.name;
+      const stride = name === 'RotateTimeline' ? 2
+        : ['TranslateTimeline','ScaleTimeline','ShearTimeline'].includes(name) ? 3
+        : name === 'RGBATimeline' ? 5 : 0;
+      if (stride === 0) continue;
+      const frames = Array.from(timeline.frames);
+      const times = [];
+      for (let frame=0; frame<timeline.getFrameCount(); frame++) {
+        const time = frames[frame*stride];
+        if (time >= 0 && time <= animation.duration) {
+          times.push(time); keyTimes.add(time);
+        }
+      }
+      times.sort((a,b)=>a-b);
+      for (let i=0; i<times.length-1; i++) {
+        const left = times[i], right = times[i+1];
+        if (right > left) {
+          keyTimes.add((left+right)/2);
+          const delta = Math.min((right-left)/10000, 1e-5);
+          keyTimes.add(left+delta); keyTimes.add(right-delta);
+        }
+      }
+    }
+    for (const time of keyTimes) {
+      compare(pose(json,skin,animation.name,time),pose(binary,skin,animation.name,time),animation.name+'/boundary/'+time);
+      samples++;
+    }
   }
 }
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');

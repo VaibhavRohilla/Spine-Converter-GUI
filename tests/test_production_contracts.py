@@ -48,8 +48,8 @@ def hierarchy_document():
 
 def test_packaged_evidence_matches_actual_fixture_bytes_and_qualified_inventory():
     records = load_qualification_records(json.dumps(evidence_document()).encode())
-    assert len(records) == 8
-    assert sum(bool(record.supported_features) for record in records) == 7
+    assert len(records) == 9
+    assert sum(bool(record.supported_features) for record in records) == 8
     for record in records:
         for fixture in record.fixtures:
             assert (

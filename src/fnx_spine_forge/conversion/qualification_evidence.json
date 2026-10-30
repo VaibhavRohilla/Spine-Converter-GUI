@@ -1,14 +1,26 @@
 {
-  "schema_version": 1,
   "records": [
     {
-      "source_version": "3.8.75",
-      "target_version": "4.2.43",
+      "fixtures": [
+        {
+          "identity": "tests/fixtures/spine38/golden_ingot.json",
+          "provenance": "Authentic 3.8.75 export; known export risk, structural bundle evidence only",
+          "sha256": "5d3d0d2cbda5c8ab7304d911841396d708af355330e80c301f8271efdf6deee8"
+        }
+      ],
+      "numerical_evidence": [],
       "path": [
         "3.8.75",
         "4.2.43"
       ],
+      "runtime_verified": false,
+      "semantic_evidence": [],
+      "source_version": "3.8.75",
+      "structural_evidence": [
+        "docs/B2_REPORT.md: Targeted fidelity recovery"
+      ],
       "supported_features": [],
+      "target_version": "4.2.43",
       "unsupported_features": [
         "unknown_semantics"
       ],
@@ -16,47 +28,55 @@
         "atlas_geometry",
         "auxiliary_attachment_geometry",
         "bezier_channels",
+        "bone_inheritance",
+        "bone_length_skin_editor_metadata",
         "constraints",
         "deform",
         "events_draw_order",
         "hierarchy_setup_transforms",
         "linked_mesh",
         "mesh_geometry",
+        "other_slot_color_timelines",
         "rotation",
         "scale",
+        "separate_axis_bone_timelines",
         "shear",
         "skins_attachments",
+        "slot_attachment_timelines",
+        "slot_bezier_channels",
         "slot_color_attachment",
         "translation",
-        "weighted_mesh",
-        "bone_inheritance",
-        "bone_length_skin_editor_metadata"
+        "weighted_mesh"
       ],
-      "fixtures": [
-        {
-          "identity": "tests/fixtures/spine38/golden_ingot.json",
-          "sha256": "5d3d0d2cbda5c8ab7304d911841396d708af355330e80c301f8271efdf6deee8",
-          "provenance": "Authentic 3.8.75 export; known export risk, structural bundle evidence only"
-        }
-      ],
-      "structural_evidence": [
-        "docs/B2_REPORT.md: Targeted fidelity recovery"
-      ],
-      "semantic_evidence": [],
-      "numerical_evidence": [],
-      "runtime_verified": false,
       "visually_verified": false
     },
     {
-      "source_version": "3.8.99",
-      "target_version": "3.5.51",
+      "fixtures": [
+        {
+          "identity": "tests/fixtures/b2_semantic/spine_3_8_99.json",
+          "provenance": "Schema-derived synthetic fixture; not an editor export",
+          "sha256": "f18c6b953e1991c206e3070601855dcbf4f9aa2c8a985af5cde9de854451d866"
+        }
+      ],
+      "numerical_evidence": [
+        "Exact serialized bone setup values compared at endpoints"
+      ],
       "path": [
         "3.8.99",
         "3.5.51"
       ],
+      "runtime_verified": false,
+      "semantic_evidence": [
+        "test_38_99_feature_fixture_direct_route_semantic_evaluation: bones equality"
+      ],
+      "source_version": "3.8.99",
+      "structural_evidence": [
+        "tests/test_b2_semantic_qualification.py"
+      ],
       "supported_features": [
         "hierarchy_setup_transforms"
       ],
+      "target_version": "3.5.51",
       "unsupported_features": [
         "unknown_semantics"
       ],
@@ -64,50 +84,54 @@
         "atlas_geometry",
         "auxiliary_attachment_geometry",
         "bezier_channels",
+        "bone_inheritance",
+        "bone_length_skin_editor_metadata",
         "constraints",
         "deform",
         "events_draw_order",
         "linked_mesh",
         "mesh_geometry",
+        "other_slot_color_timelines",
         "rotation",
         "scale",
+        "separate_axis_bone_timelines",
         "shear",
         "skins_attachments",
+        "slot_attachment_timelines",
+        "slot_bezier_channels",
         "slot_color_attachment",
         "translation",
-        "weighted_mesh",
-        "bone_inheritance",
-        "bone_length_skin_editor_metadata"
+        "weighted_mesh"
       ],
+      "visually_verified": false
+    },
+    {
       "fixtures": [
         {
           "identity": "tests/fixtures/b2_semantic/spine_3_8_99.json",
-          "sha256": "f18c6b953e1991c206e3070601855dcbf4f9aa2c8a985af5cde9de854451d866",
-          "provenance": "Schema-derived synthetic fixture; not an editor export"
+          "provenance": "Schema-derived synthetic fixture; not an editor export",
+          "sha256": "f18c6b953e1991c206e3070601855dcbf4f9aa2c8a985af5cde9de854451d866"
         }
-      ],
-      "structural_evidence": [
-        "tests/test_b2_semantic_qualification.py"
-      ],
-      "semantic_evidence": [
-        "test_38_99_feature_fixture_direct_route_semantic_evaluation: bones equality"
       ],
       "numerical_evidence": [
         "Exact serialized bone setup values compared at endpoints"
       ],
-      "runtime_verified": false,
-      "visually_verified": false
-    },
-    {
-      "source_version": "3.8.99",
-      "target_version": "3.6.53",
       "path": [
         "3.8.99",
         "3.6.53"
       ],
+      "runtime_verified": false,
+      "semantic_evidence": [
+        "test_38_99_feature_fixture_direct_route_semantic_evaluation: bones equality"
+      ],
+      "source_version": "3.8.99",
+      "structural_evidence": [
+        "tests/test_b2_semantic_qualification.py"
+      ],
       "supported_features": [
         "hierarchy_setup_transforms"
       ],
+      "target_version": "3.6.53",
       "unsupported_features": [
         "unknown_semantics"
       ],
@@ -115,50 +139,54 @@
         "atlas_geometry",
         "auxiliary_attachment_geometry",
         "bezier_channels",
+        "bone_inheritance",
+        "bone_length_skin_editor_metadata",
         "constraints",
         "deform",
         "events_draw_order",
         "linked_mesh",
         "mesh_geometry",
+        "other_slot_color_timelines",
         "rotation",
         "scale",
+        "separate_axis_bone_timelines",
         "shear",
         "skins_attachments",
+        "slot_attachment_timelines",
+        "slot_bezier_channels",
         "slot_color_attachment",
         "translation",
-        "weighted_mesh",
-        "bone_inheritance",
-        "bone_length_skin_editor_metadata"
+        "weighted_mesh"
       ],
+      "visually_verified": false
+    },
+    {
       "fixtures": [
         {
           "identity": "tests/fixtures/b2_semantic/spine_3_8_99.json",
-          "sha256": "f18c6b953e1991c206e3070601855dcbf4f9aa2c8a985af5cde9de854451d866",
-          "provenance": "Schema-derived synthetic fixture; not an editor export"
+          "provenance": "Schema-derived synthetic fixture; not an editor export",
+          "sha256": "f18c6b953e1991c206e3070601855dcbf4f9aa2c8a985af5cde9de854451d866"
         }
-      ],
-      "structural_evidence": [
-        "tests/test_b2_semantic_qualification.py"
-      ],
-      "semantic_evidence": [
-        "test_38_99_feature_fixture_direct_route_semantic_evaluation: bones equality"
       ],
       "numerical_evidence": [
         "Exact serialized bone setup values compared at endpoints"
       ],
-      "runtime_verified": false,
-      "visually_verified": false
-    },
-    {
-      "source_version": "3.8.99",
-      "target_version": "3.7.94",
       "path": [
         "3.8.99",
         "3.7.94"
       ],
+      "runtime_verified": false,
+      "semantic_evidence": [
+        "test_38_99_feature_fixture_direct_route_semantic_evaluation: bones equality"
+      ],
+      "source_version": "3.8.99",
+      "structural_evidence": [
+        "tests/test_b2_semantic_qualification.py"
+      ],
       "supported_features": [
         "hierarchy_setup_transforms"
       ],
+      "target_version": "3.7.94",
       "unsupported_features": [
         "unknown_semantics"
       ],
@@ -166,50 +194,54 @@
         "atlas_geometry",
         "auxiliary_attachment_geometry",
         "bezier_channels",
+        "bone_inheritance",
+        "bone_length_skin_editor_metadata",
         "constraints",
         "deform",
         "events_draw_order",
         "linked_mesh",
         "mesh_geometry",
+        "other_slot_color_timelines",
         "rotation",
         "scale",
+        "separate_axis_bone_timelines",
         "shear",
         "skins_attachments",
+        "slot_attachment_timelines",
+        "slot_bezier_channels",
         "slot_color_attachment",
         "translation",
-        "weighted_mesh",
-        "bone_inheritance",
-        "bone_length_skin_editor_metadata"
+        "weighted_mesh"
       ],
+      "visually_verified": false
+    },
+    {
       "fixtures": [
         {
           "identity": "tests/fixtures/b2_semantic/spine_3_8_99.json",
-          "sha256": "f18c6b953e1991c206e3070601855dcbf4f9aa2c8a985af5cde9de854451d866",
-          "provenance": "Schema-derived synthetic fixture; not an editor export"
+          "provenance": "Schema-derived synthetic fixture; not an editor export",
+          "sha256": "f18c6b953e1991c206e3070601855dcbf4f9aa2c8a985af5cde9de854451d866"
         }
-      ],
-      "structural_evidence": [
-        "tests/test_b2_semantic_qualification.py"
-      ],
-      "semantic_evidence": [
-        "test_38_99_feature_fixture_direct_route_semantic_evaluation: bones equality"
       ],
       "numerical_evidence": [
         "Exact serialized bone setup values compared at endpoints"
       ],
-      "runtime_verified": false,
-      "visually_verified": false
-    },
-    {
-      "source_version": "3.8.99",
-      "target_version": "4.0.31",
       "path": [
         "3.8.99",
         "4.0.31"
       ],
+      "runtime_verified": false,
+      "semantic_evidence": [
+        "test_38_99_feature_fixture_direct_route_semantic_evaluation: bones equality"
+      ],
+      "source_version": "3.8.99",
+      "structural_evidence": [
+        "tests/test_b2_semantic_qualification.py"
+      ],
       "supported_features": [
         "hierarchy_setup_transforms"
       ],
+      "target_version": "4.0.31",
       "unsupported_features": [
         "unknown_semantics"
       ],
@@ -217,50 +249,54 @@
         "atlas_geometry",
         "auxiliary_attachment_geometry",
         "bezier_channels",
+        "bone_inheritance",
+        "bone_length_skin_editor_metadata",
         "constraints",
         "deform",
         "events_draw_order",
         "linked_mesh",
         "mesh_geometry",
+        "other_slot_color_timelines",
         "rotation",
         "scale",
+        "separate_axis_bone_timelines",
         "shear",
         "skins_attachments",
+        "slot_attachment_timelines",
+        "slot_bezier_channels",
         "slot_color_attachment",
         "translation",
-        "weighted_mesh",
-        "bone_inheritance",
-        "bone_length_skin_editor_metadata"
+        "weighted_mesh"
       ],
+      "visually_verified": false
+    },
+    {
       "fixtures": [
         {
           "identity": "tests/fixtures/b2_semantic/spine_3_8_99.json",
-          "sha256": "f18c6b953e1991c206e3070601855dcbf4f9aa2c8a985af5cde9de854451d866",
-          "provenance": "Schema-derived synthetic fixture; not an editor export"
+          "provenance": "Schema-derived synthetic fixture; not an editor export",
+          "sha256": "f18c6b953e1991c206e3070601855dcbf4f9aa2c8a985af5cde9de854451d866"
         }
-      ],
-      "structural_evidence": [
-        "tests/test_b2_semantic_qualification.py"
-      ],
-      "semantic_evidence": [
-        "test_38_99_feature_fixture_direct_route_semantic_evaluation: bones equality"
       ],
       "numerical_evidence": [
         "Exact serialized bone setup values compared at endpoints"
       ],
-      "runtime_verified": false,
-      "visually_verified": false
-    },
-    {
-      "source_version": "3.8.99",
-      "target_version": "4.1.56",
       "path": [
         "3.8.99",
         "4.1.56"
       ],
+      "runtime_verified": false,
+      "semantic_evidence": [
+        "test_38_99_feature_fixture_direct_route_semantic_evaluation: bones equality"
+      ],
+      "source_version": "3.8.99",
+      "structural_evidence": [
+        "tests/test_b2_semantic_qualification.py"
+      ],
       "supported_features": [
         "hierarchy_setup_transforms"
       ],
+      "target_version": "4.1.56",
       "unsupported_features": [
         "unknown_semantics"
       ],
@@ -268,50 +304,54 @@
         "atlas_geometry",
         "auxiliary_attachment_geometry",
         "bezier_channels",
+        "bone_inheritance",
+        "bone_length_skin_editor_metadata",
         "constraints",
         "deform",
         "events_draw_order",
         "linked_mesh",
         "mesh_geometry",
+        "other_slot_color_timelines",
         "rotation",
         "scale",
+        "separate_axis_bone_timelines",
         "shear",
         "skins_attachments",
+        "slot_attachment_timelines",
+        "slot_bezier_channels",
         "slot_color_attachment",
         "translation",
-        "weighted_mesh",
-        "bone_inheritance",
-        "bone_length_skin_editor_metadata"
+        "weighted_mesh"
       ],
+      "visually_verified": false
+    },
+    {
       "fixtures": [
         {
           "identity": "tests/fixtures/b2_semantic/spine_3_8_99.json",
-          "sha256": "f18c6b953e1991c206e3070601855dcbf4f9aa2c8a985af5cde9de854451d866",
-          "provenance": "Schema-derived synthetic fixture; not an editor export"
+          "provenance": "Schema-derived synthetic fixture; not an editor export",
+          "sha256": "f18c6b953e1991c206e3070601855dcbf4f9aa2c8a985af5cde9de854451d866"
         }
-      ],
-      "structural_evidence": [
-        "tests/test_b2_semantic_qualification.py"
-      ],
-      "semantic_evidence": [
-        "test_38_99_feature_fixture_direct_route_semantic_evaluation: bones equality"
       ],
       "numerical_evidence": [
         "Exact serialized bone setup values compared at endpoints"
       ],
-      "runtime_verified": false,
-      "visually_verified": false
-    },
-    {
-      "source_version": "3.8.99",
-      "target_version": "4.2.43",
       "path": [
         "3.8.99",
         "4.2.43"
       ],
+      "runtime_verified": false,
+      "semantic_evidence": [
+        "test_38_99_feature_fixture_direct_route_semantic_evaluation: bones equality"
+      ],
+      "source_version": "3.8.99",
+      "structural_evidence": [
+        "tests/test_b2_semantic_qualification.py"
+      ],
       "supported_features": [
         "hierarchy_setup_transforms"
       ],
+      "target_version": "4.2.43",
       "unsupported_features": [
         "unknown_semantics"
       ],
@@ -319,50 +359,54 @@
         "atlas_geometry",
         "auxiliary_attachment_geometry",
         "bezier_channels",
+        "bone_inheritance",
+        "bone_length_skin_editor_metadata",
         "constraints",
         "deform",
         "events_draw_order",
         "linked_mesh",
         "mesh_geometry",
+        "other_slot_color_timelines",
         "rotation",
         "scale",
+        "separate_axis_bone_timelines",
         "shear",
         "skins_attachments",
+        "slot_attachment_timelines",
+        "slot_bezier_channels",
         "slot_color_attachment",
         "translation",
-        "weighted_mesh",
-        "bone_inheritance",
-        "bone_length_skin_editor_metadata"
+        "weighted_mesh"
       ],
+      "visually_verified": false
+    },
+    {
       "fixtures": [
         {
           "identity": "tests/fixtures/b2_semantic/spine_3_8_99.json",
-          "sha256": "f18c6b953e1991c206e3070601855dcbf4f9aa2c8a985af5cde9de854451d866",
-          "provenance": "Schema-derived synthetic fixture; not an editor export"
+          "provenance": "Schema-derived synthetic fixture; not an editor export",
+          "sha256": "f18c6b953e1991c206e3070601855dcbf4f9aa2c8a985af5cde9de854451d866"
         }
-      ],
-      "structural_evidence": [
-        "tests/test_b2_semantic_qualification.py"
-      ],
-      "semantic_evidence": [
-        "test_38_99_feature_fixture_direct_route_semantic_evaluation: bones equality"
       ],
       "numerical_evidence": [
         "Exact serialized bone setup values compared at endpoints"
       ],
-      "runtime_verified": false,
-      "visually_verified": false
-    },
-    {
-      "source_version": "3.8.99",
-      "target_version": "4.3.13",
       "path": [
         "3.8.99",
         "4.3.13"
       ],
+      "runtime_verified": false,
+      "semantic_evidence": [
+        "test_38_99_feature_fixture_direct_route_semantic_evaluation: bones equality"
+      ],
+      "source_version": "3.8.99",
+      "structural_evidence": [
+        "tests/test_b2_semantic_qualification.py"
+      ],
       "supported_features": [
         "hierarchy_setup_transforms"
       ],
+      "target_version": "4.3.13",
       "unsupported_features": [
         "unknown_semantics"
       ],
@@ -370,39 +414,90 @@
         "atlas_geometry",
         "auxiliary_attachment_geometry",
         "bezier_channels",
+        "bone_inheritance",
+        "bone_length_skin_editor_metadata",
         "constraints",
         "deform",
         "events_draw_order",
         "linked_mesh",
         "mesh_geometry",
+        "other_slot_color_timelines",
+        "rotation",
+        "scale",
+        "separate_axis_bone_timelines",
+        "shear",
+        "skins_attachments",
+        "slot_attachment_timelines",
+        "slot_bezier_channels",
+        "slot_color_attachment",
+        "translation",
+        "weighted_mesh"
+      ],
+      "visually_verified": false
+    },
+    {
+      "fixtures": [
+        {
+          "identity": "tests/fixtures/binary/official42/powerup-ess.skel",
+          "provenance": "Authentic Spine 4.2.22 Powerup Essentials binary from pinned official spine-runtimes commit 8bca84f46e00d1d0d29ab0dc2406bef3b1248e17",
+          "sha256": "0e739e50f3e44e8bacd481649a8e9deee3ed3722c4813ba673f1a862dbc65d0b"
+        },
+        {
+          "identity": "tests/fixtures/binary/official42/powerup-ess.json",
+          "provenance": "Unchanged authentic Spine 4.2.22 Powerup Essentials JSON from the same pinned official commit",
+          "sha256": "6ff51b2fa2b47e339399391a11f1523896defbd7e62a7cb9f69f8021315e1785"
+        }
+      ],
+      "numerical_evidence": [
+        "binary decoder: 2,180 numeric comparisons; max error 0; tolerance 1e-6 + 2e-6 * abs(reference)",
+        "JSON encoder: 2,180 numeric comparisons; max error 7.63e-6; tolerance 1e-6 + 2e-6 * abs(reference)",
+        "runtime poses: 42 samples and 10,837 numeric comparisons; max error 0; tolerance 3e-4 + 2e-6 * abs(reference)"
+      ],
+      "path": [
+        "4.2.22"
+      ],
+      "runtime_verified": false,
+      "semantic_evidence": [
+        "2,180 numeric and 207 exact values; setup, regions, skins, animation keys, evaluated curves",
+        "Python API and installed CLI both conversion directions; complete ZIP and folder bundles"
+      ],
+      "source_version": "4.2.22",
+      "structural_evidence": [
+        "scripts/compare_binary42.mts: independent official reader binary and JSON workflows",
+        "scripts/qualify_authentic_binary.py: public bundle API evidence"
+      ],
+      "supported_features": [
+        "atlas_geometry",
+        "bezier_channels",
+        "hierarchy_setup_transforms",
         "rotation",
         "scale",
         "shear",
         "skins_attachments",
         "slot_color_attachment",
-        "translation",
-        "weighted_mesh",
+        "translation"
+      ],
+      "target_version": "4.2.22",
+      "unsupported_features": [
+        "auxiliary_attachment_geometry",
+        "constraints",
+        "deform",
+        "events_draw_order",
+        "linked_mesh",
+        "mesh_geometry",
+        "unknown_semantics",
+        "weighted_mesh"
+      ],
+      "unverified_features": [
         "bone_inheritance",
-        "bone_length_skin_editor_metadata"
+        "bone_length_skin_editor_metadata",
+        "other_slot_color_timelines",
+        "separate_axis_bone_timelines",
+        "slot_attachment_timelines",
+        "slot_bezier_channels"
       ],
-      "fixtures": [
-        {
-          "identity": "tests/fixtures/b2_semantic/spine_3_8_99.json",
-          "sha256": "f18c6b953e1991c206e3070601855dcbf4f9aa2c8a985af5cde9de854451d866",
-          "provenance": "Schema-derived synthetic fixture; not an editor export"
-        }
-      ],
-      "structural_evidence": [
-        "tests/test_b2_semantic_qualification.py"
-      ],
-      "semantic_evidence": [
-        "test_38_99_feature_fixture_direct_route_semantic_evaluation: bones equality"
-      ],
-      "numerical_evidence": [
-        "Exact serialized bone setup values compared at endpoints"
-      ],
-      "runtime_verified": false,
       "visually_verified": false
     }
-  ]
+  ],
+  "schema_version": 1
 }

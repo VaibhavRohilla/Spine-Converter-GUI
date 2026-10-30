@@ -37,7 +37,7 @@ from .models import (
 from .planner import ConversionPlanner
 from .qualification import QualificationService, inspect_features
 from .registry import KNOWN_EXPORT_ISSUE_PATCHES, ROUTES_BY_PATCH, MigrationKind
-from .semantic import SemanticSkeleton, decode_semantic_skeleton
+from .semantic import SemanticSkeleton, decode_semantic_skeleton, project_runtime_semantics
 
 
 def _as_mapping(value: object) -> Mapping[str, JSONValue]:
@@ -191,7 +191,7 @@ class SkeletonConverter:
         raw_animations = obj.get("animations", {})
         animations = tuple(raw_animations) if is_document(raw_animations) else ()
         semantic: SemanticSkeleton = decode_semantic_skeleton(
-            obj, version, migration_target=migration_target
+            project_runtime_semantics(obj, version), version, migration_target=migration_target
         )
         return CanonicalSkeleton(
             version, obj, bones, slots, _skin_names(obj.get("skins", {})), animations, semantic

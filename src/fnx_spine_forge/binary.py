@@ -9,7 +9,10 @@ separates implemented operations from qualification.
 
 from __future__ import annotations
 
+import base64
+import binascii
 import math
+import re
 import struct
 from dataclasses import dataclass, replace
 from enum import StrEnum
@@ -263,15 +266,48 @@ class BinaryCapability:
             "supported_global_timelines": self.profile.global_timelines,
             "supported_constraints": self.profile.constraints,
             "interpolation": self.profile.interpolation,
+            "qualified_profile": (
+                (
+                    "hierarchy_setup_transforms",
+                    "skins_attachments: region only",
+                    "rotation",
+                    "translation",
+                    "scale",
+                    "shear",
+                    "slot_color_attachment: rgba linear and stepped",
+                    "bezier_channels: evaluated interpolation semantics",
+                )
+                if self.version == BINARY_REFERENCE_EXPORT_VERSION
+                else ()
+            ),
+            "unqualified_profile": (
+                (
+                    "meshes and linked meshes",
+                    "deform",
+                    "constraints",
+                    "events and draw-order semantics",
+                    "unsupported attachments",
+                    "non-default bone inheritance and unverified bone extensions",
+                    "separate-axis bone timelines",
+                    "slot attachment timelines",
+                    "other slot-color timeline kinds",
+                    "slot-color Bezier channels",
+                    "raw serialized Bezier handle identity",
+                    "other export patches and cross-version conversion",
+                )
+                if self.version == BINARY_REFERENCE_EXPORT_VERSION
+                else ()
+            ),
+            "raw_bezier_handle_identity_qualified": False,
             "decoder_qualification": (
-                "experimental: authentic Powerup 4.2.22 region/bone/RGBA comparisons; "
-                "unverified fields and release gates remain"
+                "qualified restricted Powerup 4.2.22 profile; raw Bezier handle identity "
+                "and unlisted feature categories are excluded"
                 if self.version == BINARY_REFERENCE_EXPORT_VERSION
                 else "unqualified: authentic animated binary evidence missing"
             ),
             "encoder_qualification": (
-                "unqualified: unchanged authentic JSON rejected; binary-derived "
-                "input is not independent JSON encoder qualification"
+                "qualified restricted Powerup 4.2.22 profile against unchanged official JSON "
+                "and independent official runtime"
                 if self.version == BINARY_REFERENCE_EXPORT_VERSION
                 else "experimental: specified-fixture official runtime comparisons"
             ),
@@ -321,8 +357,9 @@ class BinaryCodecRegistry:
                     "3fed83518ba49f754b53c4a45c35e28",
                 ),
                 True,
-                False,
+                version == BINARY_REFERENCE_EXPORT_VERSION,
                 ANIMATED_42_PROFILE,
+                runtime_qualified=version == BINARY_REFERENCE_EXPORT_VERSION,
             )
             for version in (BINARY_EXPORT_VERSION, BINARY_REFERENCE_EXPORT_VERSION)
         )
@@ -361,6 +398,33 @@ _INHERIT = ("normal", "onlyTranslation", "noRotationOrReflection", "noScale", "n
 _BONE_FLOATS = ("rotation", "x", "y", "scaleX", "scaleY", "shearX", "shearY", "length")
 
 
+def _encode_hash(value: JSONValue, version: str) -> bytes:
+    if value is None or value == "":
+        return bytes(8)
+    if not isinstance(value, str):
+        raise BinaryError(BinaryErrorCode.HASH, "Hash must be an exact-version encoded string")
+    if re.fullmatch(r"[0-9a-fA-F]{16}", value):
+        try:
+            decoded = bytes.fromhex(value)
+        except ValueError as exc:
+            raise BinaryError(BinaryErrorCode.HASH, "Hash must represent eight bytes") from exc
+        if len(decoded) == 8:
+            return decoded
+    if version == BINARY_REFERENCE_EXPORT_VERSION and re.fullmatch(
+        r"[A-Za-z0-9+/]{11}=?", value
+    ):
+        try:
+            decoded = base64.b64decode(value + "=" * (-len(value) % 4), validate=True)
+        except (ValueError, binascii.Error) as exc:
+            raise BinaryError(BinaryErrorCode.HASH, "Invalid 4.2.22 Base64 hash") from exc
+        if (
+            len(decoded) == 8
+            and base64.b64encode(decoded).decode("ascii").rstrip("=") == value.rstrip("=")
+        ):
+            return decoded
+    raise BinaryError(BinaryErrorCode.HASH, "Hash is not valid for this exact binary version")
+
+
 class BinarySkeletonCodec:
     def __init__(
         self,
@@ -391,6 +455,7 @@ class BinarySkeletonCodec:
             )
         self._capability = capability
         self.limits = limits or BinaryLimits()
+        self._experimental = experimental
 
     @property
     def capability(self) -> BinaryCapability:
@@ -471,6 +536,7 @@ class BinarySkeletonCodec:
             )
         document = {"skeleton": metadata, "bones": bones, **tail}
         self._validate_semantics(document)
+        self._require_qualified_features(document)
         return document
 
     def encode(self, document: JSONDocument) -> bytes:
@@ -480,6 +546,7 @@ class BinarySkeletonCodec:
             self._preflight(document)
             encoded = self._encode(document)
             self._validate_semantics(document)
+            self._require_qualified_features(document)
             return encoded
         except BinaryError:
             raise
@@ -515,16 +582,18 @@ class BinarySkeletonCodec:
 
     def _validate_semantics(self, document: JSONDocument) -> None:
         from .conversion.document import require_array, require_object
-        from .conversion.semantic import decode_semantic_skeleton
+        from .conversion.semantic import decode_semantic_skeleton, project_runtime_semantics
 
-        # B2 models runtime semantics; binary-only editor visibility remains in
-        # the original document and is validated by this codec.
-        projection = dict(document)
-        for category in ("bones", "slots"):
-            projection[category] = [
-                {k: v for k, v in require_object(row, category).items() if k != "visible"}
-                for row in require_array(document.get(category, []), category)
-            ]
+        # B2 models runtime semantics; versioned editor-only fields remain in
+        # the source document and are projected out at the shared boundary.
+        projection = project_runtime_semantics(
+            document, self.capability.version, binary_nonessential=True
+        )
+        projection = dict(projection)
+        projection["slots"] = [
+            {k: v for k, v in require_object(row, "slots").items() if k != "visible"}
+            for row in require_array(document.get("slots", []), "slots")
+        ]
         projection["ik"] = [
             {k: v for k, v in require_object(row, "ik").items() if k != "skin"}
             for row in require_array(document.get("ik", []), "ik")
@@ -533,6 +602,31 @@ class BinarySkeletonCodec:
             decode_semantic_skeleton(projection, self.capability.version)
         except ValueError as exc:
             raise BinaryError(BinaryErrorCode.INVALID_DOCUMENT, str(exc)) from exc
+
+    def _require_qualified_features(self, document: JSONDocument) -> None:
+        if self._experimental:
+            return
+        from .conversion.qualification import QualificationService, inspect_features
+        from .conversion.semantic import decode_semantic_skeleton, project_runtime_semantics
+
+        projection = project_runtime_semantics(document, self.capability.version)
+        try:
+            semantic = decode_semantic_skeleton(projection, self.capability.version)
+            result = QualificationService().evaluate(
+                self.capability.version,
+                self.capability.version,
+                (self.capability.version,),
+                inspect_features(semantic, document),
+            )
+        except ValueError as exc:
+            raise BinaryError(BinaryErrorCode.INVALID_DOCUMENT, str(exc)) from exc
+        if not result.qualified:
+            details = ", ".join(feature.value for feature in result.unqualified_features)
+            raise BinaryError(
+                BinaryErrorCode.UNQUALIFIED,
+                "Feature set exceeds the qualified binary profile"
+                + (f": {details}" if details else ""),
+            )
 
     def _encode(self, document: JSONDocument) -> bytes:
         from .conversion.document import require_array, require_object, require_text
@@ -568,18 +662,7 @@ class BinarySkeletonCodec:
             "audio",
         }:
             raise BinaryError(BinaryErrorCode.FEATURE_UNSUPPORTED, "Unknown skeleton metadata")
-        hash_value = metadata.get("hash")
-        if hash_value is None or hash_value == "":
-            hash_bytes = bytes(8)
-        elif isinstance(hash_value, str) and len(hash_value) == 16:
-            try:
-                hash_bytes = bytes.fromhex(hash_value)
-            except ValueError as exc:
-                raise BinaryError(BinaryErrorCode.HASH, "Hash must represent eight bytes") from exc
-            if len(hash_bytes) != 8:
-                raise BinaryError(BinaryErrorCode.HASH, "Hash must represent eight bytes")
-        else:
-            raise BinaryError(BinaryErrorCode.HASH, "Hash is not representable by this codec")
+        hash_bytes = _encode_hash(metadata.get("hash"), self.capability.version)
         writer = _Writer(self.limits)
         writer.put(hash_bytes)
         writer.string(self.capability.version)
@@ -594,15 +677,17 @@ class BinarySkeletonCodec:
         )
         writer.put(bytes((int(nonessential),)))
         if nonessential:
-            if "fps" not in metadata or any(
-                not {"color", "visible"} <= bone.keys() for bone in records
+            official_4222_defaults = self.capability.version == BINARY_REFERENCE_EXPORT_VERSION
+            if not official_4222_defaults and (
+                "fps" not in metadata
+                or any(not {"color", "visible"} <= bone.keys() for bone in records)
             ):
                 raise BinaryError(
                     BinaryErrorCode.METADATA_INCOMPLETE,
                     "Nonessential binary output requires explicit fps, bone color and visibility; "
                     "editor metadata defaults are not inferred",
                 )
-            writer.number(metadata["fps"])
+            writer.number(metadata.get("fps", 0) if official_4222_defaults else metadata["fps"])
             for name in ("images", "audio"):
                 value = metadata.get(name)
                 writer.string(require_text(value, name) if value is not None else None)
@@ -648,7 +733,11 @@ class BinarySkeletonCodec:
                 raise BinaryError(BinaryErrorCode.BOOLEAN, "Bone flags must be boolean")
             writer.put(bytes((_INHERIT.index(inherit), int(skin))))
             if nonessential:
-                color = bone["color"]
+                color = (
+                    bone.get("color", "00000000")
+                    if self.capability.version == BINARY_REFERENCE_EXPORT_VERSION
+                    else bone["color"]
+                )
                 if not isinstance(color, str) or len(color) != 8:
                     raise BinaryError(BinaryErrorCode.COLOR, "Invalid RGBA color")
                 try:

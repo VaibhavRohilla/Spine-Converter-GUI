@@ -119,29 +119,61 @@ api = BundleService().convert_bundle(
 )
 assert api.published, api.report
 assert (out / "api.zip").read_bytes() == (out / "one.zip").read_bytes()
-authentic = out / "authentic"
-authentic.mkdir()
-for name in ["powerup-ess.skel", "powerup.atlas", "powerup.png"]:
-    shutil.copyfile(fixtures / "official42" / name, authentic / name)
-auth_before = {p.name: sha(p) for p in authentic.iterdir()}
-for flags in [[], ["--experimental-structural"]]:
-    r = command(
-        "bundle",
-        "convert",
-        "--input",
-        authentic,
-        "--target",
-        "4.2.22",
-        "--container",
-        "zip",
-        "--output",
-        out / "rejected.zip",
-        *flags,
+official = fixtures / "official42"
+for skeleton_name in ["powerup-ess.skel", "powerup-ess.json"]:
+    authentic = out / f"authentic-{skeleton_name.rsplit('.', 1)[-1]}"
+    authentic.mkdir()
+    for name in [skeleton_name, "powerup.atlas", "powerup.png"]:
+        shutil.copyfile(official / name, authentic / name)
+    folder_before = {p.name: sha(p) for p in authentic.iterdir()}
+    zip_path = out / f"{authentic.name}.zip"
+    with ZipFile(zip_path, "w") as archive:
+        for path in authentic.iterdir():
+            archive.write(path, path.name)
+    output_format = "json" if skeleton_name.endswith(".skel") else "binary"
+    for input_index, input_path in enumerate([authentic, zip_path]):
+        outputs = []
+        for index in range(2):
+            output_path = out / f"{output_format}-{input_path.stem}-{input_index}-{index}.zip"
+            r = command(
+                "bundle",
+                "convert",
+                "--input",
+                input_path,
+                "--target",
+                "4.2.22",
+                "--container",
+                "zip",
+                "--skeleton-format",
+                output_format,
+                "--output",
+                output_path,
+            )
+            assert r["exit_code"] == 0, r
+            results.append(r)
+            outputs.append(output_path)
+        assert outputs[-1].read_bytes() == outputs[-2].read_bytes()
+        with ZipFile(outputs[-1]) as archive:
+            assert "powerup.atlas" in archive.namelist()
+            assert archive.read("powerup.png") == (official / "powerup.png").read_bytes()
+            skeleton_output = "powerup-ess.json" if output_format == "json" else "powerup-ess.skel"
+            assert skeleton_output in archive.namelist()
+            if output_format == "binary":
+                assert archive.read(skeleton_output)[:8].hex() == "48c29958a44b830f"
+    assert folder_before == {p.name: sha(p) for p in authentic.iterdir()}
+    api_source = authentic
+    api_result = BundleService().convert_bundle(
+        BundleRequest(
+            api_source,
+            "4.2.22",
+            out / f"api-{output_format}.zip",
+            skeleton_format=SkeletonFormat(output_format),
+        )
     )
-    assert r["exit_code"] != 0 and not (out / "rejected.zip").exists(), r
-    results.append(r)
+    assert api_result.published, api_result.report
+    assert (out / f"api-{output_format}.zip").read_bytes() == outputs[0].read_bytes()
+    assert BundleService().inspect_source(out / f"api-{output_format}.zip").manifest.ok
 assert before == {p.name: sha(p) for p in source.iterdir()}
-assert auth_before == {p.name: sha(p) for p in authentic.iterdir()}
 module = Path(binary.__file__)
 assert module.read_bytes() == (root / "src/fnx_spine_forge/binary.py").read_bytes()
 evidence = {
@@ -152,7 +184,9 @@ evidence = {
     "source_immutable": True,
     "png_identity": True,
     "experimental_4_2_43_zip_folder_determinism": True,
-    "authentic_qualified_4_2_22_workflow": "BLOCKED; both CLI attempts rejected",
+    "authentic_qualified_4_2_22_workflow": (
+        "PASS; installed CLI and API convert ZIP/folder inputs both directions"
+    ),
     "commands": results,
     "api": api.report.to_dict(),
 }
