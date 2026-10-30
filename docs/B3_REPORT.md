@@ -122,10 +122,12 @@ runtime-lifecycle code changed.
 Final verification on the implementation candidate: **522 Python tests**,
 **146 browser tests**, Ruff, strict mypy, TypeScript typecheck/lint/build,
 wheel/sdist build, isolated installed-wheel API/CLI checks, and
-`git diff --check` passed. Full evidence and package hashes are in
+`git diff --check` passed. The complete run was repeated after the typed policy
+cleanup commit `7c620e4837bcda68713e7259cc7ba3278bcbcdca`; it again passed all
+522 Python and 146 browser tests, Ruff, strict mypy, builds, and viewer checks.
+The detailed B3 evidence and package hashes remain in
 `evidence/B3_restricted_4222/verification.json`.
 
-Implementation commit SHA: `f0094d83758673ad6a8edc19b5c725456253b059`.
-The final documentation/evidence commit and clean-tree state are recorded in
-Git after this report is committed. No B5 implementation is included in this
-freeze.
+Qualification implementation commit SHA: `f0094d83758673ad6a8edc19b5c725456253b059`.
+Typed policy cleanup commit SHA: `7c620e4837bcda68713e7259cc7ba3278bcbcdca`.
+No B5 implementation is included in this freeze.
