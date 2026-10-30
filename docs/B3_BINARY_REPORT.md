@@ -1,8 +1,8 @@
-# B3 animated binary implementation — 2026-10-27
+# B3 animated binary implementation — historical checkpoint, 2026-10-27
 
-> Superseded for current status by the [2026-10-28 decoder qualification](B3_DECODER_QUALIFICATION.md).
-> Exact 4.2.22 now has experimental authentic decoder evidence; release remains blocked.
-> The following records the earlier 4.2.43-only checkpoint.
+This report records the earlier 4.2.43-only experimental checkpoint. Current
+release status and exact 4.2.22 scope are in [B3_REPORT.md](B3_REPORT.md) and
+[B3_DECODER_QUALIFICATION.md](B3_DECODER_QUALIFICATION.md).
 
 **Decision: B3 PARTIAL — BINARY UNQUALIFIED. No B3 freeze.**
 

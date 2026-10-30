@@ -1,0 +1,72 @@
+{
+  "decision": "B3 CLOSED / FROZEN \u2014 RESTRICTED 4.2.22 BINARY PROFILE",
+  "baseline_commit": "2cd007e3104fb7939b0576c0830e4f80be7653c7",
+  "verify_b4": "passed",
+  "python_tests": {
+    "status": "passed",
+    "count": 522
+  },
+  "browser_tests": {
+    "status": "passed",
+    "count": 146
+  },
+  "ruff": "passed",
+  "strict_mypy": "passed",
+  "typescript": {
+    "typecheck": "passed",
+    "lint": "passed",
+    "build": "passed"
+  },
+  "wheel_build": {
+    "status": "passed",
+    "sha256": "1068e1a99efd8f20a13b025f355920d918d4a5c739b82a6f689fcaf013724fbf"
+  },
+  "sdist_build": {
+    "status": "passed",
+    "sha256": "a7e76c8689f50c6c52f275a37071c6daa968c9e1b5a710c9df69513a6b1b7056"
+  },
+  "installed_wheel": {
+    "status": "passed",
+    "installed_module": "/private/tmp/fnx-b3-installed-py312/lib/python3.12/site-packages/fnx_spine_forge/binary.py",
+    "module_matches_checkout": true,
+    "cli_api_public_workflows": "PASS; installed CLI and API convert ZIP/folder inputs both directions",
+    "4_2_43_experimental_determinism": true
+  },
+  "official_runtime": {
+    "package": "@esotericsoftware/spine-core@4.2.43",
+    "decoder_semantics": {
+      "numeric": 2180,
+      "exact": 207,
+      "maximumError": 0
+    },
+    "decoder_poses": {
+      "samples": 162,
+      "comparisons": 41797,
+      "maximum_error": 0
+    },
+    "encoder_semantics": {
+      "numeric": 2180,
+      "exact": 207,
+      "maximumError": 7.62939453125e-06
+    },
+    "encoder_poses": {
+      "samples": 164,
+      "comparisons": 42313,
+      "maximum_error": 0.000158872376545105
+    }
+  },
+  "b4_policy_unchanged": {
+    "trusted_binary_manifest_sha256": "94cea0f75bb15740d623f7e6f9b2662f918a305dde33de6526e60ebe6b2e5427",
+    "binary_policy_module_sha256": "ef0fe5cfff57723b701ec0a46ff01b05063b74990cdd00160bf9d8c316348a4b"
+  },
+  "extended_soak": "not rerun; no runtime-lifecycle code changed",
+  "regressions": {
+    "4_2_43_byte_identity_fixtures": "passed in full Python suite",
+    "malformed_hash_and_nonessential_metadata": "passed",
+    "unknown_semantic_fields": "rejected",
+    "unqualified_advanced_features": "rejected in qualified mode",
+    "transactional_rollback": "passed in full Python suite",
+    "raw_bezier_handle_identity_qualified": false,
+    "b4_approved_binary_only_policy": "unchanged and covered by browser/Python policy tests"
+  }
+}
