@@ -1,10 +1,10 @@
 """Restricted exact-version binary serialization, independent of migration.
 
 The wire contract is referenced to @esotericsoftware/spine-core 4.2.43
-SkeletonBinary. Unsupported records are rejected, never skipped. The animated
-profile remains experimental until independent decoder and release evidence
-are complete. Registry evidence
-separates implemented operations from qualification.
+SkeletonBinary. Unsupported records are rejected, never skipped. The restricted
+4.2.22 profile is runtime qualified for its evidence-backed feature subset;
+4.2.43 remains experimental. Registry evidence separates implementation from
+qualification.
 """
 
 from __future__ import annotations

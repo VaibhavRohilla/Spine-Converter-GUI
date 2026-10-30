@@ -14,6 +14,7 @@ from math import fsum, inf, isfinite, nextafter
 from typing import Literal, Protocol, TypeGuard
 
 from ..json_types import JSONObject, JSONValue
+from ..versions import BINARY_EXPORT_VERSION, BINARY_REFERENCE_EXPORT_VERSION
 from .registry import ROUTES_BY_PATCH, SUPPORTED_PATCH_VERSIONS, MigrationKind, bone_mode_field
 
 AttachmentKind = Literal["region", "mesh", "linkedmesh", "boundingbox", "path", "clipping", "point"]
@@ -259,9 +260,9 @@ _BONE_KEYS = {
     "color",
 }
 _EDITOR_ONLY_BONE_FIELDS: dict[str, frozenset[str]] = {
-    # Spine 4.2.22 binary nonessential data exposes this editor visibility flag;
+    # The pinned reference binary exposes this nonessential visibility flag;
     # it is not part of the B2 runtime semantic bone schema.
-    "4.2.22": frozenset({"visible"}),
+    BINARY_REFERENCE_EXPORT_VERSION: frozenset({"visible"}),
 }
 _SLOT_KEYS = {"name", "bone", "attachment", "color", "dark", "blend", "visible"}
 
@@ -271,12 +272,12 @@ def project_runtime_semantics(
 ) -> JSONObject:
     """Return the version-aware B2 view while retaining the source document intact.
 
-    4.2.22's binary reader can expose nonessential bone visibility. Preserve it
-    in the caller's document, but omit it from runtime semantics because it is
-    editor-only and has no B2 bone field.
+    The pinned reference binary reader can expose nonessential bone visibility.
+    Preserve it in the caller's document, but omit it from runtime semantics
+    because it is editor-only and has no B2 bone field.
     """
     editor_fields = _EDITOR_ONLY_BONE_FIELDS.get(version, frozenset())
-    if binary_nonessential and version == "4.2.43":
+    if binary_nonessential and version == BINARY_EXPORT_VERSION:
         editor_fields = frozenset({"visible"})
     if not editor_fields:
         return document

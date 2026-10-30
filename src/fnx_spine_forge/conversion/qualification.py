@@ -9,6 +9,7 @@ from importlib.resources import files
 from types import MappingProxyType
 
 from ..json_types import JSONDocument, JSONObject, JSONValue, decode_json_object, is_document
+from ..versions import BINARY_REFERENCE_EXPORT_VERSION
 from .document import require_array, require_object, require_text
 from .registry import EXACT_ROUTE_PAIRS
 from .semantic import SemanticSkeleton
@@ -62,11 +63,14 @@ def inspect_features(
     found = {SourceFeature.HIERARCHY}
     if any(
         bone.transform.mode is not None
-        and (semantic.version != "4.2.22" or bone.transform.mode.value != "normal")
+        and (
+            semantic.version != BINARY_REFERENCE_EXPORT_VERSION
+            or bone.transform.mode.value != "normal"
+        )
         for bone in semantic.bones
     ):
         found.add(SourceFeature.BONE_INHERITANCE)
-    if semantic.version == "4.2.22":
+    if semantic.version == BINARY_REFERENCE_EXPORT_VERSION:
         has_bone_extensions = any(
             (bone.length is not None and bone.length != 0)
             or bone.skin is True

@@ -40,15 +40,15 @@ from .registry import KNOWN_EXPORT_ISSUE_PATCHES, ROUTES_BY_PATCH, MigrationKind
 from .semantic import SemanticSkeleton, decode_semantic_skeleton, project_runtime_semantics
 
 
-def _as_mapping(value: object) -> Mapping[str, JSONValue]:
+def _as_mapping(value: JSONValue) -> Mapping[str, JSONValue]:
     return value if isinstance(value, Mapping) else {}
 
 
-def _records(value: object) -> list[Mapping[str, JSONValue]]:
+def _records(value: JSONValue) -> list[Mapping[str, JSONValue]]:
     return [item for item in value if isinstance(item, Mapping)] if isinstance(value, list) else []
 
 
-def _skin_names(skins: object) -> tuple[str, ...]:
+def _skin_names(skins: JSONValue) -> tuple[str, ...]:
     if isinstance(skins, Mapping):
         return tuple(str(name) for name in skins)
     return tuple(str(item["name"]) for item in _records(skins) if isinstance(item.get("name"), str))
@@ -58,7 +58,7 @@ def _animation_metrics(document: JSONDocument) -> tuple[dict[str, int], dict[str
     timelines: Counter[str] = Counter()
     keyframes: Counter[str] = Counter()
 
-    def record(kind: str, frames: object) -> None:
+    def record(kind: str, frames: JSONValue) -> None:
         if isinstance(frames, list):
             timelines[kind] += 1
             keyframes[kind] += len(frames)
@@ -97,7 +97,7 @@ def _attachment_counts(document: JSONDocument) -> Counter[str]:
     counts: Counter[str] = Counter()
     skins = document.get("skins", {})
     if isinstance(skins, Mapping):
-        skin_maps: list[object] = list(skins.values())
+        skin_maps: list[JSONValue] = list(skins.values())
     elif isinstance(skins, list):
         skin_maps = [skin.get("attachments", {}) for skin in skins if isinstance(skin, Mapping)]
     else:
