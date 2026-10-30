@@ -1,0 +1,23 @@
+{
+  "command": [
+    "/tmp/fnx-b3-binary-wheel/bin/spine-forge",
+    "bundle",
+    "convert",
+    "--input",
+    "/tmp/fnx-b3-cli-source",
+    "--target",
+    "4.2.43",
+    "--container",
+    "zip",
+    "--skeleton-format",
+    "binary",
+    "--output",
+    "/tmp/fnx-b3-hardening-wheel.zip",
+    "--experimental-structural"
+  ],
+  "exit_code": 0,
+  "wheel_sha256": "f6af34e3fec2d7637b988b96d061b438883a356fb5272bdf2512ceb9046ddab4",
+  "wheel_code_matches_checkout": true,
+  "binary_matches_independently_evaluated_fixture": true,
+  "png_identity": true
+}

@@ -1,0 +1,21 @@
+{
+  "status": "CANDIDATE_REGRESSION_ONLY",
+  "independentAcceptance": "UNVERIFIED",
+  "metrics": {
+    "changedPixels": 0,
+    "changedFraction": 0,
+    "meanAbsoluteError": 0,
+    "maximumChannelError": 0,
+    "alphaChangedPixels": 0,
+    "alphaMeanError": 0
+  },
+  "tolerance": {
+    "channel": 2,
+    "changedFraction": 0.001,
+    "meanAbsoluteError": 0.1,
+    "alphaMeanError": 0.1,
+    "maximumChannelError": 8
+  },
+  "referenceSha256": "2cd065c99e2a57e50ee5dcda3cdc780ff46ae24984c3ad2072c106b28ae49aac",
+  "candidateSha256": "2cd065c99e2a57e50ee5dcda3cdc780ff46ae24984c3ad2072c106b28ae49aac"
+}

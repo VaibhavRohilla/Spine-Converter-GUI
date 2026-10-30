@@ -2,9 +2,12 @@
 
 from __future__ import annotations
 
+import io
+import os
 import re
 import stat
 import unicodedata
+from collections.abc import Iterable
 from dataclasses import dataclass
 from math import isfinite
 from pathlib import Path, PurePosixPath
@@ -18,6 +21,8 @@ class UnsafeSourceError(ValueError):
 
 @dataclass(frozen=True)
 class SourceLimits:
+    max_archive_bytes: int = 512 * 1024 * 1024
+    max_archive_index_bytes: int = 16 * 1024 * 1024
     max_members: int = 20_000
     max_member_uncompressed: int = 128 * 1024 * 1024
     max_total_uncompressed: int = 1024 * 1024 * 1024
@@ -28,6 +33,8 @@ class SourceLimits:
 
     def __post_init__(self) -> None:
         for field_name in (
+            "max_archive_bytes",
+            "max_archive_index_bytes",
             "max_members",
             "max_member_uncompressed",
             "max_total_uncompressed",
@@ -35,13 +42,20 @@ class SourceLimits:
             "max_total_compressed",
             "max_read_bytes",
         ):
-            if getattr(self, field_name) < 0:
+            limit: object = getattr(self, field_name)
+            if not isinstance(limit, int) or isinstance(limit, bool) or limit < 0:
                 raise ValueError(f"{field_name} must be non-negative")
         if not isfinite(self.max_compression_ratio) or self.max_compression_ratio <= 0:
             raise ValueError("max_compression_ratio must be a positive finite number")
 
 
 DEFAULT_LIMITS = SourceLimits()
+
+
+_WINDOWS_DEVICE_NAMES = frozenset({"con", "prn", "aux", "nul", "conin$", "conout$"}) | frozenset(
+    f"{prefix}{digit}" for prefix in ("com", "lpt") for digit in "0123456789¹²³"
+)
+_WINDOWS_UNSAFE_CHARACTERS = frozenset('<>:"|?*')
 
 
 def canonical_path(name: str) -> str:
@@ -55,18 +69,84 @@ def canonical_path(name: str) -> str:
         raise UnsafeSourceError(f"Unsafe path: {name!r}")
     if any(part in ("..", ".", "") for part in name.rstrip("/").split("/")):
         raise UnsafeSourceError(f"Unsafe path: {name!r}")
-    return unicodedata.normalize("NFC", PurePosixPath(name).as_posix())
+    normalized = unicodedata.normalize("NFC", PurePosixPath(name).as_posix())
+    for part in PurePosixPath(normalized).parts:
+        if (
+            part.endswith((".", " "))
+            or any(ord(char) < 32 or char in _WINDOWS_UNSAFE_CHARACTERS for char in part)
+            or part.split(".", 1)[0].rstrip(" ").casefold() in _WINDOWS_DEVICE_NAMES
+        ):
+            raise UnsafeSourceError(f"Nonportable or unsafe member path: {name!r}")
+    return normalized
+
+
+SourceSelection = str | Path | tuple[Path, ...]
+
+
+def validate_member_paths(paths: Iterable[str]) -> None:
+    """Reject canonical collisions and file/directory prefix conflicts before writes."""
+    seen: dict[str, str] = {}
+    for path in paths:
+        name = canonical_path(path)
+        key = name.casefold()
+        if key in seen:
+            raise UnsafeSourceError(f"Normalized path collision: {seen[key]!r}, {path!r}")
+        seen[key] = name
+    for key, name in seen.items():
+        if any(
+            parent.as_posix().casefold() in seen
+            for parent in PurePosixPath(key).parents
+            if parent.as_posix() != "."
+        ):
+            raise UnsafeSourceError(f"File/directory path conflict: {name!r}")
+
+
+class _ArchiveInput(io.BufferedReader):
+    """Bound stdlib ZIP index reads before it materializes the central directory."""
+
+    def __init__(self, raw: io.RawIOBase, index_limit: int):
+        super().__init__(raw)
+        self._index_limit = index_limit
+        self._indexing = True
+
+    def read(self, size: int | None = -1) -> bytes:
+        if not self._indexing:
+            return super().read(size)
+        requested = -1 if size is None else size
+        if requested > self._index_limit:
+            raise UnsafeSourceError("ZIP index read exceeds configured metadata limit")
+        bounded = self._index_limit + 1 if requested < 0 else requested
+        data = super().read(bounded)
+        if len(data) > self._index_limit:
+            raise UnsafeSourceError("ZIP index read exceeds configured metadata limit")
+        return data
+
+    def finish_indexing(self) -> None:
+        self._indexing = False
 
 
 class AssetSource:
-    def __init__(self, origin: str | Path, limits: SourceLimits | None = None):
-        self.origin = Path(origin)
+    def __init__(self, origin: SourceSelection, limits: SourceLimits | None = None):
+        self._selection: tuple[Path, ...] | None = None
+        if isinstance(origin, tuple):
+            if any(not isinstance(path, Path) for path in origin):
+                raise TypeError("Explicit selections must contain Path values")
+            if not origin:
+                raise UnsafeSourceError("Explicit selection requires at least one file")
+            selected = tuple(Path(os.path.abspath(p)) for p in origin)
+            if any(not p.is_file() or p.is_symlink() for p in selected):
+                raise UnsafeSourceError("Explicit selection requires existing regular files")
+            self.origin = Path(os.path.commonpath([str(p.parent) for p in selected]))
+            self._selection = selected
+        else:
+            self.origin = Path(origin)
         self.limits = limits or DEFAULT_LIMITS
         if not (
             self.origin.is_dir() or (self.origin.is_file() and self.origin.suffix.lower() == ".zip")
         ):
             raise ValueError("Provide an existing folder or .zip file")
         self._archive: ZipFile | None = None
+        self._archive_input: _ArchiveInput | None = None
         self._files: dict[str, Path | str] = {}
         self._sizes: dict[str, int] = {}
 
@@ -84,12 +164,28 @@ class AssetSource:
 
     def _index_folder(self) -> None:
         root = self.origin.resolve()
-        paths = sorted(self.origin.rglob("*"), key=lambda p: p.relative_to(self.origin).as_posix())
-        if len(paths) > self.limits.max_members:
-            raise UnsafeSourceError("Too many entries in input folder")
+
+        def relative_name(path: Path) -> str:
+            return path.relative_to(self.origin).as_posix()
+
+        paths: list[Path] = []
+        entries = self._selection if self._selection is not None else self.origin.rglob("*")
+        for path in entries:
+            if len(paths) >= self.limits.max_members:
+                raise UnsafeSourceError("Too many entries in input source")
+            paths.append(path)
+        paths.sort(key=relative_name)
         members = []
         total = 0
         for path in paths:
+            if self._selection is not None:
+                ancestor = path
+                while True:
+                    if ancestor.is_symlink():
+                        raise UnsafeSourceError(f"Selected path traverses a symlink: {path}")
+                    if ancestor == self.origin:
+                        break
+                    ancestor = ancestor.parent
             if path.is_symlink():
                 resolved = path.resolve(strict=False)
                 if root not in resolved.parents:
@@ -107,12 +203,19 @@ class AssetSource:
             raise UnsafeSourceError("Too many files in input folder")
         if total > self.limits.max_total_uncompressed:
             raise UnsafeSourceError("Input folder exceeds total size limit")
+        validate_member_paths(name for name, _, _ in members)
         self._files = {n: p for n, p, _ in members}
         self._sizes = {n: s for n, _, s in members}
 
     def _index_zip(self) -> None:
+        if self.origin.stat().st_size > self.limits.max_archive_bytes:
+            raise UnsafeSourceError("ZIP file exceeds configured archive byte limit")
         try:
-            self._archive = ZipFile(self.origin, "r")
+            self._archive_input = _ArchiveInput(
+                io.FileIO(self.origin, "r"), self.limits.max_archive_index_bytes
+            )
+            self._archive = ZipFile(self._archive_input, "r")
+            self._archive_input.finish_indexing()
         except (BadZipFile, OSError) as exc:
             raise UnsafeSourceError(f"Invalid ZIP archive: {exc}") from exc
         entries = self._archive.infolist()
@@ -121,7 +224,7 @@ class AssetSource:
         total_u = total_c = 0
         seen: dict[str, str] = {}
         for info in entries:
-            raw_name = info.filename.rstrip("/") if info.is_dir() else info.filename
+            raw_name = info.orig_filename.rstrip("/") if info.is_dir() else info.orig_filename
             name = canonical_path(raw_name)
             mode = (info.external_attr >> 16) & 0xFFFF
             if stat.S_ISLNK(mode):
@@ -153,12 +256,7 @@ class AssetSource:
             self._sizes[name] = info.file_size
 
     def _check_collisions(self) -> None:
-        found: dict[str, str] = {}
-        for path in self._files:
-            key = unicodedata.normalize("NFC", path).casefold()
-            if key in found:
-                raise UnsafeSourceError(f"Normalized path collision: {found[key]!r}, {path!r}")
-            found[key] = path
+        validate_member_paths(self._files)
 
     def __exit__(
         self,
@@ -169,6 +267,9 @@ class AssetSource:
         if self._archive is not None:
             self._archive.close()
             self._archive = None
+        if self._archive_input is not None:
+            self._archive_input.close()
+            self._archive_input = None
 
     def names(self) -> list[str]:
         return sorted(self._files)

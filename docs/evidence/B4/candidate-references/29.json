@@ -1,0 +1,47 @@
+{
+  "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+  "createdAt": "2026-10-27T06:15:05.495Z",
+  "sha256": "44f1eded786bbe304d466150a46599c058f500403b9fb120b0338de95d561374",
+  "normalization": "{\"camera\":{\"x\":-2251.343196008722,\"y\":300.93982607476465,\"width\":8283.001049420112,\"height\":8283.001049420112,\"zoom\":1},\"width\":640,\"height\":640,\"dpr\":1,\"background\":[0,0,0,0],\"animation\":\"drive\",\"time\":1.4249999523162842,\"skin\":null,\"runtime\":\"4.3@4.3.13\",\"version\":\"4.3.75-beta\"}",
+  "sources": "{\"original\":{\"tank-pro.json\":\"93916fbb35825b14ba4dbf3823a126d847f7980a4f7dcfec22004d898e9eadd5\",\"tank.atlas\":\"003a119ec915ae5130582ba9100aa1ca37049727050d18c334261299f5d81cc5\",\"tank.png\":\"52d92e423b47152c4611fac5c54ee07593a710cb6342fa2dd3ec72ee9b70576d\"},\"renderedSkeleton\":\"93916fbb35825b14ba4dbf3823a126d847f7980a4f7dcfec22004d898e9eadd5\"}",
+  "sourceSkeleton": "tank-pro.json",
+  "sourceVersion": "4.3.75-beta",
+  "runtimeRevision": "4.3.13",
+  "animation": "drive",
+  "timestamp": 1.4249999523162842,
+  "skin": null,
+  "viewport": {
+    "width": 640,
+    "height": 640,
+    "dpr": 1
+  },
+  "camera": {
+    "x": -2251.343196008722,
+    "y": 300.93982607476465,
+    "width": 8283.001049420112,
+    "height": 8283.001049420112,
+    "zoom": 1
+  },
+  "background": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "alphaPolicy": "RGBA transparent; authored atlas PMA",
+  "browser": "156.0.8078.4",
+  "graphics": {
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver)",
+    "version": "WebGL 1.0 (OpenGL ES 2.0 Chromium)"
+  },
+  "tolerance": {
+    "channel": 2,
+    "changedFraction": 0.001,
+    "meanAbsoluteError": 0.1,
+    "alphaMeanError": 0.1,
+    "maximumChannelError": 8
+  },
+  "provenance": "viewer/fixtures/provenance.json and features/physics provenance.json; index 11 private authorized converted asset, no conversion equivalence",
+  "acceptance": "UNVERIFIED",
+  "conversionEquivalence": "UNVERIFIED"
+}

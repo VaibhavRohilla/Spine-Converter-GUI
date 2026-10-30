@@ -1,0 +1,97 @@
+{
+  "commands": [
+    {
+      "command": [
+        "/tmp/fnx-b3-binary-wheel/bin/spine-forge",
+        "binary-capabilities"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "/tmp/fnx-b3-binary-wheel/bin/spine-forge",
+        "bundle",
+        "inspect",
+        "/tmp/fnx-b3-cli-source"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "/tmp/fnx-b3-binary-wheel/bin/spine-forge",
+        "bundle",
+        "convert",
+        "--input",
+        "/tmp/fnx-b3-cli-source",
+        "--target",
+        "4.2.43",
+        "--container",
+        "zip",
+        "--skeleton-format",
+        "binary",
+        "--output",
+        "/tmp/fnx-b3-final-cli.zip",
+        "--experimental-structural"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "/tmp/fnx-b3-binary-wheel/bin/spine-forge",
+        "bundle",
+        "convert",
+        "--input",
+        "/tmp/fnx-b3-final-cli.zip",
+        "--target",
+        "4.2.43",
+        "--container",
+        "folder",
+        "--output",
+        "/tmp/fnx-b3-final-cli-json",
+        "--experimental-structural"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "/tmp/fnx-b3-binary-wheel/bin/spine-forge",
+        "bundle",
+        "convert",
+        "--input",
+        "/tmp/fnx-b3-cli-source",
+        "--target",
+        "4.2.43",
+        "--container",
+        "zip",
+        "--skeleton-format",
+        "binary",
+        "--output",
+        "/tmp/fnx-b3-final-cli-rejected.zip"
+      ],
+      "exit_code": 2
+    }
+  ],
+  "source_immutable": true,
+  "png_identity": true,
+  "binary_runtime": {
+    "readerSuccess": true,
+    "animationEvaluation": true,
+    "runtime": "@esotericsoftware/spine-core@4.2.43",
+    "runtimeReaderSha256": "83efaec2af4cbc7538f83ca436f921741c027f26f3dd44c98fada3e5139ba250",
+    "jsonSha256": "4ab03fdfca8fd6e53e0674daa2f7bb48f3ba8c3c83582e06c26452b2843d7df4",
+    "binarySha256": "7ce8fb76919a59fff812fb0c2db12af6842703dfbe622973940b335b9d6304d4",
+    "atlasSha256": "0d6e264037da00c703e85f2185e4e8a4d7e817b59bb875244786ba659d6e512a",
+    "exportVersion": "4.2.43",
+    "animations": [
+      {
+        "name": "pulse",
+        "duration": 1,
+        "timelines": 5
+      }
+    ],
+    "samples": 42,
+    "comparisons": 1135,
+    "maximumError": 7.004193474102749e-07
+  },
+  "wheel_sha256": "e4b96140a100d7fa9bd9b6f56444bb503867105a843ccea0d32e3dca72669454"
+}

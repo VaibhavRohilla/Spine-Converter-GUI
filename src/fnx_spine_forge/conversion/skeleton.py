@@ -1,0 +1,698 @@
+"""Conservative lossless JSON skeleton conversion."""
+
+from __future__ import annotations
+
+import json
+from collections import Counter
+from collections.abc import Mapping
+from dataclasses import replace
+from pathlib import Path
+
+from ..detection import recognize_skeleton
+from ..json_types import JSONDocument, JSONValue, decode_json_object, is_document
+from ..parsers import inspect_skeleton
+from ..versions import VersionRegistry
+from .errors import MigrationError, UnsupportedMigrationFeature
+from .executor import MigrationExecutor
+from .migrate_35_to_36 import migrate_35_to_36
+from .migrate_36_to_35 import migrate_36_to_35
+from .migrate_36_to_37 import migrate_36_to_37
+from .migrate_37_to_36 import migrate_37_to_36
+from .migrate_37_to_38 import migrate_37_to_38
+from .migrate_38_to_4x import migrate_38_to_target
+from .migrate_38_to_legacy import legacy_target_profile, migrate_38_to_legacy
+from .migrate_40_to_38 import migrate_40_to_38
+from .migrate_40_to_41 import migrate_40_to_41
+from .migrate_41_to_40 import migrate_41_to_40
+from .migrate_41_to_42 import migrate_41_to_42
+from .migrate_42_to_41 import migrate_42_to_41
+from .migrate_42_to_43 import migrate_42_to_43
+from .migrate_43_to_42 import migrate_43_to_42
+from .models import (
+    CanonicalSkeleton,
+    ConversionResult,
+    ConversionStatus,
+    SourceRiskPolicy,
+)
+from .planner import ConversionPlanner
+from .qualification import QualificationService, inspect_features
+from .registry import KNOWN_EXPORT_ISSUE_PATCHES, ROUTES_BY_PATCH, MigrationKind
+from .semantic import SemanticSkeleton, decode_semantic_skeleton, project_runtime_semantics
+
+
+def _as_mapping(value: JSONValue) -> Mapping[str, JSONValue]:
+    return value if isinstance(value, Mapping) else {}
+
+
+def _records(value: JSONValue) -> list[Mapping[str, JSONValue]]:
+    return [item for item in value if isinstance(item, Mapping)] if isinstance(value, list) else []
+
+
+def _skin_names(skins: JSONValue) -> tuple[str, ...]:
+    if isinstance(skins, Mapping):
+        return tuple(str(name) for name in skins)
+    return tuple(str(item["name"]) for item in _records(skins) if isinstance(item.get("name"), str))
+
+
+def _animation_metrics(document: JSONDocument) -> tuple[dict[str, int], dict[str, int]]:
+    timelines: Counter[str] = Counter()
+    keyframes: Counter[str] = Counter()
+
+    def record(kind: str, frames: JSONValue) -> None:
+        if isinstance(frames, list):
+            timelines[kind] += 1
+            keyframes[kind] += len(frames)
+
+    for animation in _as_mapping(document.get("animations", {})).values():
+        animation_map = _as_mapping(animation)
+        for groups in _as_mapping(animation_map.get("bones", {})).values():
+            for name, frames in _as_mapping(groups).items():
+                record(f"bone.{name}", frames)
+        for groups in _as_mapping(animation_map.get("slots", {})).values():
+            for name, frames in _as_mapping(groups).items():
+                record(f"slot.{name}", frames)
+        for category in ("ik", "transform"):
+            for frames in _as_mapping(animation_map.get(category, {})).values():
+                record(f"{category}.mix", frames)
+        for groups in _as_mapping(animation_map.get("path", {})).values():
+            for name, frames in _as_mapping(groups).items():
+                record(f"path.{name}", frames)
+        attachment_timelines = _as_mapping(
+            animation_map.get("attachments", animation_map.get("deform", {}))
+        )
+        for skin in attachment_timelines.values():
+            for slot in _as_mapping(skin).values():
+                for attachment in _as_mapping(slot).values():
+                    if isinstance(attachment, list):
+                        record("attachment.deform", attachment)
+                    elif isinstance(attachment, Mapping):
+                        for name, frames in _as_mapping(attachment).items():
+                            record(f"attachment.{name}", frames)
+        record("drawOrder", animation_map.get("drawOrder", animation_map.get("draworder")))
+        record("event", animation_map.get("events"))
+    return dict(sorted(timelines.items())), dict(sorted(keyframes.items()))
+
+
+def _attachment_counts(document: JSONDocument) -> Counter[str]:
+    counts: Counter[str] = Counter()
+    skins = document.get("skins", {})
+    if isinstance(skins, Mapping):
+        skin_maps: list[JSONValue] = list(skins.values())
+    elif isinstance(skins, list):
+        skin_maps = [skin.get("attachments", {}) for skin in skins if isinstance(skin, Mapping)]
+    else:
+        return counts
+    for skin_map in skin_maps:
+        if not isinstance(skin_map, Mapping):
+            continue
+        for slot_map in skin_map.values():
+            if not isinstance(slot_map, Mapping):
+                continue
+            for attachment in slot_map.values():
+                if isinstance(attachment, Mapping):
+                    counts[str(attachment.get("type", "region"))] += 1
+                else:
+                    counts["region"] += 1
+    return counts
+
+
+def _run_direct_migration(
+    kind: MigrationKind,
+    document: JSONDocument,
+    source_version: str,
+    target_version: str,
+) -> tuple[JSONDocument, dict[str, int | float]]:
+    match kind:
+        case MigrationKind.SPINE_40_TO_38:
+            return migrate_40_to_38(document, source_version, target_version)
+        case MigrationKind.SPINE_35_TO_36:
+            return migrate_35_to_36(document, source_version, target_version)
+        case MigrationKind.SPINE_36_TO_35:
+            return migrate_36_to_35(document, source_version, target_version)
+        case MigrationKind.SPINE_36_TO_37:
+            return migrate_36_to_37(document, source_version, target_version)
+        case MigrationKind.SPINE_37_TO_36:
+            return migrate_37_to_36(document, source_version, target_version)
+        case MigrationKind.SPINE_37_TO_38:
+            return migrate_37_to_38(document, source_version, target_version)
+        case MigrationKind.SPINE_40_TO_41:
+            return migrate_40_to_41(document, source_version, target_version)
+        case MigrationKind.SPINE_41_TO_40:
+            return migrate_41_to_40(document, source_version, target_version)
+        case MigrationKind.SPINE_41_TO_42:
+            return migrate_41_to_42(document, source_version, target_version)
+        case MigrationKind.SPINE_42_TO_41:
+            return migrate_42_to_41(document, source_version, target_version)
+        case MigrationKind.SPINE_42_TO_43:
+            return migrate_42_to_43(document, source_version, target_version)
+        case MigrationKind.SPINE_43_TO_42:
+            return migrate_43_to_42(document, source_version, target_version)
+        case MigrationKind.SPINE_38_TO_LEGACY | MigrationKind.SPINE_38_TO_MODERN:
+            raise MigrationError(f"Migration kind {kind.value} uses a specialized conversion path")
+
+
+class SkeletonConverter:
+    """Read/serialize JSON skeletons without claiming unimplemented migrations."""
+
+    def __init__(
+        self, planner: ConversionPlanner | None = None, *, experimental_structural: bool = False
+    ) -> None:
+        self.experimental_structural = experimental_structural
+        self.planner = planner if planner is not None else ConversionPlanner()
+        self.versions = VersionRegistry()
+
+    def read(
+        self, source: bytes | str | Path, *, migration_target: str | None = None
+    ) -> CanonicalSkeleton:
+        payload = source if isinstance(source, bytes) else Path(source).read_bytes()
+        obj = decode_json_object(payload, "Skeleton root")
+        recognition = recognize_skeleton(obj)
+        if recognition is None or recognition.version is None:
+            message = (
+                recognition.diagnostic.message
+                if recognition is not None and recognition.diagnostic is not None
+                else "Input is not a versioned Spine JSON skeleton"
+            )
+            raise ValueError(message)
+        version = recognition.version
+        family = self.versions.family_for(version)
+        if family is None:
+            raise ValueError(f"Unsupported Spine version family: {version}")
+        bones = tuple(
+            str(row["name"])
+            for row in _records(obj.get("bones"))
+            if isinstance(row.get("name"), str)
+        )
+        slots = tuple(
+            str(row["name"])
+            for row in _records(obj.get("slots"))
+            if isinstance(row.get("name"), str)
+        )
+        raw_animations = obj.get("animations", {})
+        animations = tuple(raw_animations) if is_document(raw_animations) else ()
+        semantic: SemanticSkeleton = decode_semantic_skeleton(
+            project_runtime_semantics(obj, version), version, migration_target=migration_target
+        )
+        return CanonicalSkeleton(
+            version, obj, bones, slots, _skin_names(obj.get("skins", {})), animations, semantic
+        )
+
+    def convert(
+        self,
+        source: bytes | str | Path,
+        target_version: str,
+        *,
+        source_risk_policy: SourceRiskPolicy = SourceRiskPolicy.REJECT_KNOWN_ISSUES,
+    ) -> ConversionResult:
+        try:
+            payload = source if isinstance(source, bytes) else Path(source).read_bytes()
+        except OSError as exc:
+            return ConversionResult(
+                None, target_version, (), None, ConversionStatus.REJECTED, (str(exc),)
+            )
+        if not self.experimental_structural:
+            try:
+                canonical = self.read(payload, migration_target=target_version)
+            except (OSError, ValueError, UnicodeError):
+                canonical = None
+            if canonical is not None and not (
+                canonical.version in KNOWN_EXPORT_ISSUE_PATCHES
+                and source_risk_policy is SourceRiskPolicy.REJECT_KNOWN_ISSUES
+            ):
+                path = self.planner.structural_plan(canonical.version, target_version).route
+                q = QualificationService().evaluate(
+                    canonical.version,
+                    target_version,
+                    path,
+                    inspect_features(canonical.semantic, canonical.document),
+                )
+                if not q.qualified:
+                    return ConversionResult(
+                        canonical.version,
+                        target_version,
+                        path,
+                        None,
+                        ConversionStatus.REJECTED,
+                        q.missing_evidence,
+                        details={"experimental_structural": False},
+                        qualification=q,
+                        diagnostic_codes=tuple(q.diagnostic_codes),
+                    )
+        result = self._convert_structural(
+            payload, target_version, source_risk_policy=source_risk_policy
+        )
+        if result.output is None:
+            return result
+        canonical = self.read(payload, migration_target=target_version)
+        qualification = QualificationService().evaluate(
+            canonical.version,
+            target_version,
+            result.route,
+            inspect_features(canonical.semantic, canonical.document),
+            experimental_structural=self.experimental_structural,
+        )
+        details = dict(result.details or {})
+        details["experimental_structural"] = self.experimental_structural
+        if not qualification.qualified and not self.experimental_structural:
+            return replace(
+                result,
+                output=None,
+                status=ConversionStatus.REJECTED,
+                diagnostics=qualification.missing_evidence,
+                diagnostic_codes=tuple(qualification.diagnostic_codes),
+                details=details,
+                qualification=qualification,
+            )
+        return replace(
+            result,
+            details=details,
+            qualification=qualification,
+        )
+
+    def _convert_structural(
+        self,
+        source: bytes | str | Path,
+        target_version: str,
+        *,
+        source_risk_policy: SourceRiskPolicy = SourceRiskPolicy.REJECT_KNOWN_ISSUES,
+    ) -> ConversionResult:
+        try:
+            canonical = self.read(source, migration_target=target_version)
+        except (OSError, ValueError, UnicodeError, json.JSONDecodeError) as exc:
+            return ConversionResult(
+                None, target_version, (), None, ConversionStatus.REJECTED, (str(exc),)
+            )
+        plan = self.planner.structural_plan(canonical.version, target_version)
+        if not plan.executable and len(plan.route) <= 2:
+            return ConversionResult(
+                canonical.version,
+                target_version,
+                plan.route,
+                None,
+                ConversionStatus.REJECTED,
+                plan.diagnostics,
+            )
+        known_export_issue = canonical.version in KNOWN_EXPORT_ISSUE_PATCHES
+        if known_export_issue and source_risk_policy is SourceRiskPolicy.REJECT_KNOWN_ISSUES:
+            return ConversionResult(
+                canonical.version,
+                target_version,
+                plan.route,
+                None,
+                ConversionStatus.REJECTED,
+                (
+                    "Spine 3.8.75 exports are affected by officially acknowledged export issues; "
+                    "re-export from Spine 3.8.99 when the original project is available, or pass "
+                    "an explicit allow-with-diagnostic source risk policy.",
+                ),
+                diagnostic_codes=("SOURCE_EXPORT_KNOWN_BUG",),
+                provenance={"declared_source_version": canonical.version},
+            )
+        if len(plan.route) > 2:
+            payload = source if isinstance(source, bytes) else Path(source).read_bytes()
+            executor = MigrationExecutor(
+                self.planner,
+                lambda current, next_version: self._convert_structural(
+                    current,
+                    next_version,
+                    source_risk_policy=SourceRiskPolicy.ALLOW_WITH_DIAGNOSTIC,
+                ),
+            )
+            executor.experimental_structural = True
+            return executor.execute(payload, canonical.version, target_version)
+        route_spec = ROUTES_BY_PATCH.get((canonical.version, target_version))
+        if route_spec is not None and route_spec.kind not in {
+            MigrationKind.SPINE_38_TO_LEGACY,
+            MigrationKind.SPINE_38_TO_MODERN,
+        }:
+            try:
+                migrated, metrics = _run_direct_migration(
+                    route_spec.kind,
+                    canonical.document,
+                    canonical.version,
+                    target_version,
+                )
+                output = (
+                    json.dumps(migrated, ensure_ascii=False, separators=(",", ":"), allow_nan=False)
+                    + "\n"
+                ).encode()
+            except UnsupportedMigrationFeature as exc:
+                return ConversionResult(
+                    canonical.version,
+                    target_version,
+                    plan.route,
+                    None,
+                    ConversionStatus.REJECTED,
+                    (str(exc),),
+                    unsupported_features=(exc.feature,),
+                    diagnostic_codes=("UNSUPPORTED_TARGET_FEATURE",),
+                )
+            except (MigrationError, TypeError, ValueError) as exc:
+                message = str(exc)
+                direct_unsupported: tuple[str, ...] = ()
+                codes: tuple[str, ...] = ()
+                if target_version == "4.3.13" and (
+                    "transform constraints" in message or "uniform IK" in message
+                ):
+                    direct_unsupported = ("transform_constraints",)
+                    codes = ("UNSUPPORTED_TARGET_FEATURE",)
+                elif canonical.version == "4.3.13" and target_version == "4.2.43":
+                    if "sequences" in message:
+                        direct_unsupported = ("attachment_sequences",)
+                    elif "bone icon" in message:
+                        direct_unsupported = ("bone_icons",)
+                    elif "slot visibility" in message:
+                        direct_unsupported = ("slot_visibility",)
+                    elif "constraint type" in message or "constraint references" in message:
+                        direct_unsupported = ("unsupported_4.3_constraint_type",)
+                    elif "timelines" in message:
+                        direct_unsupported = ("unsupported_4.3_animation_timeline",)
+                    elif "IK scaleY" in message:
+                        direct_unsupported = ("ik_scale_y_mode",)
+                    if direct_unsupported:
+                        codes = ("UNSUPPORTED_TARGET_FEATURE",)
+                elif canonical.version == "4.0.31" and target_version == "3.8.99":
+                    if "per-channel Bézier" in message:
+                        direct_unsupported = ("incompatible_per_channel_bezier_curves",)
+                        codes = ("UNSUPPORTED_TARGET_FEATURE",)
+                    elif "skin-specific" in message:
+                        direct_unsupported = ("skin_specific_constraints_or_bones",)
+                        codes = ("UNSUPPORTED_TARGET_FEATURE",)
+                    elif "attachment timeline" in message:
+                        direct_unsupported = ("non_deform_attachment_timelines",)
+                        codes = ("UNSUPPORTED_TARGET_FEATURE",)
+                elif canonical.version == "4.2.43" and target_version == "4.1.56":
+                    if "physics" in message:
+                        direct_unsupported = ("physics_constraints_or_timelines",)
+                    elif "inherit timeline" in message:
+                        direct_unsupported = ("inherit_timelines",)
+                    elif "skin-scoped" in message or "skin-required" in message:
+                        direct_unsupported = ("skin_scoped_bones_or_constraints",)
+                    elif "hidden setup slots" in message:
+                        direct_unsupported = ("hidden_setup_slots",)
+                    elif "referenceScale" in message:
+                        direct_unsupported = ("non_default_reference_scale",)
+                    if direct_unsupported:
+                        codes = ("UNSUPPORTED_TARGET_FEATURE",)
+                elif canonical.version == "4.1.56" and target_version == "4.0.31":
+                    if "sequence" in message:
+                        direct_unsupported = ("attachment_sequences",)
+                    elif "attachment timeline" in message:
+                        direct_unsupported = ("non_deform_attachment_timelines",)
+                    if direct_unsupported:
+                        codes = ("UNSUPPORTED_TARGET_FEATURE",)
+                elif canonical.version == "3.7.94" and target_version == "3.6.53":
+                    if "IK constraint options" in message:
+                        direct_unsupported = ("ik_compress_stretch_uniform",)
+                    elif "IK timeline options" in message:
+                        direct_unsupported = ("ik_compress_stretch_timelines",)
+                    elif "event" in message and any(
+                        part in message for part in ("audio", "volume", "balance")
+                    ):
+                        direct_unsupported = ("audio_events",)
+                    if direct_unsupported:
+                        codes = ("UNSUPPORTED_TARGET_FEATURE",)
+                return ConversionResult(
+                    canonical.version,
+                    target_version,
+                    plan.route,
+                    None,
+                    ConversionStatus.REJECTED,
+                    (message,),
+                    unsupported_features=direct_unsupported,
+                    diagnostic_codes=codes,
+                )
+            info = inspect_skeleton(output)
+            if info is None or info.version != target_version:
+                return ConversionResult(
+                    canonical.version,
+                    target_version,
+                    plan.route,
+                    None,
+                    ConversionStatus.REJECTED,
+                    ("Migrated skeleton failed target structural reinspection",),
+                )
+            attachment_counts = _attachment_counts(migrated)
+            timelines, keys = _animation_metrics(migrated)
+            stats = {
+                "bones": len(canonical.bones),
+                "slots": len(canonical.slots),
+                "skins": len(canonical.skins),
+                "animations": len(canonical.animations),
+                "bezier_segments": metrics["bezier_segments"],
+                "max_numerical_error": metrics["max_curve_error"],
+                "event_frames_single_precision": metrics.get("event_frames_single_precision", 0),
+                "timeline_count": sum(timelines.values()),
+                "keyframes": sum(keys.values()),
+                **{f"attachment_{kind}": count for kind, count in attachment_counts.items()},
+            }
+            return ConversionResult(
+                canonical.version,
+                target_version,
+                plan.route,
+                output,
+                ConversionStatus.STRUCTURALLY_VERIFIED,
+                statistics=stats,
+                details={
+                    "animation_names": list(canonical.animations),
+                    "timeline_counts_by_type": timelines,
+                    "keyframe_counts_by_type": keys,
+                    "unsupported_features": [],
+                    "structural_verification": "passed",
+                },
+            )
+        if route_spec is not None and route_spec.kind is MigrationKind.SPINE_38_TO_LEGACY:
+            try:
+                migrated, metrics = migrate_38_to_legacy(
+                    canonical.document, canonical.version, target_version
+                )
+                output = (
+                    json.dumps(migrated, ensure_ascii=False, separators=(",", ":"), allow_nan=False)
+                    + "\n"
+                ).encode()
+            except (MigrationError, TypeError, ValueError) as exc:
+                message = str(exc)
+                legacy_unsupported: tuple[str, ...] = ()
+                diagnostic_code = "SOURCE_SCHEMA_INVALID"
+                if "skin-specific bones or constraints" in message:
+                    legacy_unsupported = ("skin_specific_constraints_or_bones",)
+                    diagnostic_code = "UNSUPPORTED_TARGET_FEATURE"
+                elif "IK softness" in message:
+                    legacy_unsupported = ("ik_softness",)
+                    diagnostic_code = "UNSUPPORTED_TARGET_FEATURE"
+                elif "unsupported timeline" in message:
+                    legacy_unsupported = ("unsupported_timeline_type",)
+                    diagnostic_code = "UNSUPPORTED_TARGET_FEATURE"
+                return ConversionResult(
+                    canonical.version,
+                    target_version,
+                    plan.route,
+                    None,
+                    ConversionStatus.REJECTED,
+                    (message,),
+                    unsupported_features=legacy_unsupported,
+                    diagnostic_codes=(diagnostic_code,),
+                )
+            info = inspect_skeleton(output)
+            if info is None or info.version != target_version:
+                return ConversionResult(
+                    canonical.version,
+                    target_version,
+                    plan.route,
+                    None,
+                    ConversionStatus.REJECTED,
+                    ("Migrated skeleton failed target structural reinspection",),
+                )
+            attachment_counts = Counter()
+            for skin in _as_mapping(migrated.get("skins", {})).values():
+                for slot in _as_mapping(skin).values():
+                    for attachment in _as_mapping(slot).values():
+                        if isinstance(attachment, Mapping):
+                            attachment_counts[str(attachment.get("type", "region"))] += 1
+                        else:
+                            attachment_counts["region"] += 1
+            timeline_counts, keyframe_counts = _animation_metrics(migrated)
+            stats = {
+                "bones": len(canonical.bones),
+                "slots": len(canonical.slots),
+                "skins": len(canonical.skins),
+                "animations": len(canonical.animations),
+                "bezier_segments": metrics["bezier_segments"],
+                "max_numerical_error": metrics["max_curve_error"],
+                "timeline_count": sum(timeline_counts.values()),
+                "keyframes": sum(keyframe_counts.values()),
+                **{f"attachment_{kind}": count for kind, count in attachment_counts.items()},
+            }
+            return ConversionResult(
+                canonical.version,
+                target_version,
+                plan.route,
+                output,
+                ConversionStatus.STRUCTURALLY_VERIFIED,
+                (),
+                statistics=stats,
+                details={
+                    "animation_names": list(canonical.animations),
+                    "timeline_counts_by_type": timeline_counts,
+                    "keyframe_counts_by_type": keyframe_counts,
+                    "unsupported_features": [],
+                    "structural_verification": "passed",
+                    "target_schema": legacy_target_profile(target_version),
+                    "verification_level": "structural_only",
+                },
+                diagnostic_codes=("SOURCE_EXPORT_KNOWN_BUG",) if known_export_issue else (),
+                provenance={
+                    "declared_source_version": canonical.version,
+                    "source_export_known_issue": known_export_issue,
+                    "potentially_affected_features": "unspecified by official notice"
+                    if known_export_issue
+                    else "not applicable",
+                    "recommended_action": "authentically re-export from Spine 3.8.99"
+                    if known_export_issue
+                    else "none",
+                    "source_fidelity": "unverified_without_trusted_baseline",
+                },
+            )
+        if route_spec is not None and route_spec.kind is MigrationKind.SPINE_38_TO_MODERN:
+            try:
+                migrated, metrics = migrate_38_to_target(
+                    canonical.document, canonical.version, target_version
+                )
+                output = (
+                    json.dumps(migrated, ensure_ascii=False, separators=(",", ":"), allow_nan=False)
+                    + "\n"
+                ).encode()
+            except (MigrationError, TypeError, ValueError) as exc:
+                message = str(exc)
+                route_unsupported: tuple[str, ...] = ()
+                diagnostic_codes: tuple[str, ...] = ()
+                if target_version == "4.3.13" and (
+                    "transform constraints" in message or "uniform IK" in message
+                ):
+                    route_unsupported = (
+                        ("transform_constraints",)
+                        if "transform constraints" in message
+                        else ("uniform_ik_constraint_mode",)
+                    )
+                    diagnostic_codes = ("UNSUPPORTED_TARGET_FEATURE",)
+                return ConversionResult(
+                    canonical.version,
+                    target_version,
+                    plan.route,
+                    None,
+                    ConversionStatus.REJECTED,
+                    (message,),
+                    unsupported_features=route_unsupported,
+                    diagnostic_codes=diagnostic_codes,
+                )
+            info = inspect_skeleton(output)
+            if info is None or info.version != target_version:
+                return ConversionResult(
+                    canonical.version,
+                    target_version,
+                    plan.route,
+                    None,
+                    ConversionStatus.REJECTED,
+                    ("Migrated skeleton failed target structural reinspection",),
+                )
+            counts = {
+                "region": 0,
+                "mesh": 0,
+                "linkedmesh": 0,
+                "boundingbox": 0,
+                "path": 0,
+                "point": 0,
+                "clipping": 0,
+            }
+            for skin in _records(migrated.get("skins", [])):
+                attachments = _as_mapping(skin.get("attachments", {}))
+                for slot_attachments in attachments.values():
+                    for attachment in _as_mapping(slot_attachments).values():
+                        kind = _as_mapping(attachment).get("type", "region")
+                        if isinstance(kind, str) and kind in counts:
+                            counts[kind] += 1
+            stats = {
+                "bones": len(canonical.bones),
+                "slots": len(canonical.slots),
+                "skins": len(canonical.skins),
+                "animations": len(canonical.animations),
+                "bezier_segments": metrics["bezier_segments"],
+                "max_numerical_error": metrics["max_curve_error"],
+                "timeline_count": metrics["timeline_count"],
+                "keyframes": metrics["keyframes"],
+                "attachment_region": counts["region"],
+                "attachment_mesh": counts["mesh"],
+                "attachment_linkedmesh": counts["linkedmesh"],
+                "attachment_boundingbox": counts["boundingbox"],
+                "attachment_path": counts["path"],
+                "attachment_point": counts["point"],
+                "attachment_clipping": counts["clipping"],
+            }
+            timeline_counts, keyframe_counts = _animation_metrics(migrated)
+            details: dict[str, JSONValue] = {
+                "animation_names": list(canonical.animations),
+                "timeline_counts_by_type": timeline_counts,
+                "keyframe_counts_by_type": keyframe_counts,
+                "unsupported_features": [],
+                "structural_verification": "passed",
+            }
+            return ConversionResult(
+                canonical.version,
+                target_version,
+                plan.route,
+                output,
+                ConversionStatus.STRUCTURALLY_VERIFIED,
+                (),
+                stats,
+                details,
+                diagnostic_codes=("SOURCE_EXPORT_KNOWN_BUG",) if known_export_issue else (),
+                provenance=(
+                    {
+                        "declared_source_version": canonical.version,
+                        "known_source_export_risk": True,
+                        "potentially_affected_features": "unspecified by official notice",
+                        "recommended_action": "authentically re-export from Spine 3.8.99",
+                        "source_fidelity": "unverified_without_trusted_baseline",
+                    }
+                    if known_export_issue
+                    else {"declared_source_version": canonical.version}
+                ),
+            )
+        # Same-family serialization is only accepted for an exact exporter version.
+        if canonical.version != target_version:
+            return ConversionResult(
+                canonical.version,
+                target_version,
+                plan.route,
+                None,
+                ConversionStatus.REJECTED,
+                ("Only exact-version semantic round trips are implemented",),
+            )
+        output = (
+            json.dumps(canonical.document, ensure_ascii=False, separators=(",", ":")) + "\n"
+        ).encode()
+        info = inspect_skeleton(output)
+        if info is None:
+            return ConversionResult(
+                canonical.version,
+                target_version,
+                plan.route,
+                None,
+                ConversionStatus.REJECTED,
+                ("Serialized skeleton failed structural reinspection",),
+            )
+        stats = {
+            "bones": len(canonical.bones),
+            "slots": len(canonical.slots),
+            "skins": len(canonical.skins),
+            "animations": len(canonical.animations),
+        }
+        return ConversionResult(
+            canonical.version,
+            target_version,
+            plan.route,
+            output,
+            ConversionStatus.STRUCTURALLY_VERIFIED,
+            (),
+            stats,
+        )

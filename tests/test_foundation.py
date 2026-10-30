@@ -6,9 +6,12 @@ import unittest
 from pathlib import Path
 from zipfile import ZipFile
 
-from fnx_spine_forge.detection import atlas_page_names, skeleton_version
-from fnx_spine_forge.inspection import inspect_assets
-from fnx_spine_forge.registry import Migration, MigrationRegistry, default_registry
+from fnx_spine_forge.conversion import ConversionPlanner, ConversionQualificationRegistry
+from fnx_spine_forge.conversion.registry import EXACT_ROUTE_PAIRS
+from fnx_spine_forge.detection import recognize_skeleton
+from fnx_spine_forge.inspection import InspectionService
+from fnx_spine_forge.json_types import decode_json_object
+from fnx_spine_forge.parsers import parse_atlas
 
 SKELETON = json.dumps(
     {
@@ -31,19 +34,21 @@ ATLAS = (
 
 class DetectionTests(unittest.TestCase):
     def test_detect_spine_version(self):
-        self.assertEqual(skeleton_version(SKELETON), (True, "3.8.75", None))
+        recognition = recognize_skeleton(decode_json_object(SKELETON, "fixture"))
+        self.assertIsNotNone(recognition)
+        self.assertEqual(recognition.version, "3.8.75")
 
     def test_unrelated_json_not_skeleton(self):
-        self.assertEqual(skeleton_version(b'{"tool": "report"}'), (False, None, None))
+        self.assertIsNone(recognize_skeleton({"tool": "report"}))
 
     def test_missing_version_reported(self):
-        is_skeleton, version, err = skeleton_version(b'{"skeleton":{},"bones":[]}')
-        self.assertTrue(is_skeleton)
-        self.assertIsNone(version)
-        self.assertIsNotNone(err)
+        recognition = recognize_skeleton({"skeleton": {}, "bones": []})
+        self.assertIsNotNone(recognition)
+        self.assertIsNone(recognition.version)
+        self.assertIsNotNone(recognition.diagnostic)
 
     def test_atlas_pages(self):
-        self.assertEqual(atlas_page_names(ATLAS), ["texture.png"])
+        self.assertEqual(parse_atlas(ATLAS).pages, ("texture.png",))
 
 
 class InspectionTests(unittest.TestCase):
@@ -53,7 +58,7 @@ class InspectionTests(unittest.TestCase):
             (path / "GCT.json").write_bytes(SKELETON)
             (path / "GCT.atlas").write_bytes(ATLAS)
             (path / "texture.png").write_bytes(b"not actual image, scanner only")
-            result = inspect_assets(d)
+            result = InspectionService().inspect(d)
             self.assertTrue(result.ok)
             self.assertEqual(len([a for a in result.assets if a.kind == "skeleton_json"]), 1)
             self.assertEqual(len([dep for dep in result.dependencies if dep.resolved]), 2)
@@ -62,7 +67,7 @@ class InspectionTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             (Path(d) / "GCT.json").write_bytes(SKELETON)
             (Path(d) / "GCT.atlas").write_bytes(ATLAS)
-            report = inspect_assets(d)
+            report = InspectionService().inspect(d)
             self.assertFalse(report.ok)
             self.assertIn("MISSING_TEXTURE", [x.code for x in report.diagnostics])
 
@@ -73,7 +78,7 @@ class InspectionTests(unittest.TestCase):
                 z.writestr("export/GCT.json", SKELETON)
                 z.writestr("export/GCT.atlas", ATLAS)
                 z.writestr("textures/texture.png", b"data")
-            report = inspect_assets(str(path))
+            report = InspectionService().inspect(str(path))
             self.assertTrue(report.ok)
             self.assertTrue(any(x.resolved == "textures/texture.png" for x in report.dependencies))
 
@@ -86,7 +91,7 @@ class InspectionTests(unittest.TestCase):
             (path / "b").mkdir()
             (path / "a" / "texture.png").write_bytes(b"a")
             (path / "b" / "texture.png").write_bytes(b"b")
-            report = inspect_assets(d)
+            report = InspectionService().inspect(d)
             self.assertIn("AMBIGUOUS_TEXTURE", [x.code for x in report.diagnostics])
 
     def test_zip_traversal_rejected(self):
@@ -94,7 +99,7 @@ class InspectionTests(unittest.TestCase):
             path = Path(d) / "evil.zip"
             with ZipFile(path, "w") as z:
                 z.writestr("../outside.txt", "bad")
-            report = inspect_assets(str(path))
+            report = InspectionService().inspect(str(path))
             self.assertIn("INPUT_ERROR", [x.code for x in report.diagnostics])
 
     def test_zip_duplicate_rejected(self):
@@ -107,34 +112,36 @@ class InspectionTests(unittest.TestCase):
                 with warnings.catch_warnings():
                     warnings.simplefilter("ignore", UserWarning)
                     z.writestr("file.atlas", "two")
-            report = inspect_assets(str(path))
+            report = InspectionService().inspect(str(path))
             self.assertFalse(report.ok)
 
     def test_binary_not_misclassified_as_json(self):
         with tempfile.TemporaryDirectory() as d:
             (Path(d) / "symbol.skel").write_bytes(b"\x00\x00\x03\x08")
-            report = inspect_assets(d)
+            report = InspectionService().inspect(d)
             self.assertEqual(report.assets[0].kind, "skeleton_binary")
-            self.assertIn("BINARY_NOT_YET_SUPPORTED", [x.code for x in report.diagnostics])
+            self.assertIn("BINARY_TRUNCATED", [x.code for x in report.diagnostics])
+            self.assertFalse(report.ok)
 
 
 class RouteTests(unittest.TestCase):
     def test_no_fake_implementation(self):
-        with self.assertRaisesRegex(ValueError, "Unsupported migration"):
-            default_registry().plan("3.8.75", "4.2.43")
+        planned = ConversionPlanner().plan("3.8.75", "4.2.43")
+        self.assertFalse(planned.executable)
+        self.assertFalse(planned.qualification.qualified)
+        self.assertEqual(ConversionPlanner().structural_plan("3.8.999", "4.2.43").route, ())
 
     def test_migration_graph(self):
-        registry = MigrationRegistry()
-        registry.register(Migration("3.8", "4.0", "first", lambda b: b))
-        registry.register(Migration("4.0", "4.2", "second", lambda b: b))
-        self.assertEqual([x.label for x in registry.plan("3.8.75", "4.2.43")], ["first", "second"])
+        routes = ConversionPlanner().candidate_routes("3.5.51", "4.3.13")
+        self.assertTrue(routes)
+        for route in routes:
+            self.assertEqual((route[0], route[-1]), ("3.5.51", "4.3.13"))
+            self.assertTrue(all(edge in EXACT_ROUTE_PAIRS for edge in zip(route, route[1:])))
 
     def test_duplicate_route_rejected(self):
-        registry = MigrationRegistry()
-        edge = Migration("3.8", "4.2", "one", lambda b: b)
-        registry.register(edge)
+        record = ConversionQualificationRegistry().record(("3.8.99", "4.2.43"))
         with self.assertRaises(ValueError):
-            registry.register(edge)
+            ConversionQualificationRegistry((record, record))
 
 
 if __name__ == "__main__":

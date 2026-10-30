@@ -1,0 +1,122 @@
+[
+  {
+    "family": "3.8",
+    "file": "spineboy-pro.json",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8b4844bd4b193ba9e54487ed397a777993cbad56/examples/spineboy/export/spineboy-pro.json",
+    "sha256": "d794ae5ecc8f245929fef6b6f5212ce511990fc7ffdbc3ed77422db72ab3b14c"
+  },
+  {
+    "family": "3.8",
+    "file": "spineboy-pro.skel",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8b4844bd4b193ba9e54487ed397a777993cbad56/examples/spineboy/export/spineboy-pro.skel",
+    "sha256": "d36f8e97a113e7ec2b1c9e20a706b0a1464914a92c057dc5541c921a3ec4123c"
+  },
+  {
+    "family": "3.8",
+    "file": "spineboy.atlas",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8b4844bd4b193ba9e54487ed397a777993cbad56/examples/spineboy/export/spineboy.atlas",
+    "sha256": "2a504910a91f8541d0fb1f83d80c07236edc80888c95901953009e86e53a8147"
+  },
+  {
+    "family": "3.8",
+    "file": "spineboy.png",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8b4844bd4b193ba9e54487ed397a777993cbad56/examples/spineboy/export/spineboy.png",
+    "sha256": "42e3d9411f5ca02146908fd22081968267419e048d66fcc5c721315146e114f6"
+  },
+  {
+    "family": "4.0",
+    "file": "spineboy-pro.json",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/425ce416bb218b28caeec47b317aa57cd7140375/examples/spineboy/export/spineboy-pro.json",
+    "sha256": "30cb336cccf08ee909f9a5fa2b8b55b36df41e218828c185ddbba92b239e50a1"
+  },
+  {
+    "family": "4.0",
+    "file": "spineboy-pro.skel",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/425ce416bb218b28caeec47b317aa57cd7140375/examples/spineboy/export/spineboy-pro.skel",
+    "sha256": "3347eeac9858b9eee5415cd36435d9b529c30793e66a04edb20c0a57b427e918"
+  },
+  {
+    "family": "4.0",
+    "file": "spineboy.atlas",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/425ce416bb218b28caeec47b317aa57cd7140375/examples/spineboy/export/spineboy.atlas",
+    "sha256": "fdc4bbc4be5f1a638fa0ff384271007b1f2df72855dd80b4b239bcfe8a4ac31e"
+  },
+  {
+    "family": "4.0",
+    "file": "spineboy.png",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/425ce416bb218b28caeec47b317aa57cd7140375/examples/spineboy/export/spineboy.png",
+    "sha256": "0d9b45a631079e08973ef39799e5fffc6a57c8dae12421120bac1d559e564b96"
+  },
+  {
+    "family": "4.1",
+    "file": "spineboy-pro.json",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/77a5db0ec6d16331f5efbaa7662bba9355bd3424/examples/spineboy/export/spineboy-pro.json",
+    "sha256": "b7222ce40837f30ca08b05e5d5b2d00927f306fe2526a64db353e34df699b179"
+  },
+  {
+    "family": "4.1",
+    "file": "spineboy-pro.skel",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/77a5db0ec6d16331f5efbaa7662bba9355bd3424/examples/spineboy/export/spineboy-pro.skel",
+    "sha256": "7104c7e8f45d3ce9af8fdcb7d50d95ab8cbbdddfda9e273e893845f6a234245c"
+  },
+  {
+    "family": "4.1",
+    "file": "spineboy.atlas",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/77a5db0ec6d16331f5efbaa7662bba9355bd3424/examples/spineboy/export/spineboy.atlas",
+    "sha256": "fdc4bbc4be5f1a638fa0ff384271007b1f2df72855dd80b4b239bcfe8a4ac31e"
+  },
+  {
+    "family": "4.1",
+    "file": "spineboy.png",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/77a5db0ec6d16331f5efbaa7662bba9355bd3424/examples/spineboy/export/spineboy.png",
+    "sha256": "96c55a06237f1b7475cd1287a26ebc71644324f42984ac0ccd2d112c43bd135a"
+  },
+  {
+    "family": "4.2",
+    "file": "spineboy-pro.json",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/e7dc1435fa4a0083ab431f1b28e083c14a1f5c68/examples/spineboy/export/spineboy-pro.json",
+    "sha256": "488face411ddfad77ee3239b29431deb574d73f4feca7eca541452ad24bb6bfc"
+  },
+  {
+    "family": "4.2",
+    "file": "spineboy-pro.skel",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/e7dc1435fa4a0083ab431f1b28e083c14a1f5c68/examples/spineboy/export/spineboy-pro.skel",
+    "sha256": "1345de0e8e4729559f39060ed614429b21ab39bfc09ed2e1f58fcf054a8b5925"
+  },
+  {
+    "family": "4.2",
+    "file": "spineboy.atlas",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/e7dc1435fa4a0083ab431f1b28e083c14a1f5c68/examples/spineboy/export/spineboy.atlas",
+    "sha256": "fc90c2a604c14bb3ae1a81f9c950660863a41654cb29c869423a86e127fa75ae"
+  },
+  {
+    "family": "4.2",
+    "file": "spineboy.png",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/e7dc1435fa4a0083ab431f1b28e083c14a1f5c68/examples/spineboy/export/spineboy.png",
+    "sha256": "071a6adec73378eebd802a047d274deefe11abee3ce689a1e71acb4cb41e331e"
+  },
+  {
+    "family": "4.3",
+    "file": "spineboy-pro.json",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/ee2a10936a103ac187d74f7709f855653e923eae/examples/spineboy/export/spineboy-pro.json",
+    "sha256": "24ccffc13e334e721dfd427ee2b8aea05c25b59167b5fb0bb0f9685e11d2a7d3"
+  },
+  {
+    "family": "4.3",
+    "file": "spineboy-pro.skel",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/ee2a10936a103ac187d74f7709f855653e923eae/examples/spineboy/export/spineboy-pro.skel",
+    "sha256": "e10de3f2473a37139c3ad1fda14e84b29ef401475ec9fa2129e7d2a311088845"
+  },
+  {
+    "family": "4.3",
+    "file": "spineboy.atlas",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/ee2a10936a103ac187d74f7709f855653e923eae/examples/spineboy/export/spineboy.atlas",
+    "sha256": "fbd452640df513d637e0a34d21c1d3ea4edb27f57bd1856ffd5530b16ee83d00"
+  },
+  {
+    "family": "4.3",
+    "file": "spineboy.png",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/ee2a10936a103ac187d74f7709f855653e923eae/examples/spineboy/export/spineboy.png",
+    "sha256": "ab874448a224f8a92188e133735062c86e5f93eb7286b0fc37c5d39864e6569f"
+  }
+]

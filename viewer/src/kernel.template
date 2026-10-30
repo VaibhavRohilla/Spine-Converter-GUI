@@ -1,0 +1,107 @@
+IMPORT
+import {z} from "zod";
+import type {Assets,Kernel,AnimationEvent,Camera,KernelPose,SlotPose,ConstraintPose} from '../contracts';
+import {fetchBytes,fetchText,loadImage} from '../resources';
+import {ViewerError,cancelled} from '../diagnostics';
+import {admitBinary} from '../binaryPolicy';
+export const createKernel = async (canvas:HTMLCanvasElement, assets:Assets, signal:AbortSignal):Promise<Kernel> => {
+ const started=performance.now();
+ const binary=assets.binary;
+ const skeletonBytes=await fetchBytes(assets.skeleton,signal,assets.resourceHashes[assets.skeleton]??'',32*1024*1024);
+ if(binary)await admitBinary(skeletonBytes,assets);
+ cancelled(signal);
+ const gl=canvas.getContext('webgl',{alpha:true,premultipliedAlpha:true,preserveDrawingBuffer:true,antialias:false});
+ if(!gl)throw new ViewerError('WEBGL_UNAVAILABLE');
+ const context=new WEBGL.ManagedWebGLRenderingContext(gl);
+ let renderer:WEBGL.SceneRenderer|null=null;
+ const textures=new Map<string,WEBGL.GLTexture>();
+ const images:ImageBitmap[]=[];
+ let disposed=false;
+ const statistics={loadMs:0,textureUploadMs:0,textureCount:0,texturePixels:0,frames:0,updateMs:0,renderMs:0};
+ const dispose=()=>{if(disposed)return;disposed=true;renderer?.dispose();renderer=null;for(const t of textures.values())t.dispose();textures.clear();for(const i of images)i.close();images.length=0;statistics.textureCount=0;statistics.texturePixels=0;};
+ try {
+ const atlasText=await fetchText(assets.atlas,signal,assets.resourceHashes[assets.atlas]??'');
+ const alphaModes=new Set(Object.values(assets.pages).map(page=>page.pma));
+ ALPHA_CHECK
+ const pma=Object.values(assets.pages)[0]?.pma??false;
+ for(const [name,page] of Object.entries(assets.pages)) {
+   const limit=z.number().int().positive().safeParse(gl.getParameter(gl.MAX_TEXTURE_SIZE));
+   if(!limit.success)throw new ViewerError('WEBGL_UNAVAILABLE','Invalid texture limit from WebGL context.');
+   const max=limit.data;
+   if(page.width>Math.min(8192,max)||page.height>Math.min(8192,max)||statistics.texturePixels+page.width*page.height>33554432)throw new ViewerError('VIEWER_RESOURCE_LIMIT_EXCEEDED');
+   const image=await loadImage(page.url,signal,page.sha256,PREMULTIPLY);images.push(image);cancelled(signal);
+   if(image.width!==page.width||image.height!==page.height)throw new ViewerError('TEXTURE_DECODE_FAILED','Decoded texture dimensions differ from inspection.',page.url);
+   const upload=performance.now();textures.set(name,TEXTURE);statistics.textureUploadMs+=performance.now()-upload;
+   statistics.textureCount++;statistics.texturePixels+=image.width*image.height;
+ }
+ const texture=(name:string)=>{const t=textures.get(name);if(!t)throw new ViewerError('TEXTURE_MISSING',`Atlas page ${name} is not mapped.`,assets.atlas);return t;};
+ let atlas:spine.TextureAtlas;
+ try {ATLAS} catch(e){throw new ViewerError('ATLAS_LOAD_FAILED',String(e),assets.atlas);}
+ if(atlas.pages.length!==textures.size)throw new ViewerError('ATLAS_LOAD_FAILED','Atlas pages differ from the inspected selection.',assets.atlas);
+ const loader=new spine.AtlasAttachmentLoader(atlas);
+ let data:spine.SkeletonData;
+ if(skeletonBytes.byteLength>32*1024*1024)throw new ViewerError('VIEWER_RESOURCE_LIMIT_EXCEEDED','Skeleton exceeds 32 MiB.',assets.skeleton);
+ try {data=binary?new spine.SkeletonBinary(loader).readSkeletonData(skeletonBytes):new spine.SkeletonJson(loader).readSkeletonData(new TextDecoder('utf-8',{fatal:true}).decode(skeletonBytes));}
+ catch(e){throw new ViewerError(assets.sourceRisk?'SOURCE_EXPORT_KNOWN_BUG':'SKELETON_PARSE_FAILED',String(e),assets.skeleton);}
+ if(data.version!==assets.exportVersion||data.version.split('.').slice(0,2).join('.')!==assets.family)throw new ViewerError('RUNTIME_VERSION_MISMATCH',`Official parser read ${data.version}; expected ${assets.exportVersion}.`,assets.skeleton);
+ if(data.bones.length>10000||data.slots.length>10000||data.animations.length>2000)throw new ViewerError('VIEWER_RESOURCE_LIMIT_EXCEEDED');
+ cancelled(signal);
+ let skeleton=new spine.Skeleton(data);
+ let state=new spine.AnimationState(new spine.AnimationStateData(data));
+ let emitted:AnimationEvent[]=[];let emit=false;
+ const listen=()=>state.addListener({start:()=>{},interrupt:()=>{},end:()=>{},dispose:()=>{},complete:()=>{},event:(entry,event)=>{if(emit)emitted.push({name:event.data.name,time:event.time,trackTime:entry.trackTime,int:event.intValue,float:event.floatValue,string:event.stringValue,audioPath:event.data.audioPath??null,volume:event.volume,balance:event.balance});}});
+ listen();
+ const world=()=>{WORLD};
+ SETUP
+ world();
+ const slotPose=(s:spine.Slot):SlotPose=>{
+  const p=SLOTPOSE;const a=ATTACHMENT;let type:SlotPose['type']=null;
+  const worldVertices:number[]=[];let triangles:number[]=[];let influenceBones:number[]|null=null;let influenceVertices:number[]|null=null;
+  if(a instanceof spine.RegionAttachment){type='region';REGION_VERTICES}
+  else if(a instanceof spine.VertexAttachment){
+   if(a.worldVerticesLength>4000000)throw new ViewerError('VIEWER_RESOURCE_LIMIT_EXCEEDED');
+   VERTEX_VERTICES
+   influenceBones=a.bones?Array.from(a.bones):null;influenceVertices=a.bones?Array.from(a.vertices):null;
+   if(a instanceof spine.MeshAttachment){type='mesh';triangles=Array.from(a.triangles);}
+   else if(a instanceof spine.ClippingAttachment)type='clipping';
+   else if(a instanceof spine.BoundingBoxAttachment)type='boundingbox';
+   else if(a instanceof spine.PathAttachment)type='path';
+   else type='unsupported';
+  }else if(a instanceof spine.PointAttachment)type='point';else if(a)type='unsupported';
+  if(type==='unsupported')throw new ViewerError('UNSUPPORTED_RENDER_FEATURE',`Unsupported attachment ${a?.name}`,assets.skeleton);
+  if(worldVertices.some(v=>!Number.isFinite(v)))throw new ViewerError('NON_FINITE_POSE');
+  return {name:s.data.name,bone:s.bone.data.name,attachment:a?.name??null,type,color:[p.color.r,p.color.g,p.color.b,p.color.a],darkColor:p.darkColor?[p.darkColor.r,p.darkColor.g,p.darkColor.b,p.darkColor.a]:null,worldVertices,triangles,influenceBones,influenceVertices};
+ };
+ const constraints=():ConstraintPose[]=>{CONSTRAINTS};
+ const pose=():KernelPose=>({
+ bones:skeleton.bones.map(b=>{const local=LOCAL;const world=WORLDPOSE;return {name:b.data.name,parent:b.parent?.data.name??null,local:[local.x,local.y,local.rotation,local.scaleX,local.scaleY,local.shearX,local.shearY],world:[world.worldX,world.worldY,world.a,world.b,world.c,world.d]};}),
+ slots:skeleton.slots.map(slotPose),drawOrder:DRAWORDER.map(s=>s.data.name),skin:skeleton.skin?.name??null,
+ tracks:state.tracks.flatMap((entry,trackIndex)=>entry?[{trackIndex,animation:entry.animation?.name??null,trackTime:entry.trackTime,animationTime:entry.getAnimationTime(),loop:entry.loop,mixTime:entry.mixTime,mixDuration:entry.mixDuration}]:[]),
+ constraints:constraints(),unsupportedInspection:['constraint-internal-simulation-state','mixing-chain-history']
+ });
+ const validate=()=>{
+  for(const b of skeleton.bones){const p=WORLDPOSE_FOR_VALIDATE;if([p.worldX,p.worldY,p.a,p.b,p.c,p.d].some(v=>!Number.isFinite(v)))throw new ViewerError('NON_FINITE_POSE',`Non-finite bone ${b.data.name}`,assets.skeleton);}
+ };
+ validate();pose();
+ try{renderer=new WEBGL.SceneRenderer(canvas,context,true);}catch(e){throw new ViewerError('RENDERER_INITIALIZATION_FAILED',String(e));}
+ statistics.loadMs=performance.now()-started;
+ return {
+ animations:data.animations.map(a=>({name:a.name,duration:a.duration})),skins:data.skins.map(s=>s.name),pma,statistics,
+ reset(skin){state.clearTracks();skeleton=new spine.Skeleton(data);state=new spine.AnimationState(new spine.AnimationStateData(data));listen();if(skin!==null){SETSKIN} SETUP world();emitted=[];validate();},
+ animate(name,loop,mix){if(!data.findAnimation(name))throw new ViewerError('ANIMATION_NOT_FOUND');const entry=state.setAnimation(0,name,loop);entry.mixDuration=mix;},
+ advance(delta,events){const started=performance.now();emitted=[];emit=events;try{TICK state.update(delta);state.apply(skeleton);world();validate();}finally{emit=false;statistics.updateMs=performance.now()-started;}return emitted;},
+ pose,
+ bounds(){const offset=new spine.Vector2();const size=new spine.Vector2();skeleton.getBounds(offset,size,[]);if(![offset.x,offset.y,size.x,size.y].every(Number.isFinite))throw new ViewerError('NON_FINITE_POSE','Skeleton has no finite render bounds.');return {x:offset.x,y:offset.y,width:size.x,height:size.y};},
+ render(camera:Camera,bg,debug){
+  if(!renderer||disposed)throw new ViewerError('VIEWER_SESSION_CANCELLED');const started=performance.now();
+  const c=renderer.camera;c.position.x=camera.x;c.position.y=camera.y;c.viewportWidth=camera.width;c.viewportHeight=camera.height;c.zoom=camera.zoom;c.update();
+  gl.viewport(0,0,canvas.width,canvas.height);gl.clearColor(bg[0]*bg[3],bg[1]*bg[3],bg[2]*bg[3],bg[3]);gl.clear(gl.COLOR_BUFFER_BIT);
+  const d=renderer.skeletonDebugRenderer;d.drawBones=debug.bones;d.drawRegionAttachments=debug.regions;d.drawMeshTriangles=debug.meshTriangles;d.drawMeshHull=debug.meshHull;d.drawClipping=debug.clipping;d.drawBoundingBoxes=debug.boundingBoxes;d.drawPaths=debug.paths;d.drawSkeletonXY=debug.origin;
+  renderer.begin();DRAW
+  if(debug.bounds){const offset=new spine.Vector2();const size=new spine.Vector2();skeleton.getBounds(offset,size,[]);renderer.rect(false,offset.x,offset.y,size.x,size.y,new spine.Color(0,1,0,1));}
+  renderer.end();statistics.renderMs=performance.now()-started;statistics.frames++;
+ },
+ dispose
+ };
+ }catch(e){dispose();throw e;}
+};

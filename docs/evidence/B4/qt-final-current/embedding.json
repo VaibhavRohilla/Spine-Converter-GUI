@@ -1,0 +1,12 @@
+{
+  "status": "PASSED",
+  "PySide6": "6.10.3",
+  "off_the_record": true,
+  "sandbox_overrides": false,
+  "capture_sha256": "596ac66302b259c7933e8ea5102c003078154e97c110c23ddda04bff48bd42e8",
+  "width": 1024,
+  "height": 1024,
+  "dpr": 2,
+  "cleanup": "DISPOSE acknowledged",
+  "communication": "versioned commands and asynchronous reply polling"
+}

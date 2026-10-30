@@ -1,0 +1,449 @@
+{
+  "browserName": "chromium",
+  "info": {
+    "state": "STOPPED",
+    "family": "4.2",
+    "revision": "4.2.43",
+    "exportVersion": "4.2.43",
+    "animations": [
+      {
+        "name": "idle",
+        "duration": 2
+      },
+      {
+        "name": "winning",
+        "duration": 2
+      }
+    ],
+    "skins": [
+      "default"
+    ],
+    "animation": null,
+    "time": 0,
+    "animationTime": 0,
+    "duration": 0,
+    "progress": 0,
+    "loop": true,
+    "speed": 1,
+    "camera": {
+      "x": -3.7599792372360525,
+      "y": 19.92779541015625,
+      "width": 1300.1497821906808,
+      "height": 1313.1382812499996,
+      "zoom": 1
+    },
+    "statistics": {
+      "loadMs": 22.700000047683716,
+      "textureUploadMs": 1.2000000476837158,
+      "textureCount": 1,
+      "texturePixels": 1530738,
+      "frames": 5,
+      "updateMs": 0.20000004768371582,
+      "renderMs": 0.09999990463256836
+    },
+    "limitations": [
+      "single animation track control",
+      "seek discards mixing history",
+      "deterministic results scoped to runtime, fixture and fixed-step policy",
+      "GPU timing and heap ownership not inferred from frame timing"
+    ]
+  },
+  "capture": {
+    "sha256": "660958d721654d69516d2afaa08fa4d5eafff0e4b9d4850ba8126dd9bc89db63",
+    "width": 640,
+    "height": 640,
+    "dpr": 1,
+    "camera": {
+      "x": -3.7599792372360525,
+      "y": 19.92779541015625,
+      "width": 1313.1382812499996,
+      "height": 1313.1382812499996,
+      "zoom": 1
+    },
+    "background": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pma": false,
+    "debug": {
+      "bones": false,
+      "regions": false,
+      "meshTriangles": false,
+      "meshHull": false,
+      "clipping": false,
+      "boundingBoxes": false,
+      "paths": false,
+      "origin": false,
+      "bounds": false
+    },
+    "pose": {
+      "bones": [
+        {
+          "name": "root",
+          "parent": null,
+          "local": [
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "world": [
+            0,
+            0,
+            1,
+            -2.3205103333142417e-8,
+            0,
+            0.9999999999999998
+          ]
+        },
+        {
+          "name": "main",
+          "parent": "root",
+          "local": [
+            0,
+            -53.23,
+            0.9384783650476226,
+            1,
+            1,
+            0,
+            0
+          ],
+          "world": [
+            0.0000012352076504231707,
+            -53.22999999999998,
+            0.9998658579918771,
+            -0.016378851675601134,
+            0.016378805271619907,
+            0.9998658579918767
+          ]
+        },
+        {
+          "name": "02_Gold_Ingot_Foreground",
+          "parent": "main",
+          "local": [
+            0,
+            57.81,
+            0,
+            4.0904,
+            4.0904,
+            0,
+            0
+          ],
+          "world": [
+            -0.9468601801588512,
+            4.572245250510406,
+            4.089851305529974,
+            -0.06699614979930102,
+            0.06699586508303407,
+            4.089851303975325
+          ]
+        },
+        {
+          "name": "02_Gold_Ingot_Foreground2",
+          "parent": "main",
+          "local": [
+            0,
+            57.81,
+            0,
+            4.0904,
+            4.0904,
+            0,
+            0
+          ],
+          "world": [
+            -0.9468601801588512,
+            4.572245250510406,
+            4.089851305529974,
+            -0.06699614979930102,
+            0.06699586508303407,
+            4.089851303975325
+          ]
+        },
+        {
+          "name": "fx_00000",
+          "parent": "main",
+          "local": [
+            0,
+            54.47,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "world": [
+            -0.8921548155623433,
+            1.232693284817536,
+            0.9998658579918771,
+            -0.016378874877591685,
+            0.016378805271619907,
+            0.9998658576118046
+          ]
+        }
+      ],
+      "slots": [
+        {
+          "name": "01_Rotating_Disc_No_Text",
+          "bone": "root",
+          "attachment": "Wheel",
+          "type": "region",
+          "color": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "darkColor": null,
+          "worldVertices": [
+            -549.593737395057,
+            -543.1970214843749,
+            -549.593762534519,
+            540.1621704101561,
+            546.0763424459498,
+            540.1621704101561,
+            546.0763675854117,
+            -543.1970214843749
+          ],
+          "triangles": [],
+          "influenceBones": null,
+          "influenceVertices": null
+        },
+        {
+          "name": "01_Jade_Medallion_Background",
+          "bone": "root",
+          "attachment": "01_Jade_Medallion_Background",
+          "type": "region",
+          "color": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "darkColor": null,
+          "worldVertices": [
+            -192.0863909413595,
+            -186.26559448242185,
+            -192.08639958598425,
+            186.26559448242185,
+            192.0863909413595,
+            186.26559448242185,
+            192.08639958598425,
+            -186.26559448242185
+          ],
+          "triangles": [],
+          "influenceBones": null,
+          "influenceVertices": null
+        },
+        {
+          "name": "fx_00000",
+          "bone": "fx_00000",
+          "attachment": "fx_00000",
+          "type": "region",
+          "color": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "darkColor": null,
+          "worldVertices": [
+            -113.33725649117922,
+            -79.16870513386539,
+            -115.82582666636834,
+            72.74871111350132,
+            110.19765251285618,
+            76.45120232539807,
+            112.6862226880453,
+            -75.46621392196863
+          ],
+          "triangles": [],
+          "influenceBones": null,
+          "influenceVertices": null
+        },
+        {
+          "name": "fx_0",
+          "bone": "fx_00000",
+          "attachment": "fx_00000",
+          "type": "region",
+          "color": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "darkColor": null,
+          "worldVertices": [
+            -113.33725649117922,
+            -79.16870513386539,
+            -115.82582666636834,
+            72.74871111350132,
+            110.19765251285618,
+            76.45120232539807,
+            112.6862226880453,
+            -75.46621392196863
+          ],
+          "triangles": [],
+          "influenceBones": null,
+          "influenceVertices": null
+        },
+        {
+          "name": "02_Gold_Ingot_Foreground",
+          "bone": "02_Gold_Ingot_Foreground",
+          "attachment": "02_Gold_Ingot_Foreground",
+          "type": "region",
+          "color": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "darkColor": null,
+          "worldVertices": [
+            -96.82834752136726,
+            -57.99423228130623,
+            -98.66001555838969,
+            53.82189345289556,
+            95.10077764577593,
+            56.99588952026745,
+            96.93244568279836,
+            -54.82023621393434
+          ],
+          "triangles": [],
+          "influenceBones": null,
+          "influenceVertices": null
+        },
+        {
+          "name": "02_Gold_Ingot_Foreground2",
+          "bone": "02_Gold_Ingot_Foreground2",
+          "attachment": "02_Gold_Ingot_Foreground",
+          "type": "region",
+          "color": [
+            1,
+            1,
+            1,
+            0.114387305488038
+          ],
+          "darkColor": null,
+          "worldVertices": [
+            -96.82834752136726,
+            -57.99423228130623,
+            -98.66001555838969,
+            53.82189345289556,
+            95.10077764577593,
+            56.99588952026745,
+            96.93244568279836,
+            -54.82023621393434
+          ],
+          "triangles": [],
+          "influenceBones": null,
+          "influenceVertices": null
+        },
+        {
+          "name": "02_Static_Outer_Frame",
+          "bone": "root",
+          "attachment": "WheelHolder",
+          "type": "region",
+          "color": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "darkColor": null,
+          "worldVertices": [
+            -569.0424676826941,
+            -551.0018920898436,
+            -569.0424932331842,
+            550.0701293945311,
+            561.522509208222,
+            550.0701293945311,
+            561.5225347587121,
+            -551.0018920898436
+          ],
+          "triangles": [],
+          "influenceBones": null,
+          "influenceVertices": null
+        },
+        {
+          "name": "04_Top_Pointer (1)",
+          "bone": "root",
+          "attachment": "04_Top_Pointer (1)",
+          "type": "region",
+          "color": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "darkColor": null,
+          "worldVertices": [
+            -127.33950857090318,
+            350.94250488281244,
+            -127.33951413815504,
+            590.8574829101561,
+            127.33948671633715,
+            590.8574829101561,
+            127.33949228358901,
+            350.94250488281244
+          ],
+          "triangles": [],
+          "influenceBones": null,
+          "influenceVertices": null
+        }
+      ],
+      "drawOrder": [
+        "01_Rotating_Disc_No_Text",
+        "01_Jade_Medallion_Background",
+        "fx_00000",
+        "fx_0",
+        "02_Gold_Ingot_Foreground",
+        "02_Gold_Ingot_Foreground2",
+        "02_Static_Outer_Frame",
+        "04_Top_Pointer (1)"
+      ],
+      "skin": null,
+      "tracks": [
+        {
+          "trackIndex": 0,
+          "animation": "idle",
+          "trackTime": 1.4999999999999996,
+          "animationTime": 1.4999999999999996,
+          "loop": true,
+          "mixTime": 0,
+          "mixDuration": 0
+        }
+      ],
+      "constraints": [],
+      "unsupportedInspection": [
+        "constraint-internal-simulation-state",
+        "mixing-chain-history"
+      ],
+      "runtime": "4.2@4.2.43",
+      "exportVersion": "4.2.43",
+      "animation": "idle",
+      "time": 1.5,
+      "clock": "fixed-1/60",
+      "eventsDuringSeek": "suppressed"
+    },
+    "colorSpace": "srgb",
+    "antialias": false
+  },
+  "pixelEvidence": {
+    "solid": 230797,
+    "transparent": 177855
+  },
+  "checks": [
+    "visible setup and animation pixels",
+    "motion",
+    "fixed seek repeatability",
+    "paused stability",
+    "finite transforms"
+  ],
+  "visuallyVerified": false,
+  "binaryCodecQualified": false
+}

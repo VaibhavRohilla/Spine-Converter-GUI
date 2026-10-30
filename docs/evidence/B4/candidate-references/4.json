@@ -1,0 +1,47 @@
+{
+  "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+  "createdAt": "2026-10-27T06:15:02.004Z",
+  "sha256": "54c13114080354929b81adb39e8425e0cf4cde14d855560a27dd10f936411c9c",
+  "normalization": "{\"camera\":{\"x\":20.565280947092447,\"y\":335.160650304442,\"width\":789.1285763982843,\"height\":789.1285763982843,\"zoom\":1},\"width\":640,\"height\":640,\"dpr\":1,\"background\":[0,0,0,0],\"animation\":\"walk\",\"time\":0.25,\"skin\":null,\"runtime\":\"4.1@4.1.56\",\"version\":\"4.1.17\"}",
+  "sources": "{\"original\":{\"spineboy-pro.json\":\"b7222ce40837f30ca08b05e5d5b2d00927f306fe2526a64db353e34df699b179\",\"spineboy.atlas\":\"fdc4bbc4be5f1a638fa0ff384271007b1f2df72855dd80b4b239bcfe8a4ac31e\",\"spineboy.png\":\"96c55a06237f1b7475cd1287a26ebc71644324f42984ac0ccd2d112c43bd135a\"},\"renderedSkeleton\":\"b7222ce40837f30ca08b05e5d5b2d00927f306fe2526a64db353e34df699b179\"}",
+  "sourceSkeleton": "spineboy-pro.json",
+  "sourceVersion": "4.1.17",
+  "runtimeRevision": "4.1.56",
+  "animation": "walk",
+  "timestamp": 0.25,
+  "skin": null,
+  "viewport": {
+    "width": 640,
+    "height": 640,
+    "dpr": 1
+  },
+  "camera": {
+    "x": 20.565280947092447,
+    "y": 335.160650304442,
+    "width": 789.1285763982843,
+    "height": 789.1285763982843,
+    "zoom": 1
+  },
+  "background": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "alphaPolicy": "RGBA transparent; authored atlas PMA",
+  "browser": "156.0.8078.4",
+  "graphics": {
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver)",
+    "version": "WebGL 1.0 (OpenGL ES 2.0 Chromium)"
+  },
+  "tolerance": {
+    "channel": 2,
+    "changedFraction": 0.001,
+    "meanAbsoluteError": 0.1,
+    "alphaMeanError": 0.1,
+    "maximumChannelError": 8
+  },
+  "provenance": "viewer/fixtures/provenance.json and features/physics provenance.json; index 11 private authorized converted asset, no conversion equivalence",
+  "acceptance": "UNVERIFIED",
+  "conversionEquivalence": "UNVERIFIED"
+}

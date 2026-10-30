@@ -1,0 +1,6 @@
+{
+  "version": "4.2.43",
+  "bones": [{"name":"root","parent":null,"rotation":10,"x":2,"y":-3,
+    "scaleX":1,"scaleY":1,"shearX":0,"shearY":0,"length":5,"inherit":0,"skin":false}],
+  "slots": 0, "skins": 0, "animations": 0
+}

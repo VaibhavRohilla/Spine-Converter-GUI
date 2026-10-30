@@ -1,0 +1,240 @@
+{
+  "info": {
+    "state": "READY",
+    "family": "4.3",
+    "revision": "4.3.13",
+    "exportVersion": "4.3.75-beta",
+    "animations": [
+      {
+        "name": "drive",
+        "duration": 5.699999809265137
+      },
+      {
+        "name": "shoot",
+        "duration": 1.0666667222976685
+      }
+    ],
+    "skins": [
+      "default"
+    ],
+    "animation": "drive",
+    "time": 0,
+    "animationTime": 0,
+    "duration": 5.699999809265137,
+    "progress": 0,
+    "loop": true,
+    "speed": 1,
+    "camera": {
+      "x": -2251.343196008722,
+      "y": 300.93982607476465,
+      "width": 8283.001049420112,
+      "height": 1493.7115999719585,
+      "zoom": 1
+    },
+    "statistics": {
+      "loadMs": 21.299999952316284,
+      "textureUploadMs": 0.9000000953674316,
+      "textureCount": 1,
+      "texturePixels": 1048576,
+      "frames": 3,
+      "updateMs": 0.40000009536743164,
+      "renderMs": 0.2999999523162842
+    },
+    "limitations": [
+      "single animation track control",
+      "seek discards mixing history",
+      "deterministic results scoped to runtime, fixture and fixed-step policy",
+      "GPU timing and heap ownership not inferred from frame timing"
+    ]
+  },
+  "samples": [
+    {
+      "animation": "drive",
+      "duration": 5.699999809265137,
+      "hash": "f666bb048cc091d08dd05b5b5ec30f5dee96dafaf63e73a1f025ad05cb924a48",
+      "constraints": [
+        {
+          "name": "cannon-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": 1
+          }
+        },
+        {
+          "name": "machinegun-ik",
+          "type": "ik",
+          "values": {
+            "mix": 0,
+            "bendDirection": 1
+          }
+        },
+        {
+          "name": "treads-path",
+          "type": "path",
+          "values": {
+            "position": 0.7490000526904419,
+            "spacing": 0
+          }
+        },
+        {
+          "name": "wheel-mid1-transform",
+          "type": "transform",
+          "values": {
+            "mixRotate": 1,
+            "mixX": 0,
+            "mixY": 0
+          }
+        },
+        {
+          "name": "wheel-mid2-transform",
+          "type": "transform",
+          "values": {
+            "mixRotate": 1,
+            "mixX": 0,
+            "mixY": 0
+          }
+        },
+        {
+          "name": "wheel-mid3-transform",
+          "type": "transform",
+          "values": {
+            "mixRotate": 1,
+            "mixX": 0,
+            "mixY": 0
+          }
+        },
+        {
+          "name": "wheel-small1-transform",
+          "type": "transform",
+          "values": {
+            "mixRotate": 1,
+            "mixX": 0,
+            "mixY": 0
+          }
+        },
+        {
+          "name": "wheel-small2-transform",
+          "type": "transform",
+          "values": {
+            "mixRotate": 1,
+            "mixX": 0,
+            "mixY": 0
+          }
+        },
+        {
+          "name": "wheel-big-transform",
+          "type": "transform",
+          "values": {
+            "mixRotate": 1,
+            "mixX": 0,
+            "mixY": 0
+          }
+        }
+      ],
+      "attachmentTypes": [
+        "region",
+        "path",
+        "mesh",
+        null,
+        "clipping"
+      ]
+    },
+    {
+      "animation": "shoot",
+      "duration": 1.0666667222976685,
+      "hash": "9ab7001d665f3776f08035f4da23a2c29b8274f7957c857df0781e3980fbb0da",
+      "constraints": [
+        {
+          "name": "cannon-ik",
+          "type": "ik",
+          "values": {
+            "mix": 1,
+            "bendDirection": 1
+          }
+        },
+        {
+          "name": "machinegun-ik",
+          "type": "ik",
+          "values": {
+            "mix": 0,
+            "bendDirection": 1
+          }
+        },
+        {
+          "name": "treads-path",
+          "type": "path",
+          "values": {
+            "position": 0,
+            "spacing": 0
+          }
+        },
+        {
+          "name": "wheel-mid1-transform",
+          "type": "transform",
+          "values": {
+            "mixRotate": 1,
+            "mixX": 0,
+            "mixY": 0
+          }
+        },
+        {
+          "name": "wheel-mid2-transform",
+          "type": "transform",
+          "values": {
+            "mixRotate": 1,
+            "mixX": 0,
+            "mixY": 0
+          }
+        },
+        {
+          "name": "wheel-mid3-transform",
+          "type": "transform",
+          "values": {
+            "mixRotate": 1,
+            "mixX": 0,
+            "mixY": 0
+          }
+        },
+        {
+          "name": "wheel-small1-transform",
+          "type": "transform",
+          "values": {
+            "mixRotate": 1,
+            "mixX": 0,
+            "mixY": 0
+          }
+        },
+        {
+          "name": "wheel-small2-transform",
+          "type": "transform",
+          "values": {
+            "mixRotate": 1,
+            "mixX": 0,
+            "mixY": 0
+          }
+        },
+        {
+          "name": "wheel-big-transform",
+          "type": "transform",
+          "values": {
+            "mixRotate": 1,
+            "mixX": 0,
+            "mixY": 0
+          }
+        }
+      ],
+      "attachmentTypes": [
+        null,
+        "region",
+        "path",
+        "mesh",
+        "clipping"
+      ]
+    }
+  ],
+  "skins": [
+    "default"
+  ],
+  "visuallyVerified": false
+}

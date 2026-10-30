@@ -1,0 +1,31 @@
+{
+  "implementationCommit": "ca81353421b17f2d9a5019dbabef7f6bbba52ce0",
+  "status": "RESTRICTED_ENGINEERING_QUALIFIED",
+  "fullB4": "PARTIAL",
+  "visualAcceptance": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED",
+  "cycles": 200,
+  "playbackSeconds": 1809.414,
+  "playbackSamples": 180,
+  "maximumSampleIntervalMs": 10146,
+  "renderedFrames": [
+    108726,
+    108725
+  ],
+  "playbackSlopesPerSecond": {
+    "heap": 53.64003840312225,
+    "rssKiB": -4.1454520345748485
+  },
+  "rssRangeKiB": [
+    455072,
+    901728
+  ],
+  "heapRangeBytes": [
+    3767132,
+    10289424
+  ],
+  "allPinnedSourceAndBuildHashesMatch": true,
+  "remainingFullB4Blockers": [
+    "Independent visual acceptance of exact candidate references by an authorized reviewer"
+  ],
+  "scope": "macOS arm64 Chromium SwiftShader; Qt capture/disposal smoke; approved fixture binaries only"
+}

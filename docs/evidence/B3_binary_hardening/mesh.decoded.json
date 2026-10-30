@@ -1,0 +1,281 @@
+{
+  "skeleton": {
+    "spine": "4.2.43",
+    "hash": "0000000000000000",
+    "x": 0.0,
+    "y": 0.0,
+    "width": 64.0,
+    "height": 32.0,
+    "referenceScale": 100.0
+  },
+  "bones": [
+    {
+      "name": "root",
+      "rotation": 0.0,
+      "x": 2.0,
+      "y": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "shearX": 0.0,
+      "shearY": 0.0,
+      "length": 0.0,
+      "inherit": "normal",
+      "skin": false
+    },
+    {
+      "name": "symbol",
+      "parent": "root",
+      "rotation": 0.0,
+      "x": 3.0,
+      "y": 4.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "shearX": 0.0,
+      "shearY": 0.0,
+      "length": 0.0,
+      "inherit": "normal",
+      "skin": false
+    }
+  ],
+  "slots": [
+    {
+      "name": "face",
+      "bone": "symbol",
+      "color": "ffffffff",
+      "dark": "102030",
+      "attachment": "face",
+      "blend": "normal"
+    },
+    {
+      "name": "back",
+      "bone": "root",
+      "color": "ffffffff",
+      "attachment": "back",
+      "blend": "normal"
+    }
+  ],
+  "skins": [
+    {
+      "name": "default",
+      "attachments": {
+        "face": {
+          "face": {
+            "type": "mesh",
+            "name": "face",
+            "path": "face",
+            "color": "ffffffff",
+            "vertices": [
+              1,
+              1,
+              -32.0,
+              -16.0,
+              1.0,
+              1,
+              1,
+              32.0,
+              -16.0,
+              1.0,
+              1,
+              1,
+              32.0,
+              16.0,
+              1.0,
+              1,
+              1,
+              -32.0,
+              16.0,
+              1.0
+            ],
+            "uvs": [
+              0.0,
+              0.0,
+              1.0,
+              0.0,
+              1.0,
+              1.0,
+              0.0,
+              1.0
+            ],
+            "triangles": [
+              0,
+              1,
+              2,
+              2,
+              3,
+              0
+            ],
+            "hull": 4
+          }
+        },
+        "back": {
+          "back": {
+            "type": "region",
+            "name": "back",
+            "path": "face",
+            "color": "ffffffff",
+            "rotation": 0.0,
+            "x": 0.0,
+            "y": 0.0,
+            "scaleX": 1.0,
+            "scaleY": 1.0,
+            "width": 12.0,
+            "height": 12.0
+          }
+        }
+      }
+    },
+    {
+      "name": "alternate",
+      "attachments": {
+        "face": {
+          "face": {
+            "type": "linkedmesh",
+            "name": "face",
+            "path": "face",
+            "color": "ffffffff",
+            "timelines": true,
+            "skin": "default",
+            "parent": "face"
+          }
+        }
+      }
+    }
+  ],
+  "animations": {
+    "pulse": {
+      "bones": {
+        "symbol": {
+          "rotate": [
+            {
+              "time": 0.0,
+              "value": 0.0,
+              "curve": [
+                0.20000000298023224,
+                5.0,
+                0.800000011920929,
+                80.0
+              ]
+            },
+            {
+              "time": 1.0,
+              "value": 90.0
+            }
+          ],
+          "translate": [
+            {
+              "time": 0.0,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "time": 1.0,
+              "x": 12.0,
+              "y": -3.0
+            }
+          ],
+          "scale": [
+            {
+              "time": 0.0,
+              "x": 1.0,
+              "y": 1.0,
+              "curve": "stepped"
+            },
+            {
+              "time": 0.5,
+              "x": 0.699999988079071,
+              "y": 1.2999999523162842
+            },
+            {
+              "time": 1.0,
+              "x": 1.0,
+              "y": 1.0
+            }
+          ],
+          "shear": [
+            {
+              "time": 0.0,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "time": 1.0,
+              "x": 3.0,
+              "y": -4.0
+            }
+          ]
+        }
+      },
+      "slots": {
+        "face": {
+          "rgba": [
+            {
+              "time": 0.0,
+              "color": "ffffffff"
+            },
+            {
+              "time": 1.0,
+              "color": "ff804080"
+            }
+          ]
+        }
+      },
+      "attachments": {
+        "default": {
+          "face": {
+            "face": {
+              "deform": [
+                {
+                  "time": 0.0,
+                  "curve": [
+                    0.20000000298023224,
+                    0.0,
+                    0.800000011920929,
+                    1.0
+                  ]
+                },
+                {
+                  "time": 1.0,
+                  "offset": 0,
+                  "vertices": [
+                    0.0,
+                    0.0,
+                    4.0,
+                    0.0,
+                    0.0,
+                    5.0,
+                    -3.0,
+                    0.0
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      },
+      "drawOrder": [
+        {
+          "time": 0.30000001192092896,
+          "offsets": [
+            {
+              "slot": "face",
+              "offset": 1
+            }
+          ]
+        },
+        {
+          "time": 0.699999988079071,
+          "offsets": [
+            {
+              "slot": "back",
+              "offset": -1
+            }
+          ]
+        },
+        {
+          "time": 1.0,
+          "offsets": []
+        }
+      ]
+    }
+  }
+}

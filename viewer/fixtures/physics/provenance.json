@@ -1,0 +1,38 @@
+[
+  {
+    "family": "4.2",
+    "file": "cloud-pot.atlas",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/cloud-pot/export/cloud-pot.atlas",
+    "sha256": "0fa5e25e321d99ae607c374d29950080e351517c8b874c858d69e0c56669a0e3"
+  },
+  {
+    "family": "4.2",
+    "file": "cloud-pot.json",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/cloud-pot/export/cloud-pot.json",
+    "sha256": "5b138843568507c1ef53fa23bfa6c198432e1499d678ba5d6b30c5dda2363274"
+  },
+  {
+    "family": "4.2",
+    "file": "cloud-pot.png",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/cloud-pot/export/cloud-pot.png",
+    "sha256": "4d7120a1bd0d3525ccc7f21a059202009e13e7e963bc5322862496fcc282f145"
+  },
+  {
+    "family": "4.3",
+    "file": "cloud-pot.atlas",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/b7beb2ccbbce667a12c02f44d070644f59b04968/examples/cloud-pot/export/cloud-pot.atlas",
+    "sha256": "d659c6eb9df5c423aafa7ebce56a3974a119addf932ab98cff848443afcd6351"
+  },
+  {
+    "family": "4.3",
+    "file": "cloud-pot.json",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/b7beb2ccbbce667a12c02f44d070644f59b04968/examples/cloud-pot/export/cloud-pot.json",
+    "sha256": "b0ff731b48d65628d90f04b1596770d84352b014757116a0aad5f59421152f8c"
+  },
+  {
+    "family": "4.3",
+    "file": "cloud-pot.png",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/b7beb2ccbbce667a12c02f44d070644f59b04968/examples/cloud-pot/export/cloud-pot.png",
+    "sha256": "6f4597b532d357b739cb5ce8dcf9ee8a2d53b3f1c487c85c397b011ec33bd5f4"
+  }
+]

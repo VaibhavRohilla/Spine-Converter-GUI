@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
-import json
+from collections import Counter
 from dataclasses import dataclass
-from typing import Any
 
-from .detection import SPINE_VERSION
+from .detection import TEXTURE_EXTENSIONS, recognize_skeleton
+from .json_types import JSONValue, decode_json_object, is_document
 
 IMAGE_ATTACHMENT_TYPES = {"region", "mesh", "linkedmesh", "weightedmesh"}
 NON_IMAGE_ATTACHMENT_TYPES = {"boundingbox", "path", "point", "clipping"}
@@ -21,42 +21,42 @@ class SkeletonInfo:
     diagnostics: tuple[tuple[str, str], ...]
 
 
-def _names(records: Any) -> tuple[str, ...]:
+def _names(records: JSONValue) -> tuple[str, ...]:
     if not isinstance(records, list):
         return ()
     return tuple(
         str(item["name"])
         for item in records
-        if isinstance(item, dict) and isinstance(item.get("name"), str)
+        if is_document(item) and isinstance(item.get("name"), str)
     )
 
 
-def _skin_values(skins: Any) -> list[Any]:
-    if isinstance(skins, dict):
+def _skin_values(skins: JSONValue) -> list[JSONValue]:
+    if is_document(skins):
         return list(skins.values())
     if isinstance(skins, list):
         return skins
     return []
 
 
-def _attachment_refs(skins: Any) -> tuple[str, ...]:
+def _attachment_refs(skins: JSONValue) -> tuple[str, ...]:
     refs = []
     for skin in _skin_values(skins):
-        if not isinstance(skin, dict):
+        if not is_document(skin):
             continue
         attachment_slots = skin.get("attachments", skin)
-        if not isinstance(attachment_slots, dict):
+        if not is_document(attachment_slots):
             continue
         for attachment_map in attachment_slots.values():
-            if not isinstance(attachment_map, dict):
+            if not is_document(attachment_map):
                 continue
             for attachment_name, definition in attachment_map.items():
-                if not isinstance(definition, dict):
+                if not is_document(definition):
                     continue
                 kind = str(definition.get("type", "region")).lower()
                 if kind not in IMAGE_ATTACHMENT_TYPES:
                     continue
-                path = definition.get("path") or attachment_name
+                path = definition.get("path") or definition.get("name") or attachment_name
                 if isinstance(path, str) and path:
                     refs.append(path)
     return tuple(sorted(set(refs)))
@@ -64,35 +64,23 @@ def _attachment_refs(skins: Any) -> tuple[str, ...]:
 
 def inspect_skeleton(payload: bytes) -> SkeletonInfo | None:
     try:
-        obj = json.loads(payload.decode("utf-8-sig"))
-    except (UnicodeError, json.JSONDecodeError):
+        obj = decode_json_object(payload.decode("utf-8-sig"), "skeleton")
+    except (UnicodeError, ValueError):
         return None
-    if (
-        not isinstance(obj, dict)
-        or not isinstance(obj.get("skeleton"), dict)
-        or not isinstance(obj.get("bones"), list)
-    ):
+    recognition = recognize_skeleton(obj)
+    if recognition is None:
         return None
-    diagnostics = []
-    meta = obj["skeleton"]
-    raw = meta.get("spine", meta.get("version"))
-    version = str(raw).strip() if raw is not None else None
-    if version is None:
-        diagnostics.append(
-            ("SKELETON_VERSION_MISSING", "Skeleton has no Spine export version metadata")
-        )
-    elif not SPINE_VERSION.fullmatch(version):
-        diagnostics.append(
-            ("SKELETON_VERSION_MALFORMED", f"Unrecognized Spine version: {version!r}")
-        )
-        version = None
+    diagnostics: list[tuple[str, str]] = []
+    version = recognition.version
+    if recognition.diagnostic is not None:
+        diagnostics.append((recognition.diagnostic.code.value, recognition.diagnostic.message))
     bones = _names(obj["bones"])
     slots = _names(obj.get("slots", []))
     skins = obj.get("skins", {})
     if "slots" not in obj:
         diagnostics.append(("SKELETON_SLOTS_MISSING", "Skeleton is missing essential slots field"))
     for label, values in (("bone", bones), ("slot", slots)):
-        repeated = sorted({v for v in values if values.count(v) > 1})
+        repeated = sorted(name for name, count in Counter(values).items() if count > 1)
         if repeated:
             diagnostics.append(
                 ("DUPLICATE_IDENTIFIER", f"Duplicate {label} names: {', '.join(repeated)}")
@@ -103,11 +91,9 @@ def inspect_skeleton(payload: bytes) -> SkeletonInfo | None:
     events = obj.get("events", {})
     skin_names = (
         tuple(skins.keys())
-        if isinstance(skins, dict)
+        if is_document(skins)
         else tuple(
-            str(s.get("name"))
-            for s in skins
-            if isinstance(s, dict) and isinstance(s.get("name"), str)
+            str(s.get("name")) for s in skins if is_document(s) and isinstance(s.get("name"), str)
         )
         if isinstance(skins, list)
         else ()
@@ -115,6 +101,20 @@ def inspect_skeleton(payload: bytes) -> SkeletonInfo | None:
     constraints: list[str] = []
     for key in ("ik", "transform", "path", "physics"):
         constraints.extend(_names(obj.get(key, [])))
+    if "constraints" in obj:
+        combined_constraints = obj["constraints"]
+        if not isinstance(combined_constraints, list) or any(
+            not is_document(item) or not isinstance(item.get("name"), str)
+            for item in combined_constraints
+        ):
+            diagnostics.append(
+                (
+                    "UNSUPPORTED_CONSTRAINTS_SHAPE",
+                    "Combined Spine 4.3 constraints must be an array of named objects",
+                )
+            )
+        else:
+            constraints.extend(_names(combined_constraints))
     recognized = {
         "skeleton",
         "bones",
@@ -126,6 +126,7 @@ def inspect_skeleton(payload: bytes) -> SkeletonInfo | None:
         "transform",
         "path",
         "physics",
+        "constraints",
         "drawOrder",
         "deform",
         "animations",
@@ -145,7 +146,7 @@ def inspect_skeleton(payload: bytes) -> SkeletonInfo | None:
                 "Skins must use a recognized historical object or modern array shape",
             )
         )
-    if not isinstance(anim, dict):
+    if not is_document(anim):
         diagnostics.append(
             ("UNSUPPORTED_ANIMATIONS_SHAPE", "Animations must be an object keyed by animation name")
         )
@@ -153,8 +154,8 @@ def inspect_skeleton(payload: bytes) -> SkeletonInfo | None:
         "bones": bones,
         "slots": slots,
         "skins": skin_names,
-        "animations": tuple(anim.keys()) if isinstance(anim, dict) else (),
-        "events": tuple(events.keys()) if isinstance(events, dict) else (),
+        "animations": tuple(anim.keys()) if is_document(anim) else (),
+        "events": tuple(events.keys()) if is_document(events) else (),
         "constraints": tuple(constraints),
     }
     refs = _attachment_refs(skins)
@@ -188,6 +189,7 @@ class AtlasInfo:
     regions: tuple[str, ...]
     attributes: tuple[tuple[str, str], ...]
     unknown_attributes: tuple[tuple[str, str], ...]
+    region_pages: tuple[int, ...]
     duplicate_regions: tuple[str, ...] = ()
     page_records: tuple[AtlasPage, ...] = ()
     region_records: tuple[AtlasRegion, ...] = ()
@@ -207,7 +209,6 @@ REGION_KEYS = {
     "pad",
     "-",
 }
-TEXTURE_SUFFIXES = (".png", ".jpg", ".jpeg", ".webp", ".ktx", ".ktx2", ".pvr", ".tga")
 
 
 def parse_atlas(payload: bytes) -> AtlasInfo:
@@ -218,7 +219,9 @@ def parse_atlas(payload: bytes) -> AtlasInfo:
     unknown: list[tuple[str, str]] = []
     current_page: int | None = None
     current_region: int | None = None
-    for raw in text.splitlines():
+    region_pages: list[int] = []
+    lines = text.splitlines()
+    for position, raw in enumerate(lines):
         line = raw.strip()
         if not line or line.startswith("#"):
             continue
@@ -238,8 +241,19 @@ def parse_atlas(payload: bytes) -> AtlasInfo:
             if key.lower() not in known:
                 unknown.append((key, value))
             continue
-        if line.lower().endswith(TEXTURE_SUFFIXES):
-            # Texture declarations are page headers in both atlas syntax families.
+        following: set[str] = set()
+        for lookahead in range(position + 1, len(lines)):
+            next_line = lines[lookahead].strip()
+            if not next_line or next_line.startswith("#"):
+                continue
+            if ":" not in next_line:
+                break
+            following.add(next_line.split(":", 1)[0].strip())
+        region_evidence = bool(following & (REGION_KEYS - PAGE_KEYS))
+        page_evidence = bool(following & (PAGE_KEYS - REGION_KEYS))
+        if region_evidence and page_evidence:
+            raise ValueError(f"Mixed atlas page and region attributes on {line!r}")
+        if any(line.lower().endswith(ext) for ext in TEXTURE_EXTENSIONS) and not region_evidence:
             pages.append((line, []))
             current_page = len(pages) - 1
             current_region = None
@@ -247,19 +261,34 @@ def parse_atlas(payload: bytes) -> AtlasInfo:
             raise ValueError(f"Region declared before texture page: {line!r}")
         else:
             regions.append((line, []))
+            region_pages.append(current_page)
             current_region = len(regions) - 1
     if not pages:
         raise ValueError("Atlas contains no page declarations")
     region_names = [name for name, _ in regions]
-    duplicates = tuple(sorted({name for name in region_names if region_names.count(name) > 1}))
+    # Indexed names may repeat only when every index is explicit, nonnegative and unique.
+    seen_regions: dict[str, set[int | None]] = {}
+    duplicate_names: set[str] = set()
+    for name, values in regions:
+        raw_index = dict(values).get("index")
+        index = int(raw_index) if raw_index is not None else -1
+        if index < -1:
+            raise ValueError(f"Invalid atlas index on {name!r}")
+        index_key = index if index >= 0 else None
+        previous = seen_regions.setdefault(name, set())
+        if previous and (index_key is None or None in previous or index_key in previous):
+            duplicate_names.add(name)
+        previous.add(index_key)
+    duplicates = tuple(sorted(duplicate_names))
     page_records = tuple(AtlasPage(name, tuple(values)) for name, values in pages)
     region_records = tuple(AtlasRegion(name, tuple(values)) for name, values in regions)
     return AtlasInfo(
-        tuple(name for name, _ in pages),
-        tuple(region_names),
-        tuple(attrs),
-        tuple(unknown),
-        duplicates,
-        page_records,
-        region_records,
+        pages=tuple(name for name, _ in pages),
+        regions=tuple(region_names),
+        attributes=tuple(attrs),
+        unknown_attributes=tuple(unknown),
+        region_pages=tuple(region_pages),
+        duplicate_regions=duplicates,
+        page_records=page_records,
+        region_records=region_records,
     )

@@ -1,0 +1,6815 @@
+{
+  "decision": "B3 PARTIAL \u2014 BINARY QUALIFICATION BLOCKED",
+  "existing_authenticated_binary_inventory": [
+    {
+      "family": "3.8",
+      "file": "spineboy-pro.skel",
+      "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8b4844bd4b193ba9e54487ed397a777993cbad56/examples/spineboy/export/spineboy-pro.skel",
+      "sha256": "d36f8e97a113e7ec2b1c9e20a706b0a1464914a92c057dc5541c921a3ec4123c"
+    },
+    {
+      "family": "4.0",
+      "file": "spineboy-pro.skel",
+      "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/425ce416bb218b28caeec47b317aa57cd7140375/examples/spineboy/export/spineboy-pro.skel",
+      "sha256": "3347eeac9858b9eee5415cd36435d9b529c30793e66a04edb20c0a57b427e918"
+    },
+    {
+      "family": "4.1",
+      "file": "spineboy-pro.skel",
+      "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/77a5db0ec6d16331f5efbaa7662bba9355bd3424/examples/spineboy/export/spineboy-pro.skel",
+      "sha256": "7104c7e8f45d3ce9af8fdcb7d50d95ab8cbbdddfda9e273e893845f6a234245c"
+    },
+    {
+      "family": "4.2",
+      "file": "spineboy-pro.skel",
+      "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/e7dc1435fa4a0083ab431f1b28e083c14a1f5c68/examples/spineboy/export/spineboy-pro.skel",
+      "sha256": "1345de0e8e4729559f39060ed614429b21ab39bfc09ed2e1f58fcf054a8b5925"
+    },
+    {
+      "family": "4.3",
+      "file": "spineboy-pro.skel",
+      "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/ee2a10936a103ac187d74f7709f855653e923eae/examples/spineboy/export/spineboy-pro.skel",
+      "sha256": "e10de3f2473a37139c3ad1fda14e84b29ef401475ec9fa2129e7d2a311088845"
+    }
+  ],
+  "new_authenticated_sources": [
+    {
+      "path": "tests/fixtures/binary/official42/coin-pro.json",
+      "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/coin/export/coin-pro.json",
+      "sha256": "cc9b13d9a2fc4af455dac45c538ced90713939696433bf87b564b60d39f16008",
+      "bytes": 7812
+    },
+    {
+      "path": "tests/fixtures/binary/official42/coin-pro.skel",
+      "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/coin/export/coin-pro.skel",
+      "sha256": "8d412e8ab9e156bc78d9602cf32b9cd5b5d6fae7ea982feccb514f56352ed6f8",
+      "bytes": 2790
+    },
+    {
+      "path": "tests/fixtures/binary/official42/powerup-ess.json",
+      "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/powerup/export/powerup-ess.json",
+      "sha256": "6ff51b2fa2b47e339399391a11f1523896defbd7e62a7cb9f69f8021315e1785",
+      "bytes": 15163
+    },
+    {
+      "path": "tests/fixtures/binary/official42/powerup-ess.skel",
+      "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/powerup/export/powerup-ess.skel",
+      "sha256": "0e739e50f3e44e8bacd481649a8e9deee3ed3722c4813ba673f1a862dbc65d0b",
+      "bytes": 4381
+    },
+    {
+      "path": "tests/fixtures/binary/official42/powerup.atlas",
+      "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/powerup/export/powerup.atlas",
+      "sha256": "7e4c3a8a7a99a7d5e21f67010fb1ac6c25560ee4f4327489817356626edf7cb1",
+      "bytes": 143
+    },
+    {
+      "path": "tests/fixtures/binary/official42/powerup.png",
+      "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/powerup/export/powerup.png",
+      "sha256": "e53af73f5c60e38052903dd222c2e985fc46aedd67c6b545664afee4d634fa33",
+      "bytes": 59265
+    },
+    {
+      "path": "tests/fixtures/binary/official42/spineboy-ess.json",
+      "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/spineboy/export/spineboy-ess.json",
+      "sha256": "e2710415faa748ae8a183283453aa40164a8f92301440a27d2670d9f0236ef0e",
+      "bytes": 77843
+    },
+    {
+      "path": "tests/fixtures/binary/official42/spineboy-ess.skel",
+      "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/spineboy/export/spineboy-ess.skel",
+      "sha256": "39d05198a353e9525637b9c8a808a807a24f5d86d586c828d4673103d8bae4a2",
+      "bytes": 20246
+    },
+    {
+      "path": "tests/fixtures/binary/official42/vine-pro.json",
+      "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/vine/export/vine-pro.json",
+      "sha256": "4186a992f79d73e79d677f25bfeb9db9bd26b97c288088f4530d7bedca497a6c",
+      "bytes": 18418
+    },
+    {
+      "path": "tests/fixtures/binary/official42/vine-pro.skel",
+      "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/vine/export/vine-pro.skel",
+      "sha256": "d0e8aa8b891ec0465019d436e38997586dee1e5701a033f4e7a2109ff629dfa8",
+      "bytes": 7897
+    },
+    {
+      "path": "tests/fixtures/binary/official42/LICENSE",
+      "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/LICENSE",
+      "sha256": "24f517153a2b090abc002972d4ec13f6aec3ac002c88d764b9067f2da1457a7e",
+      "bytes": 1467
+    }
+  ],
+  "authentic_runtime_inventory": [
+    {
+      "runtime": "@esotericsoftware/spine-core@4.2.43",
+      "runtimeReaderSha256": "83efaec2af4cbc7538f83ca436f921741c027f26f3dd44c98fada3e5139ba250",
+      "binarySha256": "0e739e50f3e44e8bacd481649a8e9deee3ed3722c4813ba673f1a862dbc65d0b",
+      "atlasSha256": "7e4c3a8a7a99a7d5e21f67010fb1ac6c25560ee4f4327489817356626edf7cb1",
+      "inventory": {
+        "version": "4.2.22",
+        "bones": 17,
+        "slots": 13,
+        "skins": [
+          "default"
+        ],
+        "attachments": {
+          "RegionAttachment": 13
+        },
+        "constraints": {
+          "ik": 0,
+          "transform": 0,
+          "path": 0,
+          "physics": 0
+        },
+        "animations": [
+          {
+            "name": "bounce",
+            "duration": 1.4000000953674316
+          }
+        ],
+        "timelines": {
+          "RGBATimeline": 10,
+          "RotateTimeline": 13,
+          "ScaleTimeline": 11,
+          "ShearTimeline": 2,
+          "TranslateTimeline": 13
+        },
+        "keyframes": 182,
+        "meshVertices": 0,
+        "weightedInfluences": 0,
+        "deformFrames": 0,
+        "eventDefinitions": 0,
+        "eventFrames": 0
+      },
+      "semanticCompared": false,
+      "unverified": [
+        "serialized Bezier control handles (runtime exposes evaluated curve tables)",
+        "bone icon and editor visibility (official JSON reader does not expose them)",
+        "binary header hash representation and nonessential metadata",
+        "all attachment, constraint, event and timeline categories not exercised by the restricted comparison"
+      ],
+      "fixture": "powerup-ess",
+      "fnx_decoder": "decoded; see explicit Powerup comparisons"
+    },
+    {
+      "runtime": "@esotericsoftware/spine-core@4.2.43",
+      "runtimeReaderSha256": "83efaec2af4cbc7538f83ca436f921741c027f26f3dd44c98fada3e5139ba250",
+      "binarySha256": "1345de0e8e4729559f39060ed614429b21ab39bfc09ed2e1f58fcf054a8b5925",
+      "atlasSha256": "fc90c2a604c14bb3ae1a81f9c950660863a41654cb29c869423a86e127fa75ae",
+      "inventory": {
+        "version": "4.2.22",
+        "bones": 67,
+        "slots": 52,
+        "skins": [
+          "default"
+        ],
+        "attachments": {
+          "BoundingBoxAttachment": 1,
+          "ClippingAttachment": 1,
+          "MeshAttachment": 12,
+          "RegionAttachment": 66
+        },
+        "constraints": {
+          "ik": 7,
+          "transform": 8,
+          "path": 0,
+          "physics": 0
+        },
+        "animations": [
+          {
+            "name": "aim",
+            "duration": 0
+          },
+          {
+            "name": "death",
+            "duration": 4.933333396911621
+          },
+          {
+            "name": "hoverboard",
+            "duration": 1
+          },
+          {
+            "name": "idle",
+            "duration": 1.6666667461395264
+          },
+          {
+            "name": "idle-turn",
+            "duration": 0.2666666805744171
+          },
+          {
+            "name": "jump",
+            "duration": 1.3333333730697632
+          },
+          {
+            "name": "portal",
+            "duration": 3.1666667461395264
+          },
+          {
+            "name": "run",
+            "duration": 0.6666666865348816
+          },
+          {
+            "name": "run-to-idle",
+            "duration": 0.2666666805744171
+          },
+          {
+            "name": "shoot",
+            "duration": 0.6333333849906921
+          },
+          {
+            "name": "walk",
+            "duration": 1
+          }
+        ],
+        "timelines": {
+          "AttachmentTimeline": 44,
+          "DeformTimeline": 4,
+          "EventTimeline": 3,
+          "IkConstraintTimeline": 14,
+          "RGBATimeline": 6,
+          "RotateTimeline": 201,
+          "ScaleTimeline": 36,
+          "ShearTimeline": 10,
+          "TransformConstraintTimeline": 6,
+          "TranslateTimeline": 97
+        },
+        "keyframes": 1791,
+        "meshVertices": 322,
+        "weightedInfluences": 396,
+        "deformFrames": 9,
+        "eventDefinitions": 1,
+        "eventFrames": 5
+      },
+      "semanticCompared": false,
+      "unverified": [
+        "serialized Bezier control handles (runtime exposes evaluated curve tables)",
+        "bone icon and editor visibility (official JSON reader does not expose them)",
+        "binary header hash representation and nonessential metadata",
+        "all attachment, constraint, event and timeline categories not exercised by the restricted comparison"
+      ],
+      "fixture": "spineboy-pro",
+      "fnx_decoder": {
+        "code": "BINARY_FEATURE_UNSUPPORTED",
+        "message": "Unsupported binary transform constraints",
+        "offset": 0
+      }
+    },
+    {
+      "runtime": "@esotericsoftware/spine-core@4.2.43",
+      "runtimeReaderSha256": "83efaec2af4cbc7538f83ca436f921741c027f26f3dd44c98fada3e5139ba250",
+      "binarySha256": "39d05198a353e9525637b9c8a808a807a24f5d86d586c828d4673103d8bae4a2",
+      "atlasSha256": "fc90c2a604c14bb3ae1a81f9c950660863a41654cb29c869423a86e127fa75ae",
+      "inventory": {
+        "version": "4.2.22",
+        "bones": 18,
+        "slots": 20,
+        "skins": [
+          "default"
+        ],
+        "attachments": {
+          "BoundingBoxAttachment": 1,
+          "RegionAttachment": 26
+        },
+        "constraints": {
+          "ik": 0,
+          "transform": 0,
+          "path": 0,
+          "physics": 0
+        },
+        "animations": [
+          {
+            "name": "aim",
+            "duration": 0
+          },
+          {
+            "name": "death",
+            "duration": 4.933333396911621
+          },
+          {
+            "name": "hit",
+            "duration": 0.3333333432674408
+          },
+          {
+            "name": "idle",
+            "duration": 1.6666667461395264
+          },
+          {
+            "name": "jump",
+            "duration": 1.3333333730697632
+          },
+          {
+            "name": "run",
+            "duration": 0.6666666865348816
+          },
+          {
+            "name": "shoot",
+            "duration": 0.40000003576278687
+          },
+          {
+            "name": "walk",
+            "duration": 1
+          }
+        ],
+        "timelines": {
+          "AttachmentTimeline": 9,
+          "DrawOrderTimeline": 1,
+          "EventTimeline": 3,
+          "RGBATimeline": 1,
+          "RotateTimeline": 101,
+          "ScaleTimeline": 11,
+          "TranslateTimeline": 27
+        },
+        "keyframes": 744,
+        "meshVertices": 0,
+        "weightedInfluences": 0,
+        "deformFrames": 0,
+        "eventDefinitions": 1,
+        "eventFrames": 5
+      },
+      "semanticCompared": false,
+      "unverified": [
+        "serialized Bezier control handles (runtime exposes evaluated curve tables)",
+        "bone icon and editor visibility (official JSON reader does not expose them)",
+        "binary header hash representation and nonessential metadata",
+        "all attachment, constraint, event and timeline categories not exercised by the restricted comparison"
+      ],
+      "fixture": "spineboy-ess",
+      "fnx_decoder": {
+        "code": "BINARY_FEATURE_UNSUPPORTED",
+        "message": "Unsupported attachment type or sequence",
+        "offset": 0
+      }
+    },
+    {
+      "runtime": "@esotericsoftware/spine-core@4.2.43",
+      "runtimeReaderSha256": "83efaec2af4cbc7538f83ca436f921741c027f26f3dd44c98fada3e5139ba250",
+      "binarySha256": "8d412e8ab9e156bc78d9602cf32b9cd5b5d6fae7ea982feccb514f56352ed6f8",
+      "atlasSha256": "9b394c85aef916a4cdaf95b7abfb714e2c2def9b71568db7d546e90f7bebc092",
+      "inventory": {
+        "version": "4.2.22",
+        "bones": 7,
+        "slots": 6,
+        "skins": [
+          "default"
+        ],
+        "attachments": {
+          "ClippingAttachment": 1,
+          "RegionAttachment": 7
+        },
+        "constraints": {
+          "ik": 0,
+          "transform": 0,
+          "path": 0,
+          "physics": 0
+        },
+        "animations": [
+          {
+            "name": "animation",
+            "duration": 2.6666667461395264
+          }
+        ],
+        "timelines": {
+          "AttachmentTimeline": 2,
+          "DrawOrderTimeline": 1,
+          "RGBA2Timeline": 1,
+          "RGBATimeline": 1,
+          "ScaleTimeline": 2,
+          "TranslateTimeline": 3
+        },
+        "keyframes": 69,
+        "meshVertices": 0,
+        "weightedInfluences": 0,
+        "deformFrames": 0,
+        "eventDefinitions": 0,
+        "eventFrames": 0
+      },
+      "semanticCompared": false,
+      "unverified": [
+        "serialized Bezier control handles (runtime exposes evaluated curve tables)",
+        "bone icon and editor visibility (official JSON reader does not expose them)",
+        "binary header hash representation and nonessential metadata",
+        "all attachment, constraint, event and timeline categories not exercised by the restricted comparison"
+      ],
+      "fixture": "coin-pro",
+      "fnx_decoder": {
+        "code": "BINARY_FEATURE_UNSUPPORTED",
+        "message": "Unsupported attachment type or sequence",
+        "offset": 0
+      }
+    },
+    {
+      "runtime": "@esotericsoftware/spine-core@4.2.43",
+      "runtimeReaderSha256": "83efaec2af4cbc7538f83ca436f921741c027f26f3dd44c98fada3e5139ba250",
+      "binarySha256": "d0e8aa8b891ec0465019d436e38997586dee1e5701a033f4e7a2109ff629dfa8",
+      "atlasSha256": "34dfdf9ef931040a15a89f005434062bef659db27a3a00116332a888a99dfa3c",
+      "inventory": {
+        "version": "4.2.22",
+        "bones": 18,
+        "slots": 2,
+        "skins": [
+          "default"
+        ],
+        "attachments": {
+          "MeshAttachment": 1,
+          "PathAttachment": 1
+        },
+        "constraints": {
+          "ik": 0,
+          "transform": 0,
+          "path": 1,
+          "physics": 0
+        },
+        "animations": [
+          {
+            "name": "grow",
+            "duration": 11.433334350585938
+          }
+        ],
+        "timelines": {
+          "RGBATimeline": 1,
+          "RotateTimeline": 4,
+          "ScaleTimeline": 5
+        },
+        "keyframes": 40,
+        "meshVertices": 81,
+        "weightedInfluences": 302,
+        "deformFrames": 0,
+        "eventDefinitions": 0,
+        "eventFrames": 0
+      },
+      "semanticCompared": false,
+      "unverified": [
+        "serialized Bezier control handles (runtime exposes evaluated curve tables)",
+        "bone icon and editor visibility (official JSON reader does not expose them)",
+        "binary header hash representation and nonessential metadata",
+        "all attachment, constraint, event and timeline categories not exercised by the restricted comparison"
+      ],
+      "fixture": "vine-pro",
+      "fnx_decoder": {
+        "code": "BINARY_FEATURE_UNSUPPORTED",
+        "message": "Unsupported binary path constraints",
+        "offset": 0
+      }
+    }
+  ],
+  "decoder_semantics": {
+    "runtime": "@esotericsoftware/spine-core@4.2.43",
+    "runtimeReaderSha256": "83efaec2af4cbc7538f83ca436f921741c027f26f3dd44c98fada3e5139ba250",
+    "binarySha256": "0e739e50f3e44e8bacd481649a8e9deee3ed3722c4813ba673f1a862dbc65d0b",
+    "atlasSha256": "7e4c3a8a7a99a7d5e21f67010fb1ac6c25560ee4f4327489817356626edf7cb1",
+    "inventory": {
+      "version": "4.2.22",
+      "bones": 17,
+      "slots": 13,
+      "skins": [
+        "default"
+      ],
+      "attachments": {
+        "RegionAttachment": 13
+      },
+      "constraints": {
+        "ik": 0,
+        "transform": 0,
+        "path": 0,
+        "physics": 0
+      },
+      "animations": [
+        {
+          "name": "bounce",
+          "duration": 1.4000000953674316
+        }
+      ],
+      "timelines": {
+        "RGBATimeline": 10,
+        "RotateTimeline": 13,
+        "ScaleTimeline": 11,
+        "ShearTimeline": 2,
+        "TranslateTimeline": 13
+      },
+      "keyframes": 182,
+      "meshVertices": 0,
+      "weightedInfluences": 0,
+      "deformFrames": 0,
+      "eventDefinitions": 0,
+      "eventFrames": 0
+    },
+    "semanticCompared": true,
+    "unverified": [
+      "serialized Bezier control handles (runtime exposes evaluated curve tables)",
+      "bone icon and editor visibility (official JSON reader does not expose them)",
+      "binary header hash representation and nonessential metadata",
+      "all attachment, constraint, event and timeline categories not exercised by the restricted comparison"
+    ],
+    "candidateSha256": "6b9373a8508349365d0d37d62f8c286788b9e0ef68c1ddda4e892f8d0e3b25fe",
+    "statistics": {
+      "numeric": 2180,
+      "exact": 207,
+      "maximumError": 0
+    },
+    "reference": {
+      "version": "4.2.22",
+      "bounds": [
+        -207.3000946044922,
+        119.40846252441406,
+        413.18878173828125,
+        195.7115020751953,
+        100
+      ],
+      "bones": [
+        {
+          "name": "root",
+          "parent": null,
+          "setup": [
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "inherit": 0,
+          "skin": false,
+          "color": [
+            0.6078431372549019,
+            0.6078431372549019,
+            0.6078431372549019,
+            1
+          ]
+        },
+        {
+          "name": "powerup",
+          "parent": "root",
+          "setup": [
+            0,
+            1.4835395812988281,
+            134.0238494873047,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "inherit": 0,
+          "skin": false,
+          "color": [
+            0.6078431372549019,
+            0.6078431372549019,
+            0.6078431372549019,
+            1
+          ]
+        },
+        {
+          "name": "token-root",
+          "parent": "powerup",
+          "setup": [
+            0,
+            -0.4748191833496094,
+            56.13520812988281,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "inherit": 0,
+          "skin": false,
+          "color": [
+            0.6078431372549019,
+            0.6078431372549019,
+            0.6078431372549019,
+            1
+          ]
+        },
+        {
+          "name": "left-wing",
+          "parent": "token-root",
+          "setup": [
+            0,
+            -91.06001281738281,
+            7.8004302978515625,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "inherit": 0,
+          "skin": false,
+          "color": [
+            0.6078431372549019,
+            0.6078431372549019,
+            0.6078431372549019,
+            1
+          ]
+        },
+        {
+          "name": "right-wing",
+          "parent": "token-root",
+          "setup": [
+            0,
+            86.82001495361328,
+            7.12042236328125,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "inherit": 0,
+          "skin": false,
+          "color": [
+            0.6078431372549019,
+            0.6078431372549019,
+            0.6078431372549019,
+            1
+          ]
+        },
+        {
+          "name": "stars",
+          "parent": "root",
+          "setup": [
+            0,
+            1.2282485961914062,
+            191.25474548339844,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "inherit": 0,
+          "skin": false,
+          "color": [
+            0.6078431372549019,
+            0.6078431372549019,
+            0.6078431372549019,
+            1
+          ]
+        },
+        {
+          "name": "star",
+          "parent": "stars",
+          "setup": [
+            0,
+            2.8400344848632812,
+            4.7600250244140625,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "inherit": 0,
+          "skin": false,
+          "color": [
+            0.6078431372549019,
+            0.6078431372549019,
+            0.6078431372549019,
+            1
+          ]
+        },
+        {
+          "name": "star1",
+          "parent": "stars",
+          "setup": [
+            0,
+            -2.199951171875,
+            -2.040008544921875,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "inherit": 0,
+          "skin": false,
+          "color": [
+            0.6078431372549019,
+            0.6078431372549019,
+            0.6078431372549019,
+            1
+          ]
+        },
+        {
+          "name": "star2",
+          "parent": "stars",
+          "setup": [
+            0,
+            -1.3663825988769531,
+            -4.16497802734375,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "inherit": 0,
+          "skin": false,
+          "color": [
+            0.6078431372549019,
+            0.6078431372549019,
+            0.6078431372549019,
+            1
+          ]
+        },
+        {
+          "name": "star3",
+          "parent": "stars",
+          "setup": [
+            0,
+            -0.8403797149658203,
+            -3.7809982299804688,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "inherit": 0,
+          "skin": false,
+          "color": [
+            0.6078431372549019,
+            0.6078431372549019,
+            0.6078431372549019,
+            1
+          ]
+        },
+        {
+          "name": "star4",
+          "parent": "stars",
+          "setup": [
+            0,
+            10.087596893310547,
+            14.529006958007812,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "inherit": 0,
+          "skin": false,
+          "color": [
+            0.6078431372549019,
+            0.6078431372549019,
+            0.6078431372549019,
+            1
+          ]
+        },
+        {
+          "name": "star5",
+          "parent": "stars",
+          "setup": [
+            0,
+            11.503044128417969,
+            -12.286285400390625,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "inherit": 0,
+          "skin": false,
+          "color": [
+            0.6078431372549019,
+            0.6078431372549019,
+            0.6078431372549019,
+            1
+          ]
+        },
+        {
+          "name": "star6",
+          "parent": "stars",
+          "setup": [
+            0,
+            -20.736961364746094,
+            -23.4462890625,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "inherit": 0,
+          "skin": false,
+          "color": [
+            0.6078431372549019,
+            0.6078431372549019,
+            0.6078431372549019,
+            1
+          ]
+        },
+        {
+          "name": "star7",
+          "parent": "stars",
+          "setup": [
+            0,
+            -5.857002258300781,
+            -35.846282958984375,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "inherit": 0,
+          "skin": false,
+          "color": [
+            0.6078431372549019,
+            0.6078431372549019,
+            0.6078431372549019,
+            1
+          ]
+        },
+        {
+          "name": "star8",
+          "parent": "stars",
+          "setup": [
+            0,
+            8.413742065429688,
+            -10.051567077636719,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "inherit": 0,
+          "skin": false,
+          "color": [
+            0.6078431372549019,
+            0.6078431372549019,
+            0.6078431372549019,
+            1
+          ]
+        },
+        {
+          "name": "star9",
+          "parent": "stars",
+          "setup": [
+            0,
+            -1.6239547729492188,
+            -7.344306945800781,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "inherit": 0,
+          "skin": false,
+          "color": [
+            0.6078431372549019,
+            0.6078431372549019,
+            0.6078431372549019,
+            1
+          ]
+        },
+        {
+          "name": "token",
+          "parent": "token-root",
+          "setup": [
+            0,
+            -1.1856727600097656,
+            -1.812469482421875,
+            0,
+            0.7714149951934814,
+            0.7714149951934814,
+            0,
+            0
+          ],
+          "inherit": 0,
+          "skin": false,
+          "color": [
+            0.6078431372549019,
+            0.6078431372549019,
+            0.6078431372549019,
+            1
+          ]
+        }
+      ],
+      "slots": [
+        {
+          "name": "right-wing",
+          "bone": "right-wing",
+          "color": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "dark": null,
+          "attachment": "wing",
+          "blend": 0,
+          "visible": true
+        },
+        {
+          "name": "left-wing",
+          "bone": "left-wing",
+          "color": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "dark": null,
+          "attachment": "wing",
+          "blend": 0,
+          "visible": true
+        },
+        {
+          "name": "star",
+          "bone": "star",
+          "color": [
+            1,
+            1,
+            1,
+            0
+          ],
+          "dark": null,
+          "attachment": "star",
+          "blend": 1,
+          "visible": true
+        },
+        {
+          "name": "star1",
+          "bone": "star1",
+          "color": [
+            1,
+            0.6470588235294118,
+            0.6470588235294118,
+            0
+          ],
+          "dark": null,
+          "attachment": "star",
+          "blend": 1,
+          "visible": true
+        },
+        {
+          "name": "star2",
+          "bone": "star2",
+          "color": [
+            1,
+            1,
+            1,
+            0
+          ],
+          "dark": null,
+          "attachment": "star",
+          "blend": 1,
+          "visible": true
+        },
+        {
+          "name": "star3",
+          "bone": "star3",
+          "color": [
+            1,
+            1,
+            1,
+            0
+          ],
+          "dark": null,
+          "attachment": "star",
+          "blend": 1,
+          "visible": true
+        },
+        {
+          "name": "star4",
+          "bone": "star4",
+          "color": [
+            1,
+            1,
+            1,
+            0
+          ],
+          "dark": null,
+          "attachment": "star",
+          "blend": 1,
+          "visible": true
+        },
+        {
+          "name": "star5",
+          "bone": "star5",
+          "color": [
+            1,
+            1,
+            1,
+            0
+          ],
+          "dark": null,
+          "attachment": "star",
+          "blend": 1,
+          "visible": true
+        },
+        {
+          "name": "star6",
+          "bone": "star6",
+          "color": [
+            1,
+            1,
+            1,
+            0
+          ],
+          "dark": null,
+          "attachment": "star",
+          "blend": 1,
+          "visible": true
+        },
+        {
+          "name": "star7",
+          "bone": "star7",
+          "color": [
+            1,
+            1,
+            1,
+            0
+          ],
+          "dark": null,
+          "attachment": "star",
+          "blend": 1,
+          "visible": true
+        },
+        {
+          "name": "star8",
+          "bone": "star8",
+          "color": [
+            1,
+            1,
+            1,
+            0
+          ],
+          "dark": null,
+          "attachment": "star",
+          "blend": 1,
+          "visible": true
+        },
+        {
+          "name": "star9",
+          "bone": "star9",
+          "color": [
+            1,
+            1,
+            1,
+            0
+          ],
+          "dark": null,
+          "attachment": "star",
+          "blend": 1,
+          "visible": true
+        },
+        {
+          "name": "token",
+          "bone": "token",
+          "color": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "dark": null,
+          "attachment": "token",
+          "blend": 0,
+          "visible": true
+        }
+      ],
+      "skins": [
+        {
+          "name": "default",
+          "attachments": [
+            {
+              "slotIndex": 0,
+              "name": "wing",
+              "path": "wing",
+              "attachmentName": "wing",
+              "transform": [
+                49.559967041015625,
+                42.320037841796875,
+                1,
+                1,
+                0,
+                137,
+                150
+              ],
+              "color": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "offset": [
+                -18.940032958984375,
+                -32.679962158203125,
+                -18.940032958984375,
+                117.32003784179688,
+                118.05996704101562,
+                117.32003784179688,
+                118.05996704101562,
+                -32.679962158203125
+              ],
+              "uvs": [
+                0.00390625,
+                0.8828125,
+                0.00390625,
+                0.296875,
+                0.271484375,
+                0.296875,
+                0.271484375,
+                0.8828125
+              ]
+            },
+            {
+              "slotIndex": 1,
+              "name": "wing",
+              "path": "wing",
+              "attachmentName": "wing",
+              "transform": [
+                -48.74877166748047,
+                42.16046905517578,
+                -1,
+                1,
+                0,
+                137,
+                150
+              ],
+              "color": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "offset": [
+                19.75122833251953,
+                -32.83953094482422,
+                19.75122833251953,
+                117.16046905517578,
+                -117.24877166748047,
+                117.16046905517578,
+                -117.24877166748047,
+                -32.83953094482422
+              ],
+              "uvs": [
+                0.00390625,
+                0.8828125,
+                0.00390625,
+                0.296875,
+                0.271484375,
+                0.296875,
+                0.271484375,
+                0.8828125
+              ]
+            },
+            {
+              "slotIndex": 2,
+              "name": "star",
+              "path": "star",
+              "attachmentName": "star",
+              "transform": [
+                0,
+                0,
+                1,
+                1,
+                0,
+                76,
+                72
+              ],
+              "color": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "offset": [
+                -38,
+                -36,
+                -38,
+                36,
+                38,
+                36,
+                38,
+                -36
+              ],
+              "uvs": [
+                0.00390625,
+                0.2890625,
+                0.00390625,
+                0.0078125,
+                0.15234375,
+                0.0078125,
+                0.15234375,
+                0.2890625
+              ]
+            },
+            {
+              "slotIndex": 3,
+              "name": "star",
+              "path": "star",
+              "attachmentName": "star",
+              "transform": [
+                0,
+                0,
+                1,
+                1,
+                0,
+                76,
+                72
+              ],
+              "color": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "offset": [
+                -38,
+                -36,
+                -38,
+                36,
+                38,
+                36,
+                38,
+                -36
+              ],
+              "uvs": [
+                0.00390625,
+                0.2890625,
+                0.00390625,
+                0.0078125,
+                0.15234375,
+                0.0078125,
+                0.15234375,
+                0.2890625
+              ]
+            },
+            {
+              "slotIndex": 4,
+              "name": "star",
+              "path": "star",
+              "attachmentName": "star",
+              "transform": [
+                0,
+                0,
+                1,
+                1,
+                0,
+                76,
+                72
+              ],
+              "color": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "offset": [
+                -38,
+                -36,
+                -38,
+                36,
+                38,
+                36,
+                38,
+                -36
+              ],
+              "uvs": [
+                0.00390625,
+                0.2890625,
+                0.00390625,
+                0.0078125,
+                0.15234375,
+                0.0078125,
+                0.15234375,
+                0.2890625
+              ]
+            },
+            {
+              "slotIndex": 5,
+              "name": "star",
+              "path": "star",
+              "attachmentName": "star",
+              "transform": [
+                0,
+                0,
+                1,
+                1,
+                0,
+                76,
+                72
+              ],
+              "color": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "offset": [
+                -38,
+                -36,
+                -38,
+                36,
+                38,
+                36,
+                38,
+                -36
+              ],
+              "uvs": [
+                0.00390625,
+                0.2890625,
+                0.00390625,
+                0.0078125,
+                0.15234375,
+                0.0078125,
+                0.15234375,
+                0.2890625
+              ]
+            },
+            {
+              "slotIndex": 6,
+              "name": "star",
+              "path": "star",
+              "attachmentName": "star",
+              "transform": [
+                0,
+                0,
+                1,
+                1,
+                0,
+                76,
+                72
+              ],
+              "color": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "offset": [
+                -38,
+                -36,
+                -38,
+                36,
+                38,
+                36,
+                38,
+                -36
+              ],
+              "uvs": [
+                0.00390625,
+                0.2890625,
+                0.00390625,
+                0.0078125,
+                0.15234375,
+                0.0078125,
+                0.15234375,
+                0.2890625
+              ]
+            },
+            {
+              "slotIndex": 7,
+              "name": "star",
+              "path": "star",
+              "attachmentName": "star",
+              "transform": [
+                0,
+                0,
+                1,
+                1,
+                0,
+                76,
+                72
+              ],
+              "color": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "offset": [
+                -38,
+                -36,
+                -38,
+                36,
+                38,
+                36,
+                38,
+                -36
+              ],
+              "uvs": [
+                0.00390625,
+                0.2890625,
+                0.00390625,
+                0.0078125,
+                0.15234375,
+                0.0078125,
+                0.15234375,
+                0.2890625
+              ]
+            },
+            {
+              "slotIndex": 8,
+              "name": "star",
+              "path": "star",
+              "attachmentName": "star",
+              "transform": [
+                0,
+                0,
+                1,
+                1,
+                0,
+                76,
+                72
+              ],
+              "color": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "offset": [
+                -38,
+                -36,
+                -38,
+                36,
+                38,
+                36,
+                38,
+                -36
+              ],
+              "uvs": [
+                0.00390625,
+                0.2890625,
+                0.00390625,
+                0.0078125,
+                0.15234375,
+                0.0078125,
+                0.15234375,
+                0.2890625
+              ]
+            },
+            {
+              "slotIndex": 9,
+              "name": "star",
+              "path": "star",
+              "attachmentName": "star",
+              "transform": [
+                0,
+                0,
+                1,
+                1,
+                0,
+                76,
+                72
+              ],
+              "color": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "offset": [
+                -38,
+                -36,
+                -38,
+                36,
+                38,
+                36,
+                38,
+                -36
+              ],
+              "uvs": [
+                0.00390625,
+                0.2890625,
+                0.00390625,
+                0.0078125,
+                0.15234375,
+                0.0078125,
+                0.15234375,
+                0.2890625
+              ]
+            },
+            {
+              "slotIndex": 10,
+              "name": "star",
+              "path": "star",
+              "attachmentName": "star",
+              "transform": [
+                0,
+                0,
+                1,
+                1,
+                0,
+                76,
+                72
+              ],
+              "color": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "offset": [
+                -38,
+                -36,
+                -38,
+                36,
+                38,
+                36,
+                38,
+                -36
+              ],
+              "uvs": [
+                0.00390625,
+                0.2890625,
+                0.00390625,
+                0.0078125,
+                0.15234375,
+                0.0078125,
+                0.15234375,
+                0.2890625
+              ]
+            },
+            {
+              "slotIndex": 11,
+              "name": "star",
+              "path": "star",
+              "attachmentName": "star",
+              "transform": [
+                0,
+                0,
+                1,
+                1,
+                0,
+                76,
+                72
+              ],
+              "color": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "offset": [
+                -38,
+                -36,
+                -38,
+                36,
+                38,
+                36,
+                38,
+                -36
+              ],
+              "uvs": [
+                0.00390625,
+                0.2890625,
+                0.00390625,
+                0.0078125,
+                0.15234375,
+                0.0078125,
+                0.15234375,
+                0.2890625
+              ]
+            },
+            {
+              "slotIndex": 12,
+              "name": "token",
+              "path": "token",
+              "attachmentName": "token",
+              "transform": [
+                1.1856727600097656,
+                1.812469482421875,
+                1,
+                1,
+                0,
+                123,
+                122
+              ],
+              "color": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "offset": [
+                -60.314327239990234,
+                -59.187530517578125,
+                -60.314327239990234,
+                62.812469482421875,
+                62.685672760009766,
+                62.812469482421875,
+                62.685672760009766,
+                -59.187530517578125
+              ],
+              "uvs": [
+                0.275390625,
+                0.8828125,
+                0.275390625,
+                0.40625,
+                0.515625,
+                0.40625,
+                0.515625,
+                0.8828125
+              ]
+            }
+          ]
+        }
+      ],
+      "animations": [
+        {
+          "name": "bounce",
+          "duration": 1.4000000953674316,
+          "timelines": [
+            {
+              "kind": "RGBATimeline",
+              "owner": 2,
+              "frames": [
+                0,
+                1,
+                1,
+                1,
+                0,
+                0.5666667222976685,
+                1,
+                1,
+                1,
+                1,
+                0.7000000476837158,
+                1,
+                1,
+                1,
+                0
+              ],
+              "curves": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RGBATimeline",
+              "owner": 3,
+              "frames": [
+                0.2666666805744171,
+                1,
+                0.9764705896377563,
+                0.9647058844566345,
+                0,
+                0.8333333730697632,
+                1,
+                1,
+                1,
+                1,
+                0.9666666984558105,
+                1,
+                0.9411764740943909,
+                0.9490196108818054,
+                0
+              ],
+              "curves": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RGBATimeline",
+              "owner": 4,
+              "frames": [
+                0.13333334028720856,
+                1,
+                1,
+                1,
+                0,
+                0.7000000476837158,
+                1,
+                1,
+                1,
+                1,
+                0.8333333730697632,
+                1,
+                1,
+                1,
+                0
+              ],
+              "curves": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RGBATimeline",
+              "owner": 5,
+              "frames": [
+                0.4333333671092987,
+                1,
+                1,
+                1,
+                0,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1.133333444595337,
+                1,
+                1,
+                1,
+                0
+              ],
+              "curves": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RGBATimeline",
+              "owner": 6,
+              "frames": [
+                0.6333333849906921,
+                1,
+                1,
+                1,
+                0,
+                1.2000000476837158,
+                1,
+                1,
+                1,
+                1,
+                1.3333333730697632,
+                1,
+                1,
+                1,
+                0
+              ],
+              "curves": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RGBATimeline",
+              "owner": 7,
+              "frames": [
+                0,
+                1,
+                1,
+                1,
+                0.6196078658103943,
+                0.23333334922790527,
+                1,
+                1,
+                1,
+                1,
+                0.36666667461395264,
+                1,
+                1,
+                1,
+                0,
+                1.0666667222976685,
+                1,
+                1,
+                1,
+                0,
+                1.4000000953674316,
+                1,
+                1,
+                1,
+                0.6196078658103943
+              ],
+              "curves": [
+                0,
+                0,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RGBATimeline",
+              "owner": 8,
+              "frames": [
+                0,
+                1,
+                1,
+                1,
+                1,
+                0.2666666805744171,
+                1,
+                1,
+                1,
+                1,
+                0.4333333671092987,
+                1,
+                1,
+                1,
+                0,
+                1.3000000715255737,
+                1,
+                1,
+                1,
+                0,
+                1.4000000953674316,
+                1,
+                1,
+                1,
+                1
+              ],
+              "curves": [
+                1,
+                0,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RGBATimeline",
+              "owner": 9,
+              "frames": [
+                0.6666666865348816,
+                1,
+                1,
+                1,
+                0,
+                1.2333333492279053,
+                1,
+                1,
+                1,
+                1,
+                1.3666667938232422,
+                1,
+                1,
+                1,
+                0
+              ],
+              "curves": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RGBATimeline",
+              "owner": 10,
+              "frames": [
+                0,
+                1,
+                1,
+                1,
+                0.7450980544090271,
+                0.13333334028720856,
+                1,
+                1,
+                1,
+                1,
+                0.2666666805744171,
+                1,
+                1,
+                1,
+                0,
+                0.9666666984558105,
+                1,
+                1,
+                1,
+                0,
+                1.4000000953674316,
+                1,
+                1,
+                1,
+                0.7450980544090271
+              ],
+              "curves": [
+                0,
+                0,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RGBATimeline",
+              "owner": 11,
+              "frames": [
+                0,
+                1,
+                1,
+                1,
+                1,
+                0.13333334028720856,
+                1,
+                1,
+                1,
+                0,
+                0.8333333730697632,
+                1,
+                1,
+                1,
+                0,
+                1.4000000953674316,
+                1,
+                1,
+                1,
+                1
+              ],
+              "curves": [
+                0,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RotateTimeline",
+              "owner": 6,
+              "frames": [
+                0,
+                28.259929656982422,
+                0.7000000476837158,
+                -42.08269119262695
+              ],
+              "curves": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "TranslateTimeline",
+              "owner": 6,
+              "frames": [
+                0,
+                3.0994415283203125e-06,
+                36.08795166015625,
+                0.7000000476837158,
+                86.68010711669922,
+                68.3200912475586
+              ],
+              "curves": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "ScaleTimeline",
+              "owner": 6,
+              "frames": [
+                0,
+                0.4391971826553345,
+                0.4391971826553345,
+                0.7000000476837158,
+                1,
+                1
+              ],
+              "curves": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RotateTimeline",
+              "owner": 7,
+              "frames": [
+                0.2666666805744171,
+                13.372735977172852,
+                0.9666666984558105,
+                89.61485290527344
+              ],
+              "curves": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "TranslateTimeline",
+              "owner": 7,
+              "frames": [
+                0.2666666805744171,
+                -1.1000022888183594,
+                -32.141990661621094,
+                0.9666666984558105,
+                48.31391906738281,
+                -143.1239013671875
+              ],
+              "curves": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "ScaleTimeline",
+              "owner": 7,
+              "frames": [
+                0.2666666805744171,
+                0.3919999599456787,
+                0.3919999599456787,
+                0.9666666984558105,
+                0.8157124519348145,
+                0.8157124519348145
+              ],
+              "curves": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RotateTimeline",
+              "owner": 8,
+              "frames": [
+                0.13333334028720856,
+                -42.675804138183594,
+                0.8333333730697632,
+                88.41376495361328
+              ],
+              "curves": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "TranslateTimeline",
+              "owner": 8,
+              "frames": [
+                0.13333334028720856,
+                -20.623096466064453,
+                -2.9260330200195312,
+                0.8333333730697632,
+                -57.859981536865234,
+                -97.40192413330078
+              ],
+              "curves": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "ScaleTimeline",
+              "owner": 8,
+              "frames": [
+                0.13333334028720856,
+                0.21156585216522217,
+                0.21156585216522217,
+                0.8333333730697632,
+                0.6525436639785767,
+                0.6525436639785767
+              ],
+              "curves": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RotateTimeline",
+              "owner": 9,
+              "frames": [
+                0.4333333671092987,
+                57.71680450439453,
+                1.133333444595337,
+                -105.15364837646484
+              ],
+              "curves": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "TranslateTimeline",
+              "owner": 9,
+              "frames": [
+                0.4333333671092987,
+                0.7101001739501953,
+                -21.169044494628906,
+                1.133333444595337,
+                64.78995513916016,
+                121.95198059082031
+              ],
+              "curves": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "ScaleTimeline",
+              "owner": 9,
+              "frames": [
+                0.4333333671092987,
+                0.24071002006530762,
+                0.24071002006530762,
+                1.133333444595337,
+                0.7764313220977783,
+                0.7764313220977783
+              ],
+              "curves": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RotateTimeline",
+              "owner": 10,
+              "frames": [
+                0.6333333849906921,
+                37.65724563598633,
+                1.3333333730697632,
+                -102.15908813476562
+              ],
+              "curves": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "TranslateTimeline",
+              "owner": 10,
+              "frames": [
+                0.6333333849906921,
+                13.079917907714844,
+                26.831954956054688,
+                1.3333333730697632,
+                -0.9900283813476562,
+                82.82394409179688
+              ],
+              "curves": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "ScaleTimeline",
+              "owner": 10,
+              "frames": [
+                0.6333333849906921,
+                0.2756335735321045,
+                0.2756335735321045,
+                1.3333333730697632,
+                1.081191062927246,
+                1.081191062927246
+              ],
+              "curves": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RotateTimeline",
+              "owner": 11,
+              "frames": [
+                0,
+                -43.25914001464844,
+                0.36666667461395264,
+                -41.2995719909668,
+                1.0666667222976685,
+                -47.17826843261719,
+                1.4000000953674316,
+                -43.25914001464844
+              ],
+              "curves": [
+                0,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "TranslateTimeline",
+              "owner": 11,
+              "frames": [
+                0,
+                -38.952354431152344,
+                40.55577850341797,
+                0.36666667461395264,
+                -51.509517669677734,
+                79.27716827392578,
+                1.0666667222976685,
+                -13.838050842285156,
+                -36.886940002441406,
+                1.4000000953674316,
+                -38.952354431152344,
+                40.55577850341797
+              ],
+              "curves": [
+                0,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "ScaleTimeline",
+              "owner": 11,
+              "frames": [
+                0,
+                0.43072745203971863,
+                0.43072745203971863,
+                0.36666667461395264,
+                0.47580093145370483,
+                0.47580093145370483,
+                1.0666667222976685,
+                0.3405805826187134,
+                0.3405805826187134,
+                1.4000000953674316,
+                0.43072745203971863,
+                0.43072745203971863
+              ],
+              "curves": [
+                0,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RotateTimeline",
+              "owner": 12,
+              "frames": [
+                0,
+                20.902328491210938,
+                0.4333333671092987,
+                -73.06694793701172,
+                1.3000000715255737,
+                42.587547302246094,
+                1.4000000953674316,
+                20.902328491210938
+              ],
+              "curves": [
+                0,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "TranslateTimeline",
+              "owner": 12,
+              "frames": [
+                0,
+                0.4215679168701172,
+                84.54087829589844,
+                0.4333333671092987,
+                -28.903884887695312,
+                184.89187622070312,
+                1.3000000715255737,
+                7.1889801025390625,
+                61.382957458496094,
+                1.4000000953674316,
+                0.4215679168701172,
+                84.54087829589844
+              ],
+              "curves": [
+                0,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "ScaleTimeline",
+              "owner": 12,
+              "frames": [
+                0,
+                0.3643868863582611,
+                0.3643868863582611,
+                0.4333333671092987,
+                0.9559497833251953,
+                0.9559497833251953,
+                1.3000000715255737,
+                0.22787237167358398,
+                0.22787237167358398,
+                1.4000000953674316,
+                0.3643868863582611,
+                0.3643868863582611
+              ],
+              "curves": [
+                0,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RotateTimeline",
+              "owner": 13,
+              "frames": [
+                0.6666666865348816,
+                41.11795425415039,
+                1.3666667938232422,
+                -89.84724426269531
+              ],
+              "curves": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "TranslateTimeline",
+              "owner": 13,
+              "frames": [
+                0.6666666865348816,
+                30.78692626953125,
+                81.4239501953125,
+                1.3666667938232422,
+                -67.7999267578125,
+                -68.56005859375
+              ],
+              "curves": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "ScaleTimeline",
+              "owner": 13,
+              "frames": [
+                0.6666666865348816,
+                0.2586630582809448,
+                0.2586630582809448,
+                1.3666667938232422,
+                0.9992318153381348,
+                0.9992318153381348
+              ],
+              "curves": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RotateTimeline",
+              "owner": 15,
+              "frames": [
+                0,
+                49.480411529541016,
+                0.13333334028720856,
+                71.8930435180664,
+                0.8333333730697632,
+                -40.17011260986328,
+                1.4000000953674316,
+                49.48041534423828
+              ],
+              "curves": [
+                0,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "TranslateTimeline",
+              "owner": 15,
+              "frames": [
+                0,
+                -78.75200653076172,
+                77.18399047851562,
+                0.13333334028720856,
+                -98.44000244140625,
+                96.47998809814453,
+                0.8333333730697632,
+                16.036956787109375,
+                35.391944885253906,
+                1.4000000953674316,
+                -78.75200653076172,
+                77.18399047851562
+              ],
+              "curves": [
+                0,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "ScaleTimeline",
+              "owner": 15,
+              "frames": [
+                0,
+                0.7725623846054077,
+                0.7725623846054077,
+                0.13333334028720856,
+                0.910205602645874,
+                0.910205602645874,
+                0.8333333730697632,
+                0.22198939323425293,
+                0.22198939323425293,
+                1.4000000953674316,
+                0.7725623846054077,
+                0.7725623846054077
+              ],
+              "curves": [
+                0,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RotateTimeline",
+              "owner": 14,
+              "frames": [
+                0,
+                -60.178714752197266,
+                0.2666666805744171,
+                -109.83793640136719,
+                0.9666666984558105,
+                14.31011962890625,
+                1.4000000953674316,
+                -60.1787109375
+              ],
+              "curves": [
+                0,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "TranslateTimeline",
+              "owner": 14,
+              "frames": [
+                0,
+                44.63998031616211,
+                -41.66399383544922,
+                0.2666666805744171,
+                74.39996337890625,
+                -69.43998718261719,
+                0.9666666984558105,
+                -6.6359710693359375,
+                -25.437957763671875,
+                1.4000000953674316,
+                44.63998031616211,
+                -41.66399383544922
+              ],
+              "curves": [
+                0,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "ScaleTimeline",
+              "owner": 14,
+              "frames": [
+                0,
+                0.45247018337249756,
+                0.45247018337249756,
+                0.2666666805744171,
+                0.6721088886260986,
+                0.6721088886260986,
+                0.9666666984558105,
+                0.12301218509674072,
+                0.12301218509674072,
+                1.4000000953674316,
+                0.45247018337249756,
+                0.45247018337249756
+              ],
+              "curves": [
+                0,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "TranslateTimeline",
+              "owner": 2,
+              "frames": [
+                0,
+                -2.384185791015625e-06,
+                53.29994201660156,
+                0.40000003576278687,
+                0.674203634262085,
+                -102.2693862915039,
+                0.7000000476837158,
+                -2.384185791015625e-06,
+                53.29994201660156,
+                1.100000023841858,
+                -1.8029546737670898,
+                -105.32142639160156,
+                1.4000000953674316,
+                -2.384185791015625e-06,
+                53.29994201660156
+              ],
+              "curves": [
+                7,
+                43,
+                79,
+                115,
+                1,
+                0.06283973902463913,
+                0.01887538470327854,
+                0.11787020415067673,
+                0.07011504471302032,
+                0.16611656546592712,
+                0.14562611281871796,
+                0.20860399305820465,
+                0.23731812834739685,
+                0.24635763466358185,
+                0.337100625038147,
+                0.28040266036987305,
+                0.4368831217288971,
+                0.31176427006721497,
+                0.5285751223564148,
+                0.34146755933761597,
+                0.6040862202644348,
+                0.37053778767585754,
+                0.6553258895874023,
+                0.06283973902463913,
+                48.944000244140625,
+                0.11787020415067673,
+                37.120731353759766,
+                0.16611656546592712,
+                19.69696617126465,
+                0.20860399305820465,
+                -1.4604637622833252,
+                0.24635763466358185,
+                -24.484724044799805,
+                0.28040266036987305,
+                -47.50898742675781,
+                0.31176427006721497,
+                -68.66641235351562,
+                0.34146755933761597,
+                -86.09017944335938,
+                0.37053778767585754,
+                -97.91344451904297,
+                0.436991423368454,
+                0.6550252437591553,
+                0.4663417339324951,
+                0.603611171245575,
+                0.49033376574516296,
+                0.5280295610427856,
+                0.5112503170967102,
+                0.43634867668151855,
+                0.5313741564750671,
+                0.3366367220878601,
+                0.5529881119728088,
+                0.23696185648441315,
+                0.5783748626708984,
+                0.1453922986984253,
+                0.6098172664642334,
+                0.06999628245830536,
+                0.6495980620384216,
+                0.018841983750462532,
+                0.436991423368454,
+                -97.84407806396484,
+                0.4663417339324951,
+                -85.98056030273438,
+                0.49033376574516296,
+                -68.54052734375,
+                0.5112503170967102,
+                -47.38566970825195,
+                0.5313741564750671,
+                -24.37767791748047,
+                0.5529881119728088,
+                -1.3782497644424438,
+                0.5783748626708984,
+                19.750919342041016,
+                0.6098172664642334,
+                37.148136138916016,
+                0.6495980620384216,
+                48.95170974731445,
+                0.7628397941589355,
+                -0.050485048443078995,
+                0.8178702592849731,
+                -0.1875094175338745,
+                0.8661166429519653,
+                -0.3894400894641876,
+                0.9086040258407593,
+                -0.6346415877342224,
+                0.9463576674461365,
+                -0.9014785289764404,
+                0.9804027080535889,
+                -1.1683154106140137,
+                1.0117642879486084,
+                -1.4135169982910156,
+                1.041467547416687,
+                -1.6154476404190063,
+                1.070537805557251,
+                -1.7524720430374146,
+                0.7628397941589355,
+                48.858543395996094,
+                0.8178702592849731,
+                36.80331802368164,
+                0.8661166429519653,
+                19.03772735595703,
+                0.9086040258407593,
+                -2.5347795486450195,
+                0.9463576674461365,
+                -26.0107421875,
+                0.9804027080535889,
+                -49.4867057800293,
+                1.0117642879486084,
+                -71.05921173095703,
+                1.041467547416687,
+                -88.8248062133789,
+                1.070537805557251,
+                -100.8800277709961,
+                1.130393385887146,
+                -1.7090622186660767,
+                1.1559152603149414,
+                -1.5468494892120361,
+                1.1783597469329834,
+                -1.3347362279891968,
+                1.1995205879211426,
+                -1.0911425352096558,
+                1.2211921215057373,
+                -0.8344881534576416,
+                1.2451683282852173,
+                -0.5831929445266724,
+                1.2732431888580322,
+                -0.35567691922187805,
+                1.3072106838226318,
+                -0.17035987973213196,
+                1.348865032196045,
+                -0.04566174000501633,
+                1.130393385887146,
+                -97.0608901977539,
+                1.1559152603149414,
+                -82.78962707519531,
+                1.1783597469329834,
+                -64.12818145751953,
+                1.1995205879211426,
+                -42.69712829589844,
+                1.2211921215057373,
+                -20.11701202392578,
+                1.2451683282852173,
+                1.9916050434112549,
+                1.2732431888580322,
+                22.008167266845703,
+                1.3072106838226318,
+                38.31211471557617,
+                1.348865032196045,
+                49.28289031982422
+              ]
+            },
+            {
+              "kind": "RotateTimeline",
+              "owner": 3,
+              "frames": [
+                0,
+                59.353302001953125,
+                0.2666666805744171,
+                -48.87580108642578,
+                0.5666667222976685,
+                68.42127227783203,
+                0.7000000476837158,
+                30.638465881347656,
+                0.9666666984558105,
+                -47.91139221191406,
+                1.2666667699813843,
+                58.69831848144531,
+                1.4000000953674316,
+                59.353302001953125
+              ],
+              "curves": [
+                9,
+                27,
+                45,
+                63,
+                81,
+                99,
+                1,
+                0.02186666801571846,
+                56.3228874206543,
+                0.046933338046073914,
+                48.097476959228516,
+                0.07440000772476196,
+                35.97581481933594,
+                0.10346667468547821,
+                21.25665855407715,
+                0.13333334028720856,
+                5.238750457763672,
+                0.1632000058889389,
+                -10.779156684875488,
+                0.19226667284965515,
+                -25.498313903808594,
+                0.2197333425283432,
+                -37.61997604370117,
+                0.24480001628398895,
+                -45.84538650512695,
+                0.2896931767463684,
+                -45.598731994628906,
+                0.31323620676994324,
+                -36.702674865722656,
+                0.33768323063850403,
+                -23.590364456176758,
+                0.36342164874076843,
+                -7.6645355224609375,
+                0.3908388614654541,
+                9.672079086303711,
+                0.42032232880592346,
+                27.016746520996094,
+                0.4522594213485718,
+                42.966732025146484,
+                0.4870375692844391,
+                56.11930465698242,
+                0.5250442028045654,
+                65.07173156738281,
+                0.5776000618934631,
+                67.36334991455078,
+                0.5901333689689636,
+                64.49185943603516,
+                0.603866696357727,
+                60.26018524169922,
+                0.6184000372886658,
+                55.12172317504883,
+                0.6333333849906921,
+                49.529869079589844,
+                0.6482666730880737,
+                43.93801498413086,
+                0.6628000140190125,
+                38.79955291748047,
+                0.6765333414077759,
+                34.56787872314453,
+                0.6890667080879211,
+                31.69638442993164,
+                0.7218667268753052,
+                28.439069747924805,
+                0.7469334006309509,
+                22.469280242919922,
+                0.7744000554084778,
+                13.671696662902832,
+                0.8034667372703552,
+                2.9889159202575684,
+                0.8333333730697632,
+                -8.636463165283203,
+                0.8632000088691711,
+                -20.261842727661133,
+                0.8922666907310486,
+                -30.944622039794922,
+                0.9197333455085754,
+                -39.74220657348633,
+                0.9448000192642212,
+                -45.711997985839844,
+                0.9896932244300842,
+                -44.93290710449219,
+                1.0132362842559814,
+                -36.8474006652832,
+                1.0376832485198975,
+                -24.92980194091797,
+                1.0634217262268066,
+                -10.455034255981445,
+                1.09083890914917,
+                5.301979064941406,
+                1.120322346687317,
+                21.06631088256836,
+                1.1522594690322876,
+                35.56303405761719,
+                1.1870375871658325,
+                47.51722717285156,
+                1.2250442504882812,
+                55.65396499633789,
+                1.2776000499725342,
+                58.71665954589844,
+                1.2901334762573242,
+                58.76643753051758,
+                1.3038667440414429,
+                58.83979415893555,
+                1.3184001445770264,
+                58.928871154785156,
+                1.3333333730697632,
+                59.02581024169922,
+                1.3482667207717896,
+                59.12274932861328,
+                1.362800121307373,
+                59.21182632446289,
+                1.3765333890914917,
+                59.28518295288086,
+                1.3890668153762817,
+                59.3349609375
+              ]
+            },
+            {
+              "kind": "TranslateTimeline",
+              "owner": 3,
+              "frames": [
+                0,
+                0,
+                0,
+                0.2666666805744171,
+                7.9659576416015625,
+                13.682464599609375,
+                0.46666669845581055,
+                6.4917449951171875,
+                -18.894149780273438,
+                0.7000000476837158,
+                5.1536865234375,
+                18.437240600585938,
+                0.9666666984558105,
+                5.684120178222656,
+                5.737554550170898,
+                1.1666667461395264,
+                3.1437225341796875,
+                -29.599685668945312,
+                1.4000000953674316,
+                0,
+                0
+              ],
+              "curves": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "ShearTimeline",
+              "owner": 3,
+              "frames": [
+                0,
+                -17.066118240356445,
+                0,
+                0.2666666805744171,
+                7.145740509033203,
+                0,
+                0.46666669845581055,
+                7.145740509033203,
+                37.38896179199219,
+                0.7000000476837158,
+                -17.066118240356445,
+                0,
+                0.9666666984558105,
+                7.145740509033203,
+                0,
+                1.1666667461395264,
+                7.145740509033203,
+                37.38896179199219,
+                1.4000000953674316,
+                -17.066118240356445,
+                0
+              ],
+              "curves": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "ScaleTimeline",
+              "owner": 16,
+              "frames": [
+                0,
+                1.2394278049468994,
+                0.7095832824707031,
+                0.13333334028720856,
+                0.8972616195678711,
+                1.1356911659240723,
+                0.3333333432674408,
+                1.3970123529434204,
+                0.6512235403060913,
+                0.46666669845581055,
+                0.8972616195678711,
+                1.1356911659240723,
+                0.7000000476837158,
+                1.2394278049468994,
+                0.7095832824707031,
+                0.8333333730697632,
+                0.8972616195678711,
+                1.1356911659240723,
+                1.033333420753479,
+                1.3970123529434204,
+                0.6512235403060913,
+                1.1666667461395264,
+                0.8972616195678711,
+                1.1356911659240723,
+                1.4000000953674316,
+                1.2394278049468994,
+                0.7095832824707031
+              ],
+              "curves": [
+                11,
+                47,
+                83,
+                119,
+                155,
+                191,
+                227,
+                263,
+                1,
+                0.01901545375585556,
+                1.2294174432754517,
+                0.0362384133040905,
+                1.203163504600525,
+                0.05186755210161209,
+                1.1647400856018066,
+                0.0661015510559082,
+                1.118221402168274,
+                0.07913907617330551,
+                1.0676815509796143,
+                0.09117881208658218,
+                1.0171948671340942,
+                0.10241943597793579,
+                0.970835268497467,
+                0.11305961012840271,
+                0.932677149772644,
+                0.12329801917076111,
+                0.906794548034668,
+                0.01901545375585556,
+                0.7220494151115417,
+                0.0362384133040905,
+                0.7547441124916077,
+                0.05186755210161209,
+                0.8025937080383301,
+                0.0661015510559082,
+                0.8605245351791382,
+                0.07913907617330551,
+                0.923462986946106,
+                0.09117881208658218,
+                0.9863353967666626,
+                0.10241943597793579,
+                1.0440680980682373,
+                0.11305961012840271,
+                1.0915873050689697,
+                0.12329801917076111,
+                1.1238195896148682,
+                0.15047241747379303,
+                0.9049786925315857,
+                0.17116115987300873,
+                0.9269212484359741,
+                0.1943068504333496,
+                0.9612761735916138,
+                0.21881678700447083,
+                1.0062304735183716,
+                0.24359823763370514,
+                1.0599710941314697,
+                0.2675585150718689,
+                1.1206849813461304,
+                0.28960487246513367,
+                1.1865592002868652,
+                0.3086445927619934,
+                1.2557804584503174,
+                0.32358500361442566,
+                1.3265358209609985,
+                0.15047241747379303,
+                1.1282100677490234,
+                0.17116115987300873,
+                1.1069386005401611,
+                0.1943068504333496,
+                1.0736342668533325,
+                0.21881678700447083,
+                1.0300546884536743,
+                0.24359823763370514,
+                0.977957546710968,
+                0.2675585150718689,
+                0.9191003441810608,
+                0.28960487246513367,
+                0.8552407622337341,
+                0.3086445927619934,
+                0.78813636302948,
+                0.32358500361442566,
+                0.7195447683334351,
+                0.3442666828632355,
+                1.3830193281173706,
+                0.35680001974105835,
+                1.3450382947921753,
+                0.3705333471298218,
+                1.289066195487976,
+                0.3850666880607605,
+                1.221100091934204,
+                0.4000000059604645,
+                1.1471370458602905,
+                0.41493335366249084,
+                1.0731738805770874,
+                0.42946669459342957,
+                1.0052077770233154,
+                0.443200021982193,
+                0.9492356777191162,
+                0.45573335886001587,
+                0.9112546443939209,
+                0.3442666828632355,
+                0.6647886633872986,
+                0.35680001974105835,
+                0.7016081809997559,
+                0.3705333471298218,
+                0.7558685541152954,
+                0.3850666880607605,
+                0.82175612449646,
+                0.4000000059604645,
+                0.8934573531150818,
+                0.41493335366249084,
+                0.9651585817337036,
+                0.42946669459342957,
+                1.0310461521148682,
+                0.443200021982193,
+                1.0853065252304077,
+                0.45573335886001587,
+                1.1221261024475098,
+                0.48580002784729004,
+                0.9068422913551331,
+                0.5077333450317383,
+                0.9328469038009644,
+                0.5317667126655579,
+                0.9711695313453674,
+                0.557200014591217,
+                1.0177041292190552,
+                0.5833333730697632,
+                1.0683447122573853,
+                0.6094667315483093,
+                1.1189852952957153,
+                0.6349000334739685,
+                1.1655199527740479,
+                0.6589334011077881,
+                1.2038425207138062,
+                0.6808667182922363,
+                1.2298471927642822,
+                0.48580002784729004,
+                1.1237601041793823,
+                0.5077333450317383,
+                1.0913759469985962,
+                0.5317667126655579,
+                1.043651819229126,
+                0.557200014591217,
+                0.9857012033462524,
+                0.5833333730697632,
+                0.9226372241973877,
+                0.6094667315483093,
+                0.859573245048523,
+                0.6349000334739685,
+                0.8016225695610046,
+                0.6589334011077881,
+                0.7538985013961792,
+                0.6808667182922363,
+                0.7215142846107483,
+                0.7109333872795105,
+                1.2298471927642822,
+                0.723466694355011,
+                1.2038425207138062,
+                0.7372000217437744,
+                1.1655199527740479,
+                0.7517333626747131,
+                1.1189852952957153,
+                0.7666667103767395,
+                1.0683447122573853,
+                0.7816000580787659,
+                1.0177041292190552,
+                0.7961333990097046,
+                0.9711695313453674,
+                0.809866726398468,
+                0.9328469038009644,
+                0.8224000334739685,
+                0.9068422913551331,
+                0.7109333872795105,
+                0.7215142846107483,
+                0.723466694355011,
+                0.7538985013961792,
+                0.7372000217437744,
+                0.8016225695610046,
+                0.7517333626747131,
+                0.859573245048523,
+                0.7666667103767395,
+                0.9226372241973877,
+                0.7816000580787659,
+                0.9857012033462524,
+                0.7961333990097046,
+                1.043651819229126,
+                0.809866726398468,
+                1.0913759469985962,
+                0.8224000334739685,
+                1.1237601041793823,
+                0.8504724502563477,
+                0.9049786925315857,
+                0.871161162853241,
+                0.9269212484359741,
+                0.8943068981170654,
+                0.9612761735916138,
+                0.9188168048858643,
+                1.0062304735183716,
+                0.9435982704162598,
+                1.0599710941314697,
+                0.9675585627555847,
+                1.1206849813461304,
+                0.9896048903465271,
+                1.1865592002868652,
+                1.008644700050354,
+                1.2557804584503174,
+                1.0235850811004639,
+                1.3265358209609985,
+                0.8504724502563477,
+                1.1282100677490234,
+                0.871161162853241,
+                1.1069386005401611,
+                0.8943068981170654,
+                1.0736342668533325,
+                0.9188168048858643,
+                1.0300546884536743,
+                0.9435982704162598,
+                0.977957546710968,
+                0.9675585627555847,
+                0.9191003441810608,
+                0.9896048903465271,
+                0.8552407622337341,
+                1.008644700050354,
+                0.78813636302948,
+                1.0235850811004639,
+                0.7195447683334351,
+                1.044266700744629,
+                1.3830193281173706,
+                1.056800127029419,
+                1.3450382947921753,
+                1.0705333948135376,
+                1.289066195487976,
+                1.085066795349121,
+                1.221100091934204,
+                1.100000023841858,
+                1.1471370458602905,
+                1.1149333715438843,
+                1.0731738805770874,
+                1.1294667720794678,
+                1.0052077770233154,
+                1.1432000398635864,
+                0.9492356777191162,
+                1.1557334661483765,
+                0.9112546443939209,
+                1.044266700744629,
+                0.6647886633872986,
+                1.056800127029419,
+                0.7016081809997559,
+                1.0705333948135376,
+                0.7558685541152954,
+                1.085066795349121,
+                0.82175612449646,
+                1.100000023841858,
+                0.8934573531150818,
+                1.1149333715438843,
+                0.9651585817337036,
+                1.1294667720794678,
+                1.0310461521148682,
+                1.1432000398635864,
+                1.0853065252304077,
+                1.1557334661483765,
+                1.1221261024475098,
+                1.1858000755310059,
+                0.9068422913551331,
+                1.207733392715454,
+                0.9328469038009644,
+                1.231766700744629,
+                0.9711695313453674,
+                1.257200002670288,
+                1.0177041292190552,
+                1.283333420753479,
+                1.0683447122573853,
+                1.3094667196273804,
+                1.1189852952957153,
+                1.3349000215530396,
+                1.1655199527740479,
+                1.358933448791504,
+                1.2038425207138062,
+                1.3808667659759521,
+                1.2298471927642822,
+                1.1858000755310059,
+                1.1237601041793823,
+                1.207733392715454,
+                1.0913759469985962,
+                1.231766700744629,
+                1.043651819229126,
+                1.257200002670288,
+                0.9857012033462524,
+                1.283333420753479,
+                0.9226372241973877,
+                1.3094667196273804,
+                0.859573245048523,
+                1.3349000215530396,
+                0.8016225695610046,
+                1.358933448791504,
+                0.7538985013961792,
+                1.3808667659759521,
+                0.7215142846107483
+              ]
+            },
+            {
+              "kind": "RotateTimeline",
+              "owner": 4,
+              "frames": [
+                0,
+                -56.550682067871094,
+                0.2666666805744171,
+                53.04856872558594,
+                0.5666667222976685,
+                -61.677581787109375,
+                0.7000000476837158,
+                -41.60881805419922,
+                0.9666666984558105,
+                46.33850860595703,
+                1.2666667699813843,
+                -72.5174789428711,
+                1.4000000953674316,
+                -56.550682067871094
+              ],
+              "curves": [
+                9,
+                27,
+                45,
+                63,
+                81,
+                99,
+                1,
+                0.02186666801571846,
+                -53.481903076171875,
+                0.046933338046073914,
+                -45.15235900878906,
+                0.07440000772476196,
+                -32.87724304199219,
+                0.10346667468547821,
+                -17.97174644470215,
+                0.13333334028720856,
+                -1.7510566711425781,
+                0.1632000058889389,
+                14.469632148742676,
+                0.19226667284965515,
+                29.37512969970703,
+                0.2197333425283432,
+                41.650245666503906,
+                0.24480001628398895,
+                49.97978973388672,
+                0.2896931767463684,
+                49.843326568603516,
+                0.31323620676994324,
+                41.14225387573242,
+                0.33768323063850403,
+                28.317338943481445,
+                0.36342164874076843,
+                12.74057388305664,
+                0.3908388614654541,
+                -4.216055870056152,
+                0.42032232880592346,
+                -21.180561065673828,
+                0.4522594213485718,
+                -36.78095626831055,
+                0.4870375692844391,
+                -49.64524841308594,
+                0.5250442028045654,
+                -58.40145492553711,
+                0.5776000618934631,
+                -61.115657806396484,
+                0.5901333689689636,
+                -59.590431213378906,
+                0.603866696357727,
+                -57.34272766113281,
+                0.6184000372886658,
+                -54.61337661743164,
+                0.6333333849906921,
+                -51.6431999206543,
+                0.6482666730880737,
+                -48.67302322387695,
+                0.6628000140190125,
+                -45.94367218017578,
+                0.6765333414077759,
+                -43.69596862792969,
+                0.6890667080879211,
+                -42.17074203491211,
+                0.7218667268753052,
+                -39.14629364013672,
+                0.7469334006309509,
+                -32.46229553222656,
+                0.7744000554084778,
+                -22.61219596862793,
+                0.8034667372703552,
+                -10.651359558105469,
+                0.8333333730697632,
+                2.3648452758789062,
+                0.8632000088691711,
+                15.381049156188965,
+                0.8922666907310486,
+                27.341886520385742,
+                0.9197333455085754,
+                37.191986083984375,
+                0.9448000192642212,
+                43.87598419189453,
+                0.9896932244300842,
+                43.01788330078125,
+                1.0132362842559814,
+                34.003597259521484,
+                1.0376832485198975,
+                20.71702003479004,
+                1.0634217262268066,
+                4.579531192779541,
+                1.09083890914917,
+                -12.987492561340332,
+                1.120322346687317,
+                -30.56267547607422,
+                1.1522594690322876,
+                -46.72464370727539,
+                1.1870375871658325,
+                -60.05201721191406,
+                1.2250442504882812,
+                -69.12342071533203,
+                1.2776000499725342,
+                -72.0704116821289,
+                1.2901334762573242,
+                -70.85693359375,
+                1.3038667440414429,
+                -69.06864929199219,
+                1.3184001445770264,
+                -66.89716339111328,
+                1.3333333730697632,
+                -64.5340805053711,
+                1.3482667207717896,
+                -62.17099380493164,
+                1.362800121307373,
+                -59.99951171875,
+                1.3765333890914917,
+                -58.21122741699219,
+                1.3890668153762817,
+                -56.99775314331055
+              ]
+            },
+            {
+              "kind": "TranslateTimeline",
+              "owner": 4,
+              "frames": [
+                0,
+                0,
+                0,
+                0.2666666805744171,
+                -7.748817443847656,
+                13.806598663330078,
+                0.46666669845581055,
+                -9.2230224609375,
+                -18.770030975341797,
+                0.7000000476837158,
+                -0.7056045532226562,
+                23.374347686767578,
+                0.9666666984558105,
+                -10.0306396484375,
+                5.861873626708984,
+                1.1666667461395264,
+                -12.571037292480469,
+                -29.475215911865234,
+                1.4000000953674316,
+                0,
+                0
+              ],
+              "curves": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "ShearTimeline",
+              "owner": 4,
+              "frames": [
+                0,
+                14.261357307434082,
+                0,
+                0.2666666805744171,
+                -9.432199478149414,
+                0,
+                0.46666669845581055,
+                -12.097797393798828,
+                -35.72712707519531,
+                0.7000000476837158,
+                15.014756202697754,
+                0,
+                0.9666666984558105,
+                -9.432199478149414,
+                0,
+                1.1666667461395264,
+                -12.097797393798828,
+                -24.700294494628906,
+                1.4000000953674316,
+                14.261357307434082,
+                0
+              ],
+              "curves": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RotateTimeline",
+              "owner": 1,
+              "frames": [
+                0,
+                8.794166564941406,
+                0.3333333432674408,
+                1.0862102508544922,
+                0.7000000476837158,
+                -15.723943710327148,
+                1.033333420753479,
+                1.0862102508544922,
+                1.4000000953674316,
+                8.794166564941406
+              ],
+              "curves": [
+                7,
+                25,
+                43,
+                61,
+                1,
+                0.0273333340883255,
+                8.578343391418457,
+                0.058666668832302094,
+                7.992538928985596,
+                0.09300000220537186,
+                7.129248142242432,
+                0.12933333218097687,
+                6.080965995788574,
+                0.1666666716337204,
+                4.940188407897949,
+                0.20399999618530273,
+                3.799410820007324,
+                0.24033333361148834,
+                2.751128911972046,
+                0.2746666669845581,
+                1.8878377676010132,
+                0.3059999942779541,
+                1.3020330667495728,
+                0.36340001225471497,
+                0.6155259609222412,
+                0.3978666663169861,
+                -0.6620457768440247,
+                0.4356333315372467,
+                -2.544783115386963,
+                0.475600004196167,
+                -4.830964088439941,
+                0.5166667103767395,
+                -7.318866729736328,
+                0.5577333569526672,
+                -9.806769371032715,
+                0.5976999998092651,
+                -12.092950820922852,
+                0.6354666948318481,
+                -13.975687980651855,
+                0.6699333786964417,
+                -15.253259658813477,
+                0.7273333668708801,
+                -15.253259658813477,
+                0.7586666941642761,
+                -13.975687980651855,
+                0.7930000424385071,
+                -12.092950820922852,
+                0.8293333649635315,
+                -9.806769371032715,
+                0.8666667342185974,
+                -7.318866729736328,
+                0.9040000438690186,
+                -4.830964088439941,
+                0.940333366394043,
+                -2.544783115386963,
+                0.9746667146682739,
+                -0.6620457768440247,
+                1.00600004196167,
+                0.6155259609222412,
+                1.0634000301361084,
+                1.3020330667495728,
+                1.0978667736053467,
+                1.8878376483917236,
+                1.1356333494186401,
+                2.751128911972046,
+                1.1756000518798828,
+                3.799410820007324,
+                1.2166666984558105,
+                4.940188407897949,
+                1.2577333450317383,
+                6.080965995788574,
+                1.297700047492981,
+                7.129248142242432,
+                1.335466742515564,
+                7.992538928985596,
+                1.3699333667755127,
+                8.578343391418457
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "decoder_poses": {
+    "readerSuccess": true,
+    "animationEvaluation": true,
+    "runtime": "@esotericsoftware/spine-core@4.2.43",
+    "runtimeReaderSha256": "83efaec2af4cbc7538f83ca436f921741c027f26f3dd44c98fada3e5139ba250",
+    "jsonSha256": "6b9373a8508349365d0d37d62f8c286788b9e0ef68c1ddda4e892f8d0e3b25fe",
+    "binarySha256": "0e739e50f3e44e8bacd481649a8e9deee3ed3722c4813ba673f1a862dbc65d0b",
+    "atlasSha256": "7e4c3a8a7a99a7d5e21f67010fb1ac6c25560ee4f4327489817356626edf7cb1",
+    "exportVersion": "4.2.22",
+    "animations": [
+      {
+        "name": "bounce",
+        "duration": 1.4000000953674316,
+        "timelines": 49
+      }
+    ],
+    "samples": 42,
+    "comparisons": 10837,
+    "maximumError": 0
+  },
+  "encoder_binary_derived_input_only": {
+    "runtime": "@esotericsoftware/spine-core@4.2.43",
+    "runtimeReaderSha256": "83efaec2af4cbc7538f83ca436f921741c027f26f3dd44c98fada3e5139ba250",
+    "binarySha256": "0e739e50f3e44e8bacd481649a8e9deee3ed3722c4813ba673f1a862dbc65d0b",
+    "atlasSha256": "7e4c3a8a7a99a7d5e21f67010fb1ac6c25560ee4f4327489817356626edf7cb1",
+    "inventory": {
+      "version": "4.2.22",
+      "bones": 17,
+      "slots": 13,
+      "skins": [
+        "default"
+      ],
+      "attachments": {
+        "RegionAttachment": 13
+      },
+      "constraints": {
+        "ik": 0,
+        "transform": 0,
+        "path": 0,
+        "physics": 0
+      },
+      "animations": [
+        {
+          "name": "bounce",
+          "duration": 1.4000000953674316
+        }
+      ],
+      "timelines": {
+        "RGBATimeline": 10,
+        "RotateTimeline": 13,
+        "ScaleTimeline": 11,
+        "ShearTimeline": 2,
+        "TranslateTimeline": 13
+      },
+      "keyframes": 182,
+      "meshVertices": 0,
+      "weightedInfluences": 0,
+      "deformFrames": 0,
+      "eventDefinitions": 0,
+      "eventFrames": 0
+    },
+    "semanticCompared": true,
+    "unverified": [
+      "serialized Bezier control handles (runtime exposes evaluated curve tables)",
+      "bone icon and editor visibility (official JSON reader does not expose them)",
+      "binary header hash representation and nonessential metadata",
+      "all attachment, constraint, event and timeline categories not exercised by the restricted comparison"
+    ],
+    "candidateSha256": "62a27a30859a8921039834bca2022b6c6ed5c9dbf5a6abbfda1aa1d96374d2a3",
+    "statistics": {
+      "numeric": 2180,
+      "exact": 207,
+      "maximumError": 0
+    },
+    "reference": {
+      "version": "4.2.22",
+      "bounds": [
+        -207.3000946044922,
+        119.40846252441406,
+        413.18878173828125,
+        195.7115020751953,
+        100
+      ],
+      "bones": [
+        {
+          "name": "root",
+          "parent": null,
+          "setup": [
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "inherit": 0,
+          "skin": false,
+          "color": [
+            0.6078431372549019,
+            0.6078431372549019,
+            0.6078431372549019,
+            1
+          ]
+        },
+        {
+          "name": "powerup",
+          "parent": "root",
+          "setup": [
+            0,
+            1.4835395812988281,
+            134.0238494873047,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "inherit": 0,
+          "skin": false,
+          "color": [
+            0.6078431372549019,
+            0.6078431372549019,
+            0.6078431372549019,
+            1
+          ]
+        },
+        {
+          "name": "token-root",
+          "parent": "powerup",
+          "setup": [
+            0,
+            -0.4748191833496094,
+            56.13520812988281,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "inherit": 0,
+          "skin": false,
+          "color": [
+            0.6078431372549019,
+            0.6078431372549019,
+            0.6078431372549019,
+            1
+          ]
+        },
+        {
+          "name": "left-wing",
+          "parent": "token-root",
+          "setup": [
+            0,
+            -91.06001281738281,
+            7.8004302978515625,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "inherit": 0,
+          "skin": false,
+          "color": [
+            0.6078431372549019,
+            0.6078431372549019,
+            0.6078431372549019,
+            1
+          ]
+        },
+        {
+          "name": "right-wing",
+          "parent": "token-root",
+          "setup": [
+            0,
+            86.82001495361328,
+            7.12042236328125,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "inherit": 0,
+          "skin": false,
+          "color": [
+            0.6078431372549019,
+            0.6078431372549019,
+            0.6078431372549019,
+            1
+          ]
+        },
+        {
+          "name": "stars",
+          "parent": "root",
+          "setup": [
+            0,
+            1.2282485961914062,
+            191.25474548339844,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "inherit": 0,
+          "skin": false,
+          "color": [
+            0.6078431372549019,
+            0.6078431372549019,
+            0.6078431372549019,
+            1
+          ]
+        },
+        {
+          "name": "star",
+          "parent": "stars",
+          "setup": [
+            0,
+            2.8400344848632812,
+            4.7600250244140625,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "inherit": 0,
+          "skin": false,
+          "color": [
+            0.6078431372549019,
+            0.6078431372549019,
+            0.6078431372549019,
+            1
+          ]
+        },
+        {
+          "name": "star1",
+          "parent": "stars",
+          "setup": [
+            0,
+            -2.199951171875,
+            -2.040008544921875,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "inherit": 0,
+          "skin": false,
+          "color": [
+            0.6078431372549019,
+            0.6078431372549019,
+            0.6078431372549019,
+            1
+          ]
+        },
+        {
+          "name": "star2",
+          "parent": "stars",
+          "setup": [
+            0,
+            -1.3663825988769531,
+            -4.16497802734375,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "inherit": 0,
+          "skin": false,
+          "color": [
+            0.6078431372549019,
+            0.6078431372549019,
+            0.6078431372549019,
+            1
+          ]
+        },
+        {
+          "name": "star3",
+          "parent": "stars",
+          "setup": [
+            0,
+            -0.8403797149658203,
+            -3.7809982299804688,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "inherit": 0,
+          "skin": false,
+          "color": [
+            0.6078431372549019,
+            0.6078431372549019,
+            0.6078431372549019,
+            1
+          ]
+        },
+        {
+          "name": "star4",
+          "parent": "stars",
+          "setup": [
+            0,
+            10.087596893310547,
+            14.529006958007812,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "inherit": 0,
+          "skin": false,
+          "color": [
+            0.6078431372549019,
+            0.6078431372549019,
+            0.6078431372549019,
+            1
+          ]
+        },
+        {
+          "name": "star5",
+          "parent": "stars",
+          "setup": [
+            0,
+            11.503044128417969,
+            -12.286285400390625,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "inherit": 0,
+          "skin": false,
+          "color": [
+            0.6078431372549019,
+            0.6078431372549019,
+            0.6078431372549019,
+            1
+          ]
+        },
+        {
+          "name": "star6",
+          "parent": "stars",
+          "setup": [
+            0,
+            -20.736961364746094,
+            -23.4462890625,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "inherit": 0,
+          "skin": false,
+          "color": [
+            0.6078431372549019,
+            0.6078431372549019,
+            0.6078431372549019,
+            1
+          ]
+        },
+        {
+          "name": "star7",
+          "parent": "stars",
+          "setup": [
+            0,
+            -5.857002258300781,
+            -35.846282958984375,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "inherit": 0,
+          "skin": false,
+          "color": [
+            0.6078431372549019,
+            0.6078431372549019,
+            0.6078431372549019,
+            1
+          ]
+        },
+        {
+          "name": "star8",
+          "parent": "stars",
+          "setup": [
+            0,
+            8.413742065429688,
+            -10.051567077636719,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "inherit": 0,
+          "skin": false,
+          "color": [
+            0.6078431372549019,
+            0.6078431372549019,
+            0.6078431372549019,
+            1
+          ]
+        },
+        {
+          "name": "star9",
+          "parent": "stars",
+          "setup": [
+            0,
+            -1.6239547729492188,
+            -7.344306945800781,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "inherit": 0,
+          "skin": false,
+          "color": [
+            0.6078431372549019,
+            0.6078431372549019,
+            0.6078431372549019,
+            1
+          ]
+        },
+        {
+          "name": "token",
+          "parent": "token-root",
+          "setup": [
+            0,
+            -1.1856727600097656,
+            -1.812469482421875,
+            0,
+            0.7714149951934814,
+            0.7714149951934814,
+            0,
+            0
+          ],
+          "inherit": 0,
+          "skin": false,
+          "color": [
+            0.6078431372549019,
+            0.6078431372549019,
+            0.6078431372549019,
+            1
+          ]
+        }
+      ],
+      "slots": [
+        {
+          "name": "right-wing",
+          "bone": "right-wing",
+          "color": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "dark": null,
+          "attachment": "wing",
+          "blend": 0,
+          "visible": true
+        },
+        {
+          "name": "left-wing",
+          "bone": "left-wing",
+          "color": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "dark": null,
+          "attachment": "wing",
+          "blend": 0,
+          "visible": true
+        },
+        {
+          "name": "star",
+          "bone": "star",
+          "color": [
+            1,
+            1,
+            1,
+            0
+          ],
+          "dark": null,
+          "attachment": "star",
+          "blend": 1,
+          "visible": true
+        },
+        {
+          "name": "star1",
+          "bone": "star1",
+          "color": [
+            1,
+            0.6470588235294118,
+            0.6470588235294118,
+            0
+          ],
+          "dark": null,
+          "attachment": "star",
+          "blend": 1,
+          "visible": true
+        },
+        {
+          "name": "star2",
+          "bone": "star2",
+          "color": [
+            1,
+            1,
+            1,
+            0
+          ],
+          "dark": null,
+          "attachment": "star",
+          "blend": 1,
+          "visible": true
+        },
+        {
+          "name": "star3",
+          "bone": "star3",
+          "color": [
+            1,
+            1,
+            1,
+            0
+          ],
+          "dark": null,
+          "attachment": "star",
+          "blend": 1,
+          "visible": true
+        },
+        {
+          "name": "star4",
+          "bone": "star4",
+          "color": [
+            1,
+            1,
+            1,
+            0
+          ],
+          "dark": null,
+          "attachment": "star",
+          "blend": 1,
+          "visible": true
+        },
+        {
+          "name": "star5",
+          "bone": "star5",
+          "color": [
+            1,
+            1,
+            1,
+            0
+          ],
+          "dark": null,
+          "attachment": "star",
+          "blend": 1,
+          "visible": true
+        },
+        {
+          "name": "star6",
+          "bone": "star6",
+          "color": [
+            1,
+            1,
+            1,
+            0
+          ],
+          "dark": null,
+          "attachment": "star",
+          "blend": 1,
+          "visible": true
+        },
+        {
+          "name": "star7",
+          "bone": "star7",
+          "color": [
+            1,
+            1,
+            1,
+            0
+          ],
+          "dark": null,
+          "attachment": "star",
+          "blend": 1,
+          "visible": true
+        },
+        {
+          "name": "star8",
+          "bone": "star8",
+          "color": [
+            1,
+            1,
+            1,
+            0
+          ],
+          "dark": null,
+          "attachment": "star",
+          "blend": 1,
+          "visible": true
+        },
+        {
+          "name": "star9",
+          "bone": "star9",
+          "color": [
+            1,
+            1,
+            1,
+            0
+          ],
+          "dark": null,
+          "attachment": "star",
+          "blend": 1,
+          "visible": true
+        },
+        {
+          "name": "token",
+          "bone": "token",
+          "color": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "dark": null,
+          "attachment": "token",
+          "blend": 0,
+          "visible": true
+        }
+      ],
+      "skins": [
+        {
+          "name": "default",
+          "attachments": [
+            {
+              "slotIndex": 0,
+              "name": "wing",
+              "path": "wing",
+              "attachmentName": "wing",
+              "transform": [
+                49.559967041015625,
+                42.320037841796875,
+                1,
+                1,
+                0,
+                137,
+                150
+              ],
+              "color": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "offset": [
+                -18.940032958984375,
+                -32.679962158203125,
+                -18.940032958984375,
+                117.32003784179688,
+                118.05996704101562,
+                117.32003784179688,
+                118.05996704101562,
+                -32.679962158203125
+              ],
+              "uvs": [
+                0.00390625,
+                0.8828125,
+                0.00390625,
+                0.296875,
+                0.271484375,
+                0.296875,
+                0.271484375,
+                0.8828125
+              ]
+            },
+            {
+              "slotIndex": 1,
+              "name": "wing",
+              "path": "wing",
+              "attachmentName": "wing",
+              "transform": [
+                -48.74877166748047,
+                42.16046905517578,
+                -1,
+                1,
+                0,
+                137,
+                150
+              ],
+              "color": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "offset": [
+                19.75122833251953,
+                -32.83953094482422,
+                19.75122833251953,
+                117.16046905517578,
+                -117.24877166748047,
+                117.16046905517578,
+                -117.24877166748047,
+                -32.83953094482422
+              ],
+              "uvs": [
+                0.00390625,
+                0.8828125,
+                0.00390625,
+                0.296875,
+                0.271484375,
+                0.296875,
+                0.271484375,
+                0.8828125
+              ]
+            },
+            {
+              "slotIndex": 2,
+              "name": "star",
+              "path": "star",
+              "attachmentName": "star",
+              "transform": [
+                0,
+                0,
+                1,
+                1,
+                0,
+                76,
+                72
+              ],
+              "color": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "offset": [
+                -38,
+                -36,
+                -38,
+                36,
+                38,
+                36,
+                38,
+                -36
+              ],
+              "uvs": [
+                0.00390625,
+                0.2890625,
+                0.00390625,
+                0.0078125,
+                0.15234375,
+                0.0078125,
+                0.15234375,
+                0.2890625
+              ]
+            },
+            {
+              "slotIndex": 3,
+              "name": "star",
+              "path": "star",
+              "attachmentName": "star",
+              "transform": [
+                0,
+                0,
+                1,
+                1,
+                0,
+                76,
+                72
+              ],
+              "color": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "offset": [
+                -38,
+                -36,
+                -38,
+                36,
+                38,
+                36,
+                38,
+                -36
+              ],
+              "uvs": [
+                0.00390625,
+                0.2890625,
+                0.00390625,
+                0.0078125,
+                0.15234375,
+                0.0078125,
+                0.15234375,
+                0.2890625
+              ]
+            },
+            {
+              "slotIndex": 4,
+              "name": "star",
+              "path": "star",
+              "attachmentName": "star",
+              "transform": [
+                0,
+                0,
+                1,
+                1,
+                0,
+                76,
+                72
+              ],
+              "color": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "offset": [
+                -38,
+                -36,
+                -38,
+                36,
+                38,
+                36,
+                38,
+                -36
+              ],
+              "uvs": [
+                0.00390625,
+                0.2890625,
+                0.00390625,
+                0.0078125,
+                0.15234375,
+                0.0078125,
+                0.15234375,
+                0.2890625
+              ]
+            },
+            {
+              "slotIndex": 5,
+              "name": "star",
+              "path": "star",
+              "attachmentName": "star",
+              "transform": [
+                0,
+                0,
+                1,
+                1,
+                0,
+                76,
+                72
+              ],
+              "color": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "offset": [
+                -38,
+                -36,
+                -38,
+                36,
+                38,
+                36,
+                38,
+                -36
+              ],
+              "uvs": [
+                0.00390625,
+                0.2890625,
+                0.00390625,
+                0.0078125,
+                0.15234375,
+                0.0078125,
+                0.15234375,
+                0.2890625
+              ]
+            },
+            {
+              "slotIndex": 6,
+              "name": "star",
+              "path": "star",
+              "attachmentName": "star",
+              "transform": [
+                0,
+                0,
+                1,
+                1,
+                0,
+                76,
+                72
+              ],
+              "color": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "offset": [
+                -38,
+                -36,
+                -38,
+                36,
+                38,
+                36,
+                38,
+                -36
+              ],
+              "uvs": [
+                0.00390625,
+                0.2890625,
+                0.00390625,
+                0.0078125,
+                0.15234375,
+                0.0078125,
+                0.15234375,
+                0.2890625
+              ]
+            },
+            {
+              "slotIndex": 7,
+              "name": "star",
+              "path": "star",
+              "attachmentName": "star",
+              "transform": [
+                0,
+                0,
+                1,
+                1,
+                0,
+                76,
+                72
+              ],
+              "color": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "offset": [
+                -38,
+                -36,
+                -38,
+                36,
+                38,
+                36,
+                38,
+                -36
+              ],
+              "uvs": [
+                0.00390625,
+                0.2890625,
+                0.00390625,
+                0.0078125,
+                0.15234375,
+                0.0078125,
+                0.15234375,
+                0.2890625
+              ]
+            },
+            {
+              "slotIndex": 8,
+              "name": "star",
+              "path": "star",
+              "attachmentName": "star",
+              "transform": [
+                0,
+                0,
+                1,
+                1,
+                0,
+                76,
+                72
+              ],
+              "color": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "offset": [
+                -38,
+                -36,
+                -38,
+                36,
+                38,
+                36,
+                38,
+                -36
+              ],
+              "uvs": [
+                0.00390625,
+                0.2890625,
+                0.00390625,
+                0.0078125,
+                0.15234375,
+                0.0078125,
+                0.15234375,
+                0.2890625
+              ]
+            },
+            {
+              "slotIndex": 9,
+              "name": "star",
+              "path": "star",
+              "attachmentName": "star",
+              "transform": [
+                0,
+                0,
+                1,
+                1,
+                0,
+                76,
+                72
+              ],
+              "color": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "offset": [
+                -38,
+                -36,
+                -38,
+                36,
+                38,
+                36,
+                38,
+                -36
+              ],
+              "uvs": [
+                0.00390625,
+                0.2890625,
+                0.00390625,
+                0.0078125,
+                0.15234375,
+                0.0078125,
+                0.15234375,
+                0.2890625
+              ]
+            },
+            {
+              "slotIndex": 10,
+              "name": "star",
+              "path": "star",
+              "attachmentName": "star",
+              "transform": [
+                0,
+                0,
+                1,
+                1,
+                0,
+                76,
+                72
+              ],
+              "color": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "offset": [
+                -38,
+                -36,
+                -38,
+                36,
+                38,
+                36,
+                38,
+                -36
+              ],
+              "uvs": [
+                0.00390625,
+                0.2890625,
+                0.00390625,
+                0.0078125,
+                0.15234375,
+                0.0078125,
+                0.15234375,
+                0.2890625
+              ]
+            },
+            {
+              "slotIndex": 11,
+              "name": "star",
+              "path": "star",
+              "attachmentName": "star",
+              "transform": [
+                0,
+                0,
+                1,
+                1,
+                0,
+                76,
+                72
+              ],
+              "color": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "offset": [
+                -38,
+                -36,
+                -38,
+                36,
+                38,
+                36,
+                38,
+                -36
+              ],
+              "uvs": [
+                0.00390625,
+                0.2890625,
+                0.00390625,
+                0.0078125,
+                0.15234375,
+                0.0078125,
+                0.15234375,
+                0.2890625
+              ]
+            },
+            {
+              "slotIndex": 12,
+              "name": "token",
+              "path": "token",
+              "attachmentName": "token",
+              "transform": [
+                1.1856727600097656,
+                1.812469482421875,
+                1,
+                1,
+                0,
+                123,
+                122
+              ],
+              "color": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "offset": [
+                -60.314327239990234,
+                -59.187530517578125,
+                -60.314327239990234,
+                62.812469482421875,
+                62.685672760009766,
+                62.812469482421875,
+                62.685672760009766,
+                -59.187530517578125
+              ],
+              "uvs": [
+                0.275390625,
+                0.8828125,
+                0.275390625,
+                0.40625,
+                0.515625,
+                0.40625,
+                0.515625,
+                0.8828125
+              ]
+            }
+          ]
+        }
+      ],
+      "animations": [
+        {
+          "name": "bounce",
+          "duration": 1.4000000953674316,
+          "timelines": [
+            {
+              "kind": "RGBATimeline",
+              "owner": 2,
+              "frames": [
+                0,
+                1,
+                1,
+                1,
+                0,
+                0.5666667222976685,
+                1,
+                1,
+                1,
+                1,
+                0.7000000476837158,
+                1,
+                1,
+                1,
+                0
+              ],
+              "curves": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RGBATimeline",
+              "owner": 3,
+              "frames": [
+                0.2666666805744171,
+                1,
+                0.9764705896377563,
+                0.9647058844566345,
+                0,
+                0.8333333730697632,
+                1,
+                1,
+                1,
+                1,
+                0.9666666984558105,
+                1,
+                0.9411764740943909,
+                0.9490196108818054,
+                0
+              ],
+              "curves": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RGBATimeline",
+              "owner": 4,
+              "frames": [
+                0.13333334028720856,
+                1,
+                1,
+                1,
+                0,
+                0.7000000476837158,
+                1,
+                1,
+                1,
+                1,
+                0.8333333730697632,
+                1,
+                1,
+                1,
+                0
+              ],
+              "curves": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RGBATimeline",
+              "owner": 5,
+              "frames": [
+                0.4333333671092987,
+                1,
+                1,
+                1,
+                0,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1.133333444595337,
+                1,
+                1,
+                1,
+                0
+              ],
+              "curves": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RGBATimeline",
+              "owner": 6,
+              "frames": [
+                0.6333333849906921,
+                1,
+                1,
+                1,
+                0,
+                1.2000000476837158,
+                1,
+                1,
+                1,
+                1,
+                1.3333333730697632,
+                1,
+                1,
+                1,
+                0
+              ],
+              "curves": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RGBATimeline",
+              "owner": 7,
+              "frames": [
+                0,
+                1,
+                1,
+                1,
+                0.6196078658103943,
+                0.23333334922790527,
+                1,
+                1,
+                1,
+                1,
+                0.36666667461395264,
+                1,
+                1,
+                1,
+                0,
+                1.0666667222976685,
+                1,
+                1,
+                1,
+                0,
+                1.4000000953674316,
+                1,
+                1,
+                1,
+                0.6196078658103943
+              ],
+              "curves": [
+                0,
+                0,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RGBATimeline",
+              "owner": 8,
+              "frames": [
+                0,
+                1,
+                1,
+                1,
+                1,
+                0.2666666805744171,
+                1,
+                1,
+                1,
+                1,
+                0.4333333671092987,
+                1,
+                1,
+                1,
+                0,
+                1.3000000715255737,
+                1,
+                1,
+                1,
+                0,
+                1.4000000953674316,
+                1,
+                1,
+                1,
+                1
+              ],
+              "curves": [
+                1,
+                0,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RGBATimeline",
+              "owner": 9,
+              "frames": [
+                0.6666666865348816,
+                1,
+                1,
+                1,
+                0,
+                1.2333333492279053,
+                1,
+                1,
+                1,
+                1,
+                1.3666667938232422,
+                1,
+                1,
+                1,
+                0
+              ],
+              "curves": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RGBATimeline",
+              "owner": 10,
+              "frames": [
+                0,
+                1,
+                1,
+                1,
+                0.7450980544090271,
+                0.13333334028720856,
+                1,
+                1,
+                1,
+                1,
+                0.2666666805744171,
+                1,
+                1,
+                1,
+                0,
+                0.9666666984558105,
+                1,
+                1,
+                1,
+                0,
+                1.4000000953674316,
+                1,
+                1,
+                1,
+                0.7450980544090271
+              ],
+              "curves": [
+                0,
+                0,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RGBATimeline",
+              "owner": 11,
+              "frames": [
+                0,
+                1,
+                1,
+                1,
+                1,
+                0.13333334028720856,
+                1,
+                1,
+                1,
+                0,
+                0.8333333730697632,
+                1,
+                1,
+                1,
+                0,
+                1.4000000953674316,
+                1,
+                1,
+                1,
+                1
+              ],
+              "curves": [
+                0,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RotateTimeline",
+              "owner": 6,
+              "frames": [
+                0,
+                28.259929656982422,
+                0.7000000476837158,
+                -42.08269119262695
+              ],
+              "curves": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "TranslateTimeline",
+              "owner": 6,
+              "frames": [
+                0,
+                3.0994415283203125e-06,
+                36.08795166015625,
+                0.7000000476837158,
+                86.68010711669922,
+                68.3200912475586
+              ],
+              "curves": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "ScaleTimeline",
+              "owner": 6,
+              "frames": [
+                0,
+                0.4391971826553345,
+                0.4391971826553345,
+                0.7000000476837158,
+                1,
+                1
+              ],
+              "curves": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RotateTimeline",
+              "owner": 7,
+              "frames": [
+                0.2666666805744171,
+                13.372735977172852,
+                0.9666666984558105,
+                89.61485290527344
+              ],
+              "curves": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "TranslateTimeline",
+              "owner": 7,
+              "frames": [
+                0.2666666805744171,
+                -1.1000022888183594,
+                -32.141990661621094,
+                0.9666666984558105,
+                48.31391906738281,
+                -143.1239013671875
+              ],
+              "curves": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "ScaleTimeline",
+              "owner": 7,
+              "frames": [
+                0.2666666805744171,
+                0.3919999599456787,
+                0.3919999599456787,
+                0.9666666984558105,
+                0.8157124519348145,
+                0.8157124519348145
+              ],
+              "curves": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RotateTimeline",
+              "owner": 8,
+              "frames": [
+                0.13333334028720856,
+                -42.675804138183594,
+                0.8333333730697632,
+                88.41376495361328
+              ],
+              "curves": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "TranslateTimeline",
+              "owner": 8,
+              "frames": [
+                0.13333334028720856,
+                -20.623096466064453,
+                -2.9260330200195312,
+                0.8333333730697632,
+                -57.859981536865234,
+                -97.40192413330078
+              ],
+              "curves": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "ScaleTimeline",
+              "owner": 8,
+              "frames": [
+                0.13333334028720856,
+                0.21156585216522217,
+                0.21156585216522217,
+                0.8333333730697632,
+                0.6525436639785767,
+                0.6525436639785767
+              ],
+              "curves": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RotateTimeline",
+              "owner": 9,
+              "frames": [
+                0.4333333671092987,
+                57.71680450439453,
+                1.133333444595337,
+                -105.15364837646484
+              ],
+              "curves": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "TranslateTimeline",
+              "owner": 9,
+              "frames": [
+                0.4333333671092987,
+                0.7101001739501953,
+                -21.169044494628906,
+                1.133333444595337,
+                64.78995513916016,
+                121.95198059082031
+              ],
+              "curves": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "ScaleTimeline",
+              "owner": 9,
+              "frames": [
+                0.4333333671092987,
+                0.24071002006530762,
+                0.24071002006530762,
+                1.133333444595337,
+                0.7764313220977783,
+                0.7764313220977783
+              ],
+              "curves": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RotateTimeline",
+              "owner": 10,
+              "frames": [
+                0.6333333849906921,
+                37.65724563598633,
+                1.3333333730697632,
+                -102.15908813476562
+              ],
+              "curves": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "TranslateTimeline",
+              "owner": 10,
+              "frames": [
+                0.6333333849906921,
+                13.079917907714844,
+                26.831954956054688,
+                1.3333333730697632,
+                -0.9900283813476562,
+                82.82394409179688
+              ],
+              "curves": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "ScaleTimeline",
+              "owner": 10,
+              "frames": [
+                0.6333333849906921,
+                0.2756335735321045,
+                0.2756335735321045,
+                1.3333333730697632,
+                1.081191062927246,
+                1.081191062927246
+              ],
+              "curves": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RotateTimeline",
+              "owner": 11,
+              "frames": [
+                0,
+                -43.25914001464844,
+                0.36666667461395264,
+                -41.2995719909668,
+                1.0666667222976685,
+                -47.17826843261719,
+                1.4000000953674316,
+                -43.25914001464844
+              ],
+              "curves": [
+                0,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "TranslateTimeline",
+              "owner": 11,
+              "frames": [
+                0,
+                -38.952354431152344,
+                40.55577850341797,
+                0.36666667461395264,
+                -51.509517669677734,
+                79.27716827392578,
+                1.0666667222976685,
+                -13.838050842285156,
+                -36.886940002441406,
+                1.4000000953674316,
+                -38.952354431152344,
+                40.55577850341797
+              ],
+              "curves": [
+                0,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "ScaleTimeline",
+              "owner": 11,
+              "frames": [
+                0,
+                0.43072745203971863,
+                0.43072745203971863,
+                0.36666667461395264,
+                0.47580093145370483,
+                0.47580093145370483,
+                1.0666667222976685,
+                0.3405805826187134,
+                0.3405805826187134,
+                1.4000000953674316,
+                0.43072745203971863,
+                0.43072745203971863
+              ],
+              "curves": [
+                0,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RotateTimeline",
+              "owner": 12,
+              "frames": [
+                0,
+                20.902328491210938,
+                0.4333333671092987,
+                -73.06694793701172,
+                1.3000000715255737,
+                42.587547302246094,
+                1.4000000953674316,
+                20.902328491210938
+              ],
+              "curves": [
+                0,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "TranslateTimeline",
+              "owner": 12,
+              "frames": [
+                0,
+                0.4215679168701172,
+                84.54087829589844,
+                0.4333333671092987,
+                -28.903884887695312,
+                184.89187622070312,
+                1.3000000715255737,
+                7.1889801025390625,
+                61.382957458496094,
+                1.4000000953674316,
+                0.4215679168701172,
+                84.54087829589844
+              ],
+              "curves": [
+                0,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "ScaleTimeline",
+              "owner": 12,
+              "frames": [
+                0,
+                0.3643868863582611,
+                0.3643868863582611,
+                0.4333333671092987,
+                0.9559497833251953,
+                0.9559497833251953,
+                1.3000000715255737,
+                0.22787237167358398,
+                0.22787237167358398,
+                1.4000000953674316,
+                0.3643868863582611,
+                0.3643868863582611
+              ],
+              "curves": [
+                0,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RotateTimeline",
+              "owner": 13,
+              "frames": [
+                0.6666666865348816,
+                41.11795425415039,
+                1.3666667938232422,
+                -89.84724426269531
+              ],
+              "curves": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "TranslateTimeline",
+              "owner": 13,
+              "frames": [
+                0.6666666865348816,
+                30.78692626953125,
+                81.4239501953125,
+                1.3666667938232422,
+                -67.7999267578125,
+                -68.56005859375
+              ],
+              "curves": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "ScaleTimeline",
+              "owner": 13,
+              "frames": [
+                0.6666666865348816,
+                0.2586630582809448,
+                0.2586630582809448,
+                1.3666667938232422,
+                0.9992318153381348,
+                0.9992318153381348
+              ],
+              "curves": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RotateTimeline",
+              "owner": 15,
+              "frames": [
+                0,
+                49.480411529541016,
+                0.13333334028720856,
+                71.8930435180664,
+                0.8333333730697632,
+                -40.17011260986328,
+                1.4000000953674316,
+                49.48041534423828
+              ],
+              "curves": [
+                0,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "TranslateTimeline",
+              "owner": 15,
+              "frames": [
+                0,
+                -78.75200653076172,
+                77.18399047851562,
+                0.13333334028720856,
+                -98.44000244140625,
+                96.47998809814453,
+                0.8333333730697632,
+                16.036956787109375,
+                35.391944885253906,
+                1.4000000953674316,
+                -78.75200653076172,
+                77.18399047851562
+              ],
+              "curves": [
+                0,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "ScaleTimeline",
+              "owner": 15,
+              "frames": [
+                0,
+                0.7725623846054077,
+                0.7725623846054077,
+                0.13333334028720856,
+                0.910205602645874,
+                0.910205602645874,
+                0.8333333730697632,
+                0.22198939323425293,
+                0.22198939323425293,
+                1.4000000953674316,
+                0.7725623846054077,
+                0.7725623846054077
+              ],
+              "curves": [
+                0,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RotateTimeline",
+              "owner": 14,
+              "frames": [
+                0,
+                -60.178714752197266,
+                0.2666666805744171,
+                -109.83793640136719,
+                0.9666666984558105,
+                14.31011962890625,
+                1.4000000953674316,
+                -60.1787109375
+              ],
+              "curves": [
+                0,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "TranslateTimeline",
+              "owner": 14,
+              "frames": [
+                0,
+                44.63998031616211,
+                -41.66399383544922,
+                0.2666666805744171,
+                74.39996337890625,
+                -69.43998718261719,
+                0.9666666984558105,
+                -6.6359710693359375,
+                -25.437957763671875,
+                1.4000000953674316,
+                44.63998031616211,
+                -41.66399383544922
+              ],
+              "curves": [
+                0,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "ScaleTimeline",
+              "owner": 14,
+              "frames": [
+                0,
+                0.45247018337249756,
+                0.45247018337249756,
+                0.2666666805744171,
+                0.6721088886260986,
+                0.6721088886260986,
+                0.9666666984558105,
+                0.12301218509674072,
+                0.12301218509674072,
+                1.4000000953674316,
+                0.45247018337249756,
+                0.45247018337249756
+              ],
+              "curves": [
+                0,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "TranslateTimeline",
+              "owner": 2,
+              "frames": [
+                0,
+                -2.384185791015625e-06,
+                53.29994201660156,
+                0.40000003576278687,
+                0.674203634262085,
+                -102.2693862915039,
+                0.7000000476837158,
+                -2.384185791015625e-06,
+                53.29994201660156,
+                1.100000023841858,
+                -1.8029546737670898,
+                -105.32142639160156,
+                1.4000000953674316,
+                -2.384185791015625e-06,
+                53.29994201660156
+              ],
+              "curves": [
+                7,
+                43,
+                79,
+                115,
+                1,
+                0.06283973902463913,
+                0.01887538470327854,
+                0.11787020415067673,
+                0.07011504471302032,
+                0.16611656546592712,
+                0.14562611281871796,
+                0.20860399305820465,
+                0.23731812834739685,
+                0.24635763466358185,
+                0.337100625038147,
+                0.28040266036987305,
+                0.4368831217288971,
+                0.31176427006721497,
+                0.5285751223564148,
+                0.34146755933761597,
+                0.6040862202644348,
+                0.37053778767585754,
+                0.6553258895874023,
+                0.06283973902463913,
+                48.944000244140625,
+                0.11787020415067673,
+                37.120731353759766,
+                0.16611656546592712,
+                19.69696617126465,
+                0.20860399305820465,
+                -1.4604637622833252,
+                0.24635763466358185,
+                -24.484724044799805,
+                0.28040266036987305,
+                -47.50898742675781,
+                0.31176427006721497,
+                -68.66641235351562,
+                0.34146755933761597,
+                -86.09017944335938,
+                0.37053778767585754,
+                -97.91344451904297,
+                0.436991423368454,
+                0.6550252437591553,
+                0.4663417339324951,
+                0.603611171245575,
+                0.49033376574516296,
+                0.5280295610427856,
+                0.5112503170967102,
+                0.43634867668151855,
+                0.5313741564750671,
+                0.3366367220878601,
+                0.5529881119728088,
+                0.23696185648441315,
+                0.5783748626708984,
+                0.1453922986984253,
+                0.6098172664642334,
+                0.06999628245830536,
+                0.6495980620384216,
+                0.018841983750462532,
+                0.436991423368454,
+                -97.84407806396484,
+                0.4663417339324951,
+                -85.98056030273438,
+                0.49033376574516296,
+                -68.54052734375,
+                0.5112503170967102,
+                -47.38566970825195,
+                0.5313741564750671,
+                -24.37767791748047,
+                0.5529881119728088,
+                -1.3782497644424438,
+                0.5783748626708984,
+                19.750919342041016,
+                0.6098172664642334,
+                37.148136138916016,
+                0.6495980620384216,
+                48.95170974731445,
+                0.7628397941589355,
+                -0.050485048443078995,
+                0.8178702592849731,
+                -0.1875094175338745,
+                0.8661166429519653,
+                -0.3894400894641876,
+                0.9086040258407593,
+                -0.6346415877342224,
+                0.9463576674461365,
+                -0.9014785289764404,
+                0.9804027080535889,
+                -1.1683154106140137,
+                1.0117642879486084,
+                -1.4135169982910156,
+                1.041467547416687,
+                -1.6154476404190063,
+                1.070537805557251,
+                -1.7524720430374146,
+                0.7628397941589355,
+                48.858543395996094,
+                0.8178702592849731,
+                36.80331802368164,
+                0.8661166429519653,
+                19.03772735595703,
+                0.9086040258407593,
+                -2.5347795486450195,
+                0.9463576674461365,
+                -26.0107421875,
+                0.9804027080535889,
+                -49.4867057800293,
+                1.0117642879486084,
+                -71.05921173095703,
+                1.041467547416687,
+                -88.8248062133789,
+                1.070537805557251,
+                -100.8800277709961,
+                1.130393385887146,
+                -1.7090622186660767,
+                1.1559152603149414,
+                -1.5468494892120361,
+                1.1783597469329834,
+                -1.3347362279891968,
+                1.1995205879211426,
+                -1.0911425352096558,
+                1.2211921215057373,
+                -0.8344881534576416,
+                1.2451683282852173,
+                -0.5831929445266724,
+                1.2732431888580322,
+                -0.35567691922187805,
+                1.3072106838226318,
+                -0.17035987973213196,
+                1.348865032196045,
+                -0.04566174000501633,
+                1.130393385887146,
+                -97.0608901977539,
+                1.1559152603149414,
+                -82.78962707519531,
+                1.1783597469329834,
+                -64.12818145751953,
+                1.1995205879211426,
+                -42.69712829589844,
+                1.2211921215057373,
+                -20.11701202392578,
+                1.2451683282852173,
+                1.9916050434112549,
+                1.2732431888580322,
+                22.008167266845703,
+                1.3072106838226318,
+                38.31211471557617,
+                1.348865032196045,
+                49.28289031982422
+              ]
+            },
+            {
+              "kind": "RotateTimeline",
+              "owner": 3,
+              "frames": [
+                0,
+                59.353302001953125,
+                0.2666666805744171,
+                -48.87580108642578,
+                0.5666667222976685,
+                68.42127227783203,
+                0.7000000476837158,
+                30.638465881347656,
+                0.9666666984558105,
+                -47.91139221191406,
+                1.2666667699813843,
+                58.69831848144531,
+                1.4000000953674316,
+                59.353302001953125
+              ],
+              "curves": [
+                9,
+                27,
+                45,
+                63,
+                81,
+                99,
+                1,
+                0.02186666801571846,
+                56.3228874206543,
+                0.046933338046073914,
+                48.097476959228516,
+                0.07440000772476196,
+                35.97581481933594,
+                0.10346667468547821,
+                21.25665855407715,
+                0.13333334028720856,
+                5.238750457763672,
+                0.1632000058889389,
+                -10.779156684875488,
+                0.19226667284965515,
+                -25.498313903808594,
+                0.2197333425283432,
+                -37.61997604370117,
+                0.24480001628398895,
+                -45.84538650512695,
+                0.2896931767463684,
+                -45.598731994628906,
+                0.31323620676994324,
+                -36.702674865722656,
+                0.33768323063850403,
+                -23.590364456176758,
+                0.36342164874076843,
+                -7.6645355224609375,
+                0.3908388614654541,
+                9.672079086303711,
+                0.42032232880592346,
+                27.016746520996094,
+                0.4522594213485718,
+                42.966732025146484,
+                0.4870375692844391,
+                56.11930465698242,
+                0.5250442028045654,
+                65.07173156738281,
+                0.5776000618934631,
+                67.36334991455078,
+                0.5901333689689636,
+                64.49185943603516,
+                0.603866696357727,
+                60.26018524169922,
+                0.6184000372886658,
+                55.12172317504883,
+                0.6333333849906921,
+                49.529869079589844,
+                0.6482666730880737,
+                43.93801498413086,
+                0.6628000140190125,
+                38.79955291748047,
+                0.6765333414077759,
+                34.56787872314453,
+                0.6890667080879211,
+                31.69638442993164,
+                0.7218667268753052,
+                28.439069747924805,
+                0.7469334006309509,
+                22.469280242919922,
+                0.7744000554084778,
+                13.671696662902832,
+                0.8034667372703552,
+                2.9889159202575684,
+                0.8333333730697632,
+                -8.636463165283203,
+                0.8632000088691711,
+                -20.261842727661133,
+                0.8922666907310486,
+                -30.944622039794922,
+                0.9197333455085754,
+                -39.74220657348633,
+                0.9448000192642212,
+                -45.711997985839844,
+                0.9896932244300842,
+                -44.93290710449219,
+                1.0132362842559814,
+                -36.8474006652832,
+                1.0376832485198975,
+                -24.92980194091797,
+                1.0634217262268066,
+                -10.455034255981445,
+                1.09083890914917,
+                5.301979064941406,
+                1.120322346687317,
+                21.06631088256836,
+                1.1522594690322876,
+                35.56303405761719,
+                1.1870375871658325,
+                47.51722717285156,
+                1.2250442504882812,
+                55.65396499633789,
+                1.2776000499725342,
+                58.71665954589844,
+                1.2901334762573242,
+                58.76643753051758,
+                1.3038667440414429,
+                58.83979415893555,
+                1.3184001445770264,
+                58.928871154785156,
+                1.3333333730697632,
+                59.02581024169922,
+                1.3482667207717896,
+                59.12274932861328,
+                1.362800121307373,
+                59.21182632446289,
+                1.3765333890914917,
+                59.28518295288086,
+                1.3890668153762817,
+                59.3349609375
+              ]
+            },
+            {
+              "kind": "TranslateTimeline",
+              "owner": 3,
+              "frames": [
+                0,
+                0,
+                0,
+                0.2666666805744171,
+                7.9659576416015625,
+                13.682464599609375,
+                0.46666669845581055,
+                6.4917449951171875,
+                -18.894149780273438,
+                0.7000000476837158,
+                5.1536865234375,
+                18.437240600585938,
+                0.9666666984558105,
+                5.684120178222656,
+                5.737554550170898,
+                1.1666667461395264,
+                3.1437225341796875,
+                -29.599685668945312,
+                1.4000000953674316,
+                0,
+                0
+              ],
+              "curves": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "ShearTimeline",
+              "owner": 3,
+              "frames": [
+                0,
+                -17.066118240356445,
+                0,
+                0.2666666805744171,
+                7.145740509033203,
+                0,
+                0.46666669845581055,
+                7.145740509033203,
+                37.38896179199219,
+                0.7000000476837158,
+                -17.066118240356445,
+                0,
+                0.9666666984558105,
+                7.145740509033203,
+                0,
+                1.1666667461395264,
+                7.145740509033203,
+                37.38896179199219,
+                1.4000000953674316,
+                -17.066118240356445,
+                0
+              ],
+              "curves": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "ScaleTimeline",
+              "owner": 16,
+              "frames": [
+                0,
+                1.2394278049468994,
+                0.7095832824707031,
+                0.13333334028720856,
+                0.8972616195678711,
+                1.1356911659240723,
+                0.3333333432674408,
+                1.3970123529434204,
+                0.6512235403060913,
+                0.46666669845581055,
+                0.8972616195678711,
+                1.1356911659240723,
+                0.7000000476837158,
+                1.2394278049468994,
+                0.7095832824707031,
+                0.8333333730697632,
+                0.8972616195678711,
+                1.1356911659240723,
+                1.033333420753479,
+                1.3970123529434204,
+                0.6512235403060913,
+                1.1666667461395264,
+                0.8972616195678711,
+                1.1356911659240723,
+                1.4000000953674316,
+                1.2394278049468994,
+                0.7095832824707031
+              ],
+              "curves": [
+                11,
+                47,
+                83,
+                119,
+                155,
+                191,
+                227,
+                263,
+                1,
+                0.01901545375585556,
+                1.2294174432754517,
+                0.0362384133040905,
+                1.203163504600525,
+                0.05186755210161209,
+                1.1647400856018066,
+                0.0661015510559082,
+                1.118221402168274,
+                0.07913907617330551,
+                1.0676815509796143,
+                0.09117881208658218,
+                1.0171948671340942,
+                0.10241943597793579,
+                0.970835268497467,
+                0.11305961012840271,
+                0.932677149772644,
+                0.12329801917076111,
+                0.906794548034668,
+                0.01901545375585556,
+                0.7220494151115417,
+                0.0362384133040905,
+                0.7547441124916077,
+                0.05186755210161209,
+                0.8025937080383301,
+                0.0661015510559082,
+                0.8605245351791382,
+                0.07913907617330551,
+                0.923462986946106,
+                0.09117881208658218,
+                0.9863353967666626,
+                0.10241943597793579,
+                1.0440680980682373,
+                0.11305961012840271,
+                1.0915873050689697,
+                0.12329801917076111,
+                1.1238195896148682,
+                0.15047241747379303,
+                0.9049786925315857,
+                0.17116115987300873,
+                0.9269212484359741,
+                0.1943068504333496,
+                0.9612761735916138,
+                0.21881678700447083,
+                1.0062304735183716,
+                0.24359823763370514,
+                1.0599710941314697,
+                0.2675585150718689,
+                1.1206849813461304,
+                0.28960487246513367,
+                1.1865592002868652,
+                0.3086445927619934,
+                1.2557804584503174,
+                0.32358500361442566,
+                1.3265358209609985,
+                0.15047241747379303,
+                1.1282100677490234,
+                0.17116115987300873,
+                1.1069386005401611,
+                0.1943068504333496,
+                1.0736342668533325,
+                0.21881678700447083,
+                1.0300546884536743,
+                0.24359823763370514,
+                0.977957546710968,
+                0.2675585150718689,
+                0.9191003441810608,
+                0.28960487246513367,
+                0.8552407622337341,
+                0.3086445927619934,
+                0.78813636302948,
+                0.32358500361442566,
+                0.7195447683334351,
+                0.3442666828632355,
+                1.3830193281173706,
+                0.35680001974105835,
+                1.3450382947921753,
+                0.3705333471298218,
+                1.289066195487976,
+                0.3850666880607605,
+                1.221100091934204,
+                0.4000000059604645,
+                1.1471370458602905,
+                0.41493335366249084,
+                1.0731738805770874,
+                0.42946669459342957,
+                1.0052077770233154,
+                0.443200021982193,
+                0.9492356777191162,
+                0.45573335886001587,
+                0.9112546443939209,
+                0.3442666828632355,
+                0.6647886633872986,
+                0.35680001974105835,
+                0.7016081809997559,
+                0.3705333471298218,
+                0.7558685541152954,
+                0.3850666880607605,
+                0.82175612449646,
+                0.4000000059604645,
+                0.8934573531150818,
+                0.41493335366249084,
+                0.9651585817337036,
+                0.42946669459342957,
+                1.0310461521148682,
+                0.443200021982193,
+                1.0853065252304077,
+                0.45573335886001587,
+                1.1221261024475098,
+                0.48580002784729004,
+                0.9068422913551331,
+                0.5077333450317383,
+                0.9328469038009644,
+                0.5317667126655579,
+                0.9711695313453674,
+                0.557200014591217,
+                1.0177041292190552,
+                0.5833333730697632,
+                1.0683447122573853,
+                0.6094667315483093,
+                1.1189852952957153,
+                0.6349000334739685,
+                1.1655199527740479,
+                0.6589334011077881,
+                1.2038425207138062,
+                0.6808667182922363,
+                1.2298471927642822,
+                0.48580002784729004,
+                1.1237601041793823,
+                0.5077333450317383,
+                1.0913759469985962,
+                0.5317667126655579,
+                1.043651819229126,
+                0.557200014591217,
+                0.9857012033462524,
+                0.5833333730697632,
+                0.9226372241973877,
+                0.6094667315483093,
+                0.859573245048523,
+                0.6349000334739685,
+                0.8016225695610046,
+                0.6589334011077881,
+                0.7538985013961792,
+                0.6808667182922363,
+                0.7215142846107483,
+                0.7109333872795105,
+                1.2298471927642822,
+                0.723466694355011,
+                1.2038425207138062,
+                0.7372000217437744,
+                1.1655199527740479,
+                0.7517333626747131,
+                1.1189852952957153,
+                0.7666667103767395,
+                1.0683447122573853,
+                0.7816000580787659,
+                1.0177041292190552,
+                0.7961333990097046,
+                0.9711695313453674,
+                0.809866726398468,
+                0.9328469038009644,
+                0.8224000334739685,
+                0.9068422913551331,
+                0.7109333872795105,
+                0.7215142846107483,
+                0.723466694355011,
+                0.7538985013961792,
+                0.7372000217437744,
+                0.8016225695610046,
+                0.7517333626747131,
+                0.859573245048523,
+                0.7666667103767395,
+                0.9226372241973877,
+                0.7816000580787659,
+                0.9857012033462524,
+                0.7961333990097046,
+                1.043651819229126,
+                0.809866726398468,
+                1.0913759469985962,
+                0.8224000334739685,
+                1.1237601041793823,
+                0.8504724502563477,
+                0.9049786925315857,
+                0.871161162853241,
+                0.9269212484359741,
+                0.8943068981170654,
+                0.9612761735916138,
+                0.9188168048858643,
+                1.0062304735183716,
+                0.9435982704162598,
+                1.0599710941314697,
+                0.9675585627555847,
+                1.1206849813461304,
+                0.9896048903465271,
+                1.1865592002868652,
+                1.008644700050354,
+                1.2557804584503174,
+                1.0235850811004639,
+                1.3265358209609985,
+                0.8504724502563477,
+                1.1282100677490234,
+                0.871161162853241,
+                1.1069386005401611,
+                0.8943068981170654,
+                1.0736342668533325,
+                0.9188168048858643,
+                1.0300546884536743,
+                0.9435982704162598,
+                0.977957546710968,
+                0.9675585627555847,
+                0.9191003441810608,
+                0.9896048903465271,
+                0.8552407622337341,
+                1.008644700050354,
+                0.78813636302948,
+                1.0235850811004639,
+                0.7195447683334351,
+                1.044266700744629,
+                1.3830193281173706,
+                1.056800127029419,
+                1.3450382947921753,
+                1.0705333948135376,
+                1.289066195487976,
+                1.085066795349121,
+                1.221100091934204,
+                1.100000023841858,
+                1.1471370458602905,
+                1.1149333715438843,
+                1.0731738805770874,
+                1.1294667720794678,
+                1.0052077770233154,
+                1.1432000398635864,
+                0.9492356777191162,
+                1.1557334661483765,
+                0.9112546443939209,
+                1.044266700744629,
+                0.6647886633872986,
+                1.056800127029419,
+                0.7016081809997559,
+                1.0705333948135376,
+                0.7558685541152954,
+                1.085066795349121,
+                0.82175612449646,
+                1.100000023841858,
+                0.8934573531150818,
+                1.1149333715438843,
+                0.9651585817337036,
+                1.1294667720794678,
+                1.0310461521148682,
+                1.1432000398635864,
+                1.0853065252304077,
+                1.1557334661483765,
+                1.1221261024475098,
+                1.1858000755310059,
+                0.9068422913551331,
+                1.207733392715454,
+                0.9328469038009644,
+                1.231766700744629,
+                0.9711695313453674,
+                1.257200002670288,
+                1.0177041292190552,
+                1.283333420753479,
+                1.0683447122573853,
+                1.3094667196273804,
+                1.1189852952957153,
+                1.3349000215530396,
+                1.1655199527740479,
+                1.358933448791504,
+                1.2038425207138062,
+                1.3808667659759521,
+                1.2298471927642822,
+                1.1858000755310059,
+                1.1237601041793823,
+                1.207733392715454,
+                1.0913759469985962,
+                1.231766700744629,
+                1.043651819229126,
+                1.257200002670288,
+                0.9857012033462524,
+                1.283333420753479,
+                0.9226372241973877,
+                1.3094667196273804,
+                0.859573245048523,
+                1.3349000215530396,
+                0.8016225695610046,
+                1.358933448791504,
+                0.7538985013961792,
+                1.3808667659759521,
+                0.7215142846107483
+              ]
+            },
+            {
+              "kind": "RotateTimeline",
+              "owner": 4,
+              "frames": [
+                0,
+                -56.550682067871094,
+                0.2666666805744171,
+                53.04856872558594,
+                0.5666667222976685,
+                -61.677581787109375,
+                0.7000000476837158,
+                -41.60881805419922,
+                0.9666666984558105,
+                46.33850860595703,
+                1.2666667699813843,
+                -72.5174789428711,
+                1.4000000953674316,
+                -56.550682067871094
+              ],
+              "curves": [
+                9,
+                27,
+                45,
+                63,
+                81,
+                99,
+                1,
+                0.02186666801571846,
+                -53.481903076171875,
+                0.046933338046073914,
+                -45.15235900878906,
+                0.07440000772476196,
+                -32.87724304199219,
+                0.10346667468547821,
+                -17.97174644470215,
+                0.13333334028720856,
+                -1.7510566711425781,
+                0.1632000058889389,
+                14.469632148742676,
+                0.19226667284965515,
+                29.37512969970703,
+                0.2197333425283432,
+                41.650245666503906,
+                0.24480001628398895,
+                49.97978973388672,
+                0.2896931767463684,
+                49.843326568603516,
+                0.31323620676994324,
+                41.14225387573242,
+                0.33768323063850403,
+                28.317338943481445,
+                0.36342164874076843,
+                12.74057388305664,
+                0.3908388614654541,
+                -4.216055870056152,
+                0.42032232880592346,
+                -21.180561065673828,
+                0.4522594213485718,
+                -36.78095626831055,
+                0.4870375692844391,
+                -49.64524841308594,
+                0.5250442028045654,
+                -58.40145492553711,
+                0.5776000618934631,
+                -61.115657806396484,
+                0.5901333689689636,
+                -59.590431213378906,
+                0.603866696357727,
+                -57.34272766113281,
+                0.6184000372886658,
+                -54.61337661743164,
+                0.6333333849906921,
+                -51.6431999206543,
+                0.6482666730880737,
+                -48.67302322387695,
+                0.6628000140190125,
+                -45.94367218017578,
+                0.6765333414077759,
+                -43.69596862792969,
+                0.6890667080879211,
+                -42.17074203491211,
+                0.7218667268753052,
+                -39.14629364013672,
+                0.7469334006309509,
+                -32.46229553222656,
+                0.7744000554084778,
+                -22.61219596862793,
+                0.8034667372703552,
+                -10.651359558105469,
+                0.8333333730697632,
+                2.3648452758789062,
+                0.8632000088691711,
+                15.381049156188965,
+                0.8922666907310486,
+                27.341886520385742,
+                0.9197333455085754,
+                37.191986083984375,
+                0.9448000192642212,
+                43.87598419189453,
+                0.9896932244300842,
+                43.01788330078125,
+                1.0132362842559814,
+                34.003597259521484,
+                1.0376832485198975,
+                20.71702003479004,
+                1.0634217262268066,
+                4.579531192779541,
+                1.09083890914917,
+                -12.987492561340332,
+                1.120322346687317,
+                -30.56267547607422,
+                1.1522594690322876,
+                -46.72464370727539,
+                1.1870375871658325,
+                -60.05201721191406,
+                1.2250442504882812,
+                -69.12342071533203,
+                1.2776000499725342,
+                -72.0704116821289,
+                1.2901334762573242,
+                -70.85693359375,
+                1.3038667440414429,
+                -69.06864929199219,
+                1.3184001445770264,
+                -66.89716339111328,
+                1.3333333730697632,
+                -64.5340805053711,
+                1.3482667207717896,
+                -62.17099380493164,
+                1.362800121307373,
+                -59.99951171875,
+                1.3765333890914917,
+                -58.21122741699219,
+                1.3890668153762817,
+                -56.99775314331055
+              ]
+            },
+            {
+              "kind": "TranslateTimeline",
+              "owner": 4,
+              "frames": [
+                0,
+                0,
+                0,
+                0.2666666805744171,
+                -7.748817443847656,
+                13.806598663330078,
+                0.46666669845581055,
+                -9.2230224609375,
+                -18.770030975341797,
+                0.7000000476837158,
+                -0.7056045532226562,
+                23.374347686767578,
+                0.9666666984558105,
+                -10.0306396484375,
+                5.861873626708984,
+                1.1666667461395264,
+                -12.571037292480469,
+                -29.475215911865234,
+                1.4000000953674316,
+                0,
+                0
+              ],
+              "curves": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "ShearTimeline",
+              "owner": 4,
+              "frames": [
+                0,
+                14.261357307434082,
+                0,
+                0.2666666805744171,
+                -9.432199478149414,
+                0,
+                0.46666669845581055,
+                -12.097797393798828,
+                -35.72712707519531,
+                0.7000000476837158,
+                15.014756202697754,
+                0,
+                0.9666666984558105,
+                -9.432199478149414,
+                0,
+                1.1666667461395264,
+                -12.097797393798828,
+                -24.700294494628906,
+                1.4000000953674316,
+                14.261357307434082,
+                0
+              ],
+              "curves": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "RotateTimeline",
+              "owner": 1,
+              "frames": [
+                0,
+                8.794166564941406,
+                0.3333333432674408,
+                1.0862102508544922,
+                0.7000000476837158,
+                -15.723943710327148,
+                1.033333420753479,
+                1.0862102508544922,
+                1.4000000953674316,
+                8.794166564941406
+              ],
+              "curves": [
+                7,
+                25,
+                43,
+                61,
+                1,
+                0.0273333340883255,
+                8.578343391418457,
+                0.058666668832302094,
+                7.992538928985596,
+                0.09300000220537186,
+                7.129248142242432,
+                0.12933333218097687,
+                6.080965995788574,
+                0.1666666716337204,
+                4.940188407897949,
+                0.20399999618530273,
+                3.799410820007324,
+                0.24033333361148834,
+                2.751128911972046,
+                0.2746666669845581,
+                1.8878377676010132,
+                0.3059999942779541,
+                1.3020330667495728,
+                0.36340001225471497,
+                0.6155259609222412,
+                0.3978666663169861,
+                -0.6620457768440247,
+                0.4356333315372467,
+                -2.544783115386963,
+                0.475600004196167,
+                -4.830964088439941,
+                0.5166667103767395,
+                -7.318866729736328,
+                0.5577333569526672,
+                -9.806769371032715,
+                0.5976999998092651,
+                -12.092950820922852,
+                0.6354666948318481,
+                -13.975687980651855,
+                0.6699333786964417,
+                -15.253259658813477,
+                0.7273333668708801,
+                -15.253259658813477,
+                0.7586666941642761,
+                -13.975687980651855,
+                0.7930000424385071,
+                -12.092950820922852,
+                0.8293333649635315,
+                -9.806769371032715,
+                0.8666667342185974,
+                -7.318866729736328,
+                0.9040000438690186,
+                -4.830964088439941,
+                0.940333366394043,
+                -2.544783115386963,
+                0.9746667146682739,
+                -0.6620457768440247,
+                1.00600004196167,
+                0.6155259609222412,
+                1.0634000301361084,
+                1.3020330667495728,
+                1.0978667736053467,
+                1.8878376483917236,
+                1.1356333494186401,
+                2.751128911972046,
+                1.1756000518798828,
+                3.799410820007324,
+                1.2166666984558105,
+                4.940188407897949,
+                1.2577333450317383,
+                6.080965995788574,
+                1.297700047492981,
+                7.129248142242432,
+                1.335466742515564,
+                7.992538928985596,
+                1.3699333667755127,
+                8.578343391418457
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "unchanged_authentic_json_encoder": {
+    "code": "BINARY_HASH",
+    "message": "Hash is not representable by this codec",
+    "offset": 0
+  },
+  "official_json_pair": {
+    "same_pinned_repository_commit": true,
+    "editor_hash_matches_binary_bytes": true,
+    "matching_export_settings_proven": false,
+    "semantic_equality": "FAIL: original JSON rounds setup values; see stderr",
+    "used_as_decoder_expected_reference": false
+  },
+  "public_bundle_api": [
+    {
+      "schema_version": 2,
+      "source": "/private/tmp/b3-authentic-final-3/source",
+      "source_locations": [
+        "/private/tmp/b3-authentic-final-3/source"
+      ],
+      "input_type": "folder",
+      "target": "4.2.22",
+      "target_format": "json",
+      "output": "/private/tmp/b3-authentic-final-3/bundle-False.zip",
+      "experimental_authorized": false,
+      "source_risk_policy": "reject_known_issues",
+      "retention": "required_only",
+      "package_mode": "viewer",
+      "container": "zip",
+      "publication": "not_published",
+      "runtime_verification": "not_run",
+      "visual_verification": "not_run",
+      "structural_validation": "not_run",
+      "package_integrity": "not_run",
+      "selected_bundle_ids": [],
+      "discovered_bundle_ids": [],
+      "bundles": [],
+      "input_checksums": {
+        "powerup-ess.skel": "0e739e50f3e44e8bacd481649a8e9deee3ed3722c4813ba673f1a862dbc65d0b",
+        "powerup.atlas": "7e4c3a8a7a99a7d5e21f67010fb1ac6c25560ee4f4327489817356626edf7cb1",
+        "powerup.png": "e53af73f5c60e38052903dd222c2e985fc46aedd67c6b545664afee4d634fa33"
+      },
+      "output_checksums": {},
+      "packaged_file_checksums": {},
+      "source_risk_status": {},
+      "dependency_mappings": {
+        "atlases": {},
+        "textures": []
+      },
+      "excluded_files": [],
+      "file_renames": {},
+      "files_generated": [],
+      "files_preserved": [],
+      "files_transformed": [],
+      "texture_integrity": "not_run",
+      "package_sha256": null,
+      "callback_warning": null,
+      "sidecar_error": null,
+      "cleanup_warning": null,
+      "inspection": null,
+      "diagnostic": {
+        "code": "BINARY_UNQUALIFIED",
+        "stage": "DISCOVERING",
+        "message": "Binary codec requires explicit experimental authorization",
+        "asset_id": "powerup-ess.skel",
+        "file_path": "powerup-ess.skel",
+        "technical_details": "Binary codec requires explicit experimental authorization",
+        "suggestion": "Review dependency, qualification and output policies",
+        "publication_status": "not_published"
+      }
+    },
+    {
+      "schema_version": 2,
+      "source": "/private/tmp/b3-authentic-final-3/source",
+      "source_locations": [
+        "/private/tmp/b3-authentic-final-3/source"
+      ],
+      "input_type": "folder",
+      "target": "4.2.22",
+      "target_format": "json",
+      "output": "/private/tmp/b3-authentic-final-3/bundle-True.zip",
+      "experimental_authorized": true,
+      "source_risk_policy": "reject_known_issues",
+      "retention": "required_only",
+      "package_mode": "viewer",
+      "container": "zip",
+      "publication": "not_published",
+      "runtime_verification": "not_run",
+      "visual_verification": "not_run",
+      "structural_validation": "not_run",
+      "package_integrity": "not_run",
+      "selected_bundle_ids": [
+        "powerup-ess.skel"
+      ],
+      "discovered_bundle_ids": [
+        "powerup-ess.skel"
+      ],
+      "bundles": [
+        {
+          "bundle_id": "powerup-ess.skel",
+          "execution_success": false,
+          "structural_validation": "rejected",
+          "source_format": "binary",
+          "source_version": null,
+          "target_version": "4.2.22",
+          "route": [],
+          "qualification": null,
+          "diagnostics": [
+            "Unknown semantic bone fields for 4.2.22: visible"
+          ],
+          "details": null,
+          "binary_codec_verification": {
+            "decode": {
+              "capability": {
+                "version": "4.2.22",
+                "source_version": "4.2.22",
+                "target_version": "4.2.22",
+                "decode": true,
+                "decode_structural_verification": true,
+                "encode_structural_verification": true,
+                "encode": true,
+                "features": [
+                  "hierarchy_setup_transforms",
+                  "bone_inheritance",
+                  "bone_editor_metadata",
+                  "slots",
+                  "region_attachments",
+                  "mesh",
+                  "weighted_mesh_attachments",
+                  "linked_mesh_attachments",
+                  "deform",
+                  "bone_transform_timelines",
+                  "slot_attachment_rgba_timelines",
+                  "ik_setup_constraints",
+                  "draw_order_timelines"
+                ],
+                "unsupported": [
+                  "attachments",
+                  "constraints",
+                  "animations",
+                  "events",
+                  "implicit_nonessential_metadata"
+                ],
+                "fixture_evidence": [
+                  "docs/evidence/B3_decoder/qualification.json: authentic Powerup decoder",
+                  "tests/fixtures/binary/official42/provenance.json: pinned unchanged sources",
+                  "scripts/compare_binary42.mts: official binary semantic reference"
+                ],
+                "structurally_verified": true,
+                "semantically_qualified": false,
+                "runtime_qualified": false,
+                "input_formats": [
+                  "json",
+                  "binary"
+                ],
+                "output_formats": [
+                  "json",
+                  "binary"
+                ],
+                "experimental": true,
+                "supported_attachments": [
+                  "region",
+                  "mesh",
+                  "linkedmesh"
+                ],
+                "supported_bone_timelines": [
+                  "rotate",
+                  "translate",
+                  "translatex",
+                  "translatey",
+                  "scale",
+                  "scalex",
+                  "scaley",
+                  "shear",
+                  "shearx",
+                  "sheary"
+                ],
+                "supported_slot_timelines": [
+                  "attachment",
+                  "rgba"
+                ],
+                "supported_attachment_timelines": [
+                  "deform"
+                ],
+                "supported_global_timelines": [
+                  "drawOrder"
+                ],
+                "supported_constraints": [
+                  "one_or_two_bone_ik_setup_without_skin_requirement"
+                ],
+                "interpolation": [
+                  "linear",
+                  "stepped",
+                  "bezier_per_channel"
+                ],
+                "decoder_qualification": "experimental: authentic Powerup 4.2.22 region/bone/RGBA comparisons; unverified fields and release gates remain",
+                "encoder_qualification": "unqualified: unchanged authentic JSON rejected; binary-derived input is not independent JSON encoder qualification",
+                "restrictions": [
+                  "exact registered export version only; runtime package version is separate",
+                  "no composed migration route promotion; B2 qualification unchanged",
+                  "no events, constraint timelines, physics, paths or sequences",
+                  "nonessential fields require explicit metadata; no hash truncation",
+                  "B4 production binary admission remains approved-fixture-only"
+                ]
+              },
+              "verification": "passed",
+              "error": null
+            },
+            "encode": null
+          },
+          "merge_diagnostic": null
+        }
+      ],
+      "input_checksums": {
+        "powerup-ess.skel": "0e739e50f3e44e8bacd481649a8e9deee3ed3722c4813ba673f1a862dbc65d0b",
+        "powerup.atlas": "7e4c3a8a7a99a7d5e21f67010fb1ac6c25560ee4f4327489817356626edf7cb1",
+        "powerup.png": "e53af73f5c60e38052903dd222c2e985fc46aedd67c6b545664afee4d634fa33"
+      },
+      "output_checksums": {},
+      "packaged_file_checksums": {},
+      "source_risk_status": {
+        "powerup-ess.json": "no_known_issue_in_registry"
+      },
+      "dependency_mappings": {
+        "atlases": {},
+        "textures": []
+      },
+      "excluded_files": [],
+      "file_renames": {},
+      "files_generated": [],
+      "files_preserved": [],
+      "files_transformed": [],
+      "texture_integrity": "not_run",
+      "package_sha256": null,
+      "callback_warning": null,
+      "sidecar_error": null,
+      "cleanup_warning": null,
+      "inspection": null,
+      "diagnostic": {
+        "code": "BUNDLE_REJECTED",
+        "stage": "PLANNING",
+        "message": "Selected bundles failed conversion or output merging; no output published",
+        "asset_id": "powerup-ess.json",
+        "file_path": "powerup-ess.json",
+        "technical_details": "Selected bundles failed conversion or output merging; no output published",
+        "suggestion": "Review dependency, qualification and output policies",
+        "publication_status": "not_published"
+      }
+    }
+  ],
+  "source_and_png_immutable": true,
+  "b4_policy_sha256": "94cea0f75bb15740d623f7e6f9b2662f918a305dde33de6526e60ebe6b2e5427",
+  "b2_evidence_sha256": "dc15e96918276823c182f2625ecbe599dd1252b05c2c6dc43837fe83e911408e",
+  "sources": {
+    "src/fnx_spine_forge/binary.py": "95ead9ebdce6765426d1b96f3b211722165bf30c16dbf10e4a02e1cf13d8098a",
+    "src/fnx_spine_forge/binary_animation.py": "5eb1e8e7b7c6510591698b5e7409055cb1c174ab5c1fced93613caf8f987d9c8",
+    "src/fnx_spine_forge/binary_schema.py": "b9bdc1dda26bbb34a6624763abf501f014f91e4fc56bba750b6df49c46437b57",
+    "scripts/compare_binary42.mts": "945f01a94e95af519583971d51c59cff9a1f7e0a6de5ec0b4c73713a34f7849c",
+    "scripts/qualify_authentic_binary.py": "de2d62d046d58caca996f286c7039aae95ed9ad253bf6fcb973877c6f211f8b1"
+  }
+}

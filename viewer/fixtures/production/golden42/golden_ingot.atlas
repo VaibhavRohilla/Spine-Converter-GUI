@@ -1,0 +1,35 @@
+golden_ingot.png
+  size: 1718,891
+  format: RGBA8888
+  filter: Linear,Linear
+  repeat: none
+01_Jade_Medallion_Background
+  rotate: 90
+  bounds: 1204, 361, 528, 512
+  offsets: 0, 0, 528, 512
+  index: -1
+02_Gold_Ingot_Foreground
+  rotate: 0
+  bounds: 1204, 82, 480, 277
+  offsets: 0, 0, 480, 277
+  index: -1
+04_Top_Pointer (1)
+  rotate: 0
+  bounds: 627, 2, 345, 325
+  offsets: 0, 0, 345, 325
+  index: -1
+Wheel
+  rotate: 0
+  bounds: 2, 273, 623, 616
+  offsets: 5, 0, 635, 620
+  index: -1
+WheelHolder
+  rotate: 0
+  bounds: 627, 329, 575, 560
+  offsets: 26, 39, 627, 627
+  index: -1
+fx_00000
+  rotate: 90
+  bounds: 974, 205, 122, 82
+  offsets: 3, 3, 128, 88
+  index: -1

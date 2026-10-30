@@ -1,0 +1,27 @@
+{
+  "d36f8e97a113e7ec2b1c9e20a706b0a1464914a92c057dc5541c921a3ec4123c": {
+    "version": "3.8.55",
+    "bytes": 61383,
+    "source": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8b4844bd4b193ba9e54487ed397a777993cbad56/examples/spineboy/export/spineboy-pro.skel"
+  },
+  "3347eeac9858b9eee5415cd36435d9b529c30793e66a04edb20c0a57b427e918": {
+    "version": "4.0.31",
+    "bytes": 67481,
+    "source": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/425ce416bb218b28caeec47b317aa57cd7140375/examples/spineboy/export/spineboy-pro.skel"
+  },
+  "7104c7e8f45d3ce9af8fdcb7d50d95ab8cbbdddfda9e273e893845f6a234245c": {
+    "version": "4.1.17",
+    "bytes": 67563,
+    "source": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/77a5db0ec6d16331f5efbaa7662bba9355bd3424/examples/spineboy/export/spineboy-pro.skel"
+  },
+  "1345de0e8e4729559f39060ed614429b21ab39bfc09ed2e1f58fcf054a8b5925": {
+    "version": "4.2.22",
+    "bytes": 64463,
+    "source": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/e7dc1435fa4a0083ab431f1b28e083c14a1f5c68/examples/spineboy/export/spineboy-pro.skel"
+  },
+  "e10de3f2473a37139c3ad1fda14e84b29ef401475ec9fa2129e7d2a311088845": {
+    "version": "4.3.75-beta",
+    "bytes": 65335,
+    "source": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/ee2a10936a103ac187d74f7709f855653e923eae/examples/spineboy/export/spineboy-pro.skel"
+  }
+}

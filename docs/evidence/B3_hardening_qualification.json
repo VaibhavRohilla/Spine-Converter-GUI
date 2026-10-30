@@ -1,0 +1,86 @@
+{
+  "binary_qualification": {
+    "authentic_matching_export_fixture": false,
+    "decode": "experimental_hierarchy_only",
+    "encode": "experimental_hierarchy_only",
+    "exact_version": "4.2.43",
+    "full_binary_runtime_verified": false,
+    "semantic_qualified": false,
+    "visual_verified": false
+  },
+  "binary_reference": {
+    "animations": 0,
+    "bones": [
+      {
+        "inherit": 0,
+        "length": 5,
+        "name": "root",
+        "parent": null,
+        "rotation": 10,
+        "scaleX": 1,
+        "scaleY": 1,
+        "shearX": 0,
+        "shearY": 0,
+        "skin": false,
+        "x": 2,
+        "y": -3
+      }
+    ],
+    "reference": "@esotericsoftware/spine-core@4.2.43",
+    "skins": 0,
+    "slots": 0,
+    "version": "4.2.43"
+  },
+  "branch": "codex/b3-production-hardening",
+  "build": {
+    "command": ".venv/bin/python -m build",
+    "sdist": true,
+    "wheel": true
+  },
+  "decision": "B3 PARTIAL \u2014 BUNDLE SUBSYSTEM FROZEN",
+  "external_strict_mypy_client": true,
+  "implementation_commit": "659dbe4656e93ba8d8c93769a7744fec4aae28ae",
+  "isolated_wheel_smoke": {
+    "deterministic_zip": true,
+    "overwrite_rejected": true,
+    "qualification_rejected": true,
+    "selected_shared_bundle": true,
+    "source_texture_preserved": true,
+    "wheel_cli": true,
+    "zip_folder_parity": true,
+    "zip_sha256": "743b4a92ac87b367aced73ddbbae3c5d5505f695b29f60982dfd5b4813337dda"
+  },
+  "mypy": {
+    "command": ".venv/bin/mypy",
+    "passed": true,
+    "source_files": 50
+  },
+  "obsolete_modules_absent": [
+    "registry.py",
+    "errors.py",
+    "protocols.py"
+  ],
+  "package_version": "0.2.0",
+  "pep561_marker": true,
+  "real_asset_multi_page": {
+    "execution_completed": true,
+    "experimental": true,
+    "source_version": "4.2.43",
+    "target_version": "4.3.13",
+    "texture_bytes_preserved": true,
+    "textures": {
+      "merged_multi.png": "54a1cddeea2dbca8bdff33af90c2dbab22344c03cc37194ab5a9c52ad958ee93",
+      "merged_multi2.png": "1d1b7176417f7a692ee7147d0f2e5aa2f9a6017afabc35b7f54937c538cb5835"
+    }
+  },
+  "ruff": {
+    "command": ".venv/bin/ruff check src tests",
+    "passed": true
+  },
+  "schema_version": 1,
+  "tests": {
+    "command": ".venv/bin/python -m pytest -q",
+    "passed": 382
+  },
+  "wheel_source_identical": true
+}

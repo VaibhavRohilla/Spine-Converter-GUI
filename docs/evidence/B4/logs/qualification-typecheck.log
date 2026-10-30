@@ -1,0 +1,3 @@
+
+> fnx-spine-forge-viewer@0.1.0 typecheck
+> node viewer/scripts/generate.mjs && tsc -p viewer/tsconfig.json

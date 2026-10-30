@@ -1,0 +1,31 @@
+{
+  "dependencies": {
+    "spine40": "npm:@esotericsoftware/spine-webgl@4.0.31",
+    "spine41": "npm:@esotericsoftware/spine-webgl@4.1.56",
+    "spine42": "npm:@esotericsoftware/spine-webgl@4.2.43",
+    "spine43": "npm:@esotericsoftware/spine-webgl@4.3.13",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.1",
+    "@types/node": "26.6.5",
+    "@types/pngjs": "6.0.5",
+    "esbuild": "0.28.2",
+    "eslint": "10.13.0",
+    "pngjs": "7.0.0",
+    "prettier": "3.9.10",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.72.0"
+  },
+  "name": "fnx-spine-forge-viewer",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "prepare:runtime": "node viewer/scripts/prepare38.mjs && node viewer/scripts/generate.mjs",
+    "typecheck": "node viewer/scripts/generate.mjs && tsc -p viewer/tsconfig.json && tsc -p scripts/tsconfig.binary.json",
+    "build": "node viewer/scripts/generate.mjs && node viewer/scripts/build.mjs",
+    "lint": "eslint viewer/src --ignore-pattern generated",
+    "test": "playwright test -c viewer/playwright.config.ts"
+  }
+}

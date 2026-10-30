@@ -1,0 +1,3633 @@
+{
+  "wheel": "1068e1a99efd8f20a13b025f355920d918d4a5c739b82a6f689fcaf013724fbf",
+  "sdist": "a7e76c8689f50c6c52f275a37071c6daa968c9e1b5a710c9df69513a6b1b7056",
+  "installed_module": "/private/tmp/fnx-b3-installed-py312/lib/python3.12/site-packages/fnx_spine_forge/binary.py",
+  "module_matches_checkout": true,
+  "source_immutable": true,
+  "png_identity": true,
+  "experimental_4_2_43_zip_folder_determinism": true,
+  "authentic_qualified_4_2_22_workflow": "PASS; installed CLI and API convert ZIP/folder inputs both directions",
+  "commands": [
+    {
+      "command": [
+        "/private/tmp/fnx-b3-installed-py312/bin/spine-forge",
+        "binary-capabilities"
+      ],
+      "exit_code": 0,
+      "stdout": [
+        {
+          "decode": true,
+          "decode_structural_verification": true,
+          "decoder_qualification": "unqualified: authentic animated binary evidence missing",
+          "encode": true,
+          "encode_structural_verification": true,
+          "encoder_qualification": "experimental: specified-fixture official runtime comparisons",
+          "experimental": true,
+          "features": [
+            "hierarchy_setup_transforms",
+            "bone_inheritance",
+            "bone_editor_metadata",
+            "slots",
+            "region_attachments",
+            "mesh",
+            "weighted_mesh_attachments",
+            "linked_mesh_attachments",
+            "deform",
+            "bone_transform_timelines",
+            "slot_attachment_rgba_timelines",
+            "ik_setup_constraints",
+            "draw_order_timelines"
+          ],
+          "fixture_evidence": [
+            "docs/evidence/B3_binary/qualification.json: animated encoder fixtures",
+            "tests/test_binary_animation.py: independent region/rotate decoder wire vector",
+            "decode: independent hand-authored wire vector; official reader parsed",
+            "encode: independent layout assertions and official reader parsed",
+            "wire SHA-256: 6e9dd66f7417a4c30415ba496331e5fff3fed83518ba49f754b53c4a45c35e28"
+          ],
+          "input_formats": [
+            "json",
+            "binary"
+          ],
+          "interpolation": [
+            "linear",
+            "stepped",
+            "bezier_per_channel"
+          ],
+          "output_formats": [
+            "json",
+            "binary"
+          ],
+          "qualified_profile": [],
+          "raw_bezier_handle_identity_qualified": false,
+          "restrictions": [
+            "exact registered export version only; runtime package version is separate",
+            "no composed migration route promotion; B2 qualification unchanged",
+            "no events, constraint timelines, physics, paths or sequences",
+            "4.2.22 uses pinned official JSON nonessential defaults; 4.2.43 requires explicit metadata",
+            "evaluated Bezier interpolation is supported; raw serialized handle identity is unqualified",
+            "B4 production binary admission remains approved-fixture-only"
+          ],
+          "runtime_qualified": false,
+          "semantically_qualified": false,
+          "source_version": "4.2.43",
+          "structurally_verified": true,
+          "supported_attachment_timelines": [
+            "deform"
+          ],
+          "supported_attachments": [
+            "region",
+            "mesh",
+            "linkedmesh"
+          ],
+          "supported_bone_timelines": [
+            "rotate",
+            "translate",
+            "translatex",
+            "translatey",
+            "scale",
+            "scalex",
+            "scaley",
+            "shear",
+            "shearx",
+            "sheary"
+          ],
+          "supported_constraints": [
+            "one_or_two_bone_ik_setup_without_skin_requirement"
+          ],
+          "supported_global_timelines": [
+            "drawOrder"
+          ],
+          "supported_slot_timelines": [
+            "attachment",
+            "rgba"
+          ],
+          "target_version": "4.2.43",
+          "unqualified_profile": [],
+          "unsupported": [
+            "attachments",
+            "constraints",
+            "animations",
+            "events",
+            "implicit_nonessential_metadata"
+          ],
+          "version": "4.2.43"
+        },
+        {
+          "decode": true,
+          "decode_structural_verification": true,
+          "decoder_qualification": "qualified restricted Powerup 4.2.22 profile; raw Bezier handle identity and unlisted feature categories are excluded",
+          "encode": true,
+          "encode_structural_verification": true,
+          "encoder_qualification": "qualified restricted Powerup 4.2.22 profile against unchanged official JSON and independent official runtime",
+          "experimental": false,
+          "features": [
+            "hierarchy_setup_transforms",
+            "bone_inheritance",
+            "bone_editor_metadata",
+            "slots",
+            "region_attachments",
+            "mesh",
+            "weighted_mesh_attachments",
+            "linked_mesh_attachments",
+            "deform",
+            "bone_transform_timelines",
+            "slot_attachment_rgba_timelines",
+            "ik_setup_constraints",
+            "draw_order_timelines"
+          ],
+          "fixture_evidence": [
+            "docs/evidence/B3_decoder/qualification.json: authentic Powerup decoder",
+            "tests/fixtures/binary/official42/provenance.json: pinned unchanged sources",
+            "scripts/compare_binary42.mts: official binary semantic reference"
+          ],
+          "input_formats": [
+            "json",
+            "binary"
+          ],
+          "interpolation": [
+            "linear",
+            "stepped",
+            "bezier_per_channel"
+          ],
+          "output_formats": [
+            "json",
+            "binary"
+          ],
+          "qualified_profile": [
+            "hierarchy_setup_transforms",
+            "skins_attachments: region only",
+            "rotation",
+            "translation",
+            "scale",
+            "shear",
+            "slot_color_attachment: rgba linear and stepped",
+            "bezier_channels: evaluated interpolation semantics"
+          ],
+          "raw_bezier_handle_identity_qualified": false,
+          "restrictions": [
+            "exact registered export version only; runtime package version is separate",
+            "no composed migration route promotion; B2 qualification unchanged",
+            "no events, constraint timelines, physics, paths or sequences",
+            "4.2.22 uses pinned official JSON nonessential defaults; 4.2.43 requires explicit metadata",
+            "evaluated Bezier interpolation is supported; raw serialized handle identity is unqualified",
+            "B4 production binary admission remains approved-fixture-only"
+          ],
+          "runtime_qualified": true,
+          "semantically_qualified": true,
+          "source_version": "4.2.22",
+          "structurally_verified": true,
+          "supported_attachment_timelines": [
+            "deform"
+          ],
+          "supported_attachments": [
+            "region",
+            "mesh",
+            "linkedmesh"
+          ],
+          "supported_bone_timelines": [
+            "rotate",
+            "translate",
+            "translatex",
+            "translatey",
+            "scale",
+            "scalex",
+            "scaley",
+            "shear",
+            "shearx",
+            "sheary"
+          ],
+          "supported_constraints": [
+            "one_or_two_bone_ik_setup_without_skin_requirement"
+          ],
+          "supported_global_timelines": [
+            "drawOrder"
+          ],
+          "supported_slot_timelines": [
+            "attachment",
+            "rgba"
+          ],
+          "target_version": "4.2.22",
+          "unqualified_profile": [
+            "meshes and linked meshes",
+            "deform",
+            "constraints",
+            "events and draw-order semantics",
+            "unsupported attachments",
+            "non-default bone inheritance and unverified bone extensions",
+            "separate-axis bone timelines",
+            "slot attachment timelines",
+            "other slot-color timeline kinds",
+            "slot-color Bezier channels",
+            "raw serialized Bezier handle identity",
+            "other export patches and cross-version conversion"
+          ],
+          "unsupported": [
+            "attachments",
+            "constraints",
+            "animations",
+            "events",
+            "implicit_nonessential_metadata"
+          ],
+          "version": "4.2.22"
+        }
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/fnx-b3-installed-py312/bin/spine-forge",
+        "bundle",
+        "convert",
+        "--input",
+        "/private/tmp/fnx-b3-installed-evidence-final2/source",
+        "--target",
+        "4.2.43",
+        "--container",
+        "zip",
+        "--skeleton-format",
+        "binary",
+        "--output",
+        "/private/tmp/fnx-b3-installed-evidence-final2/one.zip",
+        "--experimental-structural"
+      ],
+      "exit_code": 0,
+      "stdout": {
+        "published": true,
+        "report": {
+          "bundles": [
+            {
+              "binary_codec_verification": {
+                "decode": null,
+                "encode": {
+                  "capability": {
+                    "decode": true,
+                    "decode_structural_verification": true,
+                    "decoder_qualification": "unqualified: authentic animated binary evidence missing",
+                    "encode": true,
+                    "encode_structural_verification": true,
+                    "encoder_qualification": "experimental: specified-fixture official runtime comparisons",
+                    "experimental": true,
+                    "features": [
+                      "hierarchy_setup_transforms",
+                      "bone_inheritance",
+                      "bone_editor_metadata",
+                      "slots",
+                      "region_attachments",
+                      "mesh",
+                      "weighted_mesh_attachments",
+                      "linked_mesh_attachments",
+                      "deform",
+                      "bone_transform_timelines",
+                      "slot_attachment_rgba_timelines",
+                      "ik_setup_constraints",
+                      "draw_order_timelines"
+                    ],
+                    "fixture_evidence": [
+                      "docs/evidence/B3_binary/qualification.json: animated encoder fixtures",
+                      "tests/test_binary_animation.py: independent region/rotate decoder wire vector",
+                      "decode: independent hand-authored wire vector; official reader parsed",
+                      "encode: independent layout assertions and official reader parsed",
+                      "wire SHA-256: 6e9dd66f7417a4c30415ba496331e5fff3fed83518ba49f754b53c4a45c35e28"
+                    ],
+                    "input_formats": [
+                      "json",
+                      "binary"
+                    ],
+                    "interpolation": [
+                      "linear",
+                      "stepped",
+                      "bezier_per_channel"
+                    ],
+                    "output_formats": [
+                      "json",
+                      "binary"
+                    ],
+                    "qualified_profile": [],
+                    "raw_bezier_handle_identity_qualified": false,
+                    "restrictions": [
+                      "exact registered export version only; runtime package version is separate",
+                      "no composed migration route promotion; B2 qualification unchanged",
+                      "no events, constraint timelines, physics, paths or sequences",
+                      "4.2.22 uses pinned official JSON nonessential defaults; 4.2.43 requires explicit metadata",
+                      "evaluated Bezier interpolation is supported; raw serialized handle identity is unqualified",
+                      "B4 production binary admission remains approved-fixture-only"
+                    ],
+                    "runtime_qualified": false,
+                    "semantically_qualified": false,
+                    "source_version": "4.2.43",
+                    "structurally_verified": true,
+                    "supported_attachment_timelines": [
+                      "deform"
+                    ],
+                    "supported_attachments": [
+                      "region",
+                      "mesh",
+                      "linkedmesh"
+                    ],
+                    "supported_bone_timelines": [
+                      "rotate",
+                      "translate",
+                      "translatex",
+                      "translatey",
+                      "scale",
+                      "scalex",
+                      "scaley",
+                      "shear",
+                      "shearx",
+                      "sheary"
+                    ],
+                    "supported_constraints": [
+                      "one_or_two_bone_ik_setup_without_skin_requirement"
+                    ],
+                    "supported_global_timelines": [
+                      "drawOrder"
+                    ],
+                    "supported_slot_timelines": [
+                      "attachment",
+                      "rgba"
+                    ],
+                    "target_version": "4.2.43",
+                    "unqualified_profile": [],
+                    "unsupported": [
+                      "attachments",
+                      "constraints",
+                      "animations",
+                      "events",
+                      "implicit_nonessential_metadata"
+                    ],
+                    "version": "4.2.43"
+                  },
+                  "error": null,
+                  "verification": "passed"
+                }
+              },
+              "bundle_id": "asset.json",
+              "details": {
+                "experimental_structural": true,
+                "per_hop": [],
+                "rejected_routes": [],
+                "source_risk_warnings": [],
+                "structural_verification": "every_hop_and_asset_set",
+                "texture_sha256": {
+                  "page.png": "c21704e2430ff2c421a08438f7b2d412796fb2061312f1b9080f352eea663a15"
+                },
+                "textures_unchanged": true
+              },
+              "diagnostics": [],
+              "execution_success": true,
+              "merge_diagnostic": null,
+              "qualification": {
+                "available_level": "not_qualified",
+                "diagnostic_codes": [
+                  "QUALIFICATION_EXPERIMENTAL_OUTPUT"
+                ],
+                "diagnostics": [
+                  "Experimental structural output; semantic qualification is not asserted"
+                ],
+                "missing_evidence": [
+                  "Experimental structural output; semantic qualification is not asserted"
+                ],
+                "qualified": false,
+                "qualified_features": [],
+                "required_level": "semantic_qualified",
+                "runtime_verified": false,
+                "schema_version": 1,
+                "selected_path": [
+                  "4.2.43"
+                ],
+                "unqualified_features": [
+                  "atlas_geometry",
+                  "bezier_channels",
+                  "hierarchy_setup_transforms",
+                  "rotation",
+                  "scale",
+                  "shear",
+                  "skins_attachments",
+                  "slot_color_attachment",
+                  "translation"
+                ],
+                "visually_verified": false
+              },
+              "route": [
+                "4.2.43"
+              ],
+              "source_format": "json",
+              "source_version": "4.2.43",
+              "structural_validation": "structurally_verified",
+              "target_version": "4.2.43"
+            }
+          ],
+          "callback_warning": null,
+          "cleanup_warning": null,
+          "container": "zip",
+          "dependency_mappings": {
+            "atlases": {},
+            "textures": []
+          },
+          "diagnostic": null,
+          "discovered_bundle_ids": [
+            "asset.json"
+          ],
+          "excluded_files": [],
+          "experimental_authorized": true,
+          "file_renames": {
+            "asset.json": "asset.skel"
+          },
+          "files_generated": [
+            "asset.skel"
+          ],
+          "files_preserved": [
+            "asset.atlas",
+            "page.png"
+          ],
+          "files_transformed": [],
+          "input_checksums": {
+            "asset.atlas": "0d6e264037da00c703e85f2185e4e8a4d7e817b59bb875244786ba659d6e512a",
+            "asset.json": "4ab03fdfca8fd6e53e0674daa2f7bb48f3ba8c3c83582e06c26452b2843d7df4",
+            "page.png": "c21704e2430ff2c421a08438f7b2d412796fb2061312f1b9080f352eea663a15"
+          },
+          "input_type": "folder",
+          "inspection": null,
+          "output": "/private/tmp/fnx-b3-installed-evidence-final2/one.zip",
+          "output_checksums": {
+            "asset.atlas": "0d6e264037da00c703e85f2185e4e8a4d7e817b59bb875244786ba659d6e512a",
+            "asset.skel": "7ce8fb76919a59fff812fb0c2db12af6842703dfbe622973940b335b9d6304d4",
+            "page.png": "c21704e2430ff2c421a08438f7b2d412796fb2061312f1b9080f352eea663a15"
+          },
+          "package_integrity": "passed",
+          "package_mode": "viewer",
+          "package_sha256": "c11f57e8d8eb3b017041bef69d71efdae52ebf88be2c8782e420566bb7cd4f50",
+          "packaged_file_checksums": {
+            "asset.atlas": "0d6e264037da00c703e85f2185e4e8a4d7e817b59bb875244786ba659d6e512a",
+            "asset.skel": "7ce8fb76919a59fff812fb0c2db12af6842703dfbe622973940b335b9d6304d4",
+            "page.png": "c21704e2430ff2c421a08438f7b2d412796fb2061312f1b9080f352eea663a15"
+          },
+          "publication": "published",
+          "retention": "required_only",
+          "runtime_verification": "not_run",
+          "schema_version": 2,
+          "selected_bundle_ids": [
+            "asset.json"
+          ],
+          "sidecar_error": null,
+          "source": "/private/tmp/fnx-b3-installed-evidence-final2/source",
+          "source_locations": [
+            "/private/tmp/fnx-b3-installed-evidence-final2/source"
+          ],
+          "source_risk_policy": "reject_known_issues",
+          "source_risk_status": {
+            "asset.json": "no_known_issue_in_registry"
+          },
+          "structural_validation": "passed",
+          "target": "4.2.43",
+          "target_format": "binary",
+          "texture_integrity": "png_header_crc_deflate_scanlines",
+          "visual_verification": "not_run"
+        },
+        "status": "completed"
+      },
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/fnx-b3-installed-py312/bin/spine-forge",
+        "bundle",
+        "convert",
+        "--input",
+        "/private/tmp/fnx-b3-installed-evidence-final2/source",
+        "--target",
+        "4.2.43",
+        "--container",
+        "zip",
+        "--skeleton-format",
+        "binary",
+        "--output",
+        "/private/tmp/fnx-b3-installed-evidence-final2/two.zip",
+        "--experimental-structural"
+      ],
+      "exit_code": 0,
+      "stdout": {
+        "published": true,
+        "report": {
+          "bundles": [
+            {
+              "binary_codec_verification": {
+                "decode": null,
+                "encode": {
+                  "capability": {
+                    "decode": true,
+                    "decode_structural_verification": true,
+                    "decoder_qualification": "unqualified: authentic animated binary evidence missing",
+                    "encode": true,
+                    "encode_structural_verification": true,
+                    "encoder_qualification": "experimental: specified-fixture official runtime comparisons",
+                    "experimental": true,
+                    "features": [
+                      "hierarchy_setup_transforms",
+                      "bone_inheritance",
+                      "bone_editor_metadata",
+                      "slots",
+                      "region_attachments",
+                      "mesh",
+                      "weighted_mesh_attachments",
+                      "linked_mesh_attachments",
+                      "deform",
+                      "bone_transform_timelines",
+                      "slot_attachment_rgba_timelines",
+                      "ik_setup_constraints",
+                      "draw_order_timelines"
+                    ],
+                    "fixture_evidence": [
+                      "docs/evidence/B3_binary/qualification.json: animated encoder fixtures",
+                      "tests/test_binary_animation.py: independent region/rotate decoder wire vector",
+                      "decode: independent hand-authored wire vector; official reader parsed",
+                      "encode: independent layout assertions and official reader parsed",
+                      "wire SHA-256: 6e9dd66f7417a4c30415ba496331e5fff3fed83518ba49f754b53c4a45c35e28"
+                    ],
+                    "input_formats": [
+                      "json",
+                      "binary"
+                    ],
+                    "interpolation": [
+                      "linear",
+                      "stepped",
+                      "bezier_per_channel"
+                    ],
+                    "output_formats": [
+                      "json",
+                      "binary"
+                    ],
+                    "qualified_profile": [],
+                    "raw_bezier_handle_identity_qualified": false,
+                    "restrictions": [
+                      "exact registered export version only; runtime package version is separate",
+                      "no composed migration route promotion; B2 qualification unchanged",
+                      "no events, constraint timelines, physics, paths or sequences",
+                      "4.2.22 uses pinned official JSON nonessential defaults; 4.2.43 requires explicit metadata",
+                      "evaluated Bezier interpolation is supported; raw serialized handle identity is unqualified",
+                      "B4 production binary admission remains approved-fixture-only"
+                    ],
+                    "runtime_qualified": false,
+                    "semantically_qualified": false,
+                    "source_version": "4.2.43",
+                    "structurally_verified": true,
+                    "supported_attachment_timelines": [
+                      "deform"
+                    ],
+                    "supported_attachments": [
+                      "region",
+                      "mesh",
+                      "linkedmesh"
+                    ],
+                    "supported_bone_timelines": [
+                      "rotate",
+                      "translate",
+                      "translatex",
+                      "translatey",
+                      "scale",
+                      "scalex",
+                      "scaley",
+                      "shear",
+                      "shearx",
+                      "sheary"
+                    ],
+                    "supported_constraints": [
+                      "one_or_two_bone_ik_setup_without_skin_requirement"
+                    ],
+                    "supported_global_timelines": [
+                      "drawOrder"
+                    ],
+                    "supported_slot_timelines": [
+                      "attachment",
+                      "rgba"
+                    ],
+                    "target_version": "4.2.43",
+                    "unqualified_profile": [],
+                    "unsupported": [
+                      "attachments",
+                      "constraints",
+                      "animations",
+                      "events",
+                      "implicit_nonessential_metadata"
+                    ],
+                    "version": "4.2.43"
+                  },
+                  "error": null,
+                  "verification": "passed"
+                }
+              },
+              "bundle_id": "asset.json",
+              "details": {
+                "experimental_structural": true,
+                "per_hop": [],
+                "rejected_routes": [],
+                "source_risk_warnings": [],
+                "structural_verification": "every_hop_and_asset_set",
+                "texture_sha256": {
+                  "page.png": "c21704e2430ff2c421a08438f7b2d412796fb2061312f1b9080f352eea663a15"
+                },
+                "textures_unchanged": true
+              },
+              "diagnostics": [],
+              "execution_success": true,
+              "merge_diagnostic": null,
+              "qualification": {
+                "available_level": "not_qualified",
+                "diagnostic_codes": [
+                  "QUALIFICATION_EXPERIMENTAL_OUTPUT"
+                ],
+                "diagnostics": [
+                  "Experimental structural output; semantic qualification is not asserted"
+                ],
+                "missing_evidence": [
+                  "Experimental structural output; semantic qualification is not asserted"
+                ],
+                "qualified": false,
+                "qualified_features": [],
+                "required_level": "semantic_qualified",
+                "runtime_verified": false,
+                "schema_version": 1,
+                "selected_path": [
+                  "4.2.43"
+                ],
+                "unqualified_features": [
+                  "atlas_geometry",
+                  "bezier_channels",
+                  "hierarchy_setup_transforms",
+                  "rotation",
+                  "scale",
+                  "shear",
+                  "skins_attachments",
+                  "slot_color_attachment",
+                  "translation"
+                ],
+                "visually_verified": false
+              },
+              "route": [
+                "4.2.43"
+              ],
+              "source_format": "json",
+              "source_version": "4.2.43",
+              "structural_validation": "structurally_verified",
+              "target_version": "4.2.43"
+            }
+          ],
+          "callback_warning": null,
+          "cleanup_warning": null,
+          "container": "zip",
+          "dependency_mappings": {
+            "atlases": {},
+            "textures": []
+          },
+          "diagnostic": null,
+          "discovered_bundle_ids": [
+            "asset.json"
+          ],
+          "excluded_files": [],
+          "experimental_authorized": true,
+          "file_renames": {
+            "asset.json": "asset.skel"
+          },
+          "files_generated": [
+            "asset.skel"
+          ],
+          "files_preserved": [
+            "asset.atlas",
+            "page.png"
+          ],
+          "files_transformed": [],
+          "input_checksums": {
+            "asset.atlas": "0d6e264037da00c703e85f2185e4e8a4d7e817b59bb875244786ba659d6e512a",
+            "asset.json": "4ab03fdfca8fd6e53e0674daa2f7bb48f3ba8c3c83582e06c26452b2843d7df4",
+            "page.png": "c21704e2430ff2c421a08438f7b2d412796fb2061312f1b9080f352eea663a15"
+          },
+          "input_type": "folder",
+          "inspection": null,
+          "output": "/private/tmp/fnx-b3-installed-evidence-final2/two.zip",
+          "output_checksums": {
+            "asset.atlas": "0d6e264037da00c703e85f2185e4e8a4d7e817b59bb875244786ba659d6e512a",
+            "asset.skel": "7ce8fb76919a59fff812fb0c2db12af6842703dfbe622973940b335b9d6304d4",
+            "page.png": "c21704e2430ff2c421a08438f7b2d412796fb2061312f1b9080f352eea663a15"
+          },
+          "package_integrity": "passed",
+          "package_mode": "viewer",
+          "package_sha256": "c11f57e8d8eb3b017041bef69d71efdae52ebf88be2c8782e420566bb7cd4f50",
+          "packaged_file_checksums": {
+            "asset.atlas": "0d6e264037da00c703e85f2185e4e8a4d7e817b59bb875244786ba659d6e512a",
+            "asset.skel": "7ce8fb76919a59fff812fb0c2db12af6842703dfbe622973940b335b9d6304d4",
+            "page.png": "c21704e2430ff2c421a08438f7b2d412796fb2061312f1b9080f352eea663a15"
+          },
+          "publication": "published",
+          "retention": "required_only",
+          "runtime_verification": "not_run",
+          "schema_version": 2,
+          "selected_bundle_ids": [
+            "asset.json"
+          ],
+          "sidecar_error": null,
+          "source": "/private/tmp/fnx-b3-installed-evidence-final2/source",
+          "source_locations": [
+            "/private/tmp/fnx-b3-installed-evidence-final2/source"
+          ],
+          "source_risk_policy": "reject_known_issues",
+          "source_risk_status": {
+            "asset.json": "no_known_issue_in_registry"
+          },
+          "structural_validation": "passed",
+          "target": "4.2.43",
+          "target_format": "binary",
+          "texture_integrity": "png_header_crc_deflate_scanlines",
+          "visual_verification": "not_run"
+        },
+        "status": "completed"
+      },
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/fnx-b3-installed-py312/bin/spine-forge",
+        "bundle",
+        "convert",
+        "--input",
+        "/private/tmp/fnx-b3-installed-evidence-final2/one.zip",
+        "--target",
+        "4.2.43",
+        "--container",
+        "folder",
+        "--output",
+        "/private/tmp/fnx-b3-installed-evidence-final2/json-folder",
+        "--experimental-structural"
+      ],
+      "exit_code": 0,
+      "stdout": {
+        "published": true,
+        "report": {
+          "bundles": [
+            {
+              "binary_codec_verification": {
+                "decode": {
+                  "capability": {
+                    "decode": true,
+                    "decode_structural_verification": true,
+                    "decoder_qualification": "unqualified: authentic animated binary evidence missing",
+                    "encode": true,
+                    "encode_structural_verification": true,
+                    "encoder_qualification": "experimental: specified-fixture official runtime comparisons",
+                    "experimental": true,
+                    "features": [
+                      "hierarchy_setup_transforms",
+                      "bone_inheritance",
+                      "bone_editor_metadata",
+                      "slots",
+                      "region_attachments",
+                      "mesh",
+                      "weighted_mesh_attachments",
+                      "linked_mesh_attachments",
+                      "deform",
+                      "bone_transform_timelines",
+                      "slot_attachment_rgba_timelines",
+                      "ik_setup_constraints",
+                      "draw_order_timelines"
+                    ],
+                    "fixture_evidence": [
+                      "docs/evidence/B3_binary/qualification.json: animated encoder fixtures",
+                      "tests/test_binary_animation.py: independent region/rotate decoder wire vector",
+                      "decode: independent hand-authored wire vector; official reader parsed",
+                      "encode: independent layout assertions and official reader parsed",
+                      "wire SHA-256: 6e9dd66f7417a4c30415ba496331e5fff3fed83518ba49f754b53c4a45c35e28"
+                    ],
+                    "input_formats": [
+                      "json",
+                      "binary"
+                    ],
+                    "interpolation": [
+                      "linear",
+                      "stepped",
+                      "bezier_per_channel"
+                    ],
+                    "output_formats": [
+                      "json",
+                      "binary"
+                    ],
+                    "qualified_profile": [],
+                    "raw_bezier_handle_identity_qualified": false,
+                    "restrictions": [
+                      "exact registered export version only; runtime package version is separate",
+                      "no composed migration route promotion; B2 qualification unchanged",
+                      "no events, constraint timelines, physics, paths or sequences",
+                      "4.2.22 uses pinned official JSON nonessential defaults; 4.2.43 requires explicit metadata",
+                      "evaluated Bezier interpolation is supported; raw serialized handle identity is unqualified",
+                      "B4 production binary admission remains approved-fixture-only"
+                    ],
+                    "runtime_qualified": false,
+                    "semantically_qualified": false,
+                    "source_version": "4.2.43",
+                    "structurally_verified": true,
+                    "supported_attachment_timelines": [
+                      "deform"
+                    ],
+                    "supported_attachments": [
+                      "region",
+                      "mesh",
+                      "linkedmesh"
+                    ],
+                    "supported_bone_timelines": [
+                      "rotate",
+                      "translate",
+                      "translatex",
+                      "translatey",
+                      "scale",
+                      "scalex",
+                      "scaley",
+                      "shear",
+                      "shearx",
+                      "sheary"
+                    ],
+                    "supported_constraints": [
+                      "one_or_two_bone_ik_setup_without_skin_requirement"
+                    ],
+                    "supported_global_timelines": [
+                      "drawOrder"
+                    ],
+                    "supported_slot_timelines": [
+                      "attachment",
+                      "rgba"
+                    ],
+                    "target_version": "4.2.43",
+                    "unqualified_profile": [],
+                    "unsupported": [
+                      "attachments",
+                      "constraints",
+                      "animations",
+                      "events",
+                      "implicit_nonessential_metadata"
+                    ],
+                    "version": "4.2.43"
+                  },
+                  "error": null,
+                  "verification": "passed"
+                },
+                "encode": null
+              },
+              "bundle_id": "asset.skel",
+              "details": {
+                "experimental_structural": true,
+                "per_hop": [],
+                "rejected_routes": [],
+                "source_risk_warnings": [],
+                "structural_verification": "every_hop_and_asset_set",
+                "texture_sha256": {
+                  "page.png": "c21704e2430ff2c421a08438f7b2d412796fb2061312f1b9080f352eea663a15"
+                },
+                "textures_unchanged": true
+              },
+              "diagnostics": [],
+              "execution_success": true,
+              "merge_diagnostic": null,
+              "qualification": {
+                "available_level": "not_qualified",
+                "diagnostic_codes": [
+                  "QUALIFICATION_EXPERIMENTAL_OUTPUT"
+                ],
+                "diagnostics": [
+                  "Experimental structural output; semantic qualification is not asserted"
+                ],
+                "missing_evidence": [
+                  "Experimental structural output; semantic qualification is not asserted"
+                ],
+                "qualified": false,
+                "qualified_features": [],
+                "required_level": "semantic_qualified",
+                "runtime_verified": false,
+                "schema_version": 1,
+                "selected_path": [
+                  "4.2.43"
+                ],
+                "unqualified_features": [
+                  "atlas_geometry",
+                  "bezier_channels",
+                  "bone_inheritance",
+                  "bone_length_skin_editor_metadata",
+                  "hierarchy_setup_transforms",
+                  "rotation",
+                  "scale",
+                  "shear",
+                  "skins_attachments",
+                  "slot_color_attachment",
+                  "translation"
+                ],
+                "visually_verified": false
+              },
+              "route": [
+                "4.2.43"
+              ],
+              "source_format": "binary",
+              "source_version": "4.2.43",
+              "structural_validation": "structurally_verified",
+              "target_version": "4.2.43"
+            }
+          ],
+          "callback_warning": null,
+          "cleanup_warning": null,
+          "container": "folder",
+          "dependency_mappings": {
+            "atlases": {},
+            "textures": []
+          },
+          "diagnostic": null,
+          "discovered_bundle_ids": [
+            "asset.skel"
+          ],
+          "excluded_files": [],
+          "experimental_authorized": true,
+          "file_renames": {
+            "asset.skel": "asset.json"
+          },
+          "files_generated": [
+            "asset.json"
+          ],
+          "files_preserved": [
+            "asset.atlas",
+            "page.png"
+          ],
+          "files_transformed": [],
+          "input_checksums": {
+            "asset.atlas": "0d6e264037da00c703e85f2185e4e8a4d7e817b59bb875244786ba659d6e512a",
+            "asset.skel": "7ce8fb76919a59fff812fb0c2db12af6842703dfbe622973940b335b9d6304d4",
+            "page.png": "c21704e2430ff2c421a08438f7b2d412796fb2061312f1b9080f352eea663a15"
+          },
+          "input_type": "zip",
+          "inspection": null,
+          "output": "/private/tmp/fnx-b3-installed-evidence-final2/json-folder",
+          "output_checksums": {
+            "asset.atlas": "0d6e264037da00c703e85f2185e4e8a4d7e817b59bb875244786ba659d6e512a",
+            "asset.json": "693e801e4a04c6d4604a7e8ae1e5f114387f5b93d236dc50c72e4009e765b7b2",
+            "page.png": "c21704e2430ff2c421a08438f7b2d412796fb2061312f1b9080f352eea663a15"
+          },
+          "package_integrity": "passed",
+          "package_mode": "viewer",
+          "package_sha256": null,
+          "packaged_file_checksums": {
+            "asset.atlas": "0d6e264037da00c703e85f2185e4e8a4d7e817b59bb875244786ba659d6e512a",
+            "asset.json": "693e801e4a04c6d4604a7e8ae1e5f114387f5b93d236dc50c72e4009e765b7b2",
+            "page.png": "c21704e2430ff2c421a08438f7b2d412796fb2061312f1b9080f352eea663a15"
+          },
+          "publication": "published",
+          "retention": "required_only",
+          "runtime_verification": "not_run",
+          "schema_version": 2,
+          "selected_bundle_ids": [
+            "asset.skel"
+          ],
+          "sidecar_error": null,
+          "source": "/private/tmp/fnx-b3-installed-evidence-final2/one.zip",
+          "source_locations": [
+            "/private/tmp/fnx-b3-installed-evidence-final2/one.zip"
+          ],
+          "source_risk_policy": "reject_known_issues",
+          "source_risk_status": {
+            "asset.json": "no_known_issue_in_registry"
+          },
+          "structural_validation": "passed",
+          "target": "4.2.43",
+          "target_format": "json",
+          "texture_integrity": "png_header_crc_deflate_scanlines",
+          "visual_verification": "not_run"
+        },
+        "status": "completed"
+      },
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/fnx-b3-installed-py312/bin/spine-forge",
+        "bundle",
+        "convert",
+        "--input",
+        "/private/tmp/fnx-b3-installed-evidence-final2/one.zip",
+        "--target",
+        "4.2.43",
+        "--container",
+        "zip",
+        "--output",
+        "/private/tmp/fnx-b3-installed-evidence-final2/json-zip.zip",
+        "--experimental-structural"
+      ],
+      "exit_code": 0,
+      "stdout": {
+        "published": true,
+        "report": {
+          "bundles": [
+            {
+              "binary_codec_verification": {
+                "decode": {
+                  "capability": {
+                    "decode": true,
+                    "decode_structural_verification": true,
+                    "decoder_qualification": "unqualified: authentic animated binary evidence missing",
+                    "encode": true,
+                    "encode_structural_verification": true,
+                    "encoder_qualification": "experimental: specified-fixture official runtime comparisons",
+                    "experimental": true,
+                    "features": [
+                      "hierarchy_setup_transforms",
+                      "bone_inheritance",
+                      "bone_editor_metadata",
+                      "slots",
+                      "region_attachments",
+                      "mesh",
+                      "weighted_mesh_attachments",
+                      "linked_mesh_attachments",
+                      "deform",
+                      "bone_transform_timelines",
+                      "slot_attachment_rgba_timelines",
+                      "ik_setup_constraints",
+                      "draw_order_timelines"
+                    ],
+                    "fixture_evidence": [
+                      "docs/evidence/B3_binary/qualification.json: animated encoder fixtures",
+                      "tests/test_binary_animation.py: independent region/rotate decoder wire vector",
+                      "decode: independent hand-authored wire vector; official reader parsed",
+                      "encode: independent layout assertions and official reader parsed",
+                      "wire SHA-256: 6e9dd66f7417a4c30415ba496331e5fff3fed83518ba49f754b53c4a45c35e28"
+                    ],
+                    "input_formats": [
+                      "json",
+                      "binary"
+                    ],
+                    "interpolation": [
+                      "linear",
+                      "stepped",
+                      "bezier_per_channel"
+                    ],
+                    "output_formats": [
+                      "json",
+                      "binary"
+                    ],
+                    "qualified_profile": [],
+                    "raw_bezier_handle_identity_qualified": false,
+                    "restrictions": [
+                      "exact registered export version only; runtime package version is separate",
+                      "no composed migration route promotion; B2 qualification unchanged",
+                      "no events, constraint timelines, physics, paths or sequences",
+                      "4.2.22 uses pinned official JSON nonessential defaults; 4.2.43 requires explicit metadata",
+                      "evaluated Bezier interpolation is supported; raw serialized handle identity is unqualified",
+                      "B4 production binary admission remains approved-fixture-only"
+                    ],
+                    "runtime_qualified": false,
+                    "semantically_qualified": false,
+                    "source_version": "4.2.43",
+                    "structurally_verified": true,
+                    "supported_attachment_timelines": [
+                      "deform"
+                    ],
+                    "supported_attachments": [
+                      "region",
+                      "mesh",
+                      "linkedmesh"
+                    ],
+                    "supported_bone_timelines": [
+                      "rotate",
+                      "translate",
+                      "translatex",
+                      "translatey",
+                      "scale",
+                      "scalex",
+                      "scaley",
+                      "shear",
+                      "shearx",
+                      "sheary"
+                    ],
+                    "supported_constraints": [
+                      "one_or_two_bone_ik_setup_without_skin_requirement"
+                    ],
+                    "supported_global_timelines": [
+                      "drawOrder"
+                    ],
+                    "supported_slot_timelines": [
+                      "attachment",
+                      "rgba"
+                    ],
+                    "target_version": "4.2.43",
+                    "unqualified_profile": [],
+                    "unsupported": [
+                      "attachments",
+                      "constraints",
+                      "animations",
+                      "events",
+                      "implicit_nonessential_metadata"
+                    ],
+                    "version": "4.2.43"
+                  },
+                  "error": null,
+                  "verification": "passed"
+                },
+                "encode": null
+              },
+              "bundle_id": "asset.skel",
+              "details": {
+                "experimental_structural": true,
+                "per_hop": [],
+                "rejected_routes": [],
+                "source_risk_warnings": [],
+                "structural_verification": "every_hop_and_asset_set",
+                "texture_sha256": {
+                  "page.png": "c21704e2430ff2c421a08438f7b2d412796fb2061312f1b9080f352eea663a15"
+                },
+                "textures_unchanged": true
+              },
+              "diagnostics": [],
+              "execution_success": true,
+              "merge_diagnostic": null,
+              "qualification": {
+                "available_level": "not_qualified",
+                "diagnostic_codes": [
+                  "QUALIFICATION_EXPERIMENTAL_OUTPUT"
+                ],
+                "diagnostics": [
+                  "Experimental structural output; semantic qualification is not asserted"
+                ],
+                "missing_evidence": [
+                  "Experimental structural output; semantic qualification is not asserted"
+                ],
+                "qualified": false,
+                "qualified_features": [],
+                "required_level": "semantic_qualified",
+                "runtime_verified": false,
+                "schema_version": 1,
+                "selected_path": [
+                  "4.2.43"
+                ],
+                "unqualified_features": [
+                  "atlas_geometry",
+                  "bezier_channels",
+                  "bone_inheritance",
+                  "bone_length_skin_editor_metadata",
+                  "hierarchy_setup_transforms",
+                  "rotation",
+                  "scale",
+                  "shear",
+                  "skins_attachments",
+                  "slot_color_attachment",
+                  "translation"
+                ],
+                "visually_verified": false
+              },
+              "route": [
+                "4.2.43"
+              ],
+              "source_format": "binary",
+              "source_version": "4.2.43",
+              "structural_validation": "structurally_verified",
+              "target_version": "4.2.43"
+            }
+          ],
+          "callback_warning": null,
+          "cleanup_warning": null,
+          "container": "zip",
+          "dependency_mappings": {
+            "atlases": {},
+            "textures": []
+          },
+          "diagnostic": null,
+          "discovered_bundle_ids": [
+            "asset.skel"
+          ],
+          "excluded_files": [],
+          "experimental_authorized": true,
+          "file_renames": {
+            "asset.skel": "asset.json"
+          },
+          "files_generated": [
+            "asset.json"
+          ],
+          "files_preserved": [
+            "asset.atlas",
+            "page.png"
+          ],
+          "files_transformed": [],
+          "input_checksums": {
+            "asset.atlas": "0d6e264037da00c703e85f2185e4e8a4d7e817b59bb875244786ba659d6e512a",
+            "asset.skel": "7ce8fb76919a59fff812fb0c2db12af6842703dfbe622973940b335b9d6304d4",
+            "page.png": "c21704e2430ff2c421a08438f7b2d412796fb2061312f1b9080f352eea663a15"
+          },
+          "input_type": "zip",
+          "inspection": null,
+          "output": "/private/tmp/fnx-b3-installed-evidence-final2/json-zip.zip",
+          "output_checksums": {
+            "asset.atlas": "0d6e264037da00c703e85f2185e4e8a4d7e817b59bb875244786ba659d6e512a",
+            "asset.json": "693e801e4a04c6d4604a7e8ae1e5f114387f5b93d236dc50c72e4009e765b7b2",
+            "page.png": "c21704e2430ff2c421a08438f7b2d412796fb2061312f1b9080f352eea663a15"
+          },
+          "package_integrity": "passed",
+          "package_mode": "viewer",
+          "package_sha256": "4e884462a286bfab83b53b5ead288d8c0fad9fa11dff90622ef179572f711865",
+          "packaged_file_checksums": {
+            "asset.atlas": "0d6e264037da00c703e85f2185e4e8a4d7e817b59bb875244786ba659d6e512a",
+            "asset.json": "693e801e4a04c6d4604a7e8ae1e5f114387f5b93d236dc50c72e4009e765b7b2",
+            "page.png": "c21704e2430ff2c421a08438f7b2d412796fb2061312f1b9080f352eea663a15"
+          },
+          "publication": "published",
+          "retention": "required_only",
+          "runtime_verification": "not_run",
+          "schema_version": 2,
+          "selected_bundle_ids": [
+            "asset.skel"
+          ],
+          "sidecar_error": null,
+          "source": "/private/tmp/fnx-b3-installed-evidence-final2/one.zip",
+          "source_locations": [
+            "/private/tmp/fnx-b3-installed-evidence-final2/one.zip"
+          ],
+          "source_risk_policy": "reject_known_issues",
+          "source_risk_status": {
+            "asset.json": "no_known_issue_in_registry"
+          },
+          "structural_validation": "passed",
+          "target": "4.2.43",
+          "target_format": "json",
+          "texture_integrity": "png_header_crc_deflate_scanlines",
+          "visual_verification": "not_run"
+        },
+        "status": "completed"
+      },
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/fnx-b3-installed-py312/bin/spine-forge",
+        "bundle",
+        "convert",
+        "--input",
+        "/private/tmp/fnx-b3-installed-evidence-final2/authentic-skel",
+        "--target",
+        "4.2.22",
+        "--container",
+        "zip",
+        "--skeleton-format",
+        "json",
+        "--output",
+        "/private/tmp/fnx-b3-installed-evidence-final2/json-authentic-skel-0-0.zip"
+      ],
+      "exit_code": 0,
+      "stdout": {
+        "published": true,
+        "report": {
+          "bundles": [
+            {
+              "binary_codec_verification": {
+                "decode": {
+                  "capability": {
+                    "decode": true,
+                    "decode_structural_verification": true,
+                    "decoder_qualification": "qualified restricted Powerup 4.2.22 profile; raw Bezier handle identity and unlisted feature categories are excluded",
+                    "encode": true,
+                    "encode_structural_verification": true,
+                    "encoder_qualification": "qualified restricted Powerup 4.2.22 profile against unchanged official JSON and independent official runtime",
+                    "experimental": false,
+                    "features": [
+                      "hierarchy_setup_transforms",
+                      "bone_inheritance",
+                      "bone_editor_metadata",
+                      "slots",
+                      "region_attachments",
+                      "mesh",
+                      "weighted_mesh_attachments",
+                      "linked_mesh_attachments",
+                      "deform",
+                      "bone_transform_timelines",
+                      "slot_attachment_rgba_timelines",
+                      "ik_setup_constraints",
+                      "draw_order_timelines"
+                    ],
+                    "fixture_evidence": [
+                      "docs/evidence/B3_decoder/qualification.json: authentic Powerup decoder",
+                      "tests/fixtures/binary/official42/provenance.json: pinned unchanged sources",
+                      "scripts/compare_binary42.mts: official binary semantic reference"
+                    ],
+                    "input_formats": [
+                      "json",
+                      "binary"
+                    ],
+                    "interpolation": [
+                      "linear",
+                      "stepped",
+                      "bezier_per_channel"
+                    ],
+                    "output_formats": [
+                      "json",
+                      "binary"
+                    ],
+                    "qualified_profile": [
+                      "hierarchy_setup_transforms",
+                      "skins_attachments: region only",
+                      "rotation",
+                      "translation",
+                      "scale",
+                      "shear",
+                      "slot_color_attachment: rgba linear and stepped",
+                      "bezier_channels: evaluated interpolation semantics"
+                    ],
+                    "raw_bezier_handle_identity_qualified": false,
+                    "restrictions": [
+                      "exact registered export version only; runtime package version is separate",
+                      "no composed migration route promotion; B2 qualification unchanged",
+                      "no events, constraint timelines, physics, paths or sequences",
+                      "4.2.22 uses pinned official JSON nonessential defaults; 4.2.43 requires explicit metadata",
+                      "evaluated Bezier interpolation is supported; raw serialized handle identity is unqualified",
+                      "B4 production binary admission remains approved-fixture-only"
+                    ],
+                    "runtime_qualified": true,
+                    "semantically_qualified": true,
+                    "source_version": "4.2.22",
+                    "structurally_verified": true,
+                    "supported_attachment_timelines": [
+                      "deform"
+                    ],
+                    "supported_attachments": [
+                      "region",
+                      "mesh",
+                      "linkedmesh"
+                    ],
+                    "supported_bone_timelines": [
+                      "rotate",
+                      "translate",
+                      "translatex",
+                      "translatey",
+                      "scale",
+                      "scalex",
+                      "scaley",
+                      "shear",
+                      "shearx",
+                      "sheary"
+                    ],
+                    "supported_constraints": [
+                      "one_or_two_bone_ik_setup_without_skin_requirement"
+                    ],
+                    "supported_global_timelines": [
+                      "drawOrder"
+                    ],
+                    "supported_slot_timelines": [
+                      "attachment",
+                      "rgba"
+                    ],
+                    "target_version": "4.2.22",
+                    "unqualified_profile": [
+                      "meshes and linked meshes",
+                      "deform",
+                      "constraints",
+                      "events and draw-order semantics",
+                      "unsupported attachments",
+                      "non-default bone inheritance and unverified bone extensions",
+                      "separate-axis bone timelines",
+                      "slot attachment timelines",
+                      "other slot-color timeline kinds",
+                      "slot-color Bezier channels",
+                      "raw serialized Bezier handle identity",
+                      "other export patches and cross-version conversion"
+                    ],
+                    "unsupported": [
+                      "attachments",
+                      "constraints",
+                      "animations",
+                      "events",
+                      "implicit_nonessential_metadata"
+                    ],
+                    "version": "4.2.22"
+                  },
+                  "error": null,
+                  "verification": "passed"
+                },
+                "encode": null
+              },
+              "bundle_id": "powerup-ess.skel",
+              "details": {
+                "experimental_structural": false,
+                "per_hop": [],
+                "rejected_routes": [],
+                "source_risk_warnings": [],
+                "structural_verification": "every_hop_and_asset_set",
+                "texture_sha256": {
+                  "powerup.png": "e53af73f5c60e38052903dd222c2e985fc46aedd67c6b545664afee4d634fa33"
+                },
+                "textures_unchanged": true
+              },
+              "diagnostics": [],
+              "execution_success": true,
+              "merge_diagnostic": null,
+              "qualification": {
+                "available_level": "semantic_qualified",
+                "diagnostic_codes": [],
+                "diagnostics": [],
+                "missing_evidence": [],
+                "qualified": true,
+                "qualified_features": [
+                  "atlas_geometry",
+                  "bezier_channels",
+                  "hierarchy_setup_transforms",
+                  "rotation",
+                  "scale",
+                  "shear",
+                  "skins_attachments",
+                  "slot_color_attachment",
+                  "translation"
+                ],
+                "required_level": "semantic_qualified",
+                "runtime_verified": false,
+                "schema_version": 1,
+                "selected_path": [
+                  "4.2.22"
+                ],
+                "unqualified_features": [],
+                "visually_verified": false
+              },
+              "route": [
+                "4.2.22"
+              ],
+              "source_format": "binary",
+              "source_version": "4.2.22",
+              "structural_validation": "structurally_verified",
+              "target_version": "4.2.22"
+            }
+          ],
+          "callback_warning": null,
+          "cleanup_warning": null,
+          "container": "zip",
+          "dependency_mappings": {
+            "atlases": {},
+            "textures": []
+          },
+          "diagnostic": null,
+          "discovered_bundle_ids": [
+            "powerup-ess.skel"
+          ],
+          "excluded_files": [],
+          "experimental_authorized": false,
+          "file_renames": {
+            "powerup-ess.skel": "powerup-ess.json"
+          },
+          "files_generated": [
+            "powerup-ess.json"
+          ],
+          "files_preserved": [
+            "powerup.atlas",
+            "powerup.png"
+          ],
+          "files_transformed": [],
+          "input_checksums": {
+            "powerup-ess.skel": "0e739e50f3e44e8bacd481649a8e9deee3ed3722c4813ba673f1a862dbc65d0b",
+            "powerup.atlas": "7e4c3a8a7a99a7d5e21f67010fb1ac6c25560ee4f4327489817356626edf7cb1",
+            "powerup.png": "e53af73f5c60e38052903dd222c2e985fc46aedd67c6b545664afee4d634fa33"
+          },
+          "input_type": "folder",
+          "inspection": null,
+          "output": "/private/tmp/fnx-b3-installed-evidence-final2/json-authentic-skel-0-0.zip",
+          "output_checksums": {
+            "powerup-ess.json": "b0c4248e5cba26bef0c3c0a5987820c6dc5f9998f5089d86d22c04b46e460607",
+            "powerup.atlas": "7e4c3a8a7a99a7d5e21f67010fb1ac6c25560ee4f4327489817356626edf7cb1",
+            "powerup.png": "e53af73f5c60e38052903dd222c2e985fc46aedd67c6b545664afee4d634fa33"
+          },
+          "package_integrity": "passed",
+          "package_mode": "viewer",
+          "package_sha256": "8af90ad629dfec132c523d919b69fa225919ea83133a6e1718487f0cc33abc1e",
+          "packaged_file_checksums": {
+            "powerup-ess.json": "b0c4248e5cba26bef0c3c0a5987820c6dc5f9998f5089d86d22c04b46e460607",
+            "powerup.atlas": "7e4c3a8a7a99a7d5e21f67010fb1ac6c25560ee4f4327489817356626edf7cb1",
+            "powerup.png": "e53af73f5c60e38052903dd222c2e985fc46aedd67c6b545664afee4d634fa33"
+          },
+          "publication": "published",
+          "retention": "required_only",
+          "runtime_verification": "not_run",
+          "schema_version": 2,
+          "selected_bundle_ids": [
+            "powerup-ess.skel"
+          ],
+          "sidecar_error": null,
+          "source": "/private/tmp/fnx-b3-installed-evidence-final2/authentic-skel",
+          "source_locations": [
+            "/private/tmp/fnx-b3-installed-evidence-final2/authentic-skel"
+          ],
+          "source_risk_policy": "reject_known_issues",
+          "source_risk_status": {
+            "powerup-ess.json": "no_known_issue_in_registry"
+          },
+          "structural_validation": "passed",
+          "target": "4.2.22",
+          "target_format": "json",
+          "texture_integrity": "png_header_crc_deflate_scanlines",
+          "visual_verification": "not_run"
+        },
+        "status": "completed"
+      },
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/fnx-b3-installed-py312/bin/spine-forge",
+        "bundle",
+        "convert",
+        "--input",
+        "/private/tmp/fnx-b3-installed-evidence-final2/authentic-skel",
+        "--target",
+        "4.2.22",
+        "--container",
+        "zip",
+        "--skeleton-format",
+        "json",
+        "--output",
+        "/private/tmp/fnx-b3-installed-evidence-final2/json-authentic-skel-0-1.zip"
+      ],
+      "exit_code": 0,
+      "stdout": {
+        "published": true,
+        "report": {
+          "bundles": [
+            {
+              "binary_codec_verification": {
+                "decode": {
+                  "capability": {
+                    "decode": true,
+                    "decode_structural_verification": true,
+                    "decoder_qualification": "qualified restricted Powerup 4.2.22 profile; raw Bezier handle identity and unlisted feature categories are excluded",
+                    "encode": true,
+                    "encode_structural_verification": true,
+                    "encoder_qualification": "qualified restricted Powerup 4.2.22 profile against unchanged official JSON and independent official runtime",
+                    "experimental": false,
+                    "features": [
+                      "hierarchy_setup_transforms",
+                      "bone_inheritance",
+                      "bone_editor_metadata",
+                      "slots",
+                      "region_attachments",
+                      "mesh",
+                      "weighted_mesh_attachments",
+                      "linked_mesh_attachments",
+                      "deform",
+                      "bone_transform_timelines",
+                      "slot_attachment_rgba_timelines",
+                      "ik_setup_constraints",
+                      "draw_order_timelines"
+                    ],
+                    "fixture_evidence": [
+                      "docs/evidence/B3_decoder/qualification.json: authentic Powerup decoder",
+                      "tests/fixtures/binary/official42/provenance.json: pinned unchanged sources",
+                      "scripts/compare_binary42.mts: official binary semantic reference"
+                    ],
+                    "input_formats": [
+                      "json",
+                      "binary"
+                    ],
+                    "interpolation": [
+                      "linear",
+                      "stepped",
+                      "bezier_per_channel"
+                    ],
+                    "output_formats": [
+                      "json",
+                      "binary"
+                    ],
+                    "qualified_profile": [
+                      "hierarchy_setup_transforms",
+                      "skins_attachments: region only",
+                      "rotation",
+                      "translation",
+                      "scale",
+                      "shear",
+                      "slot_color_attachment: rgba linear and stepped",
+                      "bezier_channels: evaluated interpolation semantics"
+                    ],
+                    "raw_bezier_handle_identity_qualified": false,
+                    "restrictions": [
+                      "exact registered export version only; runtime package version is separate",
+                      "no composed migration route promotion; B2 qualification unchanged",
+                      "no events, constraint timelines, physics, paths or sequences",
+                      "4.2.22 uses pinned official JSON nonessential defaults; 4.2.43 requires explicit metadata",
+                      "evaluated Bezier interpolation is supported; raw serialized handle identity is unqualified",
+                      "B4 production binary admission remains approved-fixture-only"
+                    ],
+                    "runtime_qualified": true,
+                    "semantically_qualified": true,
+                    "source_version": "4.2.22",
+                    "structurally_verified": true,
+                    "supported_attachment_timelines": [
+                      "deform"
+                    ],
+                    "supported_attachments": [
+                      "region",
+                      "mesh",
+                      "linkedmesh"
+                    ],
+                    "supported_bone_timelines": [
+                      "rotate",
+                      "translate",
+                      "translatex",
+                      "translatey",
+                      "scale",
+                      "scalex",
+                      "scaley",
+                      "shear",
+                      "shearx",
+                      "sheary"
+                    ],
+                    "supported_constraints": [
+                      "one_or_two_bone_ik_setup_without_skin_requirement"
+                    ],
+                    "supported_global_timelines": [
+                      "drawOrder"
+                    ],
+                    "supported_slot_timelines": [
+                      "attachment",
+                      "rgba"
+                    ],
+                    "target_version": "4.2.22",
+                    "unqualified_profile": [
+                      "meshes and linked meshes",
+                      "deform",
+                      "constraints",
+                      "events and draw-order semantics",
+                      "unsupported attachments",
+                      "non-default bone inheritance and unverified bone extensions",
+                      "separate-axis bone timelines",
+                      "slot attachment timelines",
+                      "other slot-color timeline kinds",
+                      "slot-color Bezier channels",
+                      "raw serialized Bezier handle identity",
+                      "other export patches and cross-version conversion"
+                    ],
+                    "unsupported": [
+                      "attachments",
+                      "constraints",
+                      "animations",
+                      "events",
+                      "implicit_nonessential_metadata"
+                    ],
+                    "version": "4.2.22"
+                  },
+                  "error": null,
+                  "verification": "passed"
+                },
+                "encode": null
+              },
+              "bundle_id": "powerup-ess.skel",
+              "details": {
+                "experimental_structural": false,
+                "per_hop": [],
+                "rejected_routes": [],
+                "source_risk_warnings": [],
+                "structural_verification": "every_hop_and_asset_set",
+                "texture_sha256": {
+                  "powerup.png": "e53af73f5c60e38052903dd222c2e985fc46aedd67c6b545664afee4d634fa33"
+                },
+                "textures_unchanged": true
+              },
+              "diagnostics": [],
+              "execution_success": true,
+              "merge_diagnostic": null,
+              "qualification": {
+                "available_level": "semantic_qualified",
+                "diagnostic_codes": [],
+                "diagnostics": [],
+                "missing_evidence": [],
+                "qualified": true,
+                "qualified_features": [
+                  "atlas_geometry",
+                  "bezier_channels",
+                  "hierarchy_setup_transforms",
+                  "rotation",
+                  "scale",
+                  "shear",
+                  "skins_attachments",
+                  "slot_color_attachment",
+                  "translation"
+                ],
+                "required_level": "semantic_qualified",
+                "runtime_verified": false,
+                "schema_version": 1,
+                "selected_path": [
+                  "4.2.22"
+                ],
+                "unqualified_features": [],
+                "visually_verified": false
+              },
+              "route": [
+                "4.2.22"
+              ],
+              "source_format": "binary",
+              "source_version": "4.2.22",
+              "structural_validation": "structurally_verified",
+              "target_version": "4.2.22"
+            }
+          ],
+          "callback_warning": null,
+          "cleanup_warning": null,
+          "container": "zip",
+          "dependency_mappings": {
+            "atlases": {},
+            "textures": []
+          },
+          "diagnostic": null,
+          "discovered_bundle_ids": [
+            "powerup-ess.skel"
+          ],
+          "excluded_files": [],
+          "experimental_authorized": false,
+          "file_renames": {
+            "powerup-ess.skel": "powerup-ess.json"
+          },
+          "files_generated": [
+            "powerup-ess.json"
+          ],
+          "files_preserved": [
+            "powerup.atlas",
+            "powerup.png"
+          ],
+          "files_transformed": [],
+          "input_checksums": {
+            "powerup-ess.skel": "0e739e50f3e44e8bacd481649a8e9deee3ed3722c4813ba673f1a862dbc65d0b",
+            "powerup.atlas": "7e4c3a8a7a99a7d5e21f67010fb1ac6c25560ee4f4327489817356626edf7cb1",
+            "powerup.png": "e53af73f5c60e38052903dd222c2e985fc46aedd67c6b545664afee4d634fa33"
+          },
+          "input_type": "folder",
+          "inspection": null,
+          "output": "/private/tmp/fnx-b3-installed-evidence-final2/json-authentic-skel-0-1.zip",
+          "output_checksums": {
+            "powerup-ess.json": "b0c4248e5cba26bef0c3c0a5987820c6dc5f9998f5089d86d22c04b46e460607",
+            "powerup.atlas": "7e4c3a8a7a99a7d5e21f67010fb1ac6c25560ee4f4327489817356626edf7cb1",
+            "powerup.png": "e53af73f5c60e38052903dd222c2e985fc46aedd67c6b545664afee4d634fa33"
+          },
+          "package_integrity": "passed",
+          "package_mode": "viewer",
+          "package_sha256": "8af90ad629dfec132c523d919b69fa225919ea83133a6e1718487f0cc33abc1e",
+          "packaged_file_checksums": {
+            "powerup-ess.json": "b0c4248e5cba26bef0c3c0a5987820c6dc5f9998f5089d86d22c04b46e460607",
+            "powerup.atlas": "7e4c3a8a7a99a7d5e21f67010fb1ac6c25560ee4f4327489817356626edf7cb1",
+            "powerup.png": "e53af73f5c60e38052903dd222c2e985fc46aedd67c6b545664afee4d634fa33"
+          },
+          "publication": "published",
+          "retention": "required_only",
+          "runtime_verification": "not_run",
+          "schema_version": 2,
+          "selected_bundle_ids": [
+            "powerup-ess.skel"
+          ],
+          "sidecar_error": null,
+          "source": "/private/tmp/fnx-b3-installed-evidence-final2/authentic-skel",
+          "source_locations": [
+            "/private/tmp/fnx-b3-installed-evidence-final2/authentic-skel"
+          ],
+          "source_risk_policy": "reject_known_issues",
+          "source_risk_status": {
+            "powerup-ess.json": "no_known_issue_in_registry"
+          },
+          "structural_validation": "passed",
+          "target": "4.2.22",
+          "target_format": "json",
+          "texture_integrity": "png_header_crc_deflate_scanlines",
+          "visual_verification": "not_run"
+        },
+        "status": "completed"
+      },
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/fnx-b3-installed-py312/bin/spine-forge",
+        "bundle",
+        "convert",
+        "--input",
+        "/private/tmp/fnx-b3-installed-evidence-final2/authentic-skel.zip",
+        "--target",
+        "4.2.22",
+        "--container",
+        "zip",
+        "--skeleton-format",
+        "json",
+        "--output",
+        "/private/tmp/fnx-b3-installed-evidence-final2/json-authentic-skel-1-0.zip"
+      ],
+      "exit_code": 0,
+      "stdout": {
+        "published": true,
+        "report": {
+          "bundles": [
+            {
+              "binary_codec_verification": {
+                "decode": {
+                  "capability": {
+                    "decode": true,
+                    "decode_structural_verification": true,
+                    "decoder_qualification": "qualified restricted Powerup 4.2.22 profile; raw Bezier handle identity and unlisted feature categories are excluded",
+                    "encode": true,
+                    "encode_structural_verification": true,
+                    "encoder_qualification": "qualified restricted Powerup 4.2.22 profile against unchanged official JSON and independent official runtime",
+                    "experimental": false,
+                    "features": [
+                      "hierarchy_setup_transforms",
+                      "bone_inheritance",
+                      "bone_editor_metadata",
+                      "slots",
+                      "region_attachments",
+                      "mesh",
+                      "weighted_mesh_attachments",
+                      "linked_mesh_attachments",
+                      "deform",
+                      "bone_transform_timelines",
+                      "slot_attachment_rgba_timelines",
+                      "ik_setup_constraints",
+                      "draw_order_timelines"
+                    ],
+                    "fixture_evidence": [
+                      "docs/evidence/B3_decoder/qualification.json: authentic Powerup decoder",
+                      "tests/fixtures/binary/official42/provenance.json: pinned unchanged sources",
+                      "scripts/compare_binary42.mts: official binary semantic reference"
+                    ],
+                    "input_formats": [
+                      "json",
+                      "binary"
+                    ],
+                    "interpolation": [
+                      "linear",
+                      "stepped",
+                      "bezier_per_channel"
+                    ],
+                    "output_formats": [
+                      "json",
+                      "binary"
+                    ],
+                    "qualified_profile": [
+                      "hierarchy_setup_transforms",
+                      "skins_attachments: region only",
+                      "rotation",
+                      "translation",
+                      "scale",
+                      "shear",
+                      "slot_color_attachment: rgba linear and stepped",
+                      "bezier_channels: evaluated interpolation semantics"
+                    ],
+                    "raw_bezier_handle_identity_qualified": false,
+                    "restrictions": [
+                      "exact registered export version only; runtime package version is separate",
+                      "no composed migration route promotion; B2 qualification unchanged",
+                      "no events, constraint timelines, physics, paths or sequences",
+                      "4.2.22 uses pinned official JSON nonessential defaults; 4.2.43 requires explicit metadata",
+                      "evaluated Bezier interpolation is supported; raw serialized handle identity is unqualified",
+                      "B4 production binary admission remains approved-fixture-only"
+                    ],
+                    "runtime_qualified": true,
+                    "semantically_qualified": true,
+                    "source_version": "4.2.22",
+                    "structurally_verified": true,
+                    "supported_attachment_timelines": [
+                      "deform"
+                    ],
+                    "supported_attachments": [
+                      "region",
+                      "mesh",
+                      "linkedmesh"
+                    ],
+                    "supported_bone_timelines": [
+                      "rotate",
+                      "translate",
+                      "translatex",
+                      "translatey",
+                      "scale",
+                      "scalex",
+                      "scaley",
+                      "shear",
+                      "shearx",
+                      "sheary"
+                    ],
+                    "supported_constraints": [
+                      "one_or_two_bone_ik_setup_without_skin_requirement"
+                    ],
+                    "supported_global_timelines": [
+                      "drawOrder"
+                    ],
+                    "supported_slot_timelines": [
+                      "attachment",
+                      "rgba"
+                    ],
+                    "target_version": "4.2.22",
+                    "unqualified_profile": [
+                      "meshes and linked meshes",
+                      "deform",
+                      "constraints",
+                      "events and draw-order semantics",
+                      "unsupported attachments",
+                      "non-default bone inheritance and unverified bone extensions",
+                      "separate-axis bone timelines",
+                      "slot attachment timelines",
+                      "other slot-color timeline kinds",
+                      "slot-color Bezier channels",
+                      "raw serialized Bezier handle identity",
+                      "other export patches and cross-version conversion"
+                    ],
+                    "unsupported": [
+                      "attachments",
+                      "constraints",
+                      "animations",
+                      "events",
+                      "implicit_nonessential_metadata"
+                    ],
+                    "version": "4.2.22"
+                  },
+                  "error": null,
+                  "verification": "passed"
+                },
+                "encode": null
+              },
+              "bundle_id": "powerup-ess.skel",
+              "details": {
+                "experimental_structural": false,
+                "per_hop": [],
+                "rejected_routes": [],
+                "source_risk_warnings": [],
+                "structural_verification": "every_hop_and_asset_set",
+                "texture_sha256": {
+                  "powerup.png": "e53af73f5c60e38052903dd222c2e985fc46aedd67c6b545664afee4d634fa33"
+                },
+                "textures_unchanged": true
+              },
+              "diagnostics": [],
+              "execution_success": true,
+              "merge_diagnostic": null,
+              "qualification": {
+                "available_level": "semantic_qualified",
+                "diagnostic_codes": [],
+                "diagnostics": [],
+                "missing_evidence": [],
+                "qualified": true,
+                "qualified_features": [
+                  "atlas_geometry",
+                  "bezier_channels",
+                  "hierarchy_setup_transforms",
+                  "rotation",
+                  "scale",
+                  "shear",
+                  "skins_attachments",
+                  "slot_color_attachment",
+                  "translation"
+                ],
+                "required_level": "semantic_qualified",
+                "runtime_verified": false,
+                "schema_version": 1,
+                "selected_path": [
+                  "4.2.22"
+                ],
+                "unqualified_features": [],
+                "visually_verified": false
+              },
+              "route": [
+                "4.2.22"
+              ],
+              "source_format": "binary",
+              "source_version": "4.2.22",
+              "structural_validation": "structurally_verified",
+              "target_version": "4.2.22"
+            }
+          ],
+          "callback_warning": null,
+          "cleanup_warning": null,
+          "container": "zip",
+          "dependency_mappings": {
+            "atlases": {},
+            "textures": []
+          },
+          "diagnostic": null,
+          "discovered_bundle_ids": [
+            "powerup-ess.skel"
+          ],
+          "excluded_files": [],
+          "experimental_authorized": false,
+          "file_renames": {
+            "powerup-ess.skel": "powerup-ess.json"
+          },
+          "files_generated": [
+            "powerup-ess.json"
+          ],
+          "files_preserved": [
+            "powerup.atlas",
+            "powerup.png"
+          ],
+          "files_transformed": [],
+          "input_checksums": {
+            "powerup-ess.skel": "0e739e50f3e44e8bacd481649a8e9deee3ed3722c4813ba673f1a862dbc65d0b",
+            "powerup.atlas": "7e4c3a8a7a99a7d5e21f67010fb1ac6c25560ee4f4327489817356626edf7cb1",
+            "powerup.png": "e53af73f5c60e38052903dd222c2e985fc46aedd67c6b545664afee4d634fa33"
+          },
+          "input_type": "zip",
+          "inspection": null,
+          "output": "/private/tmp/fnx-b3-installed-evidence-final2/json-authentic-skel-1-0.zip",
+          "output_checksums": {
+            "powerup-ess.json": "b0c4248e5cba26bef0c3c0a5987820c6dc5f9998f5089d86d22c04b46e460607",
+            "powerup.atlas": "7e4c3a8a7a99a7d5e21f67010fb1ac6c25560ee4f4327489817356626edf7cb1",
+            "powerup.png": "e53af73f5c60e38052903dd222c2e985fc46aedd67c6b545664afee4d634fa33"
+          },
+          "package_integrity": "passed",
+          "package_mode": "viewer",
+          "package_sha256": "8af90ad629dfec132c523d919b69fa225919ea83133a6e1718487f0cc33abc1e",
+          "packaged_file_checksums": {
+            "powerup-ess.json": "b0c4248e5cba26bef0c3c0a5987820c6dc5f9998f5089d86d22c04b46e460607",
+            "powerup.atlas": "7e4c3a8a7a99a7d5e21f67010fb1ac6c25560ee4f4327489817356626edf7cb1",
+            "powerup.png": "e53af73f5c60e38052903dd222c2e985fc46aedd67c6b545664afee4d634fa33"
+          },
+          "publication": "published",
+          "retention": "required_only",
+          "runtime_verification": "not_run",
+          "schema_version": 2,
+          "selected_bundle_ids": [
+            "powerup-ess.skel"
+          ],
+          "sidecar_error": null,
+          "source": "/private/tmp/fnx-b3-installed-evidence-final2/authentic-skel.zip",
+          "source_locations": [
+            "/private/tmp/fnx-b3-installed-evidence-final2/authentic-skel.zip"
+          ],
+          "source_risk_policy": "reject_known_issues",
+          "source_risk_status": {
+            "powerup-ess.json": "no_known_issue_in_registry"
+          },
+          "structural_validation": "passed",
+          "target": "4.2.22",
+          "target_format": "json",
+          "texture_integrity": "png_header_crc_deflate_scanlines",
+          "visual_verification": "not_run"
+        },
+        "status": "completed"
+      },
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/fnx-b3-installed-py312/bin/spine-forge",
+        "bundle",
+        "convert",
+        "--input",
+        "/private/tmp/fnx-b3-installed-evidence-final2/authentic-skel.zip",
+        "--target",
+        "4.2.22",
+        "--container",
+        "zip",
+        "--skeleton-format",
+        "json",
+        "--output",
+        "/private/tmp/fnx-b3-installed-evidence-final2/json-authentic-skel-1-1.zip"
+      ],
+      "exit_code": 0,
+      "stdout": {
+        "published": true,
+        "report": {
+          "bundles": [
+            {
+              "binary_codec_verification": {
+                "decode": {
+                  "capability": {
+                    "decode": true,
+                    "decode_structural_verification": true,
+                    "decoder_qualification": "qualified restricted Powerup 4.2.22 profile; raw Bezier handle identity and unlisted feature categories are excluded",
+                    "encode": true,
+                    "encode_structural_verification": true,
+                    "encoder_qualification": "qualified restricted Powerup 4.2.22 profile against unchanged official JSON and independent official runtime",
+                    "experimental": false,
+                    "features": [
+                      "hierarchy_setup_transforms",
+                      "bone_inheritance",
+                      "bone_editor_metadata",
+                      "slots",
+                      "region_attachments",
+                      "mesh",
+                      "weighted_mesh_attachments",
+                      "linked_mesh_attachments",
+                      "deform",
+                      "bone_transform_timelines",
+                      "slot_attachment_rgba_timelines",
+                      "ik_setup_constraints",
+                      "draw_order_timelines"
+                    ],
+                    "fixture_evidence": [
+                      "docs/evidence/B3_decoder/qualification.json: authentic Powerup decoder",
+                      "tests/fixtures/binary/official42/provenance.json: pinned unchanged sources",
+                      "scripts/compare_binary42.mts: official binary semantic reference"
+                    ],
+                    "input_formats": [
+                      "json",
+                      "binary"
+                    ],
+                    "interpolation": [
+                      "linear",
+                      "stepped",
+                      "bezier_per_channel"
+                    ],
+                    "output_formats": [
+                      "json",
+                      "binary"
+                    ],
+                    "qualified_profile": [
+                      "hierarchy_setup_transforms",
+                      "skins_attachments: region only",
+                      "rotation",
+                      "translation",
+                      "scale",
+                      "shear",
+                      "slot_color_attachment: rgba linear and stepped",
+                      "bezier_channels: evaluated interpolation semantics"
+                    ],
+                    "raw_bezier_handle_identity_qualified": false,
+                    "restrictions": [
+                      "exact registered export version only; runtime package version is separate",
+                      "no composed migration route promotion; B2 qualification unchanged",
+                      "no events, constraint timelines, physics, paths or sequences",
+                      "4.2.22 uses pinned official JSON nonessential defaults; 4.2.43 requires explicit metadata",
+                      "evaluated Bezier interpolation is supported; raw serialized handle identity is unqualified",
+                      "B4 production binary admission remains approved-fixture-only"
+                    ],
+                    "runtime_qualified": true,
+                    "semantically_qualified": true,
+                    "source_version": "4.2.22",
+                    "structurally_verified": true,
+                    "supported_attachment_timelines": [
+                      "deform"
+                    ],
+                    "supported_attachments": [
+                      "region",
+                      "mesh",
+                      "linkedmesh"
+                    ],
+                    "supported_bone_timelines": [
+                      "rotate",
+                      "translate",
+                      "translatex",
+                      "translatey",
+                      "scale",
+                      "scalex",
+                      "scaley",
+                      "shear",
+                      "shearx",
+                      "sheary"
+                    ],
+                    "supported_constraints": [
+                      "one_or_two_bone_ik_setup_without_skin_requirement"
+                    ],
+                    "supported_global_timelines": [
+                      "drawOrder"
+                    ],
+                    "supported_slot_timelines": [
+                      "attachment",
+                      "rgba"
+                    ],
+                    "target_version": "4.2.22",
+                    "unqualified_profile": [
+                      "meshes and linked meshes",
+                      "deform",
+                      "constraints",
+                      "events and draw-order semantics",
+                      "unsupported attachments",
+                      "non-default bone inheritance and unverified bone extensions",
+                      "separate-axis bone timelines",
+                      "slot attachment timelines",
+                      "other slot-color timeline kinds",
+                      "slot-color Bezier channels",
+                      "raw serialized Bezier handle identity",
+                      "other export patches and cross-version conversion"
+                    ],
+                    "unsupported": [
+                      "attachments",
+                      "constraints",
+                      "animations",
+                      "events",
+                      "implicit_nonessential_metadata"
+                    ],
+                    "version": "4.2.22"
+                  },
+                  "error": null,
+                  "verification": "passed"
+                },
+                "encode": null
+              },
+              "bundle_id": "powerup-ess.skel",
+              "details": {
+                "experimental_structural": false,
+                "per_hop": [],
+                "rejected_routes": [],
+                "source_risk_warnings": [],
+                "structural_verification": "every_hop_and_asset_set",
+                "texture_sha256": {
+                  "powerup.png": "e53af73f5c60e38052903dd222c2e985fc46aedd67c6b545664afee4d634fa33"
+                },
+                "textures_unchanged": true
+              },
+              "diagnostics": [],
+              "execution_success": true,
+              "merge_diagnostic": null,
+              "qualification": {
+                "available_level": "semantic_qualified",
+                "diagnostic_codes": [],
+                "diagnostics": [],
+                "missing_evidence": [],
+                "qualified": true,
+                "qualified_features": [
+                  "atlas_geometry",
+                  "bezier_channels",
+                  "hierarchy_setup_transforms",
+                  "rotation",
+                  "scale",
+                  "shear",
+                  "skins_attachments",
+                  "slot_color_attachment",
+                  "translation"
+                ],
+                "required_level": "semantic_qualified",
+                "runtime_verified": false,
+                "schema_version": 1,
+                "selected_path": [
+                  "4.2.22"
+                ],
+                "unqualified_features": [],
+                "visually_verified": false
+              },
+              "route": [
+                "4.2.22"
+              ],
+              "source_format": "binary",
+              "source_version": "4.2.22",
+              "structural_validation": "structurally_verified",
+              "target_version": "4.2.22"
+            }
+          ],
+          "callback_warning": null,
+          "cleanup_warning": null,
+          "container": "zip",
+          "dependency_mappings": {
+            "atlases": {},
+            "textures": []
+          },
+          "diagnostic": null,
+          "discovered_bundle_ids": [
+            "powerup-ess.skel"
+          ],
+          "excluded_files": [],
+          "experimental_authorized": false,
+          "file_renames": {
+            "powerup-ess.skel": "powerup-ess.json"
+          },
+          "files_generated": [
+            "powerup-ess.json"
+          ],
+          "files_preserved": [
+            "powerup.atlas",
+            "powerup.png"
+          ],
+          "files_transformed": [],
+          "input_checksums": {
+            "powerup-ess.skel": "0e739e50f3e44e8bacd481649a8e9deee3ed3722c4813ba673f1a862dbc65d0b",
+            "powerup.atlas": "7e4c3a8a7a99a7d5e21f67010fb1ac6c25560ee4f4327489817356626edf7cb1",
+            "powerup.png": "e53af73f5c60e38052903dd222c2e985fc46aedd67c6b545664afee4d634fa33"
+          },
+          "input_type": "zip",
+          "inspection": null,
+          "output": "/private/tmp/fnx-b3-installed-evidence-final2/json-authentic-skel-1-1.zip",
+          "output_checksums": {
+            "powerup-ess.json": "b0c4248e5cba26bef0c3c0a5987820c6dc5f9998f5089d86d22c04b46e460607",
+            "powerup.atlas": "7e4c3a8a7a99a7d5e21f67010fb1ac6c25560ee4f4327489817356626edf7cb1",
+            "powerup.png": "e53af73f5c60e38052903dd222c2e985fc46aedd67c6b545664afee4d634fa33"
+          },
+          "package_integrity": "passed",
+          "package_mode": "viewer",
+          "package_sha256": "8af90ad629dfec132c523d919b69fa225919ea83133a6e1718487f0cc33abc1e",
+          "packaged_file_checksums": {
+            "powerup-ess.json": "b0c4248e5cba26bef0c3c0a5987820c6dc5f9998f5089d86d22c04b46e460607",
+            "powerup.atlas": "7e4c3a8a7a99a7d5e21f67010fb1ac6c25560ee4f4327489817356626edf7cb1",
+            "powerup.png": "e53af73f5c60e38052903dd222c2e985fc46aedd67c6b545664afee4d634fa33"
+          },
+          "publication": "published",
+          "retention": "required_only",
+          "runtime_verification": "not_run",
+          "schema_version": 2,
+          "selected_bundle_ids": [
+            "powerup-ess.skel"
+          ],
+          "sidecar_error": null,
+          "source": "/private/tmp/fnx-b3-installed-evidence-final2/authentic-skel.zip",
+          "source_locations": [
+            "/private/tmp/fnx-b3-installed-evidence-final2/authentic-skel.zip"
+          ],
+          "source_risk_policy": "reject_known_issues",
+          "source_risk_status": {
+            "powerup-ess.json": "no_known_issue_in_registry"
+          },
+          "structural_validation": "passed",
+          "target": "4.2.22",
+          "target_format": "json",
+          "texture_integrity": "png_header_crc_deflate_scanlines",
+          "visual_verification": "not_run"
+        },
+        "status": "completed"
+      },
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/fnx-b3-installed-py312/bin/spine-forge",
+        "bundle",
+        "convert",
+        "--input",
+        "/private/tmp/fnx-b3-installed-evidence-final2/authentic-json",
+        "--target",
+        "4.2.22",
+        "--container",
+        "zip",
+        "--skeleton-format",
+        "binary",
+        "--output",
+        "/private/tmp/fnx-b3-installed-evidence-final2/binary-authentic-json-0-0.zip"
+      ],
+      "exit_code": 0,
+      "stdout": {
+        "published": true,
+        "report": {
+          "bundles": [
+            {
+              "binary_codec_verification": {
+                "decode": null,
+                "encode": {
+                  "capability": {
+                    "decode": true,
+                    "decode_structural_verification": true,
+                    "decoder_qualification": "qualified restricted Powerup 4.2.22 profile; raw Bezier handle identity and unlisted feature categories are excluded",
+                    "encode": true,
+                    "encode_structural_verification": true,
+                    "encoder_qualification": "qualified restricted Powerup 4.2.22 profile against unchanged official JSON and independent official runtime",
+                    "experimental": false,
+                    "features": [
+                      "hierarchy_setup_transforms",
+                      "bone_inheritance",
+                      "bone_editor_metadata",
+                      "slots",
+                      "region_attachments",
+                      "mesh",
+                      "weighted_mesh_attachments",
+                      "linked_mesh_attachments",
+                      "deform",
+                      "bone_transform_timelines",
+                      "slot_attachment_rgba_timelines",
+                      "ik_setup_constraints",
+                      "draw_order_timelines"
+                    ],
+                    "fixture_evidence": [
+                      "docs/evidence/B3_decoder/qualification.json: authentic Powerup decoder",
+                      "tests/fixtures/binary/official42/provenance.json: pinned unchanged sources",
+                      "scripts/compare_binary42.mts: official binary semantic reference"
+                    ],
+                    "input_formats": [
+                      "json",
+                      "binary"
+                    ],
+                    "interpolation": [
+                      "linear",
+                      "stepped",
+                      "bezier_per_channel"
+                    ],
+                    "output_formats": [
+                      "json",
+                      "binary"
+                    ],
+                    "qualified_profile": [
+                      "hierarchy_setup_transforms",
+                      "skins_attachments: region only",
+                      "rotation",
+                      "translation",
+                      "scale",
+                      "shear",
+                      "slot_color_attachment: rgba linear and stepped",
+                      "bezier_channels: evaluated interpolation semantics"
+                    ],
+                    "raw_bezier_handle_identity_qualified": false,
+                    "restrictions": [
+                      "exact registered export version only; runtime package version is separate",
+                      "no composed migration route promotion; B2 qualification unchanged",
+                      "no events, constraint timelines, physics, paths or sequences",
+                      "4.2.22 uses pinned official JSON nonessential defaults; 4.2.43 requires explicit metadata",
+                      "evaluated Bezier interpolation is supported; raw serialized handle identity is unqualified",
+                      "B4 production binary admission remains approved-fixture-only"
+                    ],
+                    "runtime_qualified": true,
+                    "semantically_qualified": true,
+                    "source_version": "4.2.22",
+                    "structurally_verified": true,
+                    "supported_attachment_timelines": [
+                      "deform"
+                    ],
+                    "supported_attachments": [
+                      "region",
+                      "mesh",
+                      "linkedmesh"
+                    ],
+                    "supported_bone_timelines": [
+                      "rotate",
+                      "translate",
+                      "translatex",
+                      "translatey",
+                      "scale",
+                      "scalex",
+                      "scaley",
+                      "shear",
+                      "shearx",
+                      "sheary"
+                    ],
+                    "supported_constraints": [
+                      "one_or_two_bone_ik_setup_without_skin_requirement"
+                    ],
+                    "supported_global_timelines": [
+                      "drawOrder"
+                    ],
+                    "supported_slot_timelines": [
+                      "attachment",
+                      "rgba"
+                    ],
+                    "target_version": "4.2.22",
+                    "unqualified_profile": [
+                      "meshes and linked meshes",
+                      "deform",
+                      "constraints",
+                      "events and draw-order semantics",
+                      "unsupported attachments",
+                      "non-default bone inheritance and unverified bone extensions",
+                      "separate-axis bone timelines",
+                      "slot attachment timelines",
+                      "other slot-color timeline kinds",
+                      "slot-color Bezier channels",
+                      "raw serialized Bezier handle identity",
+                      "other export patches and cross-version conversion"
+                    ],
+                    "unsupported": [
+                      "attachments",
+                      "constraints",
+                      "animations",
+                      "events",
+                      "implicit_nonessential_metadata"
+                    ],
+                    "version": "4.2.22"
+                  },
+                  "error": null,
+                  "verification": "passed"
+                }
+              },
+              "bundle_id": "powerup-ess.json",
+              "details": {
+                "experimental_structural": false,
+                "per_hop": [],
+                "rejected_routes": [],
+                "source_risk_warnings": [],
+                "structural_verification": "every_hop_and_asset_set",
+                "texture_sha256": {
+                  "powerup.png": "e53af73f5c60e38052903dd222c2e985fc46aedd67c6b545664afee4d634fa33"
+                },
+                "textures_unchanged": true
+              },
+              "diagnostics": [],
+              "execution_success": true,
+              "merge_diagnostic": null,
+              "qualification": {
+                "available_level": "semantic_qualified",
+                "diagnostic_codes": [],
+                "diagnostics": [],
+                "missing_evidence": [],
+                "qualified": true,
+                "qualified_features": [
+                  "atlas_geometry",
+                  "bezier_channels",
+                  "hierarchy_setup_transforms",
+                  "rotation",
+                  "scale",
+                  "shear",
+                  "skins_attachments",
+                  "slot_color_attachment",
+                  "translation"
+                ],
+                "required_level": "semantic_qualified",
+                "runtime_verified": false,
+                "schema_version": 1,
+                "selected_path": [
+                  "4.2.22"
+                ],
+                "unqualified_features": [],
+                "visually_verified": false
+              },
+              "route": [
+                "4.2.22"
+              ],
+              "source_format": "json",
+              "source_version": "4.2.22",
+              "structural_validation": "structurally_verified",
+              "target_version": "4.2.22"
+            }
+          ],
+          "callback_warning": null,
+          "cleanup_warning": null,
+          "container": "zip",
+          "dependency_mappings": {
+            "atlases": {},
+            "textures": []
+          },
+          "diagnostic": null,
+          "discovered_bundle_ids": [
+            "powerup-ess.json"
+          ],
+          "excluded_files": [],
+          "experimental_authorized": false,
+          "file_renames": {
+            "powerup-ess.json": "powerup-ess.skel"
+          },
+          "files_generated": [
+            "powerup-ess.skel"
+          ],
+          "files_preserved": [
+            "powerup.atlas",
+            "powerup.png"
+          ],
+          "files_transformed": [],
+          "input_checksums": {
+            "powerup-ess.json": "6ff51b2fa2b47e339399391a11f1523896defbd7e62a7cb9f69f8021315e1785",
+            "powerup.atlas": "7e4c3a8a7a99a7d5e21f67010fb1ac6c25560ee4f4327489817356626edf7cb1",
+            "powerup.png": "e53af73f5c60e38052903dd222c2e985fc46aedd67c6b545664afee4d634fa33"
+          },
+          "input_type": "folder",
+          "inspection": null,
+          "output": "/private/tmp/fnx-b3-installed-evidence-final2/binary-authentic-json-0-0.zip",
+          "output_checksums": {
+            "powerup-ess.skel": "87d0578253c7d62bbfd614ccf50a1a2d668168143f87136c64684ab879b1632b",
+            "powerup.atlas": "7e4c3a8a7a99a7d5e21f67010fb1ac6c25560ee4f4327489817356626edf7cb1",
+            "powerup.png": "e53af73f5c60e38052903dd222c2e985fc46aedd67c6b545664afee4d634fa33"
+          },
+          "package_integrity": "passed",
+          "package_mode": "viewer",
+          "package_sha256": "cfec227f1ccd2531b2d81b29d03c66c8e9218d10b3636b5964b22d1eaacce831",
+          "packaged_file_checksums": {
+            "powerup-ess.skel": "87d0578253c7d62bbfd614ccf50a1a2d668168143f87136c64684ab879b1632b",
+            "powerup.atlas": "7e4c3a8a7a99a7d5e21f67010fb1ac6c25560ee4f4327489817356626edf7cb1",
+            "powerup.png": "e53af73f5c60e38052903dd222c2e985fc46aedd67c6b545664afee4d634fa33"
+          },
+          "publication": "published",
+          "retention": "required_only",
+          "runtime_verification": "not_run",
+          "schema_version": 2,
+          "selected_bundle_ids": [
+            "powerup-ess.json"
+          ],
+          "sidecar_error": null,
+          "source": "/private/tmp/fnx-b3-installed-evidence-final2/authentic-json",
+          "source_locations": [
+            "/private/tmp/fnx-b3-installed-evidence-final2/authentic-json"
+          ],
+          "source_risk_policy": "reject_known_issues",
+          "source_risk_status": {
+            "powerup-ess.json": "no_known_issue_in_registry"
+          },
+          "structural_validation": "passed",
+          "target": "4.2.22",
+          "target_format": "binary",
+          "texture_integrity": "png_header_crc_deflate_scanlines",
+          "visual_verification": "not_run"
+        },
+        "status": "completed"
+      },
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/fnx-b3-installed-py312/bin/spine-forge",
+        "bundle",
+        "convert",
+        "--input",
+        "/private/tmp/fnx-b3-installed-evidence-final2/authentic-json",
+        "--target",
+        "4.2.22",
+        "--container",
+        "zip",
+        "--skeleton-format",
+        "binary",
+        "--output",
+        "/private/tmp/fnx-b3-installed-evidence-final2/binary-authentic-json-0-1.zip"
+      ],
+      "exit_code": 0,
+      "stdout": {
+        "published": true,
+        "report": {
+          "bundles": [
+            {
+              "binary_codec_verification": {
+                "decode": null,
+                "encode": {
+                  "capability": {
+                    "decode": true,
+                    "decode_structural_verification": true,
+                    "decoder_qualification": "qualified restricted Powerup 4.2.22 profile; raw Bezier handle identity and unlisted feature categories are excluded",
+                    "encode": true,
+                    "encode_structural_verification": true,
+                    "encoder_qualification": "qualified restricted Powerup 4.2.22 profile against unchanged official JSON and independent official runtime",
+                    "experimental": false,
+                    "features": [
+                      "hierarchy_setup_transforms",
+                      "bone_inheritance",
+                      "bone_editor_metadata",
+                      "slots",
+                      "region_attachments",
+                      "mesh",
+                      "weighted_mesh_attachments",
+                      "linked_mesh_attachments",
+                      "deform",
+                      "bone_transform_timelines",
+                      "slot_attachment_rgba_timelines",
+                      "ik_setup_constraints",
+                      "draw_order_timelines"
+                    ],
+                    "fixture_evidence": [
+                      "docs/evidence/B3_decoder/qualification.json: authentic Powerup decoder",
+                      "tests/fixtures/binary/official42/provenance.json: pinned unchanged sources",
+                      "scripts/compare_binary42.mts: official binary semantic reference"
+                    ],
+                    "input_formats": [
+                      "json",
+                      "binary"
+                    ],
+                    "interpolation": [
+                      "linear",
+                      "stepped",
+                      "bezier_per_channel"
+                    ],
+                    "output_formats": [
+                      "json",
+                      "binary"
+                    ],
+                    "qualified_profile": [
+                      "hierarchy_setup_transforms",
+                      "skins_attachments: region only",
+                      "rotation",
+                      "translation",
+                      "scale",
+                      "shear",
+                      "slot_color_attachment: rgba linear and stepped",
+                      "bezier_channels: evaluated interpolation semantics"
+                    ],
+                    "raw_bezier_handle_identity_qualified": false,
+                    "restrictions": [
+                      "exact registered export version only; runtime package version is separate",
+                      "no composed migration route promotion; B2 qualification unchanged",
+                      "no events, constraint timelines, physics, paths or sequences",
+                      "4.2.22 uses pinned official JSON nonessential defaults; 4.2.43 requires explicit metadata",
+                      "evaluated Bezier interpolation is supported; raw serialized handle identity is unqualified",
+                      "B4 production binary admission remains approved-fixture-only"
+                    ],
+                    "runtime_qualified": true,
+                    "semantically_qualified": true,
+                    "source_version": "4.2.22",
+                    "structurally_verified": true,
+                    "supported_attachment_timelines": [
+                      "deform"
+                    ],
+                    "supported_attachments": [
+                      "region",
+                      "mesh",
+                      "linkedmesh"
+                    ],
+                    "supported_bone_timelines": [
+                      "rotate",
+                      "translate",
+                      "translatex",
+                      "translatey",
+                      "scale",
+                      "scalex",
+                      "scaley",
+                      "shear",
+                      "shearx",
+                      "sheary"
+                    ],
+                    "supported_constraints": [
+                      "one_or_two_bone_ik_setup_without_skin_requirement"
+                    ],
+                    "supported_global_timelines": [
+                      "drawOrder"
+                    ],
+                    "supported_slot_timelines": [
+                      "attachment",
+                      "rgba"
+                    ],
+                    "target_version": "4.2.22",
+                    "unqualified_profile": [
+                      "meshes and linked meshes",
+                      "deform",
+                      "constraints",
+                      "events and draw-order semantics",
+                      "unsupported attachments",
+                      "non-default bone inheritance and unverified bone extensions",
+                      "separate-axis bone timelines",
+                      "slot attachment timelines",
+                      "other slot-color timeline kinds",
+                      "slot-color Bezier channels",
+                      "raw serialized Bezier handle identity",
+                      "other export patches and cross-version conversion"
+                    ],
+                    "unsupported": [
+                      "attachments",
+                      "constraints",
+                      "animations",
+                      "events",
+                      "implicit_nonessential_metadata"
+                    ],
+                    "version": "4.2.22"
+                  },
+                  "error": null,
+                  "verification": "passed"
+                }
+              },
+              "bundle_id": "powerup-ess.json",
+              "details": {
+                "experimental_structural": false,
+                "per_hop": [],
+                "rejected_routes": [],
+                "source_risk_warnings": [],
+                "structural_verification": "every_hop_and_asset_set",
+                "texture_sha256": {
+                  "powerup.png": "e53af73f5c60e38052903dd222c2e985fc46aedd67c6b545664afee4d634fa33"
+                },
+                "textures_unchanged": true
+              },
+              "diagnostics": [],
+              "execution_success": true,
+              "merge_diagnostic": null,
+              "qualification": {
+                "available_level": "semantic_qualified",
+                "diagnostic_codes": [],
+                "diagnostics": [],
+                "missing_evidence": [],
+                "qualified": true,
+                "qualified_features": [
+                  "atlas_geometry",
+                  "bezier_channels",
+                  "hierarchy_setup_transforms",
+                  "rotation",
+                  "scale",
+                  "shear",
+                  "skins_attachments",
+                  "slot_color_attachment",
+                  "translation"
+                ],
+                "required_level": "semantic_qualified",
+                "runtime_verified": false,
+                "schema_version": 1,
+                "selected_path": [
+                  "4.2.22"
+                ],
+                "unqualified_features": [],
+                "visually_verified": false
+              },
+              "route": [
+                "4.2.22"
+              ],
+              "source_format": "json",
+              "source_version": "4.2.22",
+              "structural_validation": "structurally_verified",
+              "target_version": "4.2.22"
+            }
+          ],
+          "callback_warning": null,
+          "cleanup_warning": null,
+          "container": "zip",
+          "dependency_mappings": {
+            "atlases": {},
+            "textures": []
+          },
+          "diagnostic": null,
+          "discovered_bundle_ids": [
+            "powerup-ess.json"
+          ],
+          "excluded_files": [],
+          "experimental_authorized": false,
+          "file_renames": {
+            "powerup-ess.json": "powerup-ess.skel"
+          },
+          "files_generated": [
+            "powerup-ess.skel"
+          ],
+          "files_preserved": [
+            "powerup.atlas",
+            "powerup.png"
+          ],
+          "files_transformed": [],
+          "input_checksums": {
+            "powerup-ess.json": "6ff51b2fa2b47e339399391a11f1523896defbd7e62a7cb9f69f8021315e1785",
+            "powerup.atlas": "7e4c3a8a7a99a7d5e21f67010fb1ac6c25560ee4f4327489817356626edf7cb1",
+            "powerup.png": "e53af73f5c60e38052903dd222c2e985fc46aedd67c6b545664afee4d634fa33"
+          },
+          "input_type": "folder",
+          "inspection": null,
+          "output": "/private/tmp/fnx-b3-installed-evidence-final2/binary-authentic-json-0-1.zip",
+          "output_checksums": {
+            "powerup-ess.skel": "87d0578253c7d62bbfd614ccf50a1a2d668168143f87136c64684ab879b1632b",
+            "powerup.atlas": "7e4c3a8a7a99a7d5e21f67010fb1ac6c25560ee4f4327489817356626edf7cb1",
+            "powerup.png": "e53af73f5c60e38052903dd222c2e985fc46aedd67c6b545664afee4d634fa33"
+          },
+          "package_integrity": "passed",
+          "package_mode": "viewer",
+          "package_sha256": "cfec227f1ccd2531b2d81b29d03c66c8e9218d10b3636b5964b22d1eaacce831",
+          "packaged_file_checksums": {
+            "powerup-ess.skel": "87d0578253c7d62bbfd614ccf50a1a2d668168143f87136c64684ab879b1632b",
+            "powerup.atlas": "7e4c3a8a7a99a7d5e21f67010fb1ac6c25560ee4f4327489817356626edf7cb1",
+            "powerup.png": "e53af73f5c60e38052903dd222c2e985fc46aedd67c6b545664afee4d634fa33"
+          },
+          "publication": "published",
+          "retention": "required_only",
+          "runtime_verification": "not_run",
+          "schema_version": 2,
+          "selected_bundle_ids": [
+            "powerup-ess.json"
+          ],
+          "sidecar_error": null,
+          "source": "/private/tmp/fnx-b3-installed-evidence-final2/authentic-json",
+          "source_locations": [
+            "/private/tmp/fnx-b3-installed-evidence-final2/authentic-json"
+          ],
+          "source_risk_policy": "reject_known_issues",
+          "source_risk_status": {
+            "powerup-ess.json": "no_known_issue_in_registry"
+          },
+          "structural_validation": "passed",
+          "target": "4.2.22",
+          "target_format": "binary",
+          "texture_integrity": "png_header_crc_deflate_scanlines",
+          "visual_verification": "not_run"
+        },
+        "status": "completed"
+      },
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/fnx-b3-installed-py312/bin/spine-forge",
+        "bundle",
+        "convert",
+        "--input",
+        "/private/tmp/fnx-b3-installed-evidence-final2/authentic-json.zip",
+        "--target",
+        "4.2.22",
+        "--container",
+        "zip",
+        "--skeleton-format",
+        "binary",
+        "--output",
+        "/private/tmp/fnx-b3-installed-evidence-final2/binary-authentic-json-1-0.zip"
+      ],
+      "exit_code": 0,
+      "stdout": {
+        "published": true,
+        "report": {
+          "bundles": [
+            {
+              "binary_codec_verification": {
+                "decode": null,
+                "encode": {
+                  "capability": {
+                    "decode": true,
+                    "decode_structural_verification": true,
+                    "decoder_qualification": "qualified restricted Powerup 4.2.22 profile; raw Bezier handle identity and unlisted feature categories are excluded",
+                    "encode": true,
+                    "encode_structural_verification": true,
+                    "encoder_qualification": "qualified restricted Powerup 4.2.22 profile against unchanged official JSON and independent official runtime",
+                    "experimental": false,
+                    "features": [
+                      "hierarchy_setup_transforms",
+                      "bone_inheritance",
+                      "bone_editor_metadata",
+                      "slots",
+                      "region_attachments",
+                      "mesh",
+                      "weighted_mesh_attachments",
+                      "linked_mesh_attachments",
+                      "deform",
+                      "bone_transform_timelines",
+                      "slot_attachment_rgba_timelines",
+                      "ik_setup_constraints",
+                      "draw_order_timelines"
+                    ],
+                    "fixture_evidence": [
+                      "docs/evidence/B3_decoder/qualification.json: authentic Powerup decoder",
+                      "tests/fixtures/binary/official42/provenance.json: pinned unchanged sources",
+                      "scripts/compare_binary42.mts: official binary semantic reference"
+                    ],
+                    "input_formats": [
+                      "json",
+                      "binary"
+                    ],
+                    "interpolation": [
+                      "linear",
+                      "stepped",
+                      "bezier_per_channel"
+                    ],
+                    "output_formats": [
+                      "json",
+                      "binary"
+                    ],
+                    "qualified_profile": [
+                      "hierarchy_setup_transforms",
+                      "skins_attachments: region only",
+                      "rotation",
+                      "translation",
+                      "scale",
+                      "shear",
+                      "slot_color_attachment: rgba linear and stepped",
+                      "bezier_channels: evaluated interpolation semantics"
+                    ],
+                    "raw_bezier_handle_identity_qualified": false,
+                    "restrictions": [
+                      "exact registered export version only; runtime package version is separate",
+                      "no composed migration route promotion; B2 qualification unchanged",
+                      "no events, constraint timelines, physics, paths or sequences",
+                      "4.2.22 uses pinned official JSON nonessential defaults; 4.2.43 requires explicit metadata",
+                      "evaluated Bezier interpolation is supported; raw serialized handle identity is unqualified",
+                      "B4 production binary admission remains approved-fixture-only"
+                    ],
+                    "runtime_qualified": true,
+                    "semantically_qualified": true,
+                    "source_version": "4.2.22",
+                    "structurally_verified": true,
+                    "supported_attachment_timelines": [
+                      "deform"
+                    ],
+                    "supported_attachments": [
+                      "region",
+                      "mesh",
+                      "linkedmesh"
+                    ],
+                    "supported_bone_timelines": [
+                      "rotate",
+                      "translate",
+                      "translatex",
+                      "translatey",
+                      "scale",
+                      "scalex",
+                      "scaley",
+                      "shear",
+                      "shearx",
+                      "sheary"
+                    ],
+                    "supported_constraints": [
+                      "one_or_two_bone_ik_setup_without_skin_requirement"
+                    ],
+                    "supported_global_timelines": [
+                      "drawOrder"
+                    ],
+                    "supported_slot_timelines": [
+                      "attachment",
+                      "rgba"
+                    ],
+                    "target_version": "4.2.22",
+                    "unqualified_profile": [
+                      "meshes and linked meshes",
+                      "deform",
+                      "constraints",
+                      "events and draw-order semantics",
+                      "unsupported attachments",
+                      "non-default bone inheritance and unverified bone extensions",
+                      "separate-axis bone timelines",
+                      "slot attachment timelines",
+                      "other slot-color timeline kinds",
+                      "slot-color Bezier channels",
+                      "raw serialized Bezier handle identity",
+                      "other export patches and cross-version conversion"
+                    ],
+                    "unsupported": [
+                      "attachments",
+                      "constraints",
+                      "animations",
+                      "events",
+                      "implicit_nonessential_metadata"
+                    ],
+                    "version": "4.2.22"
+                  },
+                  "error": null,
+                  "verification": "passed"
+                }
+              },
+              "bundle_id": "powerup-ess.json",
+              "details": {
+                "experimental_structural": false,
+                "per_hop": [],
+                "rejected_routes": [],
+                "source_risk_warnings": [],
+                "structural_verification": "every_hop_and_asset_set",
+                "texture_sha256": {
+                  "powerup.png": "e53af73f5c60e38052903dd222c2e985fc46aedd67c6b545664afee4d634fa33"
+                },
+                "textures_unchanged": true
+              },
+              "diagnostics": [],
+              "execution_success": true,
+              "merge_diagnostic": null,
+              "qualification": {
+                "available_level": "semantic_qualified",
+                "diagnostic_codes": [],
+                "diagnostics": [],
+                "missing_evidence": [],
+                "qualified": true,
+                "qualified_features": [
+                  "atlas_geometry",
+                  "bezier_channels",
+                  "hierarchy_setup_transforms",
+                  "rotation",
+                  "scale",
+                  "shear",
+                  "skins_attachments",
+                  "slot_color_attachment",
+                  "translation"
+                ],
+                "required_level": "semantic_qualified",
+                "runtime_verified": false,
+                "schema_version": 1,
+                "selected_path": [
+                  "4.2.22"
+                ],
+                "unqualified_features": [],
+                "visually_verified": false
+              },
+              "route": [
+                "4.2.22"
+              ],
+              "source_format": "json",
+              "source_version": "4.2.22",
+              "structural_validation": "structurally_verified",
+              "target_version": "4.2.22"
+            }
+          ],
+          "callback_warning": null,
+          "cleanup_warning": null,
+          "container": "zip",
+          "dependency_mappings": {
+            "atlases": {},
+            "textures": []
+          },
+          "diagnostic": null,
+          "discovered_bundle_ids": [
+            "powerup-ess.json"
+          ],
+          "excluded_files": [],
+          "experimental_authorized": false,
+          "file_renames": {
+            "powerup-ess.json": "powerup-ess.skel"
+          },
+          "files_generated": [
+            "powerup-ess.skel"
+          ],
+          "files_preserved": [
+            "powerup.atlas",
+            "powerup.png"
+          ],
+          "files_transformed": [],
+          "input_checksums": {
+            "powerup-ess.json": "6ff51b2fa2b47e339399391a11f1523896defbd7e62a7cb9f69f8021315e1785",
+            "powerup.atlas": "7e4c3a8a7a99a7d5e21f67010fb1ac6c25560ee4f4327489817356626edf7cb1",
+            "powerup.png": "e53af73f5c60e38052903dd222c2e985fc46aedd67c6b545664afee4d634fa33"
+          },
+          "input_type": "zip",
+          "inspection": null,
+          "output": "/private/tmp/fnx-b3-installed-evidence-final2/binary-authentic-json-1-0.zip",
+          "output_checksums": {
+            "powerup-ess.skel": "87d0578253c7d62bbfd614ccf50a1a2d668168143f87136c64684ab879b1632b",
+            "powerup.atlas": "7e4c3a8a7a99a7d5e21f67010fb1ac6c25560ee4f4327489817356626edf7cb1",
+            "powerup.png": "e53af73f5c60e38052903dd222c2e985fc46aedd67c6b545664afee4d634fa33"
+          },
+          "package_integrity": "passed",
+          "package_mode": "viewer",
+          "package_sha256": "cfec227f1ccd2531b2d81b29d03c66c8e9218d10b3636b5964b22d1eaacce831",
+          "packaged_file_checksums": {
+            "powerup-ess.skel": "87d0578253c7d62bbfd614ccf50a1a2d668168143f87136c64684ab879b1632b",
+            "powerup.atlas": "7e4c3a8a7a99a7d5e21f67010fb1ac6c25560ee4f4327489817356626edf7cb1",
+            "powerup.png": "e53af73f5c60e38052903dd222c2e985fc46aedd67c6b545664afee4d634fa33"
+          },
+          "publication": "published",
+          "retention": "required_only",
+          "runtime_verification": "not_run",
+          "schema_version": 2,
+          "selected_bundle_ids": [
+            "powerup-ess.json"
+          ],
+          "sidecar_error": null,
+          "source": "/private/tmp/fnx-b3-installed-evidence-final2/authentic-json.zip",
+          "source_locations": [
+            "/private/tmp/fnx-b3-installed-evidence-final2/authentic-json.zip"
+          ],
+          "source_risk_policy": "reject_known_issues",
+          "source_risk_status": {
+            "powerup-ess.json": "no_known_issue_in_registry"
+          },
+          "structural_validation": "passed",
+          "target": "4.2.22",
+          "target_format": "binary",
+          "texture_integrity": "png_header_crc_deflate_scanlines",
+          "visual_verification": "not_run"
+        },
+        "status": "completed"
+      },
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/fnx-b3-installed-py312/bin/spine-forge",
+        "bundle",
+        "convert",
+        "--input",
+        "/private/tmp/fnx-b3-installed-evidence-final2/authentic-json.zip",
+        "--target",
+        "4.2.22",
+        "--container",
+        "zip",
+        "--skeleton-format",
+        "binary",
+        "--output",
+        "/private/tmp/fnx-b3-installed-evidence-final2/binary-authentic-json-1-1.zip"
+      ],
+      "exit_code": 0,
+      "stdout": {
+        "published": true,
+        "report": {
+          "bundles": [
+            {
+              "binary_codec_verification": {
+                "decode": null,
+                "encode": {
+                  "capability": {
+                    "decode": true,
+                    "decode_structural_verification": true,
+                    "decoder_qualification": "qualified restricted Powerup 4.2.22 profile; raw Bezier handle identity and unlisted feature categories are excluded",
+                    "encode": true,
+                    "encode_structural_verification": true,
+                    "encoder_qualification": "qualified restricted Powerup 4.2.22 profile against unchanged official JSON and independent official runtime",
+                    "experimental": false,
+                    "features": [
+                      "hierarchy_setup_transforms",
+                      "bone_inheritance",
+                      "bone_editor_metadata",
+                      "slots",
+                      "region_attachments",
+                      "mesh",
+                      "weighted_mesh_attachments",
+                      "linked_mesh_attachments",
+                      "deform",
+                      "bone_transform_timelines",
+                      "slot_attachment_rgba_timelines",
+                      "ik_setup_constraints",
+                      "draw_order_timelines"
+                    ],
+                    "fixture_evidence": [
+                      "docs/evidence/B3_decoder/qualification.json: authentic Powerup decoder",
+                      "tests/fixtures/binary/official42/provenance.json: pinned unchanged sources",
+                      "scripts/compare_binary42.mts: official binary semantic reference"
+                    ],
+                    "input_formats": [
+                      "json",
+                      "binary"
+                    ],
+                    "interpolation": [
+                      "linear",
+                      "stepped",
+                      "bezier_per_channel"
+                    ],
+                    "output_formats": [
+                      "json",
+                      "binary"
+                    ],
+                    "qualified_profile": [
+                      "hierarchy_setup_transforms",
+                      "skins_attachments: region only",
+                      "rotation",
+                      "translation",
+                      "scale",
+                      "shear",
+                      "slot_color_attachment: rgba linear and stepped",
+                      "bezier_channels: evaluated interpolation semantics"
+                    ],
+                    "raw_bezier_handle_identity_qualified": false,
+                    "restrictions": [
+                      "exact registered export version only; runtime package version is separate",
+                      "no composed migration route promotion; B2 qualification unchanged",
+                      "no events, constraint timelines, physics, paths or sequences",
+                      "4.2.22 uses pinned official JSON nonessential defaults; 4.2.43 requires explicit metadata",
+                      "evaluated Bezier interpolation is supported; raw serialized handle identity is unqualified",
+                      "B4 production binary admission remains approved-fixture-only"
+                    ],
+                    "runtime_qualified": true,
+                    "semantically_qualified": true,
+                    "source_version": "4.2.22",
+                    "structurally_verified": true,
+                    "supported_attachment_timelines": [
+                      "deform"
+                    ],
+                    "supported_attachments": [
+                      "region",
+                      "mesh",
+                      "linkedmesh"
+                    ],
+                    "supported_bone_timelines": [
+                      "rotate",
+                      "translate",
+                      "translatex",
+                      "translatey",
+                      "scale",
+                      "scalex",
+                      "scaley",
+                      "shear",
+                      "shearx",
+                      "sheary"
+                    ],
+                    "supported_constraints": [
+                      "one_or_two_bone_ik_setup_without_skin_requirement"
+                    ],
+                    "supported_global_timelines": [
+                      "drawOrder"
+                    ],
+                    "supported_slot_timelines": [
+                      "attachment",
+                      "rgba"
+                    ],
+                    "target_version": "4.2.22",
+                    "unqualified_profile": [
+                      "meshes and linked meshes",
+                      "deform",
+                      "constraints",
+                      "events and draw-order semantics",
+                      "unsupported attachments",
+                      "non-default bone inheritance and unverified bone extensions",
+                      "separate-axis bone timelines",
+                      "slot attachment timelines",
+                      "other slot-color timeline kinds",
+                      "slot-color Bezier channels",
+                      "raw serialized Bezier handle identity",
+                      "other export patches and cross-version conversion"
+                    ],
+                    "unsupported": [
+                      "attachments",
+                      "constraints",
+                      "animations",
+                      "events",
+                      "implicit_nonessential_metadata"
+                    ],
+                    "version": "4.2.22"
+                  },
+                  "error": null,
+                  "verification": "passed"
+                }
+              },
+              "bundle_id": "powerup-ess.json",
+              "details": {
+                "experimental_structural": false,
+                "per_hop": [],
+                "rejected_routes": [],
+                "source_risk_warnings": [],
+                "structural_verification": "every_hop_and_asset_set",
+                "texture_sha256": {
+                  "powerup.png": "e53af73f5c60e38052903dd222c2e985fc46aedd67c6b545664afee4d634fa33"
+                },
+                "textures_unchanged": true
+              },
+              "diagnostics": [],
+              "execution_success": true,
+              "merge_diagnostic": null,
+              "qualification": {
+                "available_level": "semantic_qualified",
+                "diagnostic_codes": [],
+                "diagnostics": [],
+                "missing_evidence": [],
+                "qualified": true,
+                "qualified_features": [
+                  "atlas_geometry",
+                  "bezier_channels",
+                  "hierarchy_setup_transforms",
+                  "rotation",
+                  "scale",
+                  "shear",
+                  "skins_attachments",
+                  "slot_color_attachment",
+                  "translation"
+                ],
+                "required_level": "semantic_qualified",
+                "runtime_verified": false,
+                "schema_version": 1,
+                "selected_path": [
+                  "4.2.22"
+                ],
+                "unqualified_features": [],
+                "visually_verified": false
+              },
+              "route": [
+                "4.2.22"
+              ],
+              "source_format": "json",
+              "source_version": "4.2.22",
+              "structural_validation": "structurally_verified",
+              "target_version": "4.2.22"
+            }
+          ],
+          "callback_warning": null,
+          "cleanup_warning": null,
+          "container": "zip",
+          "dependency_mappings": {
+            "atlases": {},
+            "textures": []
+          },
+          "diagnostic": null,
+          "discovered_bundle_ids": [
+            "powerup-ess.json"
+          ],
+          "excluded_files": [],
+          "experimental_authorized": false,
+          "file_renames": {
+            "powerup-ess.json": "powerup-ess.skel"
+          },
+          "files_generated": [
+            "powerup-ess.skel"
+          ],
+          "files_preserved": [
+            "powerup.atlas",
+            "powerup.png"
+          ],
+          "files_transformed": [],
+          "input_checksums": {
+            "powerup-ess.json": "6ff51b2fa2b47e339399391a11f1523896defbd7e62a7cb9f69f8021315e1785",
+            "powerup.atlas": "7e4c3a8a7a99a7d5e21f67010fb1ac6c25560ee4f4327489817356626edf7cb1",
+            "powerup.png": "e53af73f5c60e38052903dd222c2e985fc46aedd67c6b545664afee4d634fa33"
+          },
+          "input_type": "zip",
+          "inspection": null,
+          "output": "/private/tmp/fnx-b3-installed-evidence-final2/binary-authentic-json-1-1.zip",
+          "output_checksums": {
+            "powerup-ess.skel": "87d0578253c7d62bbfd614ccf50a1a2d668168143f87136c64684ab879b1632b",
+            "powerup.atlas": "7e4c3a8a7a99a7d5e21f67010fb1ac6c25560ee4f4327489817356626edf7cb1",
+            "powerup.png": "e53af73f5c60e38052903dd222c2e985fc46aedd67c6b545664afee4d634fa33"
+          },
+          "package_integrity": "passed",
+          "package_mode": "viewer",
+          "package_sha256": "cfec227f1ccd2531b2d81b29d03c66c8e9218d10b3636b5964b22d1eaacce831",
+          "packaged_file_checksums": {
+            "powerup-ess.skel": "87d0578253c7d62bbfd614ccf50a1a2d668168143f87136c64684ab879b1632b",
+            "powerup.atlas": "7e4c3a8a7a99a7d5e21f67010fb1ac6c25560ee4f4327489817356626edf7cb1",
+            "powerup.png": "e53af73f5c60e38052903dd222c2e985fc46aedd67c6b545664afee4d634fa33"
+          },
+          "publication": "published",
+          "retention": "required_only",
+          "runtime_verification": "not_run",
+          "schema_version": 2,
+          "selected_bundle_ids": [
+            "powerup-ess.json"
+          ],
+          "sidecar_error": null,
+          "source": "/private/tmp/fnx-b3-installed-evidence-final2/authentic-json.zip",
+          "source_locations": [
+            "/private/tmp/fnx-b3-installed-evidence-final2/authentic-json.zip"
+          ],
+          "source_risk_policy": "reject_known_issues",
+          "source_risk_status": {
+            "powerup-ess.json": "no_known_issue_in_registry"
+          },
+          "structural_validation": "passed",
+          "target": "4.2.22",
+          "target_format": "binary",
+          "texture_integrity": "png_header_crc_deflate_scanlines",
+          "visual_verification": "not_run"
+        },
+        "status": "completed"
+      },
+      "stderr": ""
+    }
+  ],
+  "api": {
+    "schema_version": 2,
+    "source": "/private/tmp/fnx-b3-installed-evidence-final2/source",
+    "source_locations": [
+      "/private/tmp/fnx-b3-installed-evidence-final2/source"
+    ],
+    "input_type": "folder",
+    "target": "4.2.43",
+    "target_format": "binary",
+    "output": "/private/tmp/fnx-b3-installed-evidence-final2/api.zip",
+    "experimental_authorized": true,
+    "source_risk_policy": "reject_known_issues",
+    "retention": "required_only",
+    "package_mode": "viewer",
+    "container": "zip",
+    "publication": "published",
+    "runtime_verification": "not_run",
+    "visual_verification": "not_run",
+    "structural_validation": "passed",
+    "package_integrity": "passed",
+    "selected_bundle_ids": [
+      "asset.json"
+    ],
+    "discovered_bundle_ids": [
+      "asset.json"
+    ],
+    "bundles": [
+      {
+        "bundle_id": "asset.json",
+        "execution_success": true,
+        "structural_validation": "structurally_verified",
+        "source_format": "json",
+        "source_version": "4.2.43",
+        "target_version": "4.2.43",
+        "route": [
+          "4.2.43"
+        ],
+        "qualification": {
+          "qualified": false,
+          "required_level": "semantic_qualified",
+          "available_level": "not_qualified",
+          "qualified_features": [],
+          "unqualified_features": [
+            "atlas_geometry",
+            "bezier_channels",
+            "hierarchy_setup_transforms",
+            "rotation",
+            "scale",
+            "shear",
+            "skins_attachments",
+            "slot_color_attachment",
+            "translation"
+          ],
+          "missing_evidence": [
+            "Experimental structural output; semantic qualification is not asserted"
+          ],
+          "diagnostics": [
+            "Experimental structural output; semantic qualification is not asserted"
+          ],
+          "diagnostic_codes": [
+            "QUALIFICATION_EXPERIMENTAL_OUTPUT"
+          ],
+          "selected_path": [
+            "4.2.43"
+          ],
+          "schema_version": 1,
+          "runtime_verified": false,
+          "visually_verified": false
+        },
+        "diagnostics": [],
+        "details": {
+          "per_hop": [],
+          "rejected_routes": [],
+          "source_risk_warnings": [],
+          "texture_sha256": {
+            "page.png": "c21704e2430ff2c421a08438f7b2d412796fb2061312f1b9080f352eea663a15"
+          },
+          "textures_unchanged": true,
+          "structural_verification": "every_hop_and_asset_set",
+          "experimental_structural": true
+        },
+        "binary_codec_verification": {
+          "decode": null,
+          "encode": {
+            "capability": {
+              "version": "4.2.43",
+              "source_version": "4.2.43",
+              "target_version": "4.2.43",
+              "decode": true,
+              "decode_structural_verification": true,
+              "encode_structural_verification": true,
+              "encode": true,
+              "features": [
+                "hierarchy_setup_transforms",
+                "bone_inheritance",
+                "bone_editor_metadata",
+                "slots",
+                "region_attachments",
+                "mesh",
+                "weighted_mesh_attachments",
+                "linked_mesh_attachments",
+                "deform",
+                "bone_transform_timelines",
+                "slot_attachment_rgba_timelines",
+                "ik_setup_constraints",
+                "draw_order_timelines"
+              ],
+              "unsupported": [
+                "attachments",
+                "constraints",
+                "animations",
+                "events",
+                "implicit_nonessential_metadata"
+              ],
+              "fixture_evidence": [
+                "docs/evidence/B3_binary/qualification.json: animated encoder fixtures",
+                "tests/test_binary_animation.py: independent region/rotate decoder wire vector",
+                "decode: independent hand-authored wire vector; official reader parsed",
+                "encode: independent layout assertions and official reader parsed",
+                "wire SHA-256: 6e9dd66f7417a4c30415ba496331e5fff3fed83518ba49f754b53c4a45c35e28"
+              ],
+              "structurally_verified": true,
+              "semantically_qualified": false,
+              "runtime_qualified": false,
+              "input_formats": [
+                "json",
+                "binary"
+              ],
+              "output_formats": [
+                "json",
+                "binary"
+              ],
+              "experimental": true,
+              "supported_attachments": [
+                "region",
+                "mesh",
+                "linkedmesh"
+              ],
+              "supported_bone_timelines": [
+                "rotate",
+                "translate",
+                "translatex",
+                "translatey",
+                "scale",
+                "scalex",
+                "scaley",
+                "shear",
+                "shearx",
+                "sheary"
+              ],
+              "supported_slot_timelines": [
+                "attachment",
+                "rgba"
+              ],
+              "supported_attachment_timelines": [
+                "deform"
+              ],
+              "supported_global_timelines": [
+                "drawOrder"
+              ],
+              "supported_constraints": [
+                "one_or_two_bone_ik_setup_without_skin_requirement"
+              ],
+              "interpolation": [
+                "linear",
+                "stepped",
+                "bezier_per_channel"
+              ],
+              "qualified_profile": [],
+              "unqualified_profile": [],
+              "raw_bezier_handle_identity_qualified": false,
+              "decoder_qualification": "unqualified: authentic animated binary evidence missing",
+              "encoder_qualification": "experimental: specified-fixture official runtime comparisons",
+              "restrictions": [
+                "exact registered export version only; runtime package version is separate",
+                "no composed migration route promotion; B2 qualification unchanged",
+                "no events, constraint timelines, physics, paths or sequences",
+                "4.2.22 uses pinned official JSON nonessential defaults; 4.2.43 requires explicit metadata",
+                "evaluated Bezier interpolation is supported; raw serialized handle identity is unqualified",
+                "B4 production binary admission remains approved-fixture-only"
+              ]
+            },
+            "verification": "passed",
+            "error": null
+          }
+        },
+        "merge_diagnostic": null
+      }
+    ],
+    "input_checksums": {
+      "asset.atlas": "0d6e264037da00c703e85f2185e4e8a4d7e817b59bb875244786ba659d6e512a",
+      "asset.json": "4ab03fdfca8fd6e53e0674daa2f7bb48f3ba8c3c83582e06c26452b2843d7df4",
+      "page.png": "c21704e2430ff2c421a08438f7b2d412796fb2061312f1b9080f352eea663a15"
+    },
+    "output_checksums": {
+      "asset.atlas": "0d6e264037da00c703e85f2185e4e8a4d7e817b59bb875244786ba659d6e512a",
+      "asset.skel": "7ce8fb76919a59fff812fb0c2db12af6842703dfbe622973940b335b9d6304d4",
+      "page.png": "c21704e2430ff2c421a08438f7b2d412796fb2061312f1b9080f352eea663a15"
+    },
+    "packaged_file_checksums": {
+      "asset.atlas": "0d6e264037da00c703e85f2185e4e8a4d7e817b59bb875244786ba659d6e512a",
+      "asset.skel": "7ce8fb76919a59fff812fb0c2db12af6842703dfbe622973940b335b9d6304d4",
+      "page.png": "c21704e2430ff2c421a08438f7b2d412796fb2061312f1b9080f352eea663a15"
+    },
+    "source_risk_status": {
+      "asset.json": "no_known_issue_in_registry"
+    },
+    "dependency_mappings": {
+      "atlases": {},
+      "textures": []
+    },
+    "excluded_files": [],
+    "file_renames": {
+      "asset.json": "asset.skel"
+    },
+    "files_generated": [
+      "asset.skel"
+    ],
+    "files_preserved": [
+      "asset.atlas",
+      "page.png"
+    ],
+    "files_transformed": [],
+    "texture_integrity": "png_header_crc_deflate_scanlines",
+    "package_sha256": "c11f57e8d8eb3b017041bef69d71efdae52ebf88be2c8782e420566bb7cd4f50",
+    "callback_warning": null,
+    "sidecar_error": null,
+    "cleanup_warning": null,
+    "inspection": null,
+    "diagnostic": null
+  }
+}

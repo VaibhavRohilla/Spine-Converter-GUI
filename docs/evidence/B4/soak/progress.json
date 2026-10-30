@@ -1,0 +1,4850 @@
+[
+  {
+    "phase": "cycles",
+    "cycle": 0,
+    "elapsedMs": 289,
+    "heap": 3763808,
+    "rssKiB": 625232,
+    "loadMs": 9.700000047683716
+  },
+  {
+    "phase": "cycles",
+    "cycle": 10,
+    "elapsedMs": 936,
+    "heap": 7925400,
+    "rssKiB": 728704,
+    "loadMs": 3.9000000953674316
+  },
+  {
+    "phase": "cycles",
+    "cycle": 20,
+    "elapsedMs": 1473,
+    "heap": 8395544,
+    "rssKiB": 754704,
+    "loadMs": 7.200000047683716
+  },
+  {
+    "phase": "cycles",
+    "cycle": 30,
+    "elapsedMs": 2061,
+    "heap": 8556660,
+    "rssKiB": 786784,
+    "loadMs": 4.8999998569488525
+  },
+  {
+    "phase": "cycles",
+    "cycle": 40,
+    "elapsedMs": 2592,
+    "heap": 8670056,
+    "rssKiB": 798640,
+    "loadMs": 6.099999904632568
+  },
+  {
+    "phase": "cycles",
+    "cycle": 50,
+    "elapsedMs": 3221,
+    "heap": 8767036,
+    "rssKiB": 830000,
+    "loadMs": 10
+  },
+  {
+    "phase": "cycles",
+    "cycle": 60,
+    "elapsedMs": 3803,
+    "heap": 8786560,
+    "rssKiB": 857488,
+    "loadMs": 6.699999809265137
+  },
+  {
+    "phase": "cycles",
+    "cycle": 70,
+    "elapsedMs": 4361,
+    "heap": 8802464,
+    "rssKiB": 853232,
+    "loadMs": 6.700000047683716
+  },
+  {
+    "phase": "cycles",
+    "cycle": 80,
+    "elapsedMs": 4952,
+    "heap": 8851896,
+    "rssKiB": 880384,
+    "loadMs": 8.5
+  },
+  {
+    "phase": "cycles",
+    "cycle": 90,
+    "elapsedMs": 5485,
+    "heap": 8875800,
+    "rssKiB": 871376,
+    "loadMs": 6.5
+  },
+  {
+    "phase": "cycles",
+    "cycle": 100,
+    "elapsedMs": 6073,
+    "heap": 8886684,
+    "rssKiB": 884208,
+    "loadMs": 3.5
+  },
+  {
+    "phase": "cycles",
+    "cycle": 110,
+    "elapsedMs": 6597,
+    "heap": 8898908,
+    "rssKiB": 890960,
+    "loadMs": 7.099999904632568
+  },
+  {
+    "phase": "cycles",
+    "cycle": 120,
+    "elapsedMs": 7187,
+    "heap": 8901340,
+    "rssKiB": 906848,
+    "loadMs": 6.299999952316284
+  },
+  {
+    "phase": "cycles",
+    "cycle": 130,
+    "elapsedMs": 7722,
+    "heap": 8972468,
+    "rssKiB": 914000,
+    "loadMs": 6.6000001430511475
+  },
+  {
+    "phase": "cycles",
+    "cycle": 140,
+    "elapsedMs": 8330,
+    "heap": 8983912,
+    "rssKiB": 932432,
+    "loadMs": 10.100000143051147
+  },
+  {
+    "phase": "cycles",
+    "cycle": 150,
+    "elapsedMs": 8909,
+    "heap": 9075992,
+    "rssKiB": 953392,
+    "loadMs": 6.400000095367432
+  },
+  {
+    "phase": "cycles",
+    "cycle": 160,
+    "elapsedMs": 9455,
+    "heap": 9088504,
+    "rssKiB": 949664,
+    "loadMs": 6.599999904632568
+  },
+  {
+    "phase": "cycles",
+    "cycle": 170,
+    "elapsedMs": 10043,
+    "heap": 9099240,
+    "rssKiB": 969936,
+    "loadMs": 8.900000095367432
+  },
+  {
+    "phase": "cycles",
+    "cycle": 180,
+    "elapsedMs": 10583,
+    "heap": 9103112,
+    "rssKiB": 969632,
+    "loadMs": 6.6000001430511475
+  },
+  {
+    "phase": "cycles",
+    "cycle": 190,
+    "elapsedMs": 11172,
+    "heap": 9111572,
+    "rssKiB": 983664,
+    "loadMs": 3.5999999046325684
+  },
+  {
+    "phase": "cycles",
+    "cycle": 199,
+    "elapsedMs": 11671,
+    "heap": 9113644,
+    "rssKiB": 989408,
+    "loadMs": 7.200000047683716
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 10038,
+    "heap": 9984108,
+    "rssKiB": 1016528,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 606,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 603,
+        "updateMs": 0,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 20078,
+    "heap": 10033388,
+    "rssKiB": 881616,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 1210,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 1207,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 30130,
+    "heap": 10047176,
+    "rssKiB": 707296,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 1814,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 1811,
+        "updateMs": 0,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 40180,
+    "heap": 10055080,
+    "rssKiB": 707920,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 2418,
+        "updateMs": 0,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 2415,
+        "updateMs": 0,
+        "renderMs": 0.10000014305114746
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 50232,
+    "heap": 10060080,
+    "rssKiB": 712016,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 3022,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 3019,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 60286,
+    "heap": 10077604,
+    "rssKiB": 712208,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 3625,
+        "updateMs": 0,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 3622,
+        "updateMs": 0,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 70335,
+    "heap": 10077016,
+    "rssKiB": 712624,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 4230,
+        "updateMs": 0,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 4227,
+        "updateMs": 0,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 80380,
+    "heap": 10053876,
+    "rssKiB": 712400,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 4833,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 4830,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.20000004768371582
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 90419,
+    "heap": 10092928,
+    "rssKiB": 712624,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 5436,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 5433,
+        "updateMs": 0,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 100467,
+    "heap": 10092768,
+    "rssKiB": 467936,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 6040,
+        "updateMs": 0.20000004768371582,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 6037,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 110525,
+    "heap": 10069768,
+    "rssKiB": 501536,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 6644,
+        "updateMs": 0.20000004768371582,
+        "renderMs": 0.2999999523162842
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 6641,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 120583,
+    "heap": 10102888,
+    "rssKiB": 505152,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 7248,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 7245,
+        "updateMs": 0,
+        "renderMs": 0.10000014305114746
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 130634,
+    "heap": 10102488,
+    "rssKiB": 507632,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 7853,
+        "updateMs": 0,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 7850,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 140691,
+    "heap": 10097796,
+    "rssKiB": 509280,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 8457,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 8454,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.20000004768371582
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 150737,
+    "heap": 10131888,
+    "rssKiB": 509344,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 9061,
+        "updateMs": 0,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 9058,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 160792,
+    "heap": 10112364,
+    "rssKiB": 511136,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 9665,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 9662,
+        "updateMs": 0,
+        "renderMs": 0.10000014305114746
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 170839,
+    "heap": 10120656,
+    "rssKiB": 511136,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 10269,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 10266,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 180887,
+    "heap": 10120656,
+    "rssKiB": 511232,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 10873,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 10870,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 190941,
+    "heap": 10120656,
+    "rssKiB": 511248,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 11477,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 11474,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 200987,
+    "heap": 10120352,
+    "rssKiB": 511248,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 12081,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 12078,
+        "updateMs": 0,
+        "renderMs": 0.10000014305114746
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 211034,
+    "heap": 10142320,
+    "rssKiB": 510480,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 12685,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 12682,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 221087,
+    "heap": 10120424,
+    "rssKiB": 511136,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 13289,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 13286,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.20000004768371582
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 231139,
+    "heap": 10120592,
+    "rssKiB": 511696,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 13893,
+        "updateMs": 0.2999999523162842,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 13890,
+        "updateMs": 0,
+        "renderMs": 0.10000014305114746
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 241192,
+    "heap": 10120592,
+    "rssKiB": 511696,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 14497,
+        "updateMs": 0,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 14494,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.10000014305114746
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 251238,
+    "heap": 10120592,
+    "rssKiB": 511712,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 15101,
+        "updateMs": 0,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 15098,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 261286,
+    "heap": 10126612,
+    "rssKiB": 511760,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 15705,
+        "updateMs": 0,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 15702,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.10000014305114746
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 271334,
+    "heap": 10133884,
+    "rssKiB": 511808,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 16309,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 16306,
+        "updateMs": 0,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 281383,
+    "heap": 10164744,
+    "rssKiB": 512096,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 16913,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 16910,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 291438,
+    "heap": 10165744,
+    "rssKiB": 512160,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 17517,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 17514,
+        "updateMs": 0,
+        "renderMs": 0.10000014305114746
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 301497,
+    "heap": 10190100,
+    "rssKiB": 512496,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 18121,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 18118,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 311548,
+    "heap": 10190088,
+    "rssKiB": 512544,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 18726,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 18723,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 321597,
+    "heap": 10190052,
+    "rssKiB": 512640,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 19330,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 19327,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 331651,
+    "heap": 10168156,
+    "rssKiB": 512656,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 19934,
+        "updateMs": 0,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 19931,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 341712,
+    "heap": 10190040,
+    "rssKiB": 512736,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 20538,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 20535,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 351767,
+    "heap": 10168156,
+    "rssKiB": 510256,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 21143,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 21140,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 361817,
+    "heap": 10168556,
+    "rssKiB": 510304,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 21747,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 21744,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 371863,
+    "heap": 10168556,
+    "rssKiB": 510368,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 22351,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 22348,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 381911,
+    "heap": 10168556,
+    "rssKiB": 506976,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 22955,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 22952,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 391958,
+    "heap": 10190512,
+    "rssKiB": 506816,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 23559,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 23556,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.20000004768371582
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 402010,
+    "heap": 10190512,
+    "rssKiB": 508816,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 24144,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 24141,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 412064,
+    "heap": 10168592,
+    "rssKiB": 508960,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 24738,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 24735,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 422116,
+    "heap": 10168640,
+    "rssKiB": 509264,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 25342,
+        "updateMs": 0,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 25339,
+        "updateMs": 0,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 432161,
+    "heap": 10168584,
+    "rssKiB": 509296,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 25946,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 25943,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 442216,
+    "heap": 10168632,
+    "rssKiB": 509392,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 26550,
+        "updateMs": 0.20000004768371582,
+        "renderMs": 0.2999999523162842
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 26547,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 452267,
+    "heap": 10168656,
+    "rssKiB": 509408,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 27154,
+        "updateMs": 0,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 27151,
+        "updateMs": 0.20000004768371582,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 462310,
+    "heap": 10168656,
+    "rssKiB": 509488,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 27758,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 27755,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 472364,
+    "heap": 10168656,
+    "rssKiB": 509712,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 28362,
+        "updateMs": 0,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 28359,
+        "updateMs": 0,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 482421,
+    "heap": 10190600,
+    "rssKiB": 509776,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 28966,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.19999980926513672
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 28963,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 492471,
+    "heap": 10190612,
+    "rssKiB": 509936,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 29571,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 29568,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 502522,
+    "heap": 10190564,
+    "rssKiB": 509920,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 30175,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 30172,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.10000014305114746
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 512574,
+    "heap": 10168656,
+    "rssKiB": 459440,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 30779,
+        "updateMs": 0,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 30776,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 522624,
+    "heap": 10190612,
+    "rssKiB": 464912,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 31383,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 31380,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 532670,
+    "heap": 10190552,
+    "rssKiB": 467312,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 31987,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 31984,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.10000014305114746
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 542721,
+    "heap": 10214816,
+    "rssKiB": 470496,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 32591,
+        "updateMs": 0,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 32588,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 552770,
+    "heap": 10214076,
+    "rssKiB": 470784,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 33195,
+        "updateMs": 0,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 33192,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 562818,
+    "heap": 10223440,
+    "rssKiB": 473776,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 33799,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 33796,
+        "updateMs": 0,
+        "renderMs": 0.19999980926513672
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 572867,
+    "heap": 10223400,
+    "rssKiB": 473680,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 34403,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 34400,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 582905,
+    "heap": 10201452,
+    "rssKiB": 471264,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 35007,
+        "updateMs": 0,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 35004,
+        "updateMs": 0,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 592951,
+    "heap": 10223524,
+    "rssKiB": 471888,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 35610,
+        "updateMs": 0,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 35607,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.10000014305114746
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 602995,
+    "heap": 10201520,
+    "rssKiB": 472912,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 36214,
+        "updateMs": 0,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 36211,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 613048,
+    "heap": 10223420,
+    "rssKiB": 473680,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 36818,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 36815,
+        "updateMs": 0,
+        "renderMs": 0.10000014305114746
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 623093,
+    "heap": 10201452,
+    "rssKiB": 473888,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 37422,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 37419,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 633144,
+    "heap": 10201544,
+    "rssKiB": 474128,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 38025,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 38022,
+        "updateMs": 0,
+        "renderMs": 0.20000004768371582
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 643187,
+    "heap": 10223280,
+    "rssKiB": 460800,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 38630,
+        "updateMs": 0,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 38627,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 653239,
+    "heap": 10201640,
+    "rssKiB": 463424,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 39233,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 39230,
+        "updateMs": 0,
+        "renderMs": 0.10000014305114746
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 663288,
+    "heap": 10201640,
+    "rssKiB": 466896,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 39837,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 39834,
+        "updateMs": 0,
+        "renderMs": 0.10000014305114746
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 673339,
+    "heap": 10201640,
+    "rssKiB": 468480,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 40441,
+        "updateMs": 0,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 40438,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 683388,
+    "heap": 10201640,
+    "rssKiB": 469344,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 41045,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 41042,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 693437,
+    "heap": 10201640,
+    "rssKiB": 472720,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 41649,
+        "updateMs": 0,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 41646,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.10000014305114746
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 703487,
+    "heap": 10201616,
+    "rssKiB": 473216,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 42253,
+        "updateMs": 0,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 42250,
+        "updateMs": 0,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 713536,
+    "heap": 10201640,
+    "rssKiB": 473344,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 42857,
+        "updateMs": 0,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 42854,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 723586,
+    "heap": 10201640,
+    "rssKiB": 473168,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 43461,
+        "updateMs": 0,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 43458,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 733644,
+    "heap": 10223596,
+    "rssKiB": 474640,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 44065,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 44062,
+        "updateMs": 0,
+        "renderMs": 0.10000014305114746
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 743689,
+    "heap": 10201640,
+    "rssKiB": 475200,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 44670,
+        "updateMs": 0,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 44667,
+        "updateMs": 0,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 753744,
+    "heap": 10223456,
+    "rssKiB": 475840,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 45274,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 45271,
+        "updateMs": 0,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 763794,
+    "heap": 10223596,
+    "rssKiB": 475632,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 45878,
+        "updateMs": 0,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 45875,
+        "updateMs": 0,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 773844,
+    "heap": 10224384,
+    "rssKiB": 475920,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 46482,
+        "updateMs": 0,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 46479,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 783894,
+    "heap": 10223536,
+    "rssKiB": 476016,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 47086,
+        "updateMs": 0,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 47083,
+        "updateMs": 0,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 793931,
+    "heap": 10198428,
+    "rssKiB": 476256,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 47690,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 47687,
+        "updateMs": 0,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 803982,
+    "heap": 10198540,
+    "rssKiB": 476368,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 48293,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 48290,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 814031,
+    "heap": 10198540,
+    "rssKiB": 476560,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 48897,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 48894,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 824082,
+    "heap": 10198492,
+    "rssKiB": 476992,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 49501,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 49498,
+        "updateMs": 0.20000004768371582,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 834130,
+    "heap": 10198492,
+    "rssKiB": 477136,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 50105,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 50102,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 844180,
+    "heap": 10198492,
+    "rssKiB": 477152,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 50709,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 50706,
+        "updateMs": 0.20000004768371582,
+        "renderMs": 0.20000004768371582
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 854233,
+    "heap": 10198492,
+    "rssKiB": 477328,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 51313,
+        "updateMs": 0.20000004768371582,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 51310,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.10000014305114746
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 864284,
+    "heap": 10198492,
+    "rssKiB": 477520,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 51917,
+        "updateMs": 0.20000004768371582,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 51914,
+        "updateMs": 0.20000004768371582,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 874338,
+    "heap": 10220400,
+    "rssKiB": 477616,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 52521,
+        "updateMs": 0.19999980926513672,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 52518,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 884392,
+    "heap": 10220964,
+    "rssKiB": 477696,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 53126,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 53123,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 894446,
+    "heap": 10195988,
+    "rssKiB": 478208,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 53730,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 53727,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 904494,
+    "heap": 10195988,
+    "rssKiB": 478576,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 54334,
+        "updateMs": 0,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 54331,
+        "updateMs": 0,
+        "renderMs": 0.10000014305114746
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 914545,
+    "heap": 10195988,
+    "rssKiB": 478576,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 54938,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 54935,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 924595,
+    "heap": 10195988,
+    "rssKiB": 478576,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 55542,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 55539,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 934647,
+    "heap": 10195988,
+    "rssKiB": 478704,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 56146,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 56143,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.10000014305114746
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 944708,
+    "heap": 10219968,
+    "rssKiB": 478912,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 56750,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.2999999523162842
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 56747,
+        "updateMs": 0.19999980926513672,
+        "renderMs": 0.10000014305114746
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 954762,
+    "heap": 10197696,
+    "rssKiB": 479008,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 57355,
+        "updateMs": 0.20000004768371582,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 57352,
+        "updateMs": 0.20000004768371582,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 964814,
+    "heap": 10197696,
+    "rssKiB": 479136,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 57959,
+        "updateMs": 0.20000004768371582,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 57956,
+        "updateMs": 0,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 974864,
+    "heap": 10197696,
+    "rssKiB": 479344,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 58563,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 58560,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 984919,
+    "heap": 10219932,
+    "rssKiB": 479360,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 59168,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 59165,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 994953,
+    "heap": 10219516,
+    "rssKiB": 465664,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 59772,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 59769,
+        "updateMs": 0,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1004983,
+    "heap": 10219640,
+    "rssKiB": 469008,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 60375,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 60372,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1015021,
+    "heap": 10219908,
+    "rssKiB": 472816,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 60979,
+        "updateMs": 0,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 60976,
+        "updateMs": 0,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1025068,
+    "heap": 10219980,
+    "rssKiB": 474288,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 61583,
+        "updateMs": 0.20000004768371582,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 61580,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1035114,
+    "heap": 10219628,
+    "rssKiB": 474848,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 62187,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 62184,
+        "updateMs": 0,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1045164,
+    "heap": 10225544,
+    "rssKiB": 477056,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 62791,
+        "updateMs": 0.20000004768371582,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 62788,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1055213,
+    "heap": 10225604,
+    "rssKiB": 477088,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 63395,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 63392,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1065263,
+    "heap": 10225628,
+    "rssKiB": 477056,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 63999,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 63996,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1075314,
+    "heap": 10225556,
+    "rssKiB": 477152,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 64603,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 64600,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1085365,
+    "heap": 10225568,
+    "rssKiB": 477216,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 65207,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 65204,
+        "updateMs": 0,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1095416,
+    "heap": 10203648,
+    "rssKiB": 477536,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 65809,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 65806,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.20000004768371582
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1105470,
+    "heap": 10203648,
+    "rssKiB": 477728,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 66413,
+        "updateMs": 0,
+        "renderMs": 0.2999999523162842
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 66410,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1115528,
+    "heap": 10225544,
+    "rssKiB": 477840,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 67018,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 67015,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1125582,
+    "heap": 10203648,
+    "rssKiB": 478000,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 67622,
+        "updateMs": 0,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 67619,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1135643,
+    "heap": 10225544,
+    "rssKiB": 478064,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 68226,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.39999985694885254
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 68223,
+        "updateMs": 0,
+        "renderMs": 0.20000004768371582
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1145684,
+    "heap": 10203556,
+    "rssKiB": 478240,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 68831,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 68828,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.10000014305114746
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1155739,
+    "heap": 10225628,
+    "rssKiB": 478352,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 69434,
+        "updateMs": 0,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 69431,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1165790,
+    "heap": 10225544,
+    "rssKiB": 478496,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 70039,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 70036,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.20000004768371582
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1175841,
+    "heap": 10225592,
+    "rssKiB": 478608,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 70643,
+        "updateMs": 0.2999999523162842,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 70640,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1185892,
+    "heap": 10225908,
+    "rssKiB": 477024,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 71247,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 71244,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1195945,
+    "heap": 10203648,
+    "rssKiB": 477776,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 71851,
+        "updateMs": 0,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 71848,
+        "updateMs": 0,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1205996,
+    "heap": 10203648,
+    "rssKiB": 478672,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 72455,
+        "updateMs": 0,
+        "renderMs": 0.19999980926513672
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 72452,
+        "updateMs": 0,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1216047,
+    "heap": 10203624,
+    "rssKiB": 479280,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 73059,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 73056,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1226099,
+    "heap": 10203648,
+    "rssKiB": 479328,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 73663,
+        "updateMs": 0,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 73660,
+        "updateMs": 0,
+        "renderMs": 0.10000014305114746
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1236141,
+    "heap": 10225796,
+    "rssKiB": 478816,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 74267,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 74264,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1246191,
+    "heap": 10225712,
+    "rssKiB": 478928,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 74870,
+        "updateMs": 0.20000004768371582,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 74867,
+        "updateMs": 0.20000004768371582,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1256246,
+    "heap": 10205916,
+    "rssKiB": 477344,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 75474,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 75471,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1266309,
+    "heap": 10227872,
+    "rssKiB": 477136,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 76079,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 76076,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1276361,
+    "heap": 10205916,
+    "rssKiB": 477152,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 76683,
+        "updateMs": 0,
+        "renderMs": 0.19999980926513672
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 76680,
+        "updateMs": 0,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1286416,
+    "heap": 10227860,
+    "rssKiB": 477200,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 77287,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 77284,
+        "updateMs": 0,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1296456,
+    "heap": 10205804,
+    "rssKiB": 477472,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 77892,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 77889,
+        "updateMs": 0,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1306504,
+    "heap": 10205916,
+    "rssKiB": 475536,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 78495,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 78492,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1316555,
+    "heap": 10205916,
+    "rssKiB": 475696,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 79099,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 79096,
+        "updateMs": 0,
+        "renderMs": 0.10000014305114746
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1326606,
+    "heap": 10205916,
+    "rssKiB": 475904,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 79703,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 79700,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1336660,
+    "heap": 10205892,
+    "rssKiB": 471168,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 80307,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 80304,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.20000004768371582
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1346717,
+    "heap": 10227884,
+    "rssKiB": 469072,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 80911,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 80908,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1356772,
+    "heap": 10205916,
+    "rssKiB": 470256,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 81516,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 81513,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1366823,
+    "heap": 10205916,
+    "rssKiB": 470000,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 82117,
+        "updateMs": 0.19999980926513672,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 82114,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1376880,
+    "heap": 10227860,
+    "rssKiB": 468288,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 82720,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 82717,
+        "updateMs": 0,
+        "renderMs": 0.10000014305114746
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1386928,
+    "heap": 10227872,
+    "rssKiB": 469584,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 83325,
+        "updateMs": 0.20000004768371582,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 83322,
+        "updateMs": 0,
+        "renderMs": 0.10000014305114746
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1396986,
+    "heap": 10205916,
+    "rssKiB": 472816,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 83929,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 83926,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1407049,
+    "heap": 10228052,
+    "rssKiB": 461184,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 84532,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.2999999523162842
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 84529,
+        "updateMs": 0,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1417128,
+    "heap": 10227884,
+    "rssKiB": 460528,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 85121,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 85118,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1427181,
+    "heap": 10227812,
+    "rssKiB": 464256,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 85726,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 85723,
+        "updateMs": 0,
+        "renderMs": 0.20000004768371582
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1437237,
+    "heap": 10205916,
+    "rssKiB": 465872,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 86330,
+        "updateMs": 0.20000004768371582,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 86327,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1447297,
+    "heap": 10227872,
+    "rssKiB": 465952,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 86933,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 86930,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1457359,
+    "heap": 10227872,
+    "rssKiB": 467280,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 87538,
+        "updateMs": 0.19999980926513672,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 87535,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.10000014305114746
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1467411,
+    "heap": 10228200,
+    "rssKiB": 467584,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 88142,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 88139,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.10000014305114746
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1477463,
+    "heap": 10228188,
+    "rssKiB": 469008,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 88746,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 88743,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.10000014305114746
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1487525,
+    "heap": 10227860,
+    "rssKiB": 468544,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 89351,
+        "updateMs": 0,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 89348,
+        "updateMs": 0,
+        "renderMs": 0.20000004768371582
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1497590,
+    "heap": 10227812,
+    "rssKiB": 469984,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 89955,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 89952,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.20000004768371582
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1507649,
+    "heap": 10205916,
+    "rssKiB": 470192,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 90560,
+        "updateMs": 0,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 90557,
+        "updateMs": 0,
+        "renderMs": 0.20000004768371582
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1517709,
+    "heap": 10227812,
+    "rssKiB": 470384,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 91164,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 91161,
+        "updateMs": 0,
+        "renderMs": 0.10000014305114746
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1527757,
+    "heap": 10227920,
+    "rssKiB": 470224,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 91769,
+        "updateMs": 0,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 91766,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1537812,
+    "heap": 10205988,
+    "rssKiB": 466928,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 92373,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 92370,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.20000004768371582
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1547873,
+    "heap": 10227956,
+    "rssKiB": 469248,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 92977,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 92974,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1557922,
+    "heap": 10227968,
+    "rssKiB": 449296,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 93581,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 93578,
+        "updateMs": 0,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1567959,
+    "heap": 10205876,
+    "rssKiB": 460080,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 94184,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 94181,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1577993,
+    "heap": 10205896,
+    "rssKiB": 462544,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 94787,
+        "updateMs": 0,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 94784,
+        "updateMs": 0,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1588031,
+    "heap": 10205988,
+    "rssKiB": 465808,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 95390,
+        "updateMs": 0,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 95387,
+        "updateMs": 0,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1598073,
+    "heap": 10227968,
+    "rssKiB": 449808,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 95993,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 95990,
+        "updateMs": 0,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1608124,
+    "heap": 10227932,
+    "rssKiB": 461088,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 96596,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 96593,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1618183,
+    "heap": 10227860,
+    "rssKiB": 464832,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 97200,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 97197,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.20000004768371582
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1628234,
+    "heap": 10227968,
+    "rssKiB": 465360,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 97805,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 97802,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.20000004768371582
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1638290,
+    "heap": 10205988,
+    "rssKiB": 464384,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 98409,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.19999980926513672
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 98406,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1648351,
+    "heap": 10227884,
+    "rssKiB": 464816,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 99009,
+        "updateMs": 0.20000004768371582,
+        "renderMs": 0.19999980926513672
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 99006,
+        "updateMs": 0,
+        "renderMs": 0.20000004768371582
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1658406,
+    "heap": 10205988,
+    "rssKiB": 468000,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 99614,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 99611,
+        "updateMs": 0,
+        "renderMs": 0.10000014305114746
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1668462,
+    "heap": 10205988,
+    "rssKiB": 468160,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 100218,
+        "updateMs": 0,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 100215,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1678523,
+    "heap": 10205988,
+    "rssKiB": 468080,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 100823,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 100820,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1688578,
+    "heap": 10205988,
+    "rssKiB": 468368,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 101426,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 101423,
+        "updateMs": 0,
+        "renderMs": 0.10000014305114746
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1698638,
+    "heap": 10205988,
+    "rssKiB": 468848,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 102028,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 102025,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.10000014305114746
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1708698,
+    "heap": 10227932,
+    "rssKiB": 468848,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 102632,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 102629,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1718754,
+    "heap": 10222132,
+    "rssKiB": 470864,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 103237,
+        "updateMs": 0,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 103234,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1728817,
+    "heap": 10244392,
+    "rssKiB": 470544,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 103841,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 103838,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1738872,
+    "heap": 10222132,
+    "rssKiB": 491680,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 104446,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 104443,
+        "updateMs": 0.10000014305114746,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1748934,
+    "heap": 10244100,
+    "rssKiB": 489120,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 105050,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0.20000004768371582
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 105047,
+        "updateMs": 0,
+        "renderMs": 0.20000004768371582
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1759000,
+    "heap": 10235808,
+    "rssKiB": 454736,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 105656,
+        "updateMs": 0,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 105653,
+        "updateMs": 0,
+        "renderMs": 0.10000014305114746
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1769051,
+    "heap": 10240488,
+    "rssKiB": 453216,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 106260,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 106257,
+        "updateMs": 0,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1779104,
+    "heap": 10218532,
+    "rssKiB": 456592,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 106864,
+        "updateMs": 0,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 106861,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1789157,
+    "heap": 10218532,
+    "rssKiB": 458368,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 107468,
+        "updateMs": 0,
+        "renderMs": 0.10000014305114746
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 107465,
+        "updateMs": 0,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1799205,
+    "heap": 10218440,
+    "rssKiB": 458448,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 108073,
+        "updateMs": 0,
+        "renderMs": 0.09999990463256836
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 108070,
+        "updateMs": 0,
+        "renderMs": 0
+      }
+    ]
+  },
+  {
+    "phase": "playback",
+    "elapsedMs": 1809254,
+    "heap": 10218532,
+    "rssKiB": 458704,
+    "stats": [
+      {
+        "loadMs": 6.400000095367432,
+        "textureUploadMs": 0.20000004768371582,
+        "textureCount": 1,
+        "texturePixels": 262144,
+        "frames": 108676,
+        "updateMs": 0.09999990463256836,
+        "renderMs": 0
+      },
+      {
+        "loadMs": 39.30000019073486,
+        "textureUploadMs": 0.2999999523162842,
+        "textureCount": 1,
+        "texturePixels": 524288,
+        "frames": 108673,
+        "updateMs": 0,
+        "renderMs": 0
+      }
+    ]
+  }
+]

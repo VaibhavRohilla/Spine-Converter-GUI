@@ -4,20 +4,26 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "fnx-spine-forge"
-version = "0.1.0"
-description = "FNX Spine Forge read-only asset inspection foundation"
+version = "0.2.0"
+description = "Headless Spine inspection, restricted conversion and bundle packaging"
 requires-python = ">=3.11"
 license = "LicenseRef-Proprietary-FNX-Studio"
 
 [project.scripts]
 fnx-spine-forge = "fnx_spine_forge.cli:main"
 spine-forge = "fnx_spine_forge.cli:main"
+spine-forge-viewer = "fnx_spine_forge.viewer.server:main"
 
 [project.optional-dependencies]
-dev = ["pytest>=8", "ruff>=0.8", "mypy>=1.13", "build>=1.2"]
+viewer = ["Pillow==12.3.0"]
+qt-smoke = ["PySide6==6.10.3", "Pillow==12.3.0"]
+dev = ["pytest>=8", "ruff>=0.8", "mypy>=1.13", "build>=1.2", "Pillow==12.3.0"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+fnx_spine_forge = ["py.typed", "conversion/*.mjs", "conversion/*.json", "viewer/*.json"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -32,6 +38,11 @@ select = ["E", "F", "I", "UP"]
 
 [tool.mypy]
 python_version = "3.11"
-files = ["src/fnx_spine_forge"]
-ignore_missing_imports = true
+files = ["src/fnx_spine_forge", "tests/b2_semantics.py", "tests/b3_contracts.py"]
 strict = true
+
+# No implicit or explicit Any may cross a production boundary.
+disallow_any_expr = true
+disallow_any_explicit = true
+disallow_any_unimported = true
+warn_unreachable = true

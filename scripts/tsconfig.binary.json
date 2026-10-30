@@ -1,0 +1,5 @@
+{
+  "extends": "../viewer/tsconfig.json",
+  "compilerOptions": {"module": "NodeNext", "moduleResolution": "NodeNext"},
+  "include": ["compare_binary42.mts"]
+}

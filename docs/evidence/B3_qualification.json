@@ -1,0 +1,325 @@
+{
+  "artifacts": {
+    "dist/b3-qualification/final/golden_ingot_4_2.zip": {
+      "bytes": 2017365,
+      "sha256": "743b4a92ac87b367aced73ddbbae3c5d5505f695b29f60982dfd5b4813337dda"
+    },
+    "dist/b3-qualification/final/merged_multi_4_3.zip": {
+      "bytes": 6712073,
+      "sha256": "7e5a32292fd9e42c64479c52c9fe6063051f39782c82ad68de545f6a5c1420c6"
+    }
+  },
+  "baseline_commit": "f844cd08d4a8c8e2a6aaf3103b0a3910997b8997",
+  "binary_reference_package": {
+    "archive_sha256": "89ae53f7506a2a6da10323db6724ec9c06daa7e729579cbc2b651c4b31a576d7",
+    "name": "@esotericsoftware/spine-core",
+    "version": "4.2.43"
+  },
+  "binary_remaining": [
+    "slots",
+    "skins and attachments",
+    "constraints",
+    "animation timelines",
+    "mesh, weighted geometry and deform",
+    "events",
+    "authentic matching export fixtures",
+    "independent semantic qualification"
+  ],
+  "branch": "codex/b3-bundle-backend",
+  "decision": "B3 PARTIAL — BUNDLE SUBSYSTEM FROZEN",
+  "editable_install": "passed",
+  "golden_runtime_smoke": {
+    "animationStateEvaluation": "passed",
+    "animations": [
+      "idle",
+      "winning"
+    ],
+    "atlasPages": [
+      "golden_ingot.png"
+    ],
+    "atlasRegions": 6,
+    "bones": 5,
+    "evaluatedSamples": 8,
+    "parsing": "passed",
+    "runtime": "@esotericsoftware/spine-core@4.2.43",
+    "skeletonVersion": "4.2.43",
+    "skins": 1,
+    "slots": 8,
+    "status": "animation_state_evaluated",
+    "visualEquivalence": "not_assessed"
+  },
+  "golden_texture_sha256": "2615d1607a5881fc8a5b55baa31f6391b52e98ca921745d5e2004d0569ee80c2",
+  "implementation_commit": "ff0b9ca42ef2b74ae33880dfbe6ca3a9845d40aa",
+  "implementation_commits": [
+    "ee0a4885d1a571bac75b3b31fe38657b7a08b27a",
+    "ff0b9ca42ef2b74ae33880dfbe6ca3a9845d40aa"
+  ],
+  "installed_cli_commands": [
+    {
+      "args": [
+        "bundle",
+        "convert",
+        "--input",
+        "dist/b3-qualification/golden_ingot_source.zip",
+        "--target",
+        "4.2.43",
+        "--output",
+        "dist/b3-qualification/golden_ingot_4_2_repeat.zip",
+        "--experimental-structural",
+        "--allow-known-source-export-risk"
+      ],
+      "exit": 0,
+      "report": "repeat-cli.json"
+    },
+    {
+      "args": [
+        "bundle",
+        "convert",
+        "--input",
+        "dist/b3-qualification/multi-source.zip",
+        "--bundle-id",
+        "b.json",
+        "--target",
+        "4.2.43",
+        "--output",
+        "dist/b3-qualification/selected.zip",
+        "--experimental-structural",
+        "--allow-known-source-export-risk"
+      ],
+      "exit": 0,
+      "report": "selected-cli.json"
+    },
+    {
+      "args": [
+        "bundle",
+        "convert",
+        "--input",
+        "dist/b3-qualification/golden_ingot_source.zip",
+        "--target",
+        "4.2.43",
+        "--output",
+        "dist/b3-qualification/rejected.zip",
+        "--allow-known-source-export-risk"
+      ],
+      "exit": 2,
+      "report": "qualified-rejected.json"
+    },
+    {
+      "args": [
+        "bundle",
+        "convert",
+        "--input",
+        "dist/b3-qualification/golden_ingot_source.zip",
+        "--target",
+        "4.2.43",
+        "--output",
+        "dist/b3-qualification/risk-rejected.zip",
+        "--experimental-structural"
+      ],
+      "exit": 2,
+      "report": "risk-rejected.json"
+    },
+    {
+      "args": [
+        "binary-capabilities"
+      ],
+      "exit": 0,
+      "report": "binary-capabilities.json"
+    },
+    {
+      "args": [
+        "bundle",
+        "convert",
+        "--input",
+        "dist/b3-qualification/binary-source",
+        "--target",
+        "4.2.43",
+        "--output",
+        "dist/b3-qualification/binary-json.zip",
+        "--experimental-structural"
+      ],
+      "exit": 0,
+      "report": "binary-json-cli.json"
+    },
+    {
+      "args": [
+        "bundle",
+        "convert",
+        "--input",
+        "dist/b3-qualification/binary-source",
+        "--target",
+        "4.2.43",
+        "--output",
+        "dist/b3-qualification/binary-binary.zip",
+        "--skeleton-format",
+        "binary",
+        "--experimental-structural"
+      ],
+      "exit": 0,
+      "report": "binary-binary-cli.json"
+    }
+  ],
+  "isolated_wheel_cli": "passed outside checkout",
+  "isolated_wheel_commands": {
+    "commands": [
+      {
+        "args": [
+          "--help"
+        ],
+        "exit": 0
+      },
+      {
+        "args": [
+          "binary-capabilities"
+        ],
+        "exit": 0
+      },
+      {
+        "args": [
+          "bundle",
+          "inspect",
+          "/Users/fenix/WorkHub/fnx-spine-forge-starter/dist/b3-qualification/golden_ingot_source.zip"
+        ],
+        "exit": 0
+      },
+      {
+        "args": [
+          "bundle",
+          "convert",
+          "--input",
+          "/Users/fenix/WorkHub/fnx-spine-forge-starter/dist/b3-qualification/golden_ingot_source.zip",
+          "--target",
+          "4.2.43",
+          "--output",
+          "/Users/fenix/WorkHub/fnx-spine-forge-starter/dist/b3-qualification/wheel-golden_4_2.zip",
+          "--experimental-structural",
+          "--allow-known-source-export-risk"
+        ],
+        "exit": 0
+      },
+      {
+        "args": [
+          "bundle",
+          "convert",
+          "--input",
+          "/Users/fenix/WorkHub/fnx-spine-forge-starter/dist/b3-qualification/golden_ingot_source.zip",
+          "--target",
+          "4.2.43",
+          "--output",
+          "/Users/fenix/WorkHub/fnx-spine-forge-starter/dist/b3-qualification/wheel-rejected.zip",
+          "--allow-known-source-export-risk"
+        ],
+        "exit": 2
+      },
+      {
+        "args": [
+          "bundle",
+          "convert",
+          "--input",
+          "/Users/fenix/WorkHub/fnx-spine-forge-starter/dist/b3-qualification/golden_ingot_source.zip",
+          "--target",
+          "4.2.43",
+          "--output",
+          "/Users/fenix/WorkHub/fnx-spine-forge-starter/dist/b3-qualification/final/wheel-latest.zip",
+          "--experimental-structural",
+          "--allow-known-source-export-risk"
+        ],
+        "exit": 0
+      },
+      {
+        "args": [
+          "bundle",
+          "convert",
+          "--input",
+          "/Users/fenix/WorkHub/fnx-spine-forge-starter/dist/b3-qualification/golden_ingot_source.zip",
+          "--target",
+          "4.2.43",
+          "--output",
+          "/Users/fenix/WorkHub/fnx-spine-forge-starter/dist/b3-qualification/final/wheel-handoff.zip",
+          "--experimental-structural",
+          "--allow-known-source-export-risk"
+        ],
+        "exit": 0
+      }
+    ],
+    "executable": "/var/folders/q8/mmm1czc16rxfz7jfdx7zy92w0000gn/T/fnx-b3-wheel-d4ssz2f9/bin/spine-forge"
+  },
+  "minimum_semantically_qualified_binary_target": false,
+  "official_coin": {
+    "detected_export_version": "4.2.22",
+    "sha256": "8d412e8ab9e156bc78d9602cf32b9cd5b5d6fae7ea982feccb514f56352ed6f8",
+    "source": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/4.2/examples/coin/export/coin-pro.skel",
+    "supported": false
+  },
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "pytest": "349 passed in 4.21s",
+  "python": "3.12.15",
+  "reference_encoded": {
+    "animations": 0,
+    "bones": [
+      {
+        "inherit": 0,
+        "length": 0,
+        "name": "root",
+        "parent": null,
+        "rotation": 17,
+        "scaleX": 1,
+        "scaleY": 1,
+        "shearX": 0,
+        "shearY": 0,
+        "skin": false,
+        "x": 8.5,
+        "y": 0
+      },
+      {
+        "inherit": 0,
+        "length": 0,
+        "name": "child",
+        "parent": "root",
+        "rotation": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "shearX": 0,
+        "shearY": 0,
+        "skin": false,
+        "x": 0,
+        "y": -4
+      }
+    ],
+    "reference": "@esotericsoftware/spine-core@4.2.43",
+    "skins": 0,
+    "slots": 0,
+    "version": "4.2.43"
+  },
+  "reference_vector": {
+    "animations": 0,
+    "bones": [
+      {
+        "inherit": 0,
+        "length": 5,
+        "name": "root",
+        "parent": null,
+        "rotation": 10,
+        "scaleX": 1,
+        "scaleY": 1,
+        "shearX": 0,
+        "shearY": 0,
+        "skin": false,
+        "x": 2,
+        "y": -3
+      }
+    ],
+    "reference": "@esotericsoftware/spine-core@4.2.43",
+    "skins": 0,
+    "slots": 0,
+    "version": "4.2.43"
+  },
+  "ruff": "passed",
+  "runtime_certification": false,
+  "schema_version": 1,
+  "sdist_evidence_fixtures_included": true,
+  "strict_mypy": "passed (48 checked files)",
+  "supplied_freeze_ancestor": "a6173e32fb19d42b67e33b2113366f4006ab509d",
+  "visual_verification": "not_run",
+  "wheel_sdist_build": "passed"
+}

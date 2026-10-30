@@ -3,14 +3,28 @@
 from __future__ import annotations
 
 import zlib
-from json import JSONDecodeError, loads
+from collections.abc import Mapping
+from json import JSONDecodeError, dumps, loads
 from pathlib import PurePosixPath
 from zipfile import BadZipFile
 
+from .binary import BinaryCodecRegistry, BinaryError, BinaryErrorCode
 from .config import InspectionConfig
 from .dependencies import DependencyResolver
 from .detection import TEXTURE_EXTENSIONS
-from .models import Asset, AssetManifest, Dependency, Diagnostic, Severity, SpineBundle
+from .json_types import JSONDocument
+from .models import (
+    Asset,
+    AssetManifest,
+    BundleValidation,
+    Dependency,
+    DependencyKind,
+    DependencyStatus,
+    Diagnostic,
+    FileType,
+    Severity,
+    SpineBundle,
+)
 from .parsers import inspect_skeleton, parse_atlas
 from .source import AssetSource
 from .versions import VersionRegistry
@@ -23,7 +37,12 @@ class InspectionService:
         self,
         version_registry: VersionRegistry | None = None,
         config: InspectionConfig | None = None,
+        *,
+        atlas_overrides: Mapping[str, str] | None = None,
+        texture_overrides: Mapping[tuple[str, str], str] | None = None,
     ):
+        self.atlas_overrides = dict(atlas_overrides or {})
+        self.texture_overrides = dict(texture_overrides or {})
         self.versions = version_registry or VersionRegistry()
         self.config = config or InspectionConfig()
 
@@ -34,6 +53,7 @@ class InspectionService:
         skeletons = []
         atlases = []
         regions_by_atlas = {}
+        attachment_paths_by_skeleton: dict[str, tuple[str, ...]] = {}
         versions = {}
         try:
             with AssetSource(origin, self.config.source_limits) as source:
@@ -42,9 +62,9 @@ class InspectionService:
                 for name in names:
                     ext = PurePosixPath(name).suffix.lower()
                     size = source.size(name)
-                    kind = "other"
+                    kind = FileType.OTHER
                     version = None
-                    metadata = {}
+                    metadata: JSONDocument = {}
                     if ext == ".json":
                         if size > self.config.max_skeleton_json_bytes:
                             diagnostics.append(
@@ -65,9 +85,10 @@ class InspectionService:
                             else:
                                 info = inspect_skeleton(payload)
                                 if info:
-                                    kind = "skeleton_json"
+                                    kind = FileType.SKELETON_JSON
                                     version = info.version
                                     skeletons.append(name)
+                                    attachment_paths_by_skeleton[name] = info.attachment_paths
                                     metadata = {
                                         "counts": info.counts,
                                         "names": info.names,
@@ -109,19 +130,58 @@ class InspectionService:
                                             )
                                         )
                     elif ext == ".skel":
-                        kind = "skeleton_binary"
+                        kind = FileType.SKELETON_BINARY
                         skeletons.append(name)
-                        diagnostics.append(
-                            Diagnostic(
-                                "BINARY_NOT_YET_SUPPORTED",
-                                Severity.INFO,
-                                "Binary skeleton discovered; no documented bounded version probe "
-                                "is enabled",
-                                name,
+                        try:
+                            payload = source.read(name)
+                            registry = BinaryCodecRegistry()
+                            version = registry.probe(payload, limits=self.config.binary_limits)
+                            versions[name] = version
+                            codec = registry.codec(
+                                version, experimental=True, limits=self.config.binary_limits
                             )
-                        )
+                            document = codec.decode(payload)
+                            info = inspect_skeleton(dumps(document).encode("utf-8"))
+                            if info is None:
+                                raise ValueError("Decoded binary skeleton failed inspection")
+                            attachment_paths_by_skeleton[name] = info.attachment_paths
+                            metadata = {
+                                "binary_decoded": True,
+                                "binary_codec": codec.capability.to_dict(),
+                                "counts": info.counts,
+                                "names": info.names,
+                                "attachment_paths": info.attachment_paths,
+                            }
+                            diagnostics.append(
+                                Diagnostic(
+                                    "BINARY_UNQUALIFIED",
+                                    Severity.WARNING,
+                                    "Binary decoding has no semantic qualification",
+                                    name,
+                                )
+                            )
+                        except BinaryError as exc:
+                            diagnostics.append(
+                                Diagnostic(
+                                    exc.code.value,
+                                    Severity.WARNING
+                                    if exc.code
+                                    in (
+                                        BinaryErrorCode.VERSION_UNSUPPORTED,
+                                        BinaryErrorCode.FEATURE_UNSUPPORTED,
+                                    )
+                                    else Severity.ERROR,
+                                    str(exc),
+                                    name,
+                                    exc.to_dict(),
+                                )
+                            )
+                        except (ValueError, *_SOURCE_READ_ERRORS) as exc:
+                            diagnostics.append(
+                                Diagnostic("BINARY_INVALID", Severity.ERROR, str(exc), name)
+                            )
                     elif ext == ".atlas":
-                        kind = "atlas"
+                        kind = FileType.ATLAS
                         atlases.append(name)
                         try:
                             atlas_payload = source.read(name)
@@ -137,8 +197,14 @@ class InspectionService:
                             regions_by_atlas[name] = atlas_info.regions
                             metadata = {
                                 "regions": atlas_info.regions,
-                                "page_records": atlas_info.page_records,
-                                "region_records": atlas_info.region_records,
+                                "page_records": [
+                                    {"name": page.name, "attributes": page.attributes}
+                                    for page in atlas_info.page_records
+                                ],
+                                "region_records": [
+                                    {"name": region.name, "attributes": region.attributes}
+                                    for region in atlas_info.region_records
+                                ],
                                 "attributes": atlas_info.attributes,
                                 "unknown_attributes": atlas_info.unknown_attributes,
                             }
@@ -155,17 +221,28 @@ class InspectionService:
                             for page in atlas_info.pages:
                                 match = resolver.resolve(page, name)
                                 resolved, ambiguous = match.resolved, match.ambiguous
+                                override = self.texture_overrides.get((name, page))
+                                if override is not None:
+                                    if (
+                                        override not in names
+                                        or PurePosixPath(override).suffix.lower()
+                                        not in TEXTURE_EXTENSIONS
+                                    ):
+                                        raise ValueError(
+                                            "Texture override must select an existing texture"
+                                        )
+                                    resolved, ambiguous = override, False
                                 deps.append(
                                     Dependency(
                                         name,
                                         page,
                                         resolved,
-                                        "texture_page",
-                                        "ambiguous"
+                                        DependencyKind.TEXTURE_PAGE,
+                                        DependencyStatus.AMBIGUOUS
                                         if ambiguous
-                                        else "missing"
+                                        else DependencyStatus.MISSING
                                         if not resolved
-                                        else "resolved",
+                                        else DependencyStatus.RESOLVED,
                                     )
                                 )
                                 if not resolved:
@@ -186,9 +263,9 @@ class InspectionService:
                                     Diagnostic("INVALID_ATLAS", Severity.ERROR, str(exc), name)
                                 )
                     elif ext in TEXTURE_EXTENSIONS:
-                        kind = "texture"
+                        kind = FileType.TEXTURE
                     else:
-                        kind = "other"
+                        kind = FileType.OTHER
                     assets.append(
                         Asset(
                             path=name,
@@ -202,10 +279,14 @@ class InspectionService:
                             metadata=metadata,
                         )
                     )
+                if set(self.atlas_overrides) - set(skeletons):
+                    raise ValueError("Atlas override references an undiscovered skeleton")
+                declared_pages = {(d.owner, d.requested) for d in deps if d.kind == "texture_page"}
+                if set(self.texture_overrides) - declared_pages:
+                    raise ValueError("Texture override references an undeclared atlas page")
                 for skel in skeletons:
-                    if skel.lower().endswith(".json"):
-                        asset = next(a for a in assets if a.path == skel)
-                        paths = asset.metadata.get("attachment_paths", ())
+                    if skel in attachment_paths_by_skeleton:
+                        paths = attachment_paths_by_skeleton.get(skel, ())
                         candidates = []
                         for atlas, atlas_regions in regions_by_atlas.items():
                             region_names = set(atlas_regions)
@@ -221,18 +302,32 @@ class InspectionService:
                         ]
                         choices = complete or candidates
                         related = []
-                        if len(choices) == 1:
+                        override = self.atlas_overrides.get(skel)
+                        if override is not None:
+                            if override not in regions_by_atlas:
+                                raise ValueError(
+                                    "Atlas override must select a valid discovered atlas"
+                                )
+                            related = [override]
+                        elif len(choices) == 1:
                             related = [choices[0][0]]
                         elif len(choices) > 1:
                             # A matching export stem can resolve a tie only after
                             # attachment-region evidence has narrowed the choices.
                             stem = PurePosixPath(skel).stem.casefold()
+                            local_choices = [
+                                atlas
+                                for atlas, _ in choices
+                                if PurePosixPath(atlas).parent == PurePosixPath(skel).parent
+                            ]
                             stem_matches = [
                                 atlas
                                 for atlas, _ in choices
                                 if PurePosixPath(atlas).stem.casefold() == stem
                             ]
-                            if len(stem_matches) == 1:
+                            if len(local_choices) == 1 and len(stem_matches) <= 1:
+                                related = local_choices
+                            elif len(stem_matches) == 1:
                                 related = stem_matches
                             else:
                                 diagnostics.append(
@@ -246,18 +341,35 @@ class InspectionService:
                                 )
                         elif len(atlases) == 1:
                             related = [atlases[0]]
-                        elif len(atlases) > 1 and paths:
+                        elif (
+                            len(atlases) > 1
+                            and not paths
+                            and len(
+                                [
+                                    a
+                                    for a in atlases
+                                    if PurePosixPath(a).parent == PurePosixPath(skel).parent
+                                ]
+                            )
+                            == 1
+                        ):
+                            related = [
+                                a
+                                for a in atlases
+                                if PurePosixPath(a).parent == PurePosixPath(skel).parent
+                            ]
+                        elif len(atlases) > 1:
                             diagnostics.append(
                                 Diagnostic(
                                     "AMBIGUOUS_ATLAS",
                                     Severity.ERROR,
                                     "No atlas contains the skeleton attachment references",
                                     skel,
-                                    {"atlases": atlases},
+                                    {"atlases": [atlas for atlas in atlases]},
                                 )
                             )
                         for atlas in related:
-                            deps.append(Dependency(skel, atlas, atlas, "atlas"))
+                            deps.append(Dependency(skel, atlas, atlas, DependencyKind.ATLAS))
                             region_set = set(regions_by_atlas.get(atlas, ()))
                             for requested in paths:
                                 region = PurePosixPath(requested).name
@@ -306,12 +418,14 @@ class InspectionService:
                             str(origin),
                             (versions[skel],) if skel in versions else (),
                             bundle_deps,
-                            "valid"
-                            if not any(
+                            BundleValidation.INVALID
+                            if any(
                                 d.severity in (Severity.ERROR, Severity.BLOCKER) and d.path == skel
                                 for d in diagnostics
                             )
-                            else "invalid",
+                            else BundleValidation.NOT_EVALUATED
+                            if skel not in attachment_paths_by_skeleton
+                            else BundleValidation.VALID,
                         )
                     )
                 counts = {
@@ -342,8 +456,3 @@ class InspectionService:
                 1,
                 {"assets": 0, "skeletons": 0, "atlases": 0, "textures": 0},
             )
-
-
-def inspect_assets(origin: str) -> AssetManifest:
-    """Backwards-compatible function adapter; services should use InspectionService."""
-    return InspectionService().inspect(origin)

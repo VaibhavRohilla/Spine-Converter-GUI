@@ -1,14 +1,16 @@
 import json
 
+from fnx_spine_forge.conversion import ConversionPlanner
 from fnx_spine_forge.parsers import inspect_skeleton, parse_atlas
-from fnx_spine_forge.versions import CapabilityState, VersionRegistry
+from fnx_spine_forge.versions import VersionRegistry
 
 
 def test_version_families_are_recognized_without_writer_claim():
     registry = VersionRegistry()
     assert registry.family_for("4.3.12") == "4.3"
     assert registry.family_for("9.1.0") is None
-    assert registry.definitions()[0].writer is CapabilityState.NOT_IMPLEMENTED
+    assert registry.definitions()[0].family == "3.5"
+    assert not ConversionPlanner().structural_plan("3.5", "4.2.43").executable
 
 
 def test_skeleton_historical_skin_shape_and_image_path():
@@ -26,6 +28,39 @@ def test_skeleton_historical_skin_shape_and_image_path():
     result = inspect_skeleton(payload)
     assert result and result.attachment_paths == ("folder/hero face",)
     assert result.counts["bones"] == 1
+
+
+def test_skeleton_parser_accepts_spine_43_combined_constraints():
+    payload = json.dumps(
+        {
+            "skeleton": {"spine": "4.3.13"},
+            "bones": [{"name": "root"}],
+            "slots": [],
+            "skins": [],
+            "constraints": [{"name": "aim", "type": "ik", "bones": ["root"]}],
+            "animations": {},
+        }
+    ).encode()
+    result = inspect_skeleton(payload)
+    assert result is not None
+    assert result.names["constraints"] == ("aim",)
+    assert not result.diagnostics
+
+
+def test_skeleton_parser_rejects_malformed_spine_43_constraint_shape():
+    payload = json.dumps(
+        {
+            "skeleton": {"spine": "4.3.13"},
+            "bones": [{"name": "root"}],
+            "slots": [],
+            "skins": [],
+            "constraints": {"aim": {"type": "ik"}},
+            "animations": {},
+        }
+    ).encode()
+    result = inspect_skeleton(payload)
+    assert result is not None
+    assert any(code == "UNSUPPORTED_CONSTRAINTS_SHAPE" for code, _ in result.diagnostics)
 
 
 def test_atlas_multi_page_and_unknown_fields():

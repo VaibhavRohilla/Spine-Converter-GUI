@@ -1,0 +1,408 @@
+[
+  {
+    "family": "4.2",
+    "fixture": "goblins",
+    "name": "goblins-pma.atlas",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/goblins/export/goblins-pma.atlas",
+    "sha256": "ab9aeed383e26c32bde8a0eaa364f43296daad6e97e58e62369eb1779e52e639"
+  },
+  {
+    "family": "4.2",
+    "fixture": "goblins",
+    "name": "goblins-pma.png",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/goblins/export/goblins-pma.png",
+    "sha256": "f08018e231657bd00d854e6e6b7d8693d45963d9654ad412ca1a4d58311f11bf"
+  },
+  {
+    "family": "4.2",
+    "fixture": "goblins",
+    "name": "goblins-pro.json",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/goblins/export/goblins-pro.json",
+    "sha256": "64321cf1cc5864d9c23bb92bc355b9f7f80f61710de413a2bf65e94c734a3472"
+  },
+  {
+    "family": "4.2",
+    "fixture": "goblins",
+    "name": "goblins.atlas",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/goblins/export/goblins.atlas",
+    "sha256": "61223fbbf73a0b4118d8aa65db4a9b76b6989cc2f25a174a98a8c47ffa815191"
+  },
+  {
+    "family": "4.2",
+    "fixture": "goblins",
+    "name": "goblins.png",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/goblins/export/goblins.png",
+    "sha256": "76edbd78ee10fa487121d53dbb100e2647c096162f72eb493299e542da38952c"
+  },
+  {
+    "family": "4.2",
+    "fixture": "raptor",
+    "name": "raptor-pma.atlas",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/raptor/export/raptor-pma.atlas",
+    "sha256": "29d34ec75707024ce1d8e102862603ae527b58d8e5a6fd647f46458a7ab2cc6b"
+  },
+  {
+    "family": "4.2",
+    "fixture": "raptor",
+    "name": "raptor-pma.png",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/raptor/export/raptor-pma.png",
+    "sha256": "a27e9d776fc1637f5ff87f6cd8dd513400e9228b82f9373558ecbe6c33dc7478"
+  },
+  {
+    "family": "4.2",
+    "fixture": "raptor",
+    "name": "raptor-pro.json",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/raptor/export/raptor-pro.json",
+    "sha256": "b4dfddb8f288da8be49b7b95956355293e7339b93e8f909283cb102181f8a8a0"
+  },
+  {
+    "family": "4.2",
+    "fixture": "raptor",
+    "name": "raptor.atlas",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/raptor/export/raptor.atlas",
+    "sha256": "60499dd637481439aa6ce89003358e69e9f558b4d8f305537c34ab44857e3056"
+  },
+  {
+    "family": "4.2",
+    "fixture": "raptor",
+    "name": "raptor.png",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/raptor/export/raptor.png",
+    "sha256": "a8131da0a9132540962082dfdb95c44c10612862448b69ba2c87318353f6fbca"
+  },
+  {
+    "family": "4.2",
+    "fixture": "vine",
+    "name": "vine-pma.atlas",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/vine/export/vine-pma.atlas",
+    "sha256": "922df9d8b2ff773beca0aef969045853f63599ec75bdf6e5bd861ceba08d066d"
+  },
+  {
+    "family": "4.2",
+    "fixture": "vine",
+    "name": "vine-pma.png",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/vine/export/vine-pma.png",
+    "sha256": "db424dd2fa9c4ca7ee93636f1b99c1b72b0c7b66e2d85fae0b79648e7dea7bd5"
+  },
+  {
+    "family": "4.2",
+    "fixture": "vine",
+    "name": "vine-pro.json",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/vine/export/vine-pro.json",
+    "sha256": "4186a992f79d73e79d677f25bfeb9db9bd26b97c288088f4530d7bedca497a6c"
+  },
+  {
+    "family": "4.2",
+    "fixture": "vine",
+    "name": "vine.atlas",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/vine/export/vine.atlas",
+    "sha256": "34dfdf9ef931040a15a89f005434062bef659db27a3a00116332a888a99dfa3c"
+  },
+  {
+    "family": "4.2",
+    "fixture": "vine",
+    "name": "vine.png",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/vine/export/vine.png",
+    "sha256": "fd456093b11fd99fcc5d7380e1e49011579fd01cf46d85cb151bd5d58735bc6f"
+  },
+  {
+    "family": "4.2",
+    "fixture": "tank",
+    "name": "tank-pma.atlas",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/tank/export/tank-pma.atlas",
+    "sha256": "5f2dace9944f23be35cac4af6c90cbcda19ea820301ee96623dfe5df4e91d7ed"
+  },
+  {
+    "family": "4.2",
+    "fixture": "tank",
+    "name": "tank-pma.png",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/tank/export/tank-pma.png",
+    "sha256": "4059265a08629adb50a1ca6729be3f28af99fd1cdccbf5a17117e4b563f7840c"
+  },
+  {
+    "family": "4.2",
+    "fixture": "tank",
+    "name": "tank-pro.json",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/tank/export/tank-pro.json",
+    "sha256": "5035512282471b046711f6bd4d853fd7376321b9bca6cc35588554515af3558c"
+  },
+  {
+    "family": "4.2",
+    "fixture": "tank",
+    "name": "tank.atlas",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/tank/export/tank.atlas",
+    "sha256": "bcaafa241f51c58db0172734b3257def51fe8000673101b1363d098e42862b51"
+  },
+  {
+    "family": "4.2",
+    "fixture": "tank",
+    "name": "tank.png",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/tank/export/tank.png",
+    "sha256": "a0e6136583054ef86c8221ffebde45e33903b1814ab8bb78e4c021a830992a8b"
+  },
+  {
+    "family": "4.2",
+    "fixture": "coin",
+    "name": "coin-pma.atlas",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/coin/export/coin-pma.atlas",
+    "sha256": "76f2fb5f8c24edd8cd3b0a42a210c865718f9495e6ffbc74f707dc747c220163"
+  },
+  {
+    "family": "4.2",
+    "fixture": "coin",
+    "name": "coin-pma.png",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/coin/export/coin-pma.png",
+    "sha256": "1c5a5ce66318dce35513a204350da1a08cf778252276e07e99ff75334cd3b9d3"
+  },
+  {
+    "family": "4.2",
+    "fixture": "coin",
+    "name": "coin-pro.json",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/coin/export/coin-pro.json",
+    "sha256": "cc9b13d9a2fc4af455dac45c538ced90713939696433bf87b564b60d39f16008"
+  },
+  {
+    "family": "4.2",
+    "fixture": "coin",
+    "name": "coin.atlas",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/coin/export/coin.atlas",
+    "sha256": "9b394c85aef916a4cdaf95b7abfb714e2c2def9b71568db7d546e90f7bebc092"
+  },
+  {
+    "family": "4.2",
+    "fixture": "coin",
+    "name": "coin.png",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/coin/export/coin.png",
+    "sha256": "a8672983ade9a0b360125dda63f0d2a0166fc2d7b909044d01ae744918fb4c14"
+  },
+  {
+    "family": "4.2",
+    "fixture": "windmill",
+    "name": "windmill-pma.atlas",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/windmill/export/windmill-pma.atlas",
+    "sha256": "0965b685bfcef492c0dba6557016e0a68161b1dbee4a387f274c552b77da3964"
+  },
+  {
+    "family": "4.2",
+    "fixture": "windmill",
+    "name": "windmill-pma.png",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/windmill/export/windmill-pma.png",
+    "sha256": "18cc771a492409932a6c4d79441b613f93b62b809f22effb0b7328cc2ff02e90"
+  },
+  {
+    "family": "4.2",
+    "fixture": "windmill",
+    "name": "windmill.atlas",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/windmill/export/windmill.atlas",
+    "sha256": "374d702b7ca5d04c481fe9585dcd8cf4a2d951129cba26da45ea4c3f3b78917b"
+  },
+  {
+    "family": "4.2",
+    "fixture": "windmill",
+    "name": "windmill.png",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/8bca84f46e00d1d0d29ab0dc2406bef3b1248e17/examples/windmill/export/windmill.png",
+    "sha256": "daff657f74bbcd9b5c2e5893aceec0121383340b887ba5901af89168b6c7fd6c"
+  },
+  {
+    "family": "4.3",
+    "fixture": "goblins",
+    "name": "goblins-pma.atlas",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/b7beb2ccbbce667a12c02f44d070644f59b04968/examples/goblins/export/goblins-pma.atlas",
+    "sha256": "7d5de5f104f912eb62dcc37c87132cd2ac34cc262ac961f59bdcb2c85794503b"
+  },
+  {
+    "family": "4.3",
+    "fixture": "goblins",
+    "name": "goblins-pma.png",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/b7beb2ccbbce667a12c02f44d070644f59b04968/examples/goblins/export/goblins-pma.png",
+    "sha256": "cdd19ddf831cb7d86e3adca1b8096334e112bc0f2c6b1a6f161142875ef75d1f"
+  },
+  {
+    "family": "4.3",
+    "fixture": "goblins",
+    "name": "goblins-pro.json",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/b7beb2ccbbce667a12c02f44d070644f59b04968/examples/goblins/export/goblins-pro.json",
+    "sha256": "f45b7a36097c60692e78fef20626103eab0532e3e40701fb29438e9d75dfa057"
+  },
+  {
+    "family": "4.3",
+    "fixture": "goblins",
+    "name": "goblins.atlas",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/b7beb2ccbbce667a12c02f44d070644f59b04968/examples/goblins/export/goblins.atlas",
+    "sha256": "7245bf918b1d661d9502bf35aff39ae73541b27285fab1df983bd8e6cda5dc0a"
+  },
+  {
+    "family": "4.3",
+    "fixture": "goblins",
+    "name": "goblins.png",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/b7beb2ccbbce667a12c02f44d070644f59b04968/examples/goblins/export/goblins.png",
+    "sha256": "bfdd68e30d633094ba2292d15df604f4acd168d236be3ca35f69505e591b5ba3"
+  },
+  {
+    "family": "4.3",
+    "fixture": "raptor",
+    "name": "raptor-pma.atlas",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/b7beb2ccbbce667a12c02f44d070644f59b04968/examples/raptor/export/raptor-pma.atlas",
+    "sha256": "9bb6a53df3d0e5e18f119069c148055385ae5682d2222560deb70f43167c2f9c"
+  },
+  {
+    "family": "4.3",
+    "fixture": "raptor",
+    "name": "raptor-pma.png",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/b7beb2ccbbce667a12c02f44d070644f59b04968/examples/raptor/export/raptor-pma.png",
+    "sha256": "6b4a5ef3316aadb79b79bd569fc91fc8c6b387b2811aec8a2530c2255de1d94f"
+  },
+  {
+    "family": "4.3",
+    "fixture": "raptor",
+    "name": "raptor-pro.json",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/b7beb2ccbbce667a12c02f44d070644f59b04968/examples/raptor/export/raptor-pro.json",
+    "sha256": "2ba9fe06007bc7b44d412bdb5722b1cd8b5fbcd0f7a263ae1aa957a555e9742a"
+  },
+  {
+    "family": "4.3",
+    "fixture": "raptor",
+    "name": "raptor.atlas",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/b7beb2ccbbce667a12c02f44d070644f59b04968/examples/raptor/export/raptor.atlas",
+    "sha256": "fb6e8532cb7665542b54ab661d0cadffe0171fcfe6b192595cd6ab622b08d8e6"
+  },
+  {
+    "family": "4.3",
+    "fixture": "raptor",
+    "name": "raptor.png",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/b7beb2ccbbce667a12c02f44d070644f59b04968/examples/raptor/export/raptor.png",
+    "sha256": "c2fcb6ac6c363f5b37f622feb727aed64fbd0205897a7ba8b6b45f8a091ab125"
+  },
+  {
+    "family": "4.3",
+    "fixture": "vine",
+    "name": "vine-pma.atlas",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/b7beb2ccbbce667a12c02f44d070644f59b04968/examples/vine/export/vine-pma.atlas",
+    "sha256": "922df9d8b2ff773beca0aef969045853f63599ec75bdf6e5bd861ceba08d066d"
+  },
+  {
+    "family": "4.3",
+    "fixture": "vine",
+    "name": "vine-pma.png",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/b7beb2ccbbce667a12c02f44d070644f59b04968/examples/vine/export/vine-pma.png",
+    "sha256": "db424dd2fa9c4ca7ee93636f1b99c1b72b0c7b66e2d85fae0b79648e7dea7bd5"
+  },
+  {
+    "family": "4.3",
+    "fixture": "vine",
+    "name": "vine-pro.json",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/b7beb2ccbbce667a12c02f44d070644f59b04968/examples/vine/export/vine-pro.json",
+    "sha256": "cfb7b608a784eb9e5d0167691236b5a536e03872ed8b01293400d554f0847fc7"
+  },
+  {
+    "family": "4.3",
+    "fixture": "vine",
+    "name": "vine.atlas",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/b7beb2ccbbce667a12c02f44d070644f59b04968/examples/vine/export/vine.atlas",
+    "sha256": "34dfdf9ef931040a15a89f005434062bef659db27a3a00116332a888a99dfa3c"
+  },
+  {
+    "family": "4.3",
+    "fixture": "vine",
+    "name": "vine.png",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/b7beb2ccbbce667a12c02f44d070644f59b04968/examples/vine/export/vine.png",
+    "sha256": "fd456093b11fd99fcc5d7380e1e49011579fd01cf46d85cb151bd5d58735bc6f"
+  },
+  {
+    "family": "4.3",
+    "fixture": "tank",
+    "name": "tank-pma.atlas",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/b7beb2ccbbce667a12c02f44d070644f59b04968/examples/tank/export/tank-pma.atlas",
+    "sha256": "4cdc8fe71a6477dec3e603858a3055aad1c116cdec47f29bd01ef0131f9ce275"
+  },
+  {
+    "family": "4.3",
+    "fixture": "tank",
+    "name": "tank-pma.png",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/b7beb2ccbbce667a12c02f44d070644f59b04968/examples/tank/export/tank-pma.png",
+    "sha256": "65a41752ae26da65c45337728e019b171e335b9e58fac70d2ac8c8fb18e64bc5"
+  },
+  {
+    "family": "4.3",
+    "fixture": "tank",
+    "name": "tank-pro.json",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/b7beb2ccbbce667a12c02f44d070644f59b04968/examples/tank/export/tank-pro.json",
+    "sha256": "93916fbb35825b14ba4dbf3823a126d847f7980a4f7dcfec22004d898e9eadd5"
+  },
+  {
+    "family": "4.3",
+    "fixture": "tank",
+    "name": "tank.atlas",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/b7beb2ccbbce667a12c02f44d070644f59b04968/examples/tank/export/tank.atlas",
+    "sha256": "003a119ec915ae5130582ba9100aa1ca37049727050d18c334261299f5d81cc5"
+  },
+  {
+    "family": "4.3",
+    "fixture": "tank",
+    "name": "tank.png",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/b7beb2ccbbce667a12c02f44d070644f59b04968/examples/tank/export/tank.png",
+    "sha256": "52d92e423b47152c4611fac5c54ee07593a710cb6342fa2dd3ec72ee9b70576d"
+  },
+  {
+    "family": "4.3",
+    "fixture": "coin",
+    "name": "coin-pma.atlas",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/b7beb2ccbbce667a12c02f44d070644f59b04968/examples/coin/export/coin-pma.atlas",
+    "sha256": "e444eb249bb138660267cbdabcf691e880edafe5c8d79b43f577c22f3db53f8c"
+  },
+  {
+    "family": "4.3",
+    "fixture": "coin",
+    "name": "coin-pma.png",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/b7beb2ccbbce667a12c02f44d070644f59b04968/examples/coin/export/coin-pma.png",
+    "sha256": "c56a15cef462016a6e45489905414ffdcfc3ea4f50d609295039e4b486f400ef"
+  },
+  {
+    "family": "4.3",
+    "fixture": "coin",
+    "name": "coin-pro.json",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/b7beb2ccbbce667a12c02f44d070644f59b04968/examples/coin/export/coin-pro.json",
+    "sha256": "9e76b564681db8908529ef9af9be1822437bc788c20c0ca54fe3f59792d269b6"
+  },
+  {
+    "family": "4.3",
+    "fixture": "coin",
+    "name": "coin.atlas",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/b7beb2ccbbce667a12c02f44d070644f59b04968/examples/coin/export/coin.atlas",
+    "sha256": "661de942a6b4873697aa56dc5ffe489675f1310c56cb65b5fff7649d5adb157f"
+  },
+  {
+    "family": "4.3",
+    "fixture": "coin",
+    "name": "coin.png",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/b7beb2ccbbce667a12c02f44d070644f59b04968/examples/coin/export/coin.png",
+    "sha256": "a299ecc5936018891c79c9e25d5783672e8e711aeb8fedf82164054698127e7f"
+  },
+  {
+    "family": "4.3",
+    "fixture": "windmill",
+    "name": "windmill-pma.atlas",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/b7beb2ccbbce667a12c02f44d070644f59b04968/examples/windmill/export/windmill-pma.atlas",
+    "sha256": "30dd781e10e4d660911e3d3c782775b106a46b63ee9378048a289c4f55cf99cc"
+  },
+  {
+    "family": "4.3",
+    "fixture": "windmill",
+    "name": "windmill-pma.png",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/b7beb2ccbbce667a12c02f44d070644f59b04968/examples/windmill/export/windmill-pma.png",
+    "sha256": "d4cdda390e5d896eb86a30c954a4ee847e64fd458b52894cda51fa1f6e1a089c"
+  },
+  {
+    "family": "4.3",
+    "fixture": "windmill",
+    "name": "windmill.atlas",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/b7beb2ccbbce667a12c02f44d070644f59b04968/examples/windmill/export/windmill.atlas",
+    "sha256": "6226932d03c81f2475897605ed801e3afe7ebc2dd0b26841d1cb62429c2b7a9d"
+  },
+  {
+    "family": "4.3",
+    "fixture": "windmill",
+    "name": "windmill.png",
+    "url": "https://raw.githubusercontent.com/EsotericSoftware/spine-runtimes/b7beb2ccbbce667a12c02f44d070644f59b04968/examples/windmill/export/windmill.png",
+    "sha256": "0fb3de19dcb1175e38a74b7c51d255ea986dc225b8814cca2280d10bb16a5ac2"
+  }
+]

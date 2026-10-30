@@ -1,0 +1,11 @@
+{
+  "cycles": 200,
+  "seconds": 1800,
+  "maxLoadMs": 10000,
+  "maxHeapGrowthBytes": 67108864,
+  "maxRssGrowthKiB": 524288,
+  "maxLateHeapSlopeBytesPerCycle": 262144,
+  "maxLateRssSlopeKiBPerCycle": 2048,
+  "runtimeErrors": 0,
+  "liveGpuObjectsAfterDispose": 0
+}

@@ -1,0 +1,26 @@
+{
+  "harnessStatus": "PASSED",
+  "releaseEvidence": "INSUFFICIENT_SUSTAINED_PLAYBACK",
+  "reason": "Wall-clock deadline included long scheduling gaps with little rendering; host sleep or suspension suspected, not proven. No budget or measurement was changed.",
+  "gaps": [
+    {
+      "fromMs": 1035929,
+      "toMs": 1124803,
+      "intervalMs": 88874,
+      "framesAdvanced": [
+        595,
+        595
+      ]
+    },
+    {
+      "fromMs": 1255561,
+      "toMs": 1858932,
+      "intervalMs": 603371,
+      "framesAdvanced": [
+        176,
+        176
+      ]
+    }
+  ],
+  "followup": "soak-awake with caffeinate -i -s"
+}

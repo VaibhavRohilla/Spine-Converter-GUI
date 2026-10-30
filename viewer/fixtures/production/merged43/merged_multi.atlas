@@ -1,0 +1,211 @@
+merged_multi.png
+  size: 2008,2044
+  format: RGBA8888
+  filter: Linear,Linear
+  repeat: none
+04_jade_hanging_pendant
+  bounds: 1341, 56, 63, 239
+  offsets: 1, 4, 68, 243
+  rotate: true
+  index: -1
+21_green_roof_right
+  bounds: 1278, 1220, 410, 127
+  offsets: 7, 6, 423, 138
+  rotate: false
+  index: -1
+Cloud
+  bounds: 1278, 1349, 693, 459
+  offsets: 21, 32, 724, 543
+  rotate: true
+  index: -1
+D
+  bounds: 1765, 3, 163, 218
+  offsets: 0, 0, 163, 218
+  rotate: true
+  index: -1
+GCloud
+  bounds: 1278, 791, 699, 391
+  offsets: 12, 76, 724, 543
+  rotate: false
+  index: -1
+Holder1
+  bounds: 919, 406, 828, 359
+  offsets: 4, 63, 836, 471
+  rotate: false
+  index: -1
+I
+  bounds: 1120, 7, 112, 219
+  offsets: 0, 0, 112, 219
+  rotate: true
+  index: -1
+Popups
+  bounds: 2, 5, 899, 328
+  offsets: 8, 62, 915, 430
+  rotate: false
+  index: -1
+Popups_TOTAL_WIN
+  bounds: 2, 335, 915, 430
+  offsets: 0, 0, 915, 430
+  rotate: false
+  index: -1
+W
+  bounds: 1749, 566, 257, 223
+  offsets: 0, 0, 257, 223
+  rotate: false
+  index: -1
+a
+  bounds: 1765, 168, 183, 218
+  offsets: 0, 0, 183, 218
+  rotate: true
+  index: -1
+a_1
+  bounds: 1765, 168, 183, 218
+  offsets: 0, 0, 183, 218
+  rotate: true
+  index: -1
+i_2
+  bounds: 903, 2, 117, 215
+  offsets: 0, 0, 117, 215
+  rotate: true
+  index: -1
+left
+  bounds: 903, 121, 212, 860
+  offsets: 3, 0, 221, 896
+  rotate: true
+  index: -1
+m
+  bounds: 1749, 353, 242, 211
+  offsets: 0, 0, 242, 211
+  rotate: false
+  index: -1
+ray
+  bounds: 2, 767, 1274, 1275
+  offsets: 0, 0, 1274, 1275
+  rotate: false
+  index: -1
+right
+  bounds: 1749, 1184, 212, 858
+  offsets: 6, 1, 218, 862
+  rotate: false
+  index: -1
+
+merged_multi2.png
+  size: 1993,1029
+  format: RGBA8888
+  filter: Linear,Linear
+  repeat: none
+10_coin_square_hole
+  bounds: 1831, 587, 160, 157
+  offsets: 3, 2, 163, 162
+  rotate: false
+  index: -1
+CIRCLE
+  bounds: 503, 153, 300, 300
+  offsets: 0, 0, 300, 300
+  rotate: false
+  index: -1
+Dragon
+  bounds: 1029, 496, 531, 526
+  offsets: 90, 8, 724, 543
+  rotate: true
+  index: -1
+G
+  bounds: 1126, 11, 155, 220
+  offsets: 0, 0, 155, 220
+  rotate: false
+  index: -1
+g_1
+  bounds: 1126, 11, 155, 220
+  offsets: 0, 0, 155, 220
+  rotate: false
+  index: -1
+L
+  bounds: 1744, 902, 125, 217
+  offsets: 0, 0, 125, 217
+  rotate: true
+  index: -1
+Lion
+  bounds: 476, 455, 551, 572
+  offsets: 38, 27, 627, 627
+  rotate: false
+  index: -1
+N
+  bounds: 944, 10, 180, 220
+  offsets: 0, 0, 180, 220
+  rotate: false
+  index: -1
+O
+  bounds: 960, 233, 177, 220
+  offsets: 0, 0, 177, 220
+  rotate: false
+  index: -1
+O_2
+  bounds: 960, 233, 177, 220
+  offsets: 0, 0, 177, 220
+  rotate: false
+  index: -1
+Popup1
+  bounds: 1557, 524, 503, 130
+  offsets: 8, 36, 520, 189
+  rotate: true
+  index: -1
+T
+  bounds: 1139, 278, 140, 216
+  offsets: 0, 0, 140, 216
+  rotate: false
+  index: -1
+T-1
+  bounds: 1831, 374, 154, 211
+  offsets: 0, 0, 154, 211
+  rotate: false
+  index: -1
+Wheel
+  bounds: 2, 400, 627, 472
+  offsets: 0, 88, 627, 627
+  rotate: true
+  index: -1
+c
+  bounds: 805, 232, 153, 221
+  offsets: 0, 0, 153, 221
+  rotate: false
+  index: -1
+e
+  bounds: 1744, 32, 131, 210
+  offsets: 0, 0, 131, 210
+  rotate: false
+  index: -1
+f
+  bounds: 1744, 244, 128, 212
+  offsets: 0, 0, 128, 212
+  rotate: true
+  index: -1
+glow_coin
+  bounds: 1283, 27, 459, 467
+  offsets: 0, 9, 459, 484
+  rotate: false
+  index: -1
+h
+  bounds: 1744, 746, 154, 215
+  offsets: 0, 0, 154, 215
+  rotate: true
+  index: -1
+p
+  bounds: 1689, 529, 140, 215
+  offsets: 0, 0, 140, 215
+  rotate: false
+  index: -1
+paper
+  bounds: 2, 11, 499, 387
+  offsets: 0, 0, 499, 387
+  rotate: false
+  index: -1
+r
+  bounds: 503, 2, 149, 216
+  offsets: 0, 0, 149, 216
+  rotate: true
+  index: -1
+s
+  bounds: 721, 10, 141, 221
+  offsets: 0, 0, 141, 221
+  rotate: true
+  index: -1

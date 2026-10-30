@@ -1,0 +1,531 @@
+{
+  "status": "DIAGNOSTIC_PASSED",
+  "budgets": {
+    "cycles": 200,
+    "seconds": 120,
+    "maxLoadMs": 10000,
+    "maxHeapGrowthBytes": 67108864,
+    "maxRssGrowthKiB": 524288,
+    "maxLateHeapSlopeBytesPerCycle": 262144,
+    "maxLateRssSlopeKiBPerCycle": 2048,
+    "runtimeErrors": 0,
+    "liveGpuObjectsAfterDispose": 0
+  },
+  "host": {
+    "platform": "darwin",
+    "release": "25.6.0",
+    "arch": "arm64"
+  },
+  "samples": [
+    {
+      "phase": "cycles",
+      "cycle": 0,
+      "elapsedMs": 1621,
+      "heap": 3761524,
+      "rssKiB": 621472,
+      "loadMs": 9.700000047683716
+    },
+    {
+      "phase": "cycles",
+      "cycle": 10,
+      "elapsedMs": 2352,
+      "heap": 7930160,
+      "rssKiB": 713904,
+      "loadMs": 5.3999998569488525
+    },
+    {
+      "phase": "cycles",
+      "cycle": 20,
+      "elapsedMs": 2945,
+      "heap": 8406268,
+      "rssKiB": 725376,
+      "loadMs": 8.5
+    },
+    {
+      "phase": "cycles",
+      "cycle": 30,
+      "elapsedMs": 3604,
+      "heap": 8565068,
+      "rssKiB": 748144,
+      "loadMs": 5.8999998569488525
+    },
+    {
+      "phase": "cycles",
+      "cycle": 40,
+      "elapsedMs": 4190,
+      "heap": 8679076,
+      "rssKiB": 759760,
+      "loadMs": 7.1000001430511475
+    },
+    {
+      "phase": "cycles",
+      "cycle": 50,
+      "elapsedMs": 4847,
+      "heap": 8775056,
+      "rssKiB": 767456,
+      "loadMs": 11.599999904632568
+    },
+    {
+      "phase": "cycles",
+      "cycle": 60,
+      "elapsedMs": 5450,
+      "heap": 8798448,
+      "rssKiB": 787072,
+      "loadMs": 7
+    },
+    {
+      "phase": "cycles",
+      "cycle": 70,
+      "elapsedMs": 6001,
+      "heap": 8815564,
+      "rssKiB": 789152,
+      "loadMs": 7
+    },
+    {
+      "phase": "cycles",
+      "cycle": 80,
+      "elapsedMs": 6608,
+      "heap": 8865480,
+      "rssKiB": 810384,
+      "loadMs": 8.599999904632568
+    },
+    {
+      "phase": "cycles",
+      "cycle": 90,
+      "elapsedMs": 7155,
+      "heap": 8901952,
+      "rssKiB": 807968,
+      "loadMs": 6.400000095367432
+    },
+    {
+      "phase": "cycles",
+      "cycle": 100,
+      "elapsedMs": 7770,
+      "heap": 8919192,
+      "rssKiB": 818416,
+      "loadMs": 4.400000095367432
+    },
+    {
+      "phase": "cycles",
+      "cycle": 110,
+      "elapsedMs": 8324,
+      "heap": 8931476,
+      "rssKiB": 827264,
+      "loadMs": 7.700000047683716
+    },
+    {
+      "phase": "cycles",
+      "cycle": 120,
+      "elapsedMs": 8933,
+      "heap": 8941092,
+      "rssKiB": 836464,
+      "loadMs": 5.299999952316284
+    },
+    {
+      "phase": "cycles",
+      "cycle": 130,
+      "elapsedMs": 9515,
+      "heap": 8989500,
+      "rssKiB": 844560,
+      "loadMs": 8.599999904632568
+    },
+    {
+      "phase": "cycles",
+      "cycle": 140,
+      "elapsedMs": 10225,
+      "heap": 9026180,
+      "rssKiB": 826544,
+      "loadMs": 19.200000047683716
+    },
+    {
+      "phase": "cycles",
+      "cycle": 150,
+      "elapsedMs": 10878,
+      "heap": 9126216,
+      "rssKiB": 753328,
+      "loadMs": 7.200000047683716
+    },
+    {
+      "phase": "cycles",
+      "cycle": 160,
+      "elapsedMs": 11443,
+      "heap": 9136416,
+      "rssKiB": 757616,
+      "loadMs": 7.700000047683716
+    },
+    {
+      "phase": "cycles",
+      "cycle": 170,
+      "elapsedMs": 12061,
+      "heap": 9148556,
+      "rssKiB": 784368,
+      "loadMs": 9
+    },
+    {
+      "phase": "cycles",
+      "cycle": 180,
+      "elapsedMs": 12672,
+      "heap": 9153108,
+      "rssKiB": 785936,
+      "loadMs": 10.100000143051147
+    },
+    {
+      "phase": "cycles",
+      "cycle": 190,
+      "elapsedMs": 13373,
+      "heap": 9162292,
+      "rssKiB": 805248,
+      "loadMs": 5.400000095367432
+    },
+    {
+      "phase": "cycles",
+      "cycle": 199,
+      "elapsedMs": 13928,
+      "heap": 9167592,
+      "rssKiB": 811312,
+      "loadMs": 8.100000143051147
+    },
+    {
+      "phase": "playback",
+      "elapsedMs": 10031,
+      "heap": 10064036,
+      "rssKiB": 578896,
+      "stats": [
+        {
+          "loadMs": 9.200000047683716,
+          "textureUploadMs": 0.20000004768371582,
+          "textureCount": 1,
+          "texturePixels": 262144,
+          "frames": 606,
+          "updateMs": 0,
+          "renderMs": 0.09999990463256836
+        },
+        {
+          "loadMs": 13.5,
+          "textureUploadMs": 0.6000001430511475,
+          "textureCount": 1,
+          "texturePixels": 524288,
+          "frames": 604,
+          "updateMs": 0,
+          "renderMs": 0
+        }
+      ]
+    },
+    {
+      "phase": "playback",
+      "elapsedMs": 20067,
+      "heap": 10086032,
+      "rssKiB": 583216,
+      "stats": [
+        {
+          "loadMs": 9.200000047683716,
+          "textureUploadMs": 0.20000004768371582,
+          "textureCount": 1,
+          "texturePixels": 262144,
+          "frames": 1210,
+          "updateMs": 0,
+          "renderMs": 0
+        },
+        {
+          "loadMs": 13.5,
+          "textureUploadMs": 0.6000001430511475,
+          "textureCount": 1,
+          "texturePixels": 524288,
+          "frames": 1208,
+          "updateMs": 0,
+          "renderMs": 0.09999990463256836
+        }
+      ]
+    },
+    {
+      "phase": "playback",
+      "elapsedMs": 30104,
+      "heap": 10077144,
+      "rssKiB": 485312,
+      "stats": [
+        {
+          "loadMs": 9.200000047683716,
+          "textureUploadMs": 0.20000004768371582,
+          "textureCount": 1,
+          "texturePixels": 262144,
+          "frames": 1813,
+          "updateMs": 0,
+          "renderMs": 0.09999990463256836
+        },
+        {
+          "loadMs": 13.5,
+          "textureUploadMs": 0.6000001430511475,
+          "textureCount": 1,
+          "texturePixels": 524288,
+          "frames": 1811,
+          "updateMs": 0,
+          "renderMs": 0.10000014305114746
+        }
+      ]
+    },
+    {
+      "phase": "playback",
+      "elapsedMs": 40141,
+      "heap": 10084648,
+      "rssKiB": 470912,
+      "stats": [
+        {
+          "loadMs": 9.200000047683716,
+          "textureUploadMs": 0.20000004768371582,
+          "textureCount": 1,
+          "texturePixels": 262144,
+          "frames": 2416,
+          "updateMs": 0,
+          "renderMs": 0.09999990463256836
+        },
+        {
+          "loadMs": 13.5,
+          "textureUploadMs": 0.6000001430511475,
+          "textureCount": 1,
+          "texturePixels": 524288,
+          "frames": 2414,
+          "updateMs": 0,
+          "renderMs": 0
+        }
+      ]
+    },
+    {
+      "phase": "playback",
+      "elapsedMs": 50177,
+      "heap": 10090764,
+      "rssKiB": 481504,
+      "stats": [
+        {
+          "loadMs": 9.200000047683716,
+          "textureUploadMs": 0.20000004768371582,
+          "textureCount": 1,
+          "texturePixels": 262144,
+          "frames": 3019,
+          "updateMs": 0,
+          "renderMs": 0.09999990463256836
+        },
+        {
+          "loadMs": 13.5,
+          "textureUploadMs": 0.6000001430511475,
+          "textureCount": 1,
+          "texturePixels": 524288,
+          "frames": 3017,
+          "updateMs": 0,
+          "renderMs": 0.09999990463256836
+        }
+      ]
+    },
+    {
+      "phase": "playback",
+      "elapsedMs": 60227,
+      "heap": 10108264,
+      "rssKiB": 484992,
+      "stats": [
+        {
+          "loadMs": 9.200000047683716,
+          "textureUploadMs": 0.20000004768371582,
+          "textureCount": 1,
+          "texturePixels": 262144,
+          "frames": 3622,
+          "updateMs": 0,
+          "renderMs": 0.10000014305114746
+        },
+        {
+          "loadMs": 13.5,
+          "textureUploadMs": 0.6000001430511475,
+          "textureCount": 1,
+          "texturePixels": 524288,
+          "frames": 3620,
+          "updateMs": 0,
+          "renderMs": 0.09999990463256836
+        }
+      ]
+    },
+    {
+      "phase": "playback",
+      "elapsedMs": 70275,
+      "heap": 10106628,
+      "rssKiB": 486944,
+      "stats": [
+        {
+          "loadMs": 9.200000047683716,
+          "textureUploadMs": 0.20000004768371582,
+          "textureCount": 1,
+          "texturePixels": 262144,
+          "frames": 4226,
+          "updateMs": 0,
+          "renderMs": 0.09999990463256836
+        },
+        {
+          "loadMs": 13.5,
+          "textureUploadMs": 0.6000001430511475,
+          "textureCount": 1,
+          "texturePixels": 524288,
+          "frames": 4224,
+          "updateMs": 0.09999990463256836,
+          "renderMs": 0.20000004768371582
+        }
+      ]
+    },
+    {
+      "phase": "playback",
+      "elapsedMs": 80325,
+      "heap": 10107040,
+      "rssKiB": 488224,
+      "stats": [
+        {
+          "loadMs": 9.200000047683716,
+          "textureUploadMs": 0.20000004768371582,
+          "textureCount": 1,
+          "texturePixels": 262144,
+          "frames": 4830,
+          "updateMs": 0,
+          "renderMs": 0.19999980926513672
+        },
+        {
+          "loadMs": 13.5,
+          "textureUploadMs": 0.6000001430511475,
+          "textureCount": 1,
+          "texturePixels": 524288,
+          "frames": 4828,
+          "updateMs": 0,
+          "renderMs": 0
+        }
+      ]
+    },
+    {
+      "phase": "playback",
+      "elapsedMs": 90370,
+      "heap": 10123468,
+      "rssKiB": 489456,
+      "stats": [
+        {
+          "loadMs": 9.200000047683716,
+          "textureUploadMs": 0.20000004768371582,
+          "textureCount": 1,
+          "texturePixels": 262144,
+          "frames": 5434,
+          "updateMs": 0,
+          "renderMs": 0.2999999523162842
+        },
+        {
+          "loadMs": 13.5,
+          "textureUploadMs": 0.6000001430511475,
+          "textureCount": 1,
+          "texturePixels": 524288,
+          "frames": 5432,
+          "updateMs": 0.09999990463256836,
+          "renderMs": 0.10000014305114746
+        }
+      ]
+    },
+    {
+      "phase": "playback",
+      "elapsedMs": 100418,
+      "heap": 10145084,
+      "rssKiB": 510256,
+      "stats": [
+        {
+          "loadMs": 9.200000047683716,
+          "textureUploadMs": 0.20000004768371582,
+          "textureCount": 1,
+          "texturePixels": 262144,
+          "frames": 6038,
+          "updateMs": 0,
+          "renderMs": 0.10000014305114746
+        },
+        {
+          "loadMs": 13.5,
+          "textureUploadMs": 0.6000001430511475,
+          "textureCount": 1,
+          "texturePixels": 524288,
+          "frames": 6036,
+          "updateMs": 0,
+          "renderMs": 0.09999990463256836
+        }
+      ]
+    },
+    {
+      "phase": "playback",
+      "elapsedMs": 110468,
+      "heap": 10145072,
+      "rssKiB": 513504,
+      "stats": [
+        {
+          "loadMs": 9.200000047683716,
+          "textureUploadMs": 0.20000004768371582,
+          "textureCount": 1,
+          "texturePixels": 262144,
+          "frames": 6642,
+          "updateMs": 0,
+          "renderMs": 0
+        },
+        {
+          "loadMs": 13.5,
+          "textureUploadMs": 0.6000001430511475,
+          "textureCount": 1,
+          "texturePixels": 524288,
+          "frames": 6640,
+          "updateMs": 0,
+          "renderMs": 0.09999990463256836
+        }
+      ]
+    },
+    {
+      "phase": "playback",
+      "elapsedMs": 120518,
+      "heap": 10155708,
+      "rssKiB": 514608,
+      "stats": [
+        {
+          "loadMs": 9.200000047683716,
+          "textureUploadMs": 0.20000004768371582,
+          "textureCount": 1,
+          "texturePixels": 262144,
+          "frames": 7246,
+          "updateMs": 0.09999990463256836,
+          "renderMs": 0.10000014305114746
+        },
+        {
+          "loadMs": 13.5,
+          "textureUploadMs": 0.6000001430511475,
+          "textureCount": 1,
+          "texturePixels": 524288,
+          "frames": 7244,
+          "updateMs": 0,
+          "renderMs": 0
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "browser": "156.0.8078.4",
+  "graphics": {
+    "vendor": "Google Inc. (Google)",
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver)",
+    "version": "WebGL 1.0 (OpenGL ES 2.0 Chromium)"
+  },
+  "disposal": {
+    "states": [
+      "DISPOSED",
+      "DISPOSED"
+    ],
+    "liveGpuObjects": 0,
+    "liveSchedulers": 0,
+    "liveListeners": 0,
+    "subscribers": 0
+  },
+  "playbackGrowth": {
+    "heap": 91672,
+    "rssKiB": -64288
+  },
+  "growth": {
+    "heap": 392536,
+    "rssKiB": 43856,
+    "heapSlope": 2932.3081672405674,
+    "rssSlope": -7.305381128661503
+  },
+  "budgetFailures": [],
+  "durationMs": 134545,
+  "serverExit": 0
+}

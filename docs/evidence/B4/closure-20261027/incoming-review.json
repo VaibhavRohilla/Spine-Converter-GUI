@@ -1,0 +1,3269 @@
+{
+  "startingHead": "b729bedfb7311ca9f64cf3c3862421a1fa031157",
+  "preservedSnapshot": "incoming-snapshot.tar.gz",
+  "incomingFiles": [
+    {
+      "path": "docs/evidence/B4/animation/0.json",
+      "bytes": 479,
+      "sha256": "d3f26402e955895ad1b7359caeb7545ec061e14e38592398e85e8b15c728a33f",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "runtime",
+        "animation",
+        "duration",
+        "seek",
+        "physics",
+        "checks"
+      ],
+      "status": "PASSED"
+    },
+    {
+      "path": "docs/evidence/B4/animation/2.json",
+      "bytes": 428,
+      "sha256": "35bc10999f2b4c5e0d9eaa00486987506a47a308edc6dcd36fdc06fabc172c77",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "runtime",
+        "animation",
+        "duration",
+        "seek",
+        "physics",
+        "checks"
+      ],
+      "status": "PASSED"
+    },
+    {
+      "path": "docs/evidence/B4/animation/33.json",
+      "bytes": 460,
+      "sha256": "ce38db6ea82a0c17e2d855999d092518319ea1d4379fa10eff1a8e5ecb2c5fd1",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "runtime",
+        "animation",
+        "duration",
+        "seek",
+        "physics",
+        "checks"
+      ],
+      "status": "PASSED"
+    },
+    {
+      "path": "docs/evidence/B4/animation/34.json",
+      "bytes": 459,
+      "sha256": "4336c27e82ceccd7a41fb7e83c5218cfaf347a5fdca005db5109606bbf306061",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "runtime",
+        "animation",
+        "duration",
+        "seek",
+        "physics",
+        "checks"
+      ],
+      "status": "PASSED"
+    },
+    {
+      "path": "docs/evidence/B4/animation/4.json",
+      "bytes": 428,
+      "sha256": "91567920d4dfe4a4f3f6987268dab548dc926dcc5b26efb6a5579ff3c013eaca",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "runtime",
+        "animation",
+        "duration",
+        "seek",
+        "physics",
+        "checks"
+      ],
+      "status": "PASSED"
+    },
+    {
+      "path": "docs/evidence/B4/animation/6.json",
+      "bytes": 428,
+      "sha256": "628c90a506be48de98d78cd50a8b2d354ca4029ac49f0fa6910f8ad4023a0750",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "runtime",
+        "animation",
+        "duration",
+        "seek",
+        "physics",
+        "checks"
+      ],
+      "status": "PASSED"
+    },
+    {
+      "path": "docs/evidence/B4/animation/8.json",
+      "bytes": 428,
+      "sha256": "70049256d6bb1a5876b082e8687a02f3b6c5df16ba4b86317a7b89fc48ed0461",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "runtime",
+        "animation",
+        "duration",
+        "seek",
+        "physics",
+        "checks"
+      ],
+      "status": "PASSED"
+    },
+    {
+      "path": "docs/evidence/B4/animation/event-boundaries.json",
+      "bytes": 667,
+      "sha256": "2d300ceffaca840dbe137e0a612893b658e60cb9c44a94439a336445c64286a6",
+      "jsonType": "dict",
+      "keys": [
+        "runtime",
+        "source",
+        "status",
+        "expected",
+        "wholeLoopNative",
+        "partitionedLoopNative",
+        "boundaries",
+        "scope"
+      ],
+      "status": "PASSED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/0.json",
+      "bytes": 2079,
+      "sha256": "b197f56fb7cd1230d473bd54087a3c6b1723425d914374992f853dba6ccbc392",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/0.png",
+      "bytes": 179408,
+      "sha256": "8bafd10b9fd63facecf577d6830cfb336757517ecc723a81f1b671587ef58090"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/11.json",
+      "bytes": 2138,
+      "sha256": "40a117889e8e17b51222ef6ca703d56751931dc8c79340234c4936052526c89e",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/11.png",
+      "bytes": 24822,
+      "sha256": "8d343b03c1299546bfac131d056fe2283134613751e30e0a8806f7ce89be6340"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/12.json",
+      "bytes": 1983,
+      "sha256": "716c3eea792d7ff5b1af7b6fe2289f349a6dd75de2cd9471e61cde5004a1c142",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/12.png",
+      "bytes": 21362,
+      "sha256": "29b1db45b68d42de874665a86b02b637eacde083b7ca85115cfb24481a495824"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/13.json",
+      "bytes": 1975,
+      "sha256": "6bc7ee188d85b8c628dee14c4fc571af847595bcee5e5c2120ed4cb9a7cd6954",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/13.png",
+      "bytes": 21307,
+      "sha256": "ebb0ac682f2ebf6f5a90813c71cb79e5dff75df0d01526d41be04a02a2cbd452"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/14.json",
+      "bytes": 1995,
+      "sha256": "bde76fb603613ec140324e163b3a3bbae8a8a4557a2ce3f95cebf24563d0c357",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/14.png",
+      "bytes": 72019,
+      "sha256": "2f161859dd486d0675ec48ae49d1edaa4358ecbc5669465037c51d38dbc986cd"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/15.json",
+      "bytes": 1987,
+      "sha256": "643ab0f4a7c05e1a714724517ab5857dfc4de4407c11e5c9e0fc803a0378fc33",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/15.png",
+      "bytes": 72111,
+      "sha256": "307c61078d464d2f3d0230f3f70b1b40b6f486650254184f3459957ec85924b4"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/16.json",
+      "bytes": 2019,
+      "sha256": "95ce68bba87f7613daedbf410469f438c54e9a2df3d2e7fce49d8f8c58a72955",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/16.png",
+      "bytes": 215135,
+      "sha256": "5d162a2493e23a8ae10f4a756a7a4a0584cd02fba7249da2f1756b1c44daefa0"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/17.json",
+      "bytes": 2011,
+      "sha256": "1da32ceb28524e4f829ca9a351bfd07598c046bdb1ab4679208221e81ece640b",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/17.png",
+      "bytes": 215089,
+      "sha256": "fcfcd2a47ba0bb2835e3210b668b295a458bf5dd72124512c9656641ce09b0fa"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/18.json",
+      "bytes": 2007,
+      "sha256": "b1583a36af0574aaabff086cd8dd6e9136a0d106d8c321ddce129e25010cfc0a",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/18.png",
+      "bytes": 58929,
+      "sha256": "9423f8bf4d1d90fb96ba96bd50629a4feca7d4fb34d11d5f3ba0df157c5c4cd2"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/19.json",
+      "bytes": 1999,
+      "sha256": "6d2282d1913addd71d144b6bc27197e3aaf8f4b216bc6574ceae86aa9b9f58ab",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/19.png",
+      "bytes": 59147,
+      "sha256": "19b8d7c197d8f280663609253f620c8bc69098358f518f7488d284e7222a4cab"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/2.json",
+      "bytes": 1981,
+      "sha256": "142f36a76f318ed30656c52344fe406786ac706aaf644088ee1caa971e7308fb",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/2.png",
+      "bytes": 189517,
+      "sha256": "933e34e51085a9ebf732ca114698e54b938c7afddbb9fb39d86e2f352284ca69"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/20.json",
+      "bytes": 2005,
+      "sha256": "53c8b4419d75fd9e146f54dd0241d4f475b54bc0d66d42f10d978aa1ab555106",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/20.png",
+      "bytes": 77317,
+      "sha256": "de91a6f6b1ec1948c8216b70413360e0cda602fdb415010ab54c2e8d99a1d89e"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/21.json",
+      "bytes": 1997,
+      "sha256": "f1f95e35505f17d0c6a3b39883892db30d00fb62bebe2ca1e5f472bcef2ccf41",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/21.png",
+      "bytes": 77493,
+      "sha256": "060aa936779cd442ef192006356713a307caa67ffb6dd5c01650aaabc1b52d95"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/22.json",
+      "bytes": 1983,
+      "sha256": "5d31caee554ff18d3e3571b2dfbc8d31948e1a314a5dbfa6fcd4280115267dae",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/22.png",
+      "bytes": 21345,
+      "sha256": "3cd4c6dacd6a11475711272ab362e2fc92dfccfbc5b7e3fc102dd4a3dccd2510"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/23.json",
+      "bytes": 1975,
+      "sha256": "d19d0e3a8edb6baec41bf399fb8315d2111fb22822ce9ee878d3ca6db22543c6",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/23.png",
+      "bytes": 21335,
+      "sha256": "e0576d9fc62507808e7b7d411cc8f0aa4f3897fc403b7febde9bec15307e7826"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/24.json",
+      "bytes": 1999,
+      "sha256": "e4ed2ba9e3bcc6bcfead12acb0646f6480bf6abf60549351f6f64aa2d318b31b",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/24.png",
+      "bytes": 71958,
+      "sha256": "ccec3afdf3e955b5d0e104b60c92cfbdb1ce72a31aa287f780a2064c7e728d28"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/25.json",
+      "bytes": 1991,
+      "sha256": "bda4470404e44e0456d4adef919553cf064ae5fb0fd1d860adff794f84f6a6e0",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/25.png",
+      "bytes": 71956,
+      "sha256": "cec57a31eb437169a6fdd27802abfbdb221352d86ac72f70d23becf1f08f0549"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/26.json",
+      "bytes": 2029,
+      "sha256": "85f7b9b817be23ef2806610f9a85dc811fc7b092954567c779f1793369628e47",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/26.png",
+      "bytes": 215165,
+      "sha256": "2cd065c99e2a57e50ee5dcda3cdc780ff46ae24984c3ad2072c106b28ae49aac"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/27.json",
+      "bytes": 2021,
+      "sha256": "28c556568af266c44e5ffab527eda8dbe827deabc7da0e8b85683491c2c8a539",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/27.png",
+      "bytes": 215169,
+      "sha256": "f33808352467abecbdc3461ffe3c964823c0754b380c17c2fa974867510a7eb4"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/28.json",
+      "bytes": 2017,
+      "sha256": "2aef1944742697fdf370b838058bda67bd9ff66a6ae7ae1365e5e4179f7a15a5",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/28.png",
+      "bytes": 58945,
+      "sha256": "b9fb48b222a9e62fd88a683c49f316ad3284e100481aed0df3da854b9fe5fc51"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/29.json",
+      "bytes": 2009,
+      "sha256": "412194857ce6bcf352639d3c3ed9a87f31ac4d275c4e9007e93a7b6587433fd1",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/29.png",
+      "bytes": 58950,
+      "sha256": "44f1eded786bbe304d466150a46599c058f500403b9fb120b0338de95d561374"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/30.json",
+      "bytes": 2013,
+      "sha256": "9276bc9f7882c30934513f60e38c526e97c59f74b70f133afc387544b5562b8b",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/30.png",
+      "bytes": 77270,
+      "sha256": "b851e3fb71091bf88f330e15f210c8ac9b0659189ad347b2a96d6de3fcdb61bf"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/31.json",
+      "bytes": 2005,
+      "sha256": "3998a48c13fd9b15a63354a3e908ef053197fc2e194183092edcd117a9be3955",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/31.png",
+      "bytes": 77249,
+      "sha256": "b3f0a9f461e9fc966d3a704e60b85fa035d4429215372b3b64a07e6f19c4f2d3"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/33.json",
+      "bytes": 2039,
+      "sha256": "ca5228c4891689e2e44cd6b9bf56a4d25ee7c21aa380bb32e04cf164538598c8",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/33.png",
+      "bytes": 167050,
+      "sha256": "da2dbebb6801929319b67d8d8ce08ab971598d4adb261bded377ebe602c605f4"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/34.json",
+      "bytes": 2049,
+      "sha256": "34e551c58b33326c7a8ff7517b2b2f625f796d45f6ea40bd0ccfc2c075816653",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/34.png",
+      "bytes": 160764,
+      "sha256": "ae99d350b83b37ddc8b40f642b82d5b3d2c631cc4bff620d7fd166078392e829"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/4.json",
+      "bytes": 1981,
+      "sha256": "b60eda81ec08b7f266f24b4b894a40f3a7666bb10d4950152ea231d5badf8752",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/4.png",
+      "bytes": 188925,
+      "sha256": "54c13114080354929b81adb39e8425e0cf4cde14d855560a27dd10f936411c9c"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/6.json",
+      "bytes": 1979,
+      "sha256": "b1e2111d4c5ca7a39a4f1af7a880f1744a84077f261b19db1d1931bf8f21d261",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/6.png",
+      "bytes": 188974,
+      "sha256": "cb7292eb7bd4276c3d1f910154d6bd6e7bc6dbcbda3e61887af0eb1a2ab51d4a"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/8.json",
+      "bytes": 1995,
+      "sha256": "77b96f840e3e765c62ab1a0c75f5277b62796c4ce93a187c0cd3eb263588ed73",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/8.png",
+      "bytes": 188417,
+      "sha256": "82bf0c14ce7390de8b53ae5472635ba451bbffd38f468c55461e3c1e604a7dfa"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/derived-blend-12-additive.json",
+      "bytes": 1995,
+      "sha256": "6139564fdc0bb21909961581bf923b65d9a412ff0740356ac2f37388e2d8d780",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/derived-blend-12-additive.png",
+      "bytes": 19767,
+      "sha256": "6064202cf21e466f8c6a5d4730f70dad8eb8999fcd89734f289b326e7dab913c"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/derived-blend-12-multiply.json",
+      "bytes": 1995,
+      "sha256": "021aa0277e0e63484a9248d31db0c1ab0b0aff1e5aabf51f547ce7732099bbfd",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/derived-blend-12-multiply.png",
+      "bytes": 15551,
+      "sha256": "316b85fc3f619e5f44a7e4087ad229d0016587ab3e9d592ad0467db135279921"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/derived-blend-12-normal.json",
+      "bytes": 1995,
+      "sha256": "616647c1e44053c03e158400c75126d6996e7fb513677df5a277ce04e9c14a49",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/derived-blend-12-normal.png",
+      "bytes": 21232,
+      "sha256": "76dc2b0d4027c529a83d04f8bf0366f55921794128ce6b103930207c3e05936c"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/derived-blend-12-screen.json",
+      "bytes": 1995,
+      "sha256": "752c08a657f464bec7e21b41c61f938fc14b3c8477871fc35a82824c264335e3",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/derived-blend-12-screen.png",
+      "bytes": 20301,
+      "sha256": "a4539fd5d43d3159f29cd9f526f640e525d56ffbb11a340726b40c7d9bd04b03"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/derived-blend-13-additive.json",
+      "bytes": 1987,
+      "sha256": "51589a4abe608a5aaccb8cdd18d211d4fb2ab638621e68da6cb729b0558355d7",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/derived-blend-13-additive.png",
+      "bytes": 19586,
+      "sha256": "fd07c571d53671b2848cf11f2bd7dc4f8ec66ed48dcd456a3d34182cb753b47c"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/derived-blend-13-multiply.json",
+      "bytes": 1987,
+      "sha256": "62bf36f1ce3834081b127ce076517cedbf6559cc009938ab8b2aaac8e01094f6",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/derived-blend-13-multiply.png",
+      "bytes": 16320,
+      "sha256": "be17660d526c4f57e1b860ccaad5f31da4d72f0987af4ede72b8fb405615a329"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/derived-blend-13-normal.json",
+      "bytes": 1987,
+      "sha256": "6f5089759726139ddf85c4d9cdd2ff02b632aea5fafbbfa8ba61bdd69d424763",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/derived-blend-13-normal.png",
+      "bytes": 21169,
+      "sha256": "76f2cb1947940b510e6207bc4585ee13e368cea1bb00e2af9e4704f8826bdb96"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/derived-blend-13-screen.json",
+      "bytes": 1987,
+      "sha256": "66dad97dd1a23fe88712497b8e7b2a53b2c646eb86fb459f324bc821336faa2e",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/derived-blend-13-screen.png",
+      "bytes": 20319,
+      "sha256": "3b16f4ef464c13219de456933c6edf9f3047ba1c0c4eab7599f1556ed5724464"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/derived-blend-22-additive.json",
+      "bytes": 1995,
+      "sha256": "95addc4b82963205107bc01aab156591737175325ed0b4aa44cc24db85312c7b",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/derived-blend-22-additive.png",
+      "bytes": 19775,
+      "sha256": "63f5a6d7cc867372bd091896d9b8b62705e4bfcebdfd3ef2107ff966a2069fb8"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/derived-blend-22-multiply.json",
+      "bytes": 1995,
+      "sha256": "d079806c0a705dffb0af2201ea2eac389a1ac07380ba0c7bbac1c2391984a92e",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/derived-blend-22-multiply.png",
+      "bytes": 15407,
+      "sha256": "3d78a9de9d38e1164c6937f23fa4cadf53613c9ed06dbcaa895924a0a8371947"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/derived-blend-22-normal.json",
+      "bytes": 1995,
+      "sha256": "deb498c1a3e7d9da0e445c5bf3e5a37e6e8b9d6779083d0121c7af32223441fd",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/derived-blend-22-normal.png",
+      "bytes": 21205,
+      "sha256": "04ea2dd1d3f88ff675ab5d327975c0738e55dae19c2e54b158c2844a9a79faaa"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/derived-blend-22-screen.json",
+      "bytes": 1995,
+      "sha256": "daa046383b0cee803dc23ad099ac497e40a746b1648943c2d6e4932bcd8684d4",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/derived-blend-22-screen.png",
+      "bytes": 20196,
+      "sha256": "f6ad44f009a1599f87b215cbc98b031518735283cb4936f4652acea36b2a2d7d"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/derived-blend-23-additive.json",
+      "bytes": 1987,
+      "sha256": "a3343a5e849b61f9edf8e433fb356dded68fc5ae3def0c04aded4ed6c185ba60",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/derived-blend-23-additive.png",
+      "bytes": 19784,
+      "sha256": "ace796962459b8681315f75d20ec25cbf3b574668c0a8f3bef9d9cbf47dd5e6a"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/derived-blend-23-multiply.json",
+      "bytes": 1987,
+      "sha256": "43faff24f0885f435671d101babcf430e2ecc09af4882596d2abc079a8c057c7",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/derived-blend-23-multiply.png",
+      "bytes": 15409,
+      "sha256": "f0d299f3f64508944fa2274be24772a9d5eb19e5244e5355b9d06c122cf0609c"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/derived-blend-23-normal.json",
+      "bytes": 1987,
+      "sha256": "38da3a094527f1130645e61ab1c1386eeec410687472866e8bc2802f209d885d",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/derived-blend-23-normal.png",
+      "bytes": 21206,
+      "sha256": "313aa0aae107b06f568f296dd52dfccff89299048700a18a46fb51c863c40694"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/derived-blend-23-screen.json",
+      "bytes": 1987,
+      "sha256": "e16d2a2dfdf0fd5fa3eef3803ade22401da8942e5c3848964d7cda1a99070188",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "createdAt",
+        "sha256",
+        "normalization",
+        "sources",
+        "sourceSkeleton",
+        "sourceVersion",
+        "runtimeRevision",
+        "animation",
+        "timestamp",
+        "skin",
+        "viewport",
+        "camera",
+        "background",
+        "alphaPolicy",
+        "browser",
+        "graphics",
+        "tolerance",
+        "provenance",
+        "acceptance",
+        "conversionEquivalence"
+      ],
+      "status": "CANDIDATE_NOT_INDEPENDENTLY_ACCEPTED"
+    },
+    {
+      "path": "docs/evidence/B4/candidate-references/derived-blend-23-screen.png",
+      "bytes": 20193,
+      "sha256": "95c1402fccc909e24bf10c4f58d80035f8c1f06149f50393c5a425849d019038"
+    },
+    {
+      "path": "docs/evidence/B4/logs/final-installed-wheel-browser.log",
+      "bytes": 15556,
+      "sha256": "1930459cad71f876e9cd11eea28de7d6d9248233d57dc29519dec28528a8ef92"
+    },
+    {
+      "path": "docs/evidence/B4/logs/final-verification.log",
+      "bytes": 88454,
+      "sha256": "08653b3559e1988c68944bd50357e6c425c74e4b50133ed9f60da19edb1aab08"
+    },
+    {
+      "path": "docs/evidence/B4/logs/hardening-installed-wheel-browser.log",
+      "bytes": 16721,
+      "sha256": "090582407a70c9286c6b56136ff82718feec5c6a95459874a18f48b970c20625"
+    },
+    {
+      "path": "docs/evidence/B4/logs/hardening-qt.log",
+      "bytes": 570,
+      "sha256": "5600dacb69ac2a4e95d6523e2ee97ef5f63d138e299d2020f369a7b3fc8ae2ee"
+    },
+    {
+      "path": "docs/evidence/B4/logs/hardening-soak.log",
+      "bytes": 63,
+      "sha256": "92b8176b9545dd5712a3f997f4153f17e1e1734d44ca06228c75f3a8035e8f2c"
+    },
+    {
+      "path": "docs/evidence/B4/logs/hardening-verification.log",
+      "bytes": 90538,
+      "sha256": "e39972ce2f595279f31beb12b70a8db95eb38e71ad9607b460ef8d26486854c2"
+    },
+    {
+      "path": "docs/evidence/B4/logs/qualification-browser.log",
+      "bytes": 15556,
+      "sha256": "37b61f2a052323a97f96d1244b1a9d5a1f4ccd93b7b5294023f311df56d200dd"
+    },
+    {
+      "path": "docs/evidence/B4/logs/qualification-lint.log",
+      "bytes": 85,
+      "sha256": "fafbfc7a1f78c1d03fba1b7cbaaf76e84ac1abff70d5750b9abd103b431d7352"
+    },
+    {
+      "path": "docs/evidence/B4/logs/qualification-mypy.log",
+      "bytes": 44,
+      "sha256": "960745a059df2e6bf5556b518f6404c7707247bf3da084d48c3008145eb95a5d"
+    },
+    {
+      "path": "docs/evidence/B4/logs/qualification-pytest.log",
+      "bytes": 580,
+      "sha256": "ce130889fd0bcf0f218df5779ca75e2bfc25e5a704438829fe9786820344ef2c"
+    },
+    {
+      "path": "docs/evidence/B4/logs/qualification-python-build.log",
+      "bytes": 64337,
+      "sha256": "c61e1f9cae734ed94199fc23c542f0bd63b392d9d771a4262bba782de9e181d7"
+    },
+    {
+      "path": "docs/evidence/B4/logs/qualification-ruff.log",
+      "bytes": 19,
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "path": "docs/evidence/B4/logs/qualification-typecheck.log",
+      "bytes": 109,
+      "sha256": "fe21e4fcdca59b7d8f521cbbcb12ea84c8ba02c1bdf12091fee3a28fb8497334"
+    },
+    {
+      "path": "docs/evidence/B4/logs/qualification-viewer-build.log",
+      "bytes": 107,
+      "sha256": "39bfb78ba7b308dad1ae5ff5683473aed0af73b28fe0c5e0f8e1fbdc571d36c0"
+    },
+    {
+      "path": "docs/evidence/B4/qt-final-current/embedding.json",
+      "bytes": 348,
+      "sha256": "7bf111399d222e19b06d4e1a0d1271cec485f91a6661be032014b120d384cc08",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "PySide6",
+        "off_the_record",
+        "sandbox_overrides",
+        "capture_sha256",
+        "width",
+        "height",
+        "dpr",
+        "cleanup",
+        "communication"
+      ],
+      "status": "PASSED"
+    },
+    {
+      "path": "docs/evidence/B4/qt-hardening/capture/frame.png",
+      "bytes": 361081,
+      "sha256": "596ac66302b259c7933e8ea5102c003078154e97c110c23ddda04bff48bd42e8"
+    },
+    {
+      "path": "docs/evidence/B4/qt-hardening/capture/report.json",
+      "bytes": 135083,
+      "sha256": "9b67285a1864ee1ea7694fe120891a83d921abe009f729f5017d483045410d09",
+      "jsonType": "dict",
+      "keys": [
+        "asset_id",
+        "binary_codec_qualified",
+        "capture",
+        "checksums",
+        "conversion_qualification_changed",
+        "runtime_verified",
+        "source_risk",
+        "status",
+        "visually_verified"
+      ],
+      "status": "FRAME_CAPTURED"
+    },
+    {
+      "path": "docs/evidence/B4/qt-hardening/embedding.json",
+      "bytes": 348,
+      "sha256": "7bf111399d222e19b06d4e1a0d1271cec485f91a6661be032014b120d384cc08",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "PySide6",
+        "off_the_record",
+        "sandbox_overrides",
+        "capture_sha256",
+        "width",
+        "height",
+        "dpr",
+        "cleanup",
+        "communication"
+      ],
+      "status": "PASSED"
+    },
+    {
+      "path": "docs/evidence/B4/qt-qualification/capture/frame.png",
+      "bytes": 361081,
+      "sha256": "596ac66302b259c7933e8ea5102c003078154e97c110c23ddda04bff48bd42e8"
+    },
+    {
+      "path": "docs/evidence/B4/qt-qualification/capture/report.json",
+      "bytes": 135083,
+      "sha256": "9b67285a1864ee1ea7694fe120891a83d921abe009f729f5017d483045410d09",
+      "jsonType": "dict",
+      "keys": [
+        "asset_id",
+        "binary_codec_qualified",
+        "capture",
+        "checksums",
+        "conversion_qualification_changed",
+        "runtime_verified",
+        "source_risk",
+        "status",
+        "visually_verified"
+      ],
+      "status": "FRAME_CAPTURED"
+    },
+    {
+      "path": "docs/evidence/B4/qt-qualification/embedding.json",
+      "bytes": 348,
+      "sha256": "7bf111399d222e19b06d4e1a0d1271cec485f91a6661be032014b120d384cc08",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "PySide6",
+        "off_the_record",
+        "sandbox_overrides",
+        "capture_sha256",
+        "width",
+        "height",
+        "dpr",
+        "cleanup",
+        "communication"
+      ],
+      "status": "PASSED"
+    },
+    {
+      "path": "docs/evidence/B4/soak-final-diagnostic/budgets.json",
+      "bytes": 258,
+      "sha256": "72536a3de3ba5a3aea4c18d7ed325725d6f01371a9bd7214ada77aa1347d8a56",
+      "jsonType": "dict",
+      "keys": [
+        "cycles",
+        "seconds",
+        "maxLoadMs",
+        "maxHeapGrowthBytes",
+        "maxRssGrowthKiB",
+        "maxLateHeapSlopeBytesPerCycle",
+        "maxLateRssSlopeKiBPerCycle",
+        "runtimeErrors",
+        "liveGpuObjectsAfterDispose"
+      ],
+      "status": null
+    },
+    {
+      "path": "docs/evidence/B4/soak-final-diagnostic/progress.json",
+      "bytes": 1823,
+      "sha256": "6521ded278923d8c364962295e6d15bb255e8e0368f141a77b27993cc706db30",
+      "jsonType": "list"
+    },
+    {
+      "path": "docs/evidence/B4/soak-final-diagnostic/result.json",
+      "bytes": 3138,
+      "sha256": "e542cf7f2afab228db397b90c2ec409018354444e46d17995dd9b3a3e480e836",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "budgets",
+        "host",
+        "samples",
+        "errors",
+        "browser",
+        "graphics",
+        "disposal",
+        "playbackGrowth",
+        "growth",
+        "durationMs",
+        "serverExit"
+      ],
+      "status": "FAILED"
+    },
+    {
+      "path": "docs/evidence/B4/soak-hardening/budgets.json",
+      "bytes": 260,
+      "sha256": "58a4ce672712b2f99a41d70ce9d7b1a5f4e001cb61fc8101493d1bd8e07ba94a",
+      "jsonType": "dict",
+      "keys": [
+        "cycles",
+        "seconds",
+        "maxLoadMs",
+        "maxHeapGrowthBytes",
+        "maxRssGrowthKiB",
+        "maxLateHeapSlopeBytesPerCycle",
+        "maxLateRssSlopeKiBPerCycle",
+        "runtimeErrors",
+        "liveGpuObjectsAfterDispose"
+      ],
+      "status": null
+    },
+    {
+      "path": "docs/evidence/B4/soak-hardening/progress.json",
+      "bytes": 10268,
+      "sha256": "c0582e97d5090362f717998039178f61b635cc90edd767da1355a49195d28704",
+      "jsonType": "list"
+    },
+    {
+      "path": "docs/evidence/B4/soak-hardening/result.json",
+      "bytes": 12375,
+      "sha256": "59afc53dabc72839ad0fe2aff8ff625a12e05e2ed5c90e30b3da408ce51e7cbf",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "budgets",
+        "host",
+        "samples",
+        "errors",
+        "browser",
+        "graphics",
+        "disposal",
+        "playbackGrowth",
+        "growth",
+        "budgetFailures",
+        "durationMs",
+        "serverExit"
+      ],
+      "status": "DIAGNOSTIC_PASSED"
+    },
+    {
+      "path": "docs/evidence/B4/soak/budgets.json",
+      "bytes": 261,
+      "sha256": "da8ef4e3eca67075fea318722a846e3d9a39760e75487cb0a07a1122b93b6278",
+      "jsonType": "dict",
+      "keys": [
+        "cycles",
+        "seconds",
+        "maxLoadMs",
+        "maxHeapGrowthBytes",
+        "maxRssGrowthKiB",
+        "maxLateHeapSlopeBytesPerCycle",
+        "maxLateRssSlopeKiBPerCycle",
+        "runtimeErrors",
+        "liveGpuObjectsAfterDispose"
+      ],
+      "status": null
+    },
+    {
+      "path": "docs/evidence/B4/soak/progress.json",
+      "bytes": 116907,
+      "sha256": "79de8a3f52850b67b17ddc5e0d46f50e669e382e81766f170e4861acde4bd9ec",
+      "jsonType": "list"
+    },
+    {
+      "path": "docs/evidence/B4/soak/result.json",
+      "bytes": 127719,
+      "sha256": "51d6a6f05d0aa0a9e5b2141a304d5f3460f8b2609fb84d57b5e9e948fcfa28bc",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "budgets",
+        "host",
+        "samples",
+        "errors",
+        "browser",
+        "graphics",
+        "disposal",
+        "playbackGrowth",
+        "growth",
+        "durationMs",
+        "serverExit"
+      ],
+      "status": "PASSED"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/0-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/0-overlay.png",
+      "bytes": 135215,
+      "sha256": "4d6397eaa13b55da2e4ff91bcff5413a468b0f60417b9a77625dda31d38047af"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/0.json",
+      "bytes": 599,
+      "sha256": "660ec7a977c8d8fcf60b74e362c06692ba4a36f57093c119105f9c0a2340f527",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/11-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/11-overlay.png",
+      "bytes": 14574,
+      "sha256": "cbfc4d2bb95ac90461b9b250890ef2c1ae6495f86a5b3707160b68f3a17dbfdc"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/11.json",
+      "bytes": 599,
+      "sha256": "034473f162336f76d22e4c34c0751161027d913eba488e325eed1f6849d0ca40",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/12-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/12-overlay.png",
+      "bytes": 9149,
+      "sha256": "0bf71c17ca39873c78062d20f0d61f9c6c7535ca5aa63b9f42a96a936b4c53b3"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/12.json",
+      "bytes": 601,
+      "sha256": "2a8931218a44a0ea143ee891f3699cb27d59cb6672fd56eb80e9534ee9520c3e",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/13-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/13-overlay.png",
+      "bytes": 9166,
+      "sha256": "a04bb12740237ee70965fc41c5da5f690a087e50803b5471f1601cba6082e9aa"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/13.json",
+      "bytes": 601,
+      "sha256": "8fbb42bce7c166b87218cda9980403efe552962f1f216ca40934fd9a26232a5a",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/14-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/14-overlay.png",
+      "bytes": 49964,
+      "sha256": "5f4b4eeb4dfa2f51d3ebfb0d98a8bfd2543ab6bf66d265a5f6e6f146a4acc3bf"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/14.json",
+      "bytes": 599,
+      "sha256": "6f08bce68da444cb0b52ab7c9505608562257bd676f163054a3e4792aed651a1",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/15-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/15-overlay.png",
+      "bytes": 50192,
+      "sha256": "8ddc7c9d5a2933e340bc9865bb9dba9f9b0f32b00c2c28c3107ac6df77fa8b2a"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/15.json",
+      "bytes": 599,
+      "sha256": "1acdcaacc6ad351b47835222be22e7d663ef2e63e683766c87b8347a40a23bb9",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/16-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/16-overlay.png",
+      "bytes": 172148,
+      "sha256": "336740cec39eb953c0b859cc13672cb13e7065ce9f2fddb9d38d9fe0b9209a53"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/16.json",
+      "bytes": 599,
+      "sha256": "1f6d0d5b8c00a94f071364d27c287c51c73d9695e575426e055f4e9479d571e0",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/17-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/17-overlay.png",
+      "bytes": 172309,
+      "sha256": "3363cd67de2d8f042f4a1a050c3023dfe6a02b3bae0c92a0629e64524d88e934"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/17.json",
+      "bytes": 599,
+      "sha256": "57633a0de08bf458f243f8bdf51263f65652753413ae96be69af4f86b39d5e67",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/18-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/18-overlay.png",
+      "bytes": 41643,
+      "sha256": "dbd02f0fb65c931cc8273daca368d92019b41b9a50e90ca324b6818558b21d5d"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/18.json",
+      "bytes": 599,
+      "sha256": "b66aa9a32a9b60a2f85889c5e999370ba7684e40802fc08a0f382343bd858208",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/19-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/19-overlay.png",
+      "bytes": 41916,
+      "sha256": "c91f80b939265db3a65a6316ec30d1e382e5d86bef08f4129c5a6a855025ba0a"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/19.json",
+      "bytes": 599,
+      "sha256": "85b9f1ed2c464b58b1e7c4a274130d5a9676c6c450b91fd623fd9d8d7bee1824",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/2-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/2-overlay.png",
+      "bytes": 146151,
+      "sha256": "6e272beab7add379176d7ce20f6eab34d1ebbddbf092fe872b5ff9ade42188b3"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/2.json",
+      "bytes": 599,
+      "sha256": "bde33bc156633415b03b51551e72498571f4da3d04180604ef983c0d8f800297",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/20-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/20-overlay.png",
+      "bytes": 53871,
+      "sha256": "bf768595ac144dc0bb07a0d617612b722adf9e69f0b52fb83edf3009b5d00af1"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/20.json",
+      "bytes": 599,
+      "sha256": "d7ffffca25237be0c67e90d2a3802950b7baf8f752398fb7a66e31681884091b",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/21-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/21-overlay.png",
+      "bytes": 54040,
+      "sha256": "1e1e0b275901a9f3ccbfc5f17fa4e7a18ba97ff49b60000c0df6cc80415e028a"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/21.json",
+      "bytes": 599,
+      "sha256": "1c5b93829087c828fc2033ef7dc6a21fe63eaeb3111b66975040574709470add",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/22-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/22-overlay.png",
+      "bytes": 9115,
+      "sha256": "48c54e50ed929830515bdab867fbb77dfeffcd6c5385ed13b53c5be8cc2cb061"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/22.json",
+      "bytes": 601,
+      "sha256": "5664836bd27719ba13e29f57401d2f100df5077cbd4e5c96c3612fb5dfe6e591",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/23-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/23-overlay.png",
+      "bytes": 9117,
+      "sha256": "10b3b022d110114e048ea1b3b9d5d943f823ffd4ce026d8491759227d89d0d3e"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/23.json",
+      "bytes": 601,
+      "sha256": "37176557f8c8caae8a133aaad31d4a83de99bd91b2b871e5b55ac13ec53d2b4c",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/24-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/24-overlay.png",
+      "bytes": 49935,
+      "sha256": "0cbccaa12b69c3652e1443b6819c6fe66b8737a32170bc0c6bb112026d5abf43"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/24.json",
+      "bytes": 599,
+      "sha256": "350acf4dfb470ec08d349066f761ca312187fa8d6508339ea8323e63e14a7210",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/25-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/25-overlay.png",
+      "bytes": 49955,
+      "sha256": "52d6511cbbd00885711157cdb0d0aae5608d0a07a39bb8b8bddb8618fc39f3db"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/25.json",
+      "bytes": 599,
+      "sha256": "ad2272c547e236f172cbd4fc7141652abebb939aa60931ffdfc0da73b90dcad9",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/26-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/26-overlay.png",
+      "bytes": 172068,
+      "sha256": "a831d49ed97cb8c5c5e620495313a5ceb1097667c1654b1ee30785504d548490"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/26.json",
+      "bytes": 599,
+      "sha256": "90ab79bae4846d1e089f36d9a5656098a2143665bd82f3021064d1232f3cf0bc",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/27-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/27-overlay.png",
+      "bytes": 172362,
+      "sha256": "7a7beaa90d6ed781bedf9656344b8b816acd8e08108a40d0ca8afdbf7f195dc7"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/27.json",
+      "bytes": 599,
+      "sha256": "43f7bbaa832c774a4b36fd2bd2ae55e4b2f925050d60357bd3b31728e179e6be",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/28-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/28-overlay.png",
+      "bytes": 41601,
+      "sha256": "1f80e12c93de73931a85a03a5a52a8436cf5aaa74b1a94f31219688f394f573a"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/28.json",
+      "bytes": 599,
+      "sha256": "52a60d728e210af54e9502fdde163f08082975bce9725cfbc20b7abe86ccfa17",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/29-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/29-overlay.png",
+      "bytes": 41611,
+      "sha256": "7fffdd4b2df23dd3a6f4413a9e3fcbfb7fa36d160331bb40426423ce4bcd98af"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/29.json",
+      "bytes": 599,
+      "sha256": "af61e8508a2f6db35acd29854c38cc8cf4b1df142cd095dd5910cc6dd518eb49",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/30-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/30-overlay.png",
+      "bytes": 53882,
+      "sha256": "0c79f6b9c07b5fa71107e365856f1c380f249307be45dd55e980accf070b24e4"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/30.json",
+      "bytes": 599,
+      "sha256": "908d44832cf936de257374679b67d9e663ca1482a8dbf28363f2ef01111a9efc",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/31-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/31-overlay.png",
+      "bytes": 53888,
+      "sha256": "7a50f25031c16b17372ca08e40ee76c86861763d84e53ce8d3664900fe42c405"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/31.json",
+      "bytes": 599,
+      "sha256": "c51dab0066d082b0cf3ac8473b47cde4f6ca339d7aef3ea1274ae1647c021cb4",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/33-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/33-overlay.png",
+      "bytes": 102611,
+      "sha256": "e204bc5dc57d49418fd81ccc4833f26ff71b29d6f08d7721ee55764dcafe6e18"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/33.json",
+      "bytes": 599,
+      "sha256": "17cfe05f761199b311d64981c0c841f3873200355b4df1a2963ba6550a2478f8",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/34-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/34-overlay.png",
+      "bytes": 94676,
+      "sha256": "384a00bfccd97cecf5c643630023061bb66cc199786e248bf4e6490d2b626d2d"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/34.json",
+      "bytes": 599,
+      "sha256": "711cb6e3652a996d4bf57f6b8e3d86dd7010dccc2ef195c19d84bac17e29616c",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/4-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/4-overlay.png",
+      "bytes": 144911,
+      "sha256": "44ab78fb414d7bfc827c8af048f9ed56384ee70e6bdc1796f6a9f439629f9be2"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/4.json",
+      "bytes": 599,
+      "sha256": "b10510b5c56d745f78e3f180214766d9934fcc6d4ad952c3e00f7d1abbe958d5",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/6-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/6-overlay.png",
+      "bytes": 144922,
+      "sha256": "c26938e0f2d8c9167ccdaf816f908bf763fdc1504c557b6101759cc4b22d10fb"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/6.json",
+      "bytes": 599,
+      "sha256": "c67c8657e62882797f60aebed601d183b25efff0b433626d49e8784b19d91f18",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/8-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/8-overlay.png",
+      "bytes": 145842,
+      "sha256": "58ab190f9a38d8bb88f242158f1fa3d9d183e4ecb80935c4edd33a36afd0355e"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/8.json",
+      "bytes": 599,
+      "sha256": "b717fa845185b646460f5428e9bed166a8187b72313ebd240e27dc20020e6897",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-12-additive-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-12-additive-overlay.png",
+      "bytes": 8324,
+      "sha256": "29ebb1c77a4b7badd75bfe3df13e259621776e257597881dc674b895d7e4337d"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-12-additive.json",
+      "bytes": 599,
+      "sha256": "083bd90a521effc793eac6462bdb1448882ea3e9f892a0ee0cb3fffb36202f69",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-12-multiply-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-12-multiply-overlay.png",
+      "bytes": 5759,
+      "sha256": "2ccb28d4a28e0805c0c15b52b39d7b93ca88dd10cf6b147ce1acf20459c948b8"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-12-multiply.json",
+      "bytes": 599,
+      "sha256": "eb9dfc052637a57ddf2e266f3aaf0fb7f432116e242aaff47eb89a5ef5f74f86",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-12-normal-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-12-normal-overlay.png",
+      "bytes": 9262,
+      "sha256": "f38e902be57bd10a790fbede5db9f973ee1c9bd57a6ed4df10678f099312060a"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-12-normal.json",
+      "bytes": 599,
+      "sha256": "8dc9b841d550b2accca321dc528a419813b74e774c376bbe4e9cf6af15ffa9ce",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-12-screen-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-12-screen-overlay.png",
+      "bytes": 8617,
+      "sha256": "812ecf7dc148334a944a5df722a2e08f72aae3d2faace50705cc5c89b9d20c48"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-12-screen.json",
+      "bytes": 599,
+      "sha256": "6a409006db0db32a79fc86b1e5743020658d8fd4e148d3c3c4b3b8b7c83ccc8e",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-13-additive-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-13-additive-overlay.png",
+      "bytes": 8184,
+      "sha256": "2a5963ccddc8208ad778921ad87d4fec92de6efa83997365ae43fb9ab4d9bc7e"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-13-additive.json",
+      "bytes": 599,
+      "sha256": "e3c75863c9f304e2d7de29c80b4199cf9c1be41338fc0d7fbb26fcc51a6a6bab",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-13-multiply-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-13-multiply-overlay.png",
+      "bytes": 6256,
+      "sha256": "8b3dd8da14ae8515f17d8426dc67b1068ff8dd740e2eeffd3282d0c0ff5e637d"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-13-multiply.json",
+      "bytes": 599,
+      "sha256": "640a10927f7021943422efc407526f74dc3693a858bc11ab73e9d4c3ad7e5903",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-13-normal-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-13-normal-overlay.png",
+      "bytes": 9206,
+      "sha256": "50ed27adc13598175c2e753e3ce2417a825a8fda13f0790942ca6b3732731296"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-13-normal.json",
+      "bytes": 599,
+      "sha256": "f4b5bdc412edc9891e325dfa4f96fac80d507252c89530afe218eff155eb7b73",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-13-screen-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-13-screen-overlay.png",
+      "bytes": 8543,
+      "sha256": "d4e2553ef4378195e4e59889aa6617642feae1061d5825f0b5245994d2135dcf"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-13-screen.json",
+      "bytes": 599,
+      "sha256": "d9f0ae143e95a987c2da25e2d14124b9b7dd64d70154f76c8d55a6f8c4cbf532",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-22-additive-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-22-additive-overlay.png",
+      "bytes": 8311,
+      "sha256": "6ebe56a4d5cecaa844cc453eeb0280b6efa733ce9035f542ce032ca8dfc34c83"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-22-additive.json",
+      "bytes": 599,
+      "sha256": "294671ce07e3d80f456117991ddf71e4208b3922e73830c9fbcde8ea2bf5d6ae",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-22-multiply-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-22-multiply-overlay.png",
+      "bytes": 5745,
+      "sha256": "81756cdce50726908b68d6cec419b9ba03f69ced72ca3f7b8bf3a4cd0a8c3d54"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-22-multiply.json",
+      "bytes": 599,
+      "sha256": "40db8e5ac1f5bdb34d5171ab9c374acac581fc82e707e3277237a71fb4f07596",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-22-normal-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-22-normal-overlay.png",
+      "bytes": 9198,
+      "sha256": "e1805ccebd9f02733b8e6e4723612b13756a5b961b683a5c10409a0949a0cc3a"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-22-normal.json",
+      "bytes": 599,
+      "sha256": "23c3ee40f65b634c0901a2227ddd5b7c1eedde70f5b23fae7d3b6b4cba657682",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-22-screen-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-22-screen-overlay.png",
+      "bytes": 8616,
+      "sha256": "19ee83c5e288bef72625d62936b2749fad1f0d935ab840217dd7121e5910409e"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-22-screen.json",
+      "bytes": 599,
+      "sha256": "ee89be0ed8c44164544faf299a8d268ecec6500136c03a55881029c92bbe9db5",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-23-additive-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-23-additive-overlay.png",
+      "bytes": 8315,
+      "sha256": "091919b2bdb894c9d35a6a85383314332ff11015bc23dcc3f0c84143734f656a"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-23-additive.json",
+      "bytes": 599,
+      "sha256": "e57351988f044d26b88edf15b46e7e0401a195f3da5cf6a31b0e4e7f7cfccf0c",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-23-multiply-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-23-multiply-overlay.png",
+      "bytes": 5746,
+      "sha256": "67869382ffbe8ef81fcbe54747e8e5e38e7437c307a1c82a9fa663a2c568795a"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-23-multiply.json",
+      "bytes": 599,
+      "sha256": "852a86d3aefdbb00db8b612367443fa5be55184e5126bfd37e179a9bf7092120",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-23-normal-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-23-normal-overlay.png",
+      "bytes": 9194,
+      "sha256": "54ef7871c98f28ffd1a7a74b0b3cff9712a402f4b25073448509e93f38ebe80b"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-23-normal.json",
+      "bytes": 599,
+      "sha256": "71aaac66627149545cc4cb62986987bac19989518635f902b6556664fb33fbc1",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-23-screen-diff.png",
+      "bytes": 2721,
+      "sha256": "e224abbfdd0918a24c13388c9b0d559d42e7de592458cfffea258ba6a2c621ce"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-23-screen-overlay.png",
+      "bytes": 8615,
+      "sha256": "f7695f5dcf26a98efa0c5a9ad0d3342313f2f1faa14345f10ec6fa77352578b4"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/derived-blend-23-screen.json",
+      "bytes": 599,
+      "sha256": "74f4489e3fac166e29214105ba6c71ad147fadb02d49e8321d5e4c39bf908c89",
+      "jsonType": "dict",
+      "keys": [
+        "status",
+        "independentAcceptance",
+        "metrics",
+        "tolerance",
+        "referenceSha256",
+        "candidateSha256"
+      ],
+      "status": "CANDIDATE_REGRESSION_ONLY"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/negative-alpha-diff.png",
+      "bytes": 3838,
+      "sha256": "d1b54b8c6ada24f0f86abe5ac78a36e4c17c1ff0c654341b2647201bb9230d14"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/negative-alpha.json",
+      "bytes": 180,
+      "sha256": "ee56459341e4d1170b9860e4eee4e039b6e8e63048f2b7af5b630da4aff65887",
+      "jsonType": "dict",
+      "keys": [
+        "changedPixels",
+        "changedFraction",
+        "meanAbsoluteError",
+        "maximumChannelError",
+        "alphaChangedPixels",
+        "alphaMeanError"
+      ],
+      "status": null
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/negative-atlas-diff.png",
+      "bytes": 36130,
+      "sha256": "9fecbf63dc532a46229aa2abd7b3305d1601359f269c5fdf177980f1bf3c4181"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/negative-atlas.json",
+      "bytes": 203,
+      "sha256": "f21f730168ebe114359e3bc4a1dfce4f6ff1c65c301f83f715f2b04d0f1e5ccf",
+      "jsonType": "dict",
+      "keys": [
+        "changedPixels",
+        "changedFraction",
+        "meanAbsoluteError",
+        "maximumChannelError",
+        "alphaChangedPixels",
+        "alphaMeanError"
+      ],
+      "status": null
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/negative-blend-diff.png",
+      "bytes": 63466,
+      "sha256": "53726f89c366a4950d34534ecaa6666bf73dcf31290477e657c8e5749884c82f"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/negative-blend.json",
+      "bytes": 201,
+      "sha256": "1b14b44b25f66c15f7f7c4aec13abf6d31c64f31df85adf69a7b3eaf0b079c05",
+      "jsonType": "dict",
+      "keys": [
+        "changedPixels",
+        "changedFraction",
+        "meanAbsoluteError",
+        "maximumChannelError",
+        "alphaChangedPixels",
+        "alphaMeanError"
+      ],
+      "status": null
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/negative-clipping-diff.png",
+      "bytes": 2747,
+      "sha256": "ff1ebfa34e9a78a587bc93b923fd365daff538d6588e7b6194f31206a75f0f40"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/negative-clipping.json",
+      "bytes": 203,
+      "sha256": "c030d6ff42b2ee85bb8a94bb4c63a513405ba5439a4005cffe3c089a0dde66ee",
+      "jsonType": "dict",
+      "keys": [
+        "changedPixels",
+        "changedFraction",
+        "meanAbsoluteError",
+        "maximumChannelError",
+        "alphaChangedPixels",
+        "alphaMeanError"
+      ],
+      "status": null
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/negative-order-diff.png",
+      "bytes": 72823,
+      "sha256": "c742ecff9eaab0e972e09890cffffc07a080deaf5083ccc3e66111f79f56e047"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/negative-order.json",
+      "bytes": 204,
+      "sha256": "9a7276bf1c013e41f0abc5ae27030abc0d5a4d12a727ba1773e60f5c602bfc9b",
+      "jsonType": "dict",
+      "keys": [
+        "changedPixels",
+        "changedFraction",
+        "meanAbsoluteError",
+        "maximumChannelError",
+        "alphaChangedPixels",
+        "alphaMeanError"
+      ],
+      "status": null
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/negative-uv-diff.png",
+      "bytes": 109588,
+      "sha256": "42a5ccb31f565bcb7d30432646cae9f8cd26a30a3daf558906f607fa2f4f348d"
+    },
+    {
+      "path": "docs/evidence/B4/visual-comparisons/negative-uv.json",
+      "bytes": 204,
+      "sha256": "f6fcd7fbe49d6666787d6291c6b89daebc6eee14fdc36654788ca81e41da736f",
+      "jsonType": "dict",
+      "keys": [
+        "changedPixels",
+        "changedFraction",
+        "meanAbsoluteError",
+        "maximumChannelError",
+        "alphaChangedPixels",
+        "alphaMeanError"
+      ],
+      "status": null
+    },
+    {
+      "path": "src/fnx_spine_forge/viewer/binary_policy.py",
+      "bytes": 2609,
+      "sha256": "ef0fe5cfff57723b701ec0a46ff01b05063b74990cdd00160bf9d8c316348a4b"
+    },
+    {
+      "path": "src/fnx_spine_forge/viewer/trusted_binary.json",
+      "bytes": 1448,
+      "sha256": "94cea0f75bb15740d623f7e6f9b2662f918a305dde33de6526e60ebe6b2e5427",
+      "jsonType": "dict",
+      "keys": [
+        "d36f8e97a113e7ec2b1c9e20a706b0a1464914a92c057dc5541c921a3ec4123c",
+        "3347eeac9858b9eee5415cd36435d9b529c30793e66a04edb20c0a57b427e918",
+        "7104c7e8f45d3ce9af8fdcb7d50d95ab8cbbdddfda9e273e893845f6a234245c",
+        "1345de0e8e4729559f39060ed614429b21ab39bfc09ed2e1f58fcf054a8b5925",
+        "e10de3f2473a37139c3ad1fda14e84b29ef401475ec9fa2129e7d2a311088845"
+      ],
+      "status": null
+    },
+    {
+      "path": "tests/test_viewer_binary_policy.py",
+      "bytes": 2090,
+      "sha256": "cc391a687b8f836582d678367d55a86b8fb31f2633ee1742921f06c25bcf0896"
+    },
+    {
+      "path": "viewer/scripts/soak.mjs",
+      "bytes": 13173,
+      "sha256": "7ed23e96101fc8c830f971c2bb7e585335c29598ad2a8bf913a6470b12d760b5"
+    },
+    {
+      "path": "viewer/src/binaryPolicy.ts",
+      "bytes": 922,
+      "sha256": "b63ccf7f3ae4cdacc9c01a39f8325dff921b406ae01f12ec24f87c1163b1fa43"
+    },
+    {
+      "path": "viewer/tests/animation.spec.ts",
+      "bytes": 6791,
+      "sha256": "441b65c41a6e8ac5226f5a78a53d03e47d97e88907e3d5a7350aeef5a972982e"
+    },
+    {
+      "path": "viewer/tests/resources.spec.ts",
+      "bytes": 3199,
+      "sha256": "082cf63949b52e322f925a7340dac8d555d4dd886f06421dc2836a37f72b55d1"
+    },
+    {
+      "path": "viewer/tests/server.spec.ts",
+      "bytes": 2234,
+      "sha256": "f7bbdaaf3f7380424508607908dc6b214ed30b88a21936ccc2d21f7a1ea4726a"
+    },
+    {
+      "path": "viewer/tests/visual-tolerances.json",
+      "bytes": 837,
+      "sha256": "62d6aa0ccdc5e8c35e48eabc146f304380cfe67d2d051b1f4a4c1ce80f8d1d3f",
+      "jsonType": "dict",
+      "keys": [
+        "default",
+        "fixtures"
+      ],
+      "status": null
+    },
+    {
+      "path": "viewer/tests/visual.spec.ts",
+      "bytes": 13391,
+      "sha256": "71eed556ea8951637457da57860db77baca858922f188069273f0686fbdedfd1"
+    }
+  ]
+}
